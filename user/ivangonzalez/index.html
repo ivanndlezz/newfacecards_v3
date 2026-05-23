@@ -1,11 +1,217 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Ivan Gonzalez</title>
+    <!-- Tabler Icons (required for island; also auto-injected by island-menu.js) -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.x/dist/tabler-icons.min.css">
+    <style>
+      :root {
+        --background-color: #efefef;
+        --font-color: #111111;
+      }
+
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        background-color: #e6e6e6;
+        color: var(--font-color);
+        margin: 0;
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 20px 0;
+        box-sizing: border-box;
+      }
+
+      #app {
+        width: 100%;
+        max-width: 500px;
+        display: flex;
+        flex-direction: column;
+        position: relative;
+      }
+
+      .main-content {
+        background: var(--background-color);
+        position: relative;
+        border-radius: 20px;
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+        width: 100%;
+        overflow: hidden;
+      }
+
+      .cover {
+        position: relative;
+        width: 100%;
+        margin-bottom: 50px;
+      }
+
+      .cover__box {
+        width: 100%;
+        height: 180px;
+        overflow: hidden;
+      }
+
+      .cover__image {
+        width: 100%;
+        height: 100%;
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+      }
+
+      .cover__avatar {
+        position: absolute;
+        bottom: -40px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 100px;
+        height: 100px;
+        border-radius: 50%;
+        border: 4px solid var(--background-color);
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+        overflow: hidden;
+        background-color: #fff;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .cover__avatar-img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+
+      .main-content__user-card {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 20px;
+        padding-top: 10px;
+        text-align: center;
+      }
+
+      h1 {
+        font-size: 24px;
+        margin: 10px 0 5px 0;
+        font-weight: 700;
+      }
+
+      h2 {
+        font-size: 16px;
+        color: #666;
+        margin: 0 0 20px 0;
+        font-weight: 400;
+      }
+    </style>
 </head>
 <body>
-    
+    <div id="app">
+      <main class="main-content">
+        <div class="cover">
+          <div class="cover__box">
+            <div class="cover__image nfc_cover" id="background_cover" style="background-image: url('https://app.newfacecards.com/nfc/cover/recBOO8H0GO0RZlUU.jpg?timestamp=1723160438&amp;size=1000x500');">
+            </div>
+          </div>
+          <div class="cover__avatar">
+            <img decoding="async" src="https://app.newfacecards.com/nfc/profile-pic/recBOO8H0GO0RZlUU.jpg?timestamp=1723160426&amp;size=1000x1000" width="500" height="500" class="cover__avatar-img" id="profile_pic">
+          </div>
+        </div>
+
+        <div class="main-content__user-card">
+          <h1 id="title">Ivan Gonzalez</h1>
+          <h2 id="subtitle">Software Engineer</h2>
+        </div>
+      </main>
+    </div>
+
+    <script>
+      const STORAGE_PREFIX = "APP_BIND_";
+      const title = localStorage.getItem(STORAGE_PREFIX + "#title") || "Ivan Gonzalez";
+      const subtitle = localStorage.getItem(STORAGE_PREFIX + "#subtitle") || "Software Engineer";
+      document.getElementById("title").textContent = title;
+      document.getElementById("subtitle").textContent = subtitle;
+    </script>
+
+    <!-- Island Menu component (first real integration in public profile section) -->
+    <div
+      data-component="island"
+      data-status="idle"
+      role="toolbar"
+      aria-label="Barra de acciones"
+    >
+      <!-- Satélite izquierdo (Confirmar y volver) -->
+      <button data-role="sat-left" data-action="island:check" aria-label="Confirmar y volver">
+        <i class="ti ti-check" aria-hidden="true"></i>
+      </button>
+
+      <!-- Región primaria -->
+      <div data-role="primary">
+        <!-- Botón Editar -->
+        <button data-role="btn-edit" data-action="island:edit" aria-label="Activar modo edición">
+          <i class="ti ti-edit" aria-hidden="true"></i>
+          <span>Editar</span>
+        </button>
+
+        <!-- Grupo de modos (Visible en modo edición) -->
+        <div data-role="mode-group" role="group" aria-label="Modo de vista">
+          <button
+            data-role="mode-opt"
+            data-action="island:mode"
+            data-active="false"
+            data-value="apariencia"
+            aria-pressed="false"
+          >
+            <i class="ti ti-palette" aria-hidden="true"></i>
+            Apariencia
+          </button>
+          <button
+            data-role="mode-opt"
+            data-action="island:mode"
+            data-active="false"
+            data-value="cardbar"
+            aria-pressed="false"
+          >
+            <i class="ti ti-layout-columns" aria-hidden="true"></i>
+            Navegacion
+          </button>
+        </div>
+      </div>
+
+      <!-- Satélite derecho (Añadir / Opciones) -->
+      <button data-role="sat-right" data-action="island:satellite" aria-label="Más opciones">
+        <i class="ti ti-plus" data-icon="plus" aria-hidden="true"></i>
+        <i class="ti ti-dots" data-icon="dots" aria-hidden="true"></i>
+      </button>
+    </div>
+
+    <!-- Load the modern island component (uses /shared root path + auto-injects CSS/Tabler if needed) -->
+    <script type="module" src="/shared/components/island-menu/island-menu.js"></script>
+    <script>
+      // Example host integration for public profile
+      document.addEventListener('DOMContentLoaded', () => {
+        const island = document.querySelector('[data-component="island"]');
+        if (island) {
+          island.addEventListener('island-action', (e) => {
+            console.log('[public profile] island-action:', e.detail);
+            if (e.detail.type === 'add') {
+              // Playful demo: make title editable
+              const t = document.getElementById('title');
+              if (t) t.contentEditable = t.contentEditable === 'true' ? 'false' : 'true';
+            }
+          });
+          island.addEventListener('island-mode-change', (e) => {
+            console.log('[public profile] island-mode:', e.detail);
+          });
+          island.addEventListener('island-status-change', (e) => {
+            console.log('[public profile] island-status:', e.detail);
+          });
+        }
+      });
+    </script>
 </body>
 </html>

@@ -1,0 +1,285 @@
+// island-menu.js - Modern ES Module + Custom Element (light DOM enhancement + auto-enhance legacy)
+// Zero global IDs. All queries scoped to root. Dispatches CustomEvents. Auto-injects CSS + Tabler.
+// Dual API: <island-menu> (declarative) or <div data-component="island"> + auto or initIsland(el)
+
+const CSS_HREF = '/shared/components/island-menu/island-menu.css';
+const TABLER_HREF = 'https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.x/dist/tabler-icons.min.css';
+
+// Auto-inject (once) at module evaluation - best for icons before render + DX ("just drop the script")
+(function injectAssets() {
+  if (!document.querySelector('link[href*="island-menu.css"]')) {
+    const link = document.createElement('link');
+    link.rel = 'stylesheet';
+    link.href = CSS_HREF;
+    document.head.appendChild(link);
+  }
+  if (!document.querySelector('link[href*="@tabler/icons-webfont"]')) {
+    const link = document.createElement('link');
+    link.rel = 'stylesheet';
+    link.href = TABLER_HREF;
+    document.head.appendChild(link);
+  }
+})();
+
+function enhanceIsland(root, opts = {}) {
+  if (root._islandEnhanced) return root;
+  root._islandEnhanced = true;
+
+  const DOM = {
+    island: root,
+    btnEdit: root.querySelector('[data-role="btn-edit"]'),
+    btnCheck: root.querySelector('[data-role="sat-left"]'),
+    btnSatRight: root.querySelector('[data-role="sat-right"]'),
+    modeOpts: root.querySelectorAll('[data-role="mode-opt"]'),
+  };
+
+  function dispatch(name, detail) {
+    root.dispatchEvent(new CustomEvent(name, { bubbles: true, composed: false, detail }));
+  }
+
+  function setStatus(status) {
+    const prev = root.dataset.status;
+    root.dataset.status = status || 'idle';
+    if (prev !== root.dataset.status) {
+      dispatch('island-status-change', { status: root.dataset.status, previous: prev });
+    }
+  }
+
+  function setActiveMode(value) {
+    const prevActive = Array.from(DOM.modeOpts).find((o) => o.dataset.active === 'true')?.dataset.value || null;
+    DOM.modeOpts.forEach((opt) => {
+      const isActive = opt.dataset.value === value;
+      opt.dataset.active = isActive ? 'true' : 'false';
+      opt.setAttribute('aria-pressed', isActive ? 'true' : 'false');
+    });
+    const newActive = value || null;
+    if (prevActive !== newActive) {
+      dispatch('island-mode-change', { mode: newActive, previous: prevActive });
+    }
+  }
+
+  // 1. Edit -> edit mode
+  DOM.btnEdit?.addEventListener('click', () => {
+    setStatus('edit');
+  });
+
+  // 2. Check -> idle + clear mode
+  DOM.btnCheck?.addEventListener('click', () => {
+    setStatus('idle');
+    setActiveMode(null);
+  });
+
+  // 3. Mode opts toggle
+  DOM.modeOpts.forEach((opt) => {
+    opt.addEventListener('click', () => {
+      const alreadyActive = opt.dataset.active === 'true';
+      setActiveMode(alreadyActive ? null : opt.dataset.value);
+    });
+  });
+
+  // 4. Satellite -> action event (pages can listen)
+  DOM.btnSatRight?.addEventListener('click', () => {
+    const status = root.dataset.status;
+    const type = status === 'idle' ? 'add' : 'more-options';
+    dispatch('island-action', { type, status });
+  });
+
+  // 5. Escape (per-island, document level but guarded)
+  const onKeyDown = (e) => {
+    if (e.key === 'Escape' && root.dataset.status === 'edit' && root.isConnected) {
+      setStatus('idle');
+      setActiveMode(null);
+      DOM.btnEdit?.focus();
+    }
+  };
+  document.addEventListener('keydown', onKeyDown);
+
+  // Public API (works on both <island-menu> and legacy div)
+  root.setStatus = setStatus;
+  root.setActiveMode = setActiveMode;
+
+  // Bootstrap current state
+  const initial = root.dataset.status || 'idle';
+  if (root.dataset.status !== initial) root.dataset.status = initial;
+
+  // Teardown
+  root._destroyIsland = () => {
+    document.removeEventListener('keydown', onKeyDown);
+    delete root._islandEnhanced;
+    delete root.setStatus;
+    delete root.setActiveMode;
+  };
+
+  return root;
+}
+
+// Web Component (recommended for new usage)
+export class IslandMenu extends HTMLElement {
+  connectedCallback() {
+    if (!this.dataset.component) this.dataset.component = 'island';
+    if (!this.innerHTML.trim()) {
+      this.innerHTML = buildIslandHTML({
+        edit: { label: 'Editar', icon: 'ti ti-edit' },
+        modes: [
+          { value: 'apariencia', label: 'Apariencia', icon: 'ti ti-palette' },
+          { value: 'cardbar', label: 'Navegación', icon: 'ti ti-layout-columns' }
+        ]
+      });
+    }
+    enhanceIsland(this);
+  }
+  disconnectedCallback() {
+    if (this._destroyIsland) this._destroyIsland();
+  }
+  setStatus(s) {
+    this.setStatus?.(s);
+  }
+  setActiveMode(m) {
+    this.setActiveMode?.(m);
+  }
+}
+
+if (!customElements.get('island-menu')) {
+  customElements.define('island-menu', IslandMenu);
+}
+
+// Helper to construct inner HTML based on template string, <template>, or config object
+export function buildIslandHTML(templateOrConfig) {
+  if (typeof templateOrConfig === 'string') {
+    // Check if it's a CSS selector for a template element
+    if (templateOrConfig.startsWith('#') || templateOrConfig.startsWith('.')) {
+      const tempEl = document.querySelector(templateOrConfig);
+      if (tempEl && tempEl.tagName === 'TEMPLATE') {
+        return tempEl.innerHTML;
+      }
+    }
+    
+    // Auto-wrap if it's only a mode-group fragment
+    if (templateOrConfig.includes('data-role="mode-group"') && !templateOrConfig.includes('data-role="primary"')) {
+      return `
+        <button data-role="sat-left" id="btn-check" data-action="island:check" aria-label="Confirmar y volver">
+          <i class="ti ti-check" aria-hidden="true"></i>
+        </button>
+        <div data-role="primary">
+          <button data-role="btn-edit" id="btn-edit" data-action="island:edit" aria-label="Activar modo edición">
+            <i class="ti ti-edit" aria-hidden="true"></i>
+            <span>Editar</span>
+          </button>
+          ${templateOrConfig}
+        </div>
+        <button data-role="sat-right" id="btn-satellite" data-action="island:satellite" aria-label="Más opciones">
+          <i class="ti ti-plus" data-icon="plus" aria-hidden="true"></i>
+          <i class="ti ti-dots" data-icon="dots" aria-hidden="true"></i>
+        </button>
+      `;
+    }
+    return templateOrConfig;
+  }
+
+  if (templateOrConfig && templateOrConfig instanceof HTMLElement) {
+    if (templateOrConfig.tagName === 'TEMPLATE') {
+      return templateOrConfig.innerHTML;
+    }
+    return templateOrConfig.outerHTML;
+  }
+
+  if (templateOrConfig && typeof templateOrConfig === 'object') {
+    const editIcon = templateOrConfig.edit?.icon || 'ti ti-edit';
+    const editLabel = templateOrConfig.edit?.label || 'Editar';
+    const satLeftIcon = templateOrConfig.satLeft?.icon || 'ti ti-check';
+    const satRightPlus = templateOrConfig.satRight?.plusIcon || 'ti ti-plus';
+    const satRightDots = templateOrConfig.satRight?.dotsIcon || 'ti ti-dots';
+
+    const modesHtml = (templateOrConfig.modes || []).map(m => `
+      <button data-role="mode-opt" data-action="island:mode" data-active="false" data-value="${m.value}" aria-pressed="false">
+        <i class="${m.icon || 'ti ti-circle'}" aria-hidden="true"></i>
+        ${m.label}
+      </button>
+    `).join('');
+
+    return `
+      <button data-role="sat-left" id="btn-check" data-action="island:check" aria-label="Confirmar y volver">
+        <i class="${satLeftIcon}" aria-hidden="true"></i>
+      </button>
+      <div data-role="primary">
+        <button data-role="btn-edit" id="btn-edit" data-action="island:edit" aria-label="Activar modo edición">
+          <i class="${editIcon}" aria-hidden="true"></i>
+          <span>${editLabel}</span>
+        </button>
+        <div data-role="mode-group" id="mode-group" role="group" aria-label="Modo de vista">
+          ${modesHtml}
+        </div>
+      </div>
+      <button data-role="sat-right" id="btn-satellite" data-action="island:satellite" aria-label="Más opciones">
+        <i class="${satRightPlus}" data-icon="plus" aria-hidden="true"></i>
+        <i class="${satRightDots}" data-icon="dots" aria-hidden="true"></i>
+      </button>
+    `;
+  }
+
+  return '';
+}
+
+// Imperative loader/renderer for dynamic template importing (supports fetch for external .html files)
+export async function importIslandMenu(templateOrConfig, options = {}) {
+  const target = options.target || document.body;
+  const id = options.id || 'island';
+
+  let island = document.getElementById(id) || target.querySelector(`island-menu#${id}`) || target.querySelector(`[data-component="island"]#${id}`);
+  
+  if (!island) {
+    island = document.createElement('island-menu');
+    island.id = id;
+    target.appendChild(island);
+  }
+
+  let html = '';
+  // Check if it's a URL path to a .html file
+  if (typeof templateOrConfig === 'string' && (templateOrConfig.endsWith('.html') || templateOrConfig.includes('/components/'))) {
+    try {
+      const res = await fetch(templateOrConfig);
+      if (res.ok) {
+        html = await res.text();
+      } else {
+        console.error(`Failed to fetch island template from ${templateOrConfig}: ${res.statusText}`);
+      }
+    } catch (e) {
+      console.error(`Error fetching island template from ${templateOrConfig}:`, e);
+    }
+  } else {
+    html = buildIslandHTML(templateOrConfig);
+  }
+
+  if (html) {
+    island.innerHTML = html;
+  }
+
+  if (island._islandEnhanced && island._destroyIsland) {
+    island._destroyIsland();
+  }
+
+  enhanceIsland(island);
+  return island;
+}
+
+// Imperative init (for manual or legacy divs)
+export function initIsland(rootElement) {
+  if (!rootElement) return null;
+  if (rootElement.tagName === 'ISLAND-MENU') return rootElement;
+  if (!rootElement.dataset.component) rootElement.dataset.component = 'island';
+  return enhanceIsland(rootElement);
+}
+
+// Auto-enhance any legacy [data-component="island"] divs when script runs (no HTML changes needed)
+if (typeof document !== 'undefined') {
+  const auto = () => {
+    document.querySelectorAll('[data-component="island"]:not(island-menu)').forEach((el) => {
+      if (!el._islandEnhanced) initIsland(el);
+    });
+  };
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', auto, { once: true });
+  } else {
+    auto();
+  }
+}

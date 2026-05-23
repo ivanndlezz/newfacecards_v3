@@ -2,7 +2,20 @@
 <html lang="es">
   <head>
     <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- Tabler Icons via CDN -->
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.x/dist/tabler-icons.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="/shared/components/island-menu/island-menu.css"
+    />
     <title>SPA Binder & Style Loader</title>
+    <!-- ========================================================================================= -->
+    <!-- ===== ICONOS ===== -->
+    <!-- ========================================================================================= -->
     <svg style="display: none">
       <symbol
         id="share"
@@ -160,132 +173,53 @@
         </symbol>
       </symbol>
     </svg>
+    <!-- ========================================================================================= -->
+    <!-- ===== ESTILOS BASE ===== -->
+    <!-- ========================================================================================= -->
     <style>
       :root {
         --background-color: #efefef;
         --font-color: #111111;
       }
-      /* Estilos generales */
-      body {
-        background-color: var(--background-color);
-        color: var(--font-color);
-      }
 
       body {
         font-family:
           -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-        background: #f5f5f5;
+        background-color: #e6e6e6; /* Fondo gris claro exterior */
+        color: var(--font-color);
+        margin: 0;
         min-height: 100vh;
-        position: relative;
-        overflow-x: hidden;
-        transition: all 0.3s ease;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
       }
 
-      h1:empty,
-      h2:empty {
-        width: fit-content;
-        min-width: 13ch;
-        max-height: 30px;
-        background-color: #efefef;
-        margin: 20px auto 0px auto;
-        border-radius: 100px;
-        background-image: linear-gradient(
-          90deg,
-          #00000010 0%,
-          #00000035 50%,
-          #00000010 100%
-        );
-        background-size: 400% 100%;
-        animation: skel-shimmer 2s infinite linear;
-      }
-      @keyframes skel-shimmer {
-        0% {
-          background-position: 100% 0;
-        }
-        100% {
-          background-position: -100% 0;
-        }
-      }
-      h1,
-      h2 {
-        text-align: center;
-      }
-
-      /* Controles */
-      .controls {
-        position: fixed;
-        bottom: 0px;
-        left: 0px;
-        padding: 1rem;
-        background-color: #ffffff;
-        box-shadow: 0 0 30px 10px #00000030;
+      #app {
         width: 100%;
+        max-width: 500px;
+        display: flex;
+        flex-direction: column;
+        position: relative;
+      }
+
+      /* === HEADER (PIXEL PERFECT) === */
+      .header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        width: -webkit-fill-available;
+        margin: 50px 10px;
+        margin-bottom: 30px;
         box-sizing: border-box;
+      }
+
+      .header__menu {
         display: flex;
-        flex-wrap: wrap;
-        gap: 5px;
-      }
-      .controls input,
-      .controls select,
-      .controls button {
-        border: solid 1px grey;
-        padding: 5px 1rem;
-        border-radius: 10px;
-      }
-      #js-editor {
-        width: 100%;
-        height: 60px;
-        margin-top: 10px;
-        border: 1px solid #ccc;
-      }
-
-      .component-wrapper {
-        position: relative;
-      }
-
-      .bottom-bar {
-        padding: 16px 24px;
-        border-top: 1px solid #e5e7eb;
-        background: white;
-      }
-
-      .more-content {
-        display: flex;
+        align-items: center;
         gap: 12px;
-        align-items: center;
-        justify-content: center;
-        background: transparent;
-        background-image: linear-gradient(135deg, #4facfe99 0%, #00f2fe99 100%);
-
-        backdrop-filter: blur(10px);
-        border-top-style: ridge;
-        border-top-color: #b7d1d9;
       }
 
-      .top-cta {
-        background: #06896c;
-        color: white;
-        border: none;
-        padding: 9px 32px;
-        border-radius: 25px;
-        font-size: 18px;
-        font-weight: 600;
-        cursor: pointer;
-        transition: all 0.3s ease;
-      }
-
-      #publishBtn {
-        display: flex;
-        align-items: center;
-        gap: 10px;
-        padding: 10px 32px 9px 26px;
-      }
-
-      .cancel.top-cta {
-        display: none;
-      }
-
-      button#backBtn.back-btn {
+      .header__back-btn {
         background: transparent;
         border: solid 1px #555 !important;
         color: #333;
@@ -298,57 +232,71 @@
         transition: all 0.3s ease;
       }
 
-      #backBtn svg {
+      .header__back-btn svg {
         transform: rotate(90deg) translateX(3px);
+        --wh: 24px;
+        width: var(--wh);
+        height: var(--wh);
       }
 
-      .module-icon svg {
+      .header__title-container {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+      }
+
+      .header__title {
+        font-size: 16px;
+        font-weight: 400;
+        color: #111;
+      }
+
+      .header__module-icon svg {
+        width: 16px;
+        height: 16px;
+        opacity: 0.8;
         transform: translateY(3px);
       }
 
-      .header-menu .title {
-        margin-left: 10px;
-      }
-
-      .header {
+      .header__cta {
+        background: #06896c; /* Verde del botón publish */
+        color: white;
+        border: none;
+        padding: 8px 18px 8px 14px;
+        border-radius: 25px;
+        font-size: 15px;
+        font-weight: 600;
+        cursor: pointer;
         display: flex;
-        width: -webkit-fill-available;
-        justify-content: space-between;
-        margin: 50px 10px;
-        margin-bottom: 30px;
-        align-items: flex-end;
-        top: 0px;
-        position: relative;
+        align-items: center;
+        gap: 8px;
         transition: all 0.3s ease;
       }
 
-      .header-menu {
-        display: flex;
-        align-items: center;
-        gap: 5px;
+      .header__cta svg {
+        width: 18px;
+        height: 18px;
       }
 
-      .header svg {
+      .header__cta--cancel {
+        display: none;
+      }
+
+      .header__cta#publishBtn {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 10px 32px 9px 26px;
+        font-size: 18px;
+      }
+
+      .header__cta#publishBtn svg {
         width: 24px;
         height: 24px;
         opacity: 0.8;
-        transition: all 0.2s ease;
       }
 
-      #app {
-        background-color: #efefef;
-        position: sticky;
-        top: 0px;
-        left: 0px;
-        width: -webkit-fill-available;
-        height: fit-content;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        z-index: 1000;
-        flex-direction: column;
-      }
-
+      /* === MAIN CONTENT (CARD) === */
       .main-content {
         background: var(--background-color);
         min-height: calc(100vh - 160px);
@@ -362,7 +310,8 @@
         width: 97%;
         height: -webkit-fill-available;
       }
-      main .top-bar {
+
+      .main-content__top-bar {
         display: flex;
         width: -webkit-fill-available;
         justify-content: space-between;
@@ -377,7 +326,7 @@
         top: 0px;
       }
 
-      .chip.logo {
+      .logo-chip {
         --wh: 30px;
         height: var(--wh);
         width: calc(var(--wh) * 2);
@@ -389,118 +338,239 @@
         background: #00000055;
         color: #fff;
         min-height: 44px;
-        backdrop-filter: blur(18px);
-        -webkit-backdrop-filter: blur(18px);
+        --blur: blur(18px);
+        backdrop-filter: var(--blur);
+        -webkit-backdrop-filter: var(--blur);
       }
 
-      .logo {
-        font-size: 1.5rem;
-        font-weight: 800;
-        letter-spacing: -0.5px;
-      }
-      .top-controls * {
-        pointer-events: auto;
-      }
-      .chip-icon {
-        --wh: 24px;
-        height: var(--wh);
-        width: var(--wh);
+      .logo-chip__icon {
+        width: 24px;
+        height: 24px;
         fill: white;
+      }
+
+      /* === SKELETON LOADERS === */
+      h1:empty,
+      h2:empty {
+        width: fit-content;
+        min-width: 200px;
+        height: 24px;
+        background-color: #e0e0e0;
+        margin: 10px 0;
+        border-radius: 100px;
+        background-image: linear-gradient(
+          90deg,
+          #00000005 0%,
+          #00000015 50%,
+          #00000005 100%
+        );
+        background-size: 400% 100%;
+        animation: skel-shimmer 2s infinite linear;
+      }
+
+      @keyframes skel-shimmer {
+        0% {
+          background-position: 100% 0;
+        }
+        100% {
+          background-position: -100% 0;
+        }
+      }
+
+      /* === CONTROLS TOOLBAR (BOTTOM) === */
+      .controls {
+        position: fixed;
+        bottom: 0px;
+        left: 0px;
+        padding: 16px;
+        background-color: #ffffff;
+        border-top: 1px solid #e0e0e0;
+        width: 100%;
+        box-sizing: border-box;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        z-index: 2000;
+        box-shadow: 0 -4px 10px rgba(0, 0, 0, 0.05);
+      }
+
+      .controls__input,
+      .controls__select,
+      .controls__button {
+        border: solid 1px #bbb;
+        padding: 6px 12px;
+        border-radius: 8px;
+        background: white;
+      }
+
+      .controls__editor {
+        width: 100%;
+        height: 60px;
+        margin-top: 4px;
+        border: 1px solid #bbb;
+        border-radius: 8px;
+        padding: 8px;
+        font-family: monospace;
+      }
+
+      /**/
+      .main-content__user-card {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+
+      /* === COVER & PROFILE PIC === */
+      .cover {
+        position: relative;
+        width: 100%;
+        margin-bottom: 50px;
+      }
+
+      .cover__box {
+        width: 100%;
+        height: 180px;
+        overflow: hidden;
+        border-top-left-radius: 20px;
+        border-top-right-radius: 20px;
+      }
+
+      .cover__image {
+        width: 100%;
+        height: 100%;
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+      }
+
+      .cover__avatar {
         position: absolute;
+        bottom: -40px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 100px;
+        height: 100px;
+        border-radius: 50%;
+        border: 4px solid var(--background-color);
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+        overflow: hidden;
+        background-color: #fff;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .cover__avatar-img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
       }
     </style>
   </head>
 
   <body>
-    <div id="data-status-storage">
-      <!-- 
-    INSTRUCCIONES.
-    ESTE ELEMENTO HTML SE USARA PARA ALMACENAR ESTADOS DE JS EN ATRIBUTOS data-*something
-    de esta manera permitiremos a la UI cambiar su aspecto dependiendo del atributo y estado designado por medio de cadena de clases css
+    <div id="data-status-storage"></div>
 
-    ejemplo:
-
-    #data-status-storage[data-status="offline"] + #app{
-        --background-color: #efefef;
-    }
-    #data-status-storage[data-status="online"] + #app{
-        --background-color: #00ff00;
-    }
-
-    ESTADO GLOBAL DE UI (State-Driven CSS)
-
-    Este elemento actúa como un "observador de estado". La lógica de negocio 
-    en JS actualiza únicamente los atributos data-* de este nodo, y el CSS 
-    reacciona de forma declarativa mediante selectores de atributos.
-
-    Mantenimiento:
-    - Evitar lógica compleja aquí; solo estados de alto nivel (ej: auth, theme, status).
-    - Selector: Se usa el adyacente (+) para encapsular cambios en #app.
-    - Ejemplo: 
-    #data-status-storage[data-status="online"] + #app { --color: green; }
-    
---->
-    </div>
     <div id="app">
       <header class="header">
-        <div class="header-menu">
+        <div class="header__menu">
           <button
-            class="back-btn"
+            class="header__back-btn"
             id="backBtn"
             data-action="nav:back"
             aria-label="Atrás"
           >
             <svg><use href="#back-arrow"></use></svg>
           </button>
-          <span class="title">Main hub</span>
-          <div class="module-icon">
-            <svg><use href="#chevron-arrow"></use></svg>
+          <div class="header__title-container">
+            <span class="header__title">Main hub</span>
+            <div class="header__module-icon">
+              <svg><use href="#chevron-arrow"></use></svg>
+            </div>
           </div>
         </div>
+
         <button
           id="cancelBtn"
           data-action="content:cancel"
-          class="cancel top-cta"
+          class="header__cta header__cta--cancel"
         >
           Cancel
         </button>
-        <span class="top-cta-container">
-          <button id="publishBtn" data-action="content:publish" class="top-cta">
+
+        <span class="header__cta-container">
+          <button
+            id="publishBtn"
+            data-action="content:publish"
+            class="header__cta"
+          >
             <svg><use href="#share"></use></svg>
-            <span class="btn-text">Publish</span>
+            <span class="header__btn-text">Publish</span>
           </button>
         </span>
       </header>
-      <main class="main-content profile-section" data-style="classic">
-        <div class="top-bar">
-          <div class="chip logo">
-            <svg class="chip-icon" viewBox="0 0 24 24" fill="none">
+
+      <main class="main-content main-content--profile" data-style="classic">
+        <div class="main-content__top-bar">
+          <div class="logo-chip">
+            <svg class="logo-chip__icon" viewBox="0 0 24 24" fill="none">
               <use href="#logo"></use>
             </svg>
           </div>
         </div>
+
+        <div class="cover">
+          <div class="cover__box">
+            <div
+              class="cover__image nfc_cover"
+              id="background_cover"
+              style="
+                background-image: url(&quot;https://app.newfacecards.com/nfc/cover/recBOO8H0GO0RZlUU.jpg?timestamp=1723160438&amp;size=1000x500&quot;);
+              "
+            ></div>
+          </div>
+          <div class="cover__avatar">
+            <img
+              decoding="async"
+              src="https://app.newfacecards.com/nfc/profile-pic/recBOO8H0GO0RZlUU.jpg?timestamp=1723160426&amp;size=1000x1000"
+              width="500"
+              height="500"
+              class="cover__avatar-img"
+              id="profile_pic"
+            />
+          </div>
+        </div>
+
+        <div id="card" class="main-content__user-card">
+          <h1 id="title"></h1>
+          <h2 id="subtitle"></h2>
+        </div>
       </main>
     </div>
 
-    <h1 id="title" contenteditable="true"></h1>
-    <h2 id="subtitle" contenteditable="true"></h2>
-
     <div class="controls">
-      <input type="text" id="binder" placeholder="Escribe algo aquí..." />
-      <select id="selector"></select>
-      <button id="btn-bind">Bind</button>
-      <button id="btn-clear">Vaciar</button>
-      <button id="run-btn">Run JS</button>
+      <input
+        type="text"
+        class="controls__input"
+        id="binder"
+        placeholder="Escribe algo aquí..."
+      />
+      <select class="controls__select" id="selector"></select>
+      <button class="controls__button" id="btn-bind">Bind</button>
+      <button class="controls__button" id="btn-clear">Vaciar</button>
+      <button class="controls__button" id="run-btn">Run JS</button>
       <textarea
+        class="controls__editor"
         id="js-editor"
         placeholder="Escribe JS aquí (ej: loadStyles(styles.style1, 'set'))"
       ></textarea>
     </div>
+    <!--   -->
+    <div id="island"></div>
 
     <div id="root-styles-loader"></div>
 
     <script>
-      // --- CONSTANTES Y CONFIGURACIÓN ---
       const STORAGE_PREFIX = "APP_BIND_";
       const DOM = {
         TARGETS: {
@@ -523,7 +593,6 @@
         style2: `:root { --background-color: #222222; --font-color: #ffffff; }`,
       };
 
-      // --- LÓGICA ---
       function loadStyles(data, action) {
         const container = document.querySelector(DOM.TARGETS.styles_loader);
         container.innerHTML = action === "set" ? `<style>${data}</style>` : "";
@@ -541,7 +610,6 @@
             this.select.appendChild(opt);
           });
 
-          // Cargar persistencia
           Object.values(BINDING_MAP).forEach(({ selector }) => {
             const saved = localStorage.getItem(STORAGE_PREFIX + selector);
             if (saved) document.querySelector(selector).textContent = saved;
@@ -574,6 +642,49 @@
       document.addEventListener("DOMContentLoaded", () =>
         BindingManager.init(),
       );
+    </script>
+
+    <!-- Island Menu: modern reusable component (auto-enhances existing markup) -->
+    <script type="module">
+      import { importIslandMenu } from "/shared/components/island-menu/island-menu.js";
+
+      // Expose globally for testing/dynamic calls
+      window.importIslandMenu = importIslandMenu;
+
+      // Host page integration example: listen to island CustomEvents
+      document.addEventListener("DOMContentLoaded", () => {
+        const island = document.getElementById("island");
+        if (island) {
+          setupIslandListeners(island);
+        }
+      });
+
+      function setupIslandListeners(el) {
+        el.addEventListener("island-action", (e) => {
+          console.log("[admin binder] island-action:", e.detail);
+
+          // Example of dynamic template swapping on satellite click (if edit mode)
+          if (e.detail.type === "more-options") {
+            console.log(
+              "Swapping to custom quick action template from templates folder!",
+            );
+            window
+              .importIslandMenu(
+                "/shared/components/island-menu/templates/app-edit.html",
+              )
+              .then(() => {
+                // Re-setup listener since new elements were injected
+                setupIslandListeners(document.getElementById("island"));
+              });
+          }
+        });
+        el.addEventListener("island-mode-change", (e) => {
+          console.log("[admin binder] island-mode-change:", e.detail);
+        });
+        el.addEventListener("island-status-change", (e) => {
+          console.log("[admin binder] island-status-change:", e.detail);
+        });
+      }
     </script>
   </body>
 </html>

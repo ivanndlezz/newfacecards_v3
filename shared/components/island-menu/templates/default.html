@@ -1,0 +1,63 @@
+<!-- Satélite izquierdo (Confirmar y volver) -->
+<button
+  data-role="sat-left"
+  id="btn-check"
+  data-action="island:check"
+  aria-label="Confirmar y volver"
+>
+  <i class="ti ti-check" aria-hidden="true"></i>
+</button>
+
+<!-- Región primaria -->
+<div data-role="primary">
+  <!-- Botón Editar -->
+  <button
+    data-role="btn-edit"
+    id="btn-edit"
+    data-action="island:edit"
+    aria-label="Activar modo edición"
+  >
+    <i class="ti ti-edit" aria-hidden="true"></i>
+    <span>Editar</span>
+  </button>
+
+  <!-- Grupo de modos (Visible en modo edición) -->
+  <div
+    data-role="mode-group"
+    id="mode-group"
+    role="group"
+    aria-label="Modo de vista"
+  >
+    <button
+      data-role="mode-opt"
+      data-action="island:mode"
+      data-active="false"
+      data-value="apariencia"
+      aria-pressed="false"
+    >
+      <i class="ti ti-palette" aria-hidden="true"></i>
+      Apariencia
+    </button>
+    <button
+      data-role="mode-opt"
+      data-action="island:mode"
+      data-active="false"
+      data-value="cardbar"
+      aria-pressed="false"
+    >
+      <i class="ti ti-layout-columns" aria-hidden="true"></i>
+      Navegacion
+    </button>
+  </div>
+</div>
+
+<!-- Satélite derecho (Añadir / Opciones) -->
+<button
+  data-role="sat-right"
+  id="btn-satellite"
+  data-action="island:satellite"
+  aria-label="Más opciones"
+>
+  <i class="ti ti-plus" data-icon="plus" aria-hidden="true"></i>
+  <i class="ti ti-dots" data-icon="dots" aria-hidden="true"></i>
+</button>

@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Island Component</title>
+  
+  <!-- Tabler Icons via CDN -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.x/dist/tabler-icons.min.css">
+  
+  <style>
+    /* Demo-only tokens + layout (the component CSS is auto-injected by the JS module) */
+    :root {
+      --island-bg: #0d121f;
+      --island-surface: #171d2e;
+      --island-border: rgba(255, 255, 255, 0.12);
+      --island-border-hover: rgba(255, 255, 255, 0.25);
+      --island-text: #f3f4f6;
+      --island-text-muted: rgba(243, 244, 246, 0.5);
+      --island-accent-success: #34d399;
+      --island-accent-info: #60a5fa;
+      --radius-pill: 999px;
+      --transition-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+      --transition-ease: cubic-bezier(0.4, 0, 0.2, 1);
+      --duration-base: 0.35s;
+    }
+
+    /* Centrado del demo (island usa data-position="static" para permanecer en flujo) */
+    body {
+      margin: 0;
+      padding: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      background-color: #07090e;
+      font-family: system-ui, -apple-system, sans-serif;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- COMPONENTE ISLAND -->
+  <div data-component="island" data-status="idle" data-position="static" id="island" role="toolbar" aria-label="Barra de acciones">
+    
+    <!-- Satélite izquierdo (Confirmar y volver) -->
+    <button data-role="sat-left" id="btn-check" data-action="island:check" aria-label="Confirmar y volver">
+      <i class="ti ti-check" aria-hidden="true"></i>
+    </button>
+    
+    <!-- Región primaria -->
+    <div data-role="primary">
+      <!-- Botón Editar -->
+      <button data-role="btn-edit" id="btn-edit" data-action="island:edit" aria-label="Activar modo edición">
+        <i class="ti ti-edit" aria-hidden="true"></i>
+        <span>Editar</span>
+      </button>
+      
+      <!-- Grupo de modos (Visible en modo edición) -->
+      <div data-role="mode-group" id="mode-group" role="group" aria-label="Modo de vista">
+        <button data-role="mode-opt" data-action="island:mode" data-active="false" data-value="apariencia" aria-pressed="false">
+          <i class="ti ti-palette" aria-hidden="true"></i>
+          Apariencia
+        </button>
+        <button data-role="mode-opt" data-action="island:mode" data-active="false" data-value="cardbar" aria-pressed="false">
+          <i class="ti ti-layout-columns" aria-hidden="true"></i>
+          Navegacion
+        </button>
+      </div>
+    </div>
+    
+    <!-- Satélite derecho (Añadir / Opciones) -->
+    <button data-role="sat-right" id="btn-satellite" data-action="island:satellite" aria-label="Más opciones">
+      <i class="ti ti-plus" data-icon="plus" aria-hidden="true"></i>
+      <i class="ti ti-dots" data-icon="dots" aria-hidden="true"></i>
+    </button>
+    
+  </div>
+
+  <!-- Modern module (auto-injects CSS, auto-enhances the div[data-component], emits events) -->
+  <script type="module" src="./island-menu.js"></script>
+</body>
+</html>
