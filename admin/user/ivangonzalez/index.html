@@ -1,0 +1,579 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <title>SPA Binder & Style Loader</title>
+    <svg style="display: none">
+      <symbol
+        id="share"
+        viewBox="0 0 24 24"
+        width="24"
+        height="24"
+        color="currentColor"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="1.5"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      >
+        <path
+          d="M8 7C8 7 10.1958 4.28386 11.4044 3.23889C11.5987 3.0709 11.8169 2.99152 12.0337 3.00072C12.2282 3.00897 12.4215 3.08844 12.5958 3.23912C13.8041 4.28428 16 7 16 7M12.0337 4L12.0337 15"
+        ></path>
+        <path
+          d="M8 11C6.59987 11 5.8998 11 5.36502 11.2725C4.89462 11.5122 4.51217 11.8946 4.27248 12.365C4 12.8998 4 13.5999 4 15V16C4 18.357 4 19.5355 4.73223 20.2678C5.46447 21 6.64298 21 9 21H15C17.357 21 18.5355 21 19.2678 20.2678C20 19.5355 20 18.357 20 16V15C20 13.5999 20 12.8998 19.7275 12.365C19.4878 11.8946 19.1054 11.5122 18.635 11.2725C18.1002 11 17.4001 11 16 11"
+        ></path>
+      </symbol>
+      <symbol
+        id="pro-spark"
+        viewBox="0 0 24 24"
+        fill="currentColor"
+        stroke="currentColor"
+        stroke-width="1"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      >
+        <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"></path>
+      </symbol>
+      <symbol
+        id="logo"
+        viewBox="0 0 158 95"
+        fill="currentColor"
+        stroke="currentColor"
+        stroke-width="1"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      >
+        <path
+          d="M134.957 46.4347L157.993 0H139.795L116.613 46.7451L134.957 46.4347Z"
+          fill="currentColor"
+        ></path>
+        <path
+          d="M85.1906 47.2785L78.3378 9.52985C77.4944 4.77978 71.5143 1.77512 63.0451 1.77512H62.6351L62.1665 1.78097C49.5387 1.99768 36.0734 8.704 32.1609 16.7399L16.7158 48.4499L35.1069 48.1395L51.167 15.1702C51.7878 13.8933 53.5918 12.9094 55.3606 12.8801L55.6242 12.8742H55.6828C57.2993 12.8742 58.4473 13.6532 58.6523 14.889L64.5913 47.6416L85.1906 47.2785Z"
+          fill="currentColor"
+        ></path>
+        <path
+          d="M128.966 80.2651L145.202 45.8081L126.834 46.1244L109.989 81.8348C109.369 83.0999 107.576 84.0839 105.813 84.1132L105.409 84.1249H105.327C103.799 84.1249 102.651 83.3166 102.463 82.11L95.3409 46.6281L74.7476 46.9795L82.76 87.4751C83.6386 92.3423 89.8353 95.3763 98.5799 95.2415L99.1656 95.2298C111.717 94.9487 125.083 88.2424 128.96 80.2651"
+          fill="currentColor"
+        ></path>
+        <path
+          d="M23.639 48.0574L0 94.5213H18.2271L42.0243 47.7469L23.639 48.0574Z"
+          fill="currentColor"
+        ></path>
+      </symbol>
+      <symbol
+        id="chevron-arrow"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      >
+        <!-- Chevron down - outline, good for accordions -->
+        <path
+          d="M6 9l6 6 6-6"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        ></path>
+      </symbol>
+      <symbol
+        id="back-arrow"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      >
+        <path
+          d="M12 3v13l7-7m-7 7l-7-7"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        ></path>
+      </symbol>
+      <symbol
+        id="move_indicator"
+        viewBox="0 0 40 60"
+        fill="currentColor"
+        stroke="none"
+      >
+        <!-- Columna izquierda -->
+        <circle cx="10" cy="10" r="5" fill="currentColor"></circle>
+        <circle cx="10" cy="30" r="5" fill="currentColor"></circle>
+        <circle cx="10" cy="50" r="5" fill="currentColor"></circle>
+
+        <!-- Columna derecha -->
+        <circle cx="30" cy="10" r="5" fill="currentColor"></circle>
+        <circle cx="30" cy="30" r="5" fill="currentColor"></circle>
+        <circle cx="30" cy="50" r="5" fill="currentColor"></circle>
+      </symbol>
+      <symbol
+        id="arrow-up"
+        version="1.1"
+        xmlns="http://www.w3.org/2000/svg"
+        xmlns:xlink="http://www.w3.org/1999/xlink"
+        width="26px"
+        height="26px"
+        viewBox="0,0,256,256"
+      >
+        <g
+          fill="currentColor"
+          fill-rule="nonzero"
+          stroke="none"
+          stroke-width="1"
+          stroke-linecap="butt"
+          stroke-linejoin="miter"
+          stroke-miterlimit="10"
+          stroke-dasharray=""
+          stroke-dashoffset="0"
+          font-family="none"
+          font-weight="none"
+          font-size="none"
+          text-anchor="none"
+          style="mix-blend-mode: normal"
+        >
+          <g transform="scale(9.84615,9.84615)">
+            <path
+              d="M5,11.30078c2.80078,-4.19922 7.19922,-8 7.39844,-8.10156c0.10156,-0.09766 0.40234,-0.19922 0.60156,-0.19922c0.19922,0 0.5,0.10156 0.69922,0.19922c0.19922,0.10156 4.60156,4 7.40234,8.10156c0.19922,0.30078 0.19922,0.69922 0.09766,1.09766c-0.19922,0.30078 -0.5,0.60156 -0.89844,0.60156h-3.69922c0,0 -0.5,8.69922 -0.80078,9.10156c-0.5,0.5 -1.69922,0.89844 -2.80078,0.89844c-1.10156,0 -2.19922,-0.39844 -2.60156,-0.89844c-0.19922,-0.40234 -0.89844,-9.10156 -0.89844,-9.10156h-3.69922c-0.40234,0 -0.69922,-0.19922 -0.90234,-0.60156c-0.19922,-0.29687 -0.09766,-0.69922 0.10156,-1.09766z"
+            ></path>
+          </g>
+        </g>
+        <symbol
+          id="pen"
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 16 16"
+          fill="currentColor"
+          class="size-4"
+        >
+          <path
+            d="M13.488 2.513a1.75 1.75 0 0 0-2.475 0L6.75 6.774a2.75 2.75 0 0 0-.596.892l-.848 2.047a.75.75 0 0 0 .98.98l2.047-.848a2.75 2.75 0 0 0 .892-.596l4.261-4.262a1.75 1.75 0 0 0 0-2.474Z"
+          ></path>
+          <path
+            d="M4.75 3.5c-.69 0-1.25.56-1.25 1.25v6.5c0 .69.56 1.25 1.25 1.25h6.5c.69 0 1.25-.56 1.25-1.25V9A.75.75 0 0 1 14 9v2.25A2.75 2.75 0 0 1 11.25 14h-6.5A2.75 2.75 0 0 1 2 11.25v-6.5A2.75 2.75 0 0 1 4.75 2H7a.75.75 0 0 1 0 1.5H4.75Z"
+          ></path>
+        </symbol>
+      </symbol>
+    </svg>
+    <style>
+      :root {
+        --background-color: #efefef;
+        --font-color: #111111;
+      }
+      /* Estilos generales */
+      body {
+        background-color: var(--background-color);
+        color: var(--font-color);
+      }
+
+      body {
+        font-family:
+          -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        background: #f5f5f5;
+        min-height: 100vh;
+        position: relative;
+        overflow-x: hidden;
+        transition: all 0.3s ease;
+      }
+
+      h1:empty,
+      h2:empty {
+        width: fit-content;
+        min-width: 13ch;
+        max-height: 30px;
+        background-color: #efefef;
+        margin: 20px auto 0px auto;
+        border-radius: 100px;
+        background-image: linear-gradient(
+          90deg,
+          #00000010 0%,
+          #00000035 50%,
+          #00000010 100%
+        );
+        background-size: 400% 100%;
+        animation: skel-shimmer 2s infinite linear;
+      }
+      @keyframes skel-shimmer {
+        0% {
+          background-position: 100% 0;
+        }
+        100% {
+          background-position: -100% 0;
+        }
+      }
+      h1,
+      h2 {
+        text-align: center;
+      }
+
+      /* Controles */
+      .controls {
+        position: fixed;
+        bottom: 0px;
+        left: 0px;
+        padding: 1rem;
+        background-color: #ffffff;
+        box-shadow: 0 0 30px 10px #00000030;
+        width: 100%;
+        box-sizing: border-box;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 5px;
+      }
+      .controls input,
+      .controls select,
+      .controls button {
+        border: solid 1px grey;
+        padding: 5px 1rem;
+        border-radius: 10px;
+      }
+      #js-editor {
+        width: 100%;
+        height: 60px;
+        margin-top: 10px;
+        border: 1px solid #ccc;
+      }
+
+      .component-wrapper {
+        position: relative;
+      }
+
+      .bottom-bar {
+        padding: 16px 24px;
+        border-top: 1px solid #e5e7eb;
+        background: white;
+      }
+
+      .more-content {
+        display: flex;
+        gap: 12px;
+        align-items: center;
+        justify-content: center;
+        background: transparent;
+        background-image: linear-gradient(135deg, #4facfe99 0%, #00f2fe99 100%);
+
+        backdrop-filter: blur(10px);
+        border-top-style: ridge;
+        border-top-color: #b7d1d9;
+      }
+
+      .top-cta {
+        background: #06896c;
+        color: white;
+        border: none;
+        padding: 9px 32px;
+        border-radius: 25px;
+        font-size: 18px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+      }
+
+      #publishBtn {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 10px 32px 9px 26px;
+      }
+
+      .cancel.top-cta {
+        display: none;
+      }
+
+      button#backBtn.back-btn {
+        background: transparent;
+        border: solid 1px #555 !important;
+        color: #333;
+        border: none;
+        padding: 8px 16px 8px 8px;
+        border-radius: 15px;
+        font-size: 18px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+      }
+
+      #backBtn svg {
+        transform: rotate(90deg) translateX(3px);
+      }
+
+      .module-icon svg {
+        transform: translateY(3px);
+      }
+
+      .header-menu .title {
+        margin-left: 10px;
+      }
+
+      .header {
+        display: flex;
+        width: -webkit-fill-available;
+        justify-content: space-between;
+        margin: 50px 10px;
+        margin-bottom: 30px;
+        align-items: flex-end;
+        top: 0px;
+        position: relative;
+        transition: all 0.3s ease;
+      }
+
+      .header-menu {
+        display: flex;
+        align-items: center;
+        gap: 5px;
+      }
+
+      .header svg {
+        width: 24px;
+        height: 24px;
+        opacity: 0.8;
+        transition: all 0.2s ease;
+      }
+
+      #app {
+        background-color: #efefef;
+        position: sticky;
+        top: 0px;
+        left: 0px;
+        width: -webkit-fill-available;
+        height: fit-content;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 1000;
+        flex-direction: column;
+      }
+
+      .main-content {
+        background: var(--background-color);
+        min-height: calc(100vh - 160px);
+        position: relative;
+        border-radius: 20px 20px 0px 0px;
+        transition: all 0.5s ease;
+        box-shadow: 0 0px 62px rgb(0 0 0 / 25%);
+        z-index: 15;
+        max-width: 500px;
+        margin: 0 auto;
+        width: 97%;
+        height: -webkit-fill-available;
+      }
+      main .top-bar {
+        display: flex;
+        width: -webkit-fill-available;
+        justify-content: space-between;
+        margin-bottom: 5px;
+        transition: all 0.5s ease;
+        position: absolute;
+        top: 20px;
+        padding: 20px;
+        padding-bottom: 0px;
+        z-index: 10;
+        pointer-events: none;
+        top: 0px;
+      }
+
+      .chip.logo {
+        --wh: 30px;
+        height: var(--wh);
+        width: calc(var(--wh) * 2);
+        border-radius: 40px;
+        color: #fff;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: #00000055;
+        color: #fff;
+        min-height: 44px;
+        backdrop-filter: blur(18px);
+        -webkit-backdrop-filter: blur(18px);
+      }
+
+      .logo {
+        font-size: 1.5rem;
+        font-weight: 800;
+        letter-spacing: -0.5px;
+      }
+      .top-controls * {
+        pointer-events: auto;
+      }
+      .chip-icon {
+        --wh: 24px;
+        height: var(--wh);
+        width: var(--wh);
+        fill: white;
+        position: absolute;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div id="data-status-storage">
+      <!-- 
+    INSTRUCCIONES.
+    ESTE ELEMENTO HTML SE USARA PARA ALMACENAR ESTADOS DE JS EN ATRIBUTOS data-*something
+    de esta manera permitiremos a la UI cambiar su aspecto dependiendo del atributo y estado designado por medio de cadena de clases css
+
+    ejemplo:
+
+    #data-status-storage[data-status="offline"] + #app{
+        --background-color: #efefef;
+    }
+    #data-status-storage[data-status="online"] + #app{
+        --background-color: #00ff00;
+    }
+
+    ESTADO GLOBAL DE UI (State-Driven CSS)
+
+    Este elemento actúa como un "observador de estado". La lógica de negocio 
+    en JS actualiza únicamente los atributos data-* de este nodo, y el CSS 
+    reacciona de forma declarativa mediante selectores de atributos.
+
+    Mantenimiento:
+    - Evitar lógica compleja aquí; solo estados de alto nivel (ej: auth, theme, status).
+    - Selector: Se usa el adyacente (+) para encapsular cambios en #app.
+    - Ejemplo: 
+    #data-status-storage[data-status="online"] + #app { --color: green; }
+    
+--->
+    </div>
+    <div id="app">
+      <header class="header">
+        <div class="header-menu">
+          <button
+            class="back-btn"
+            id="backBtn"
+            data-action="nav:back"
+            aria-label="Atrás"
+          >
+            <svg><use href="#back-arrow"></use></svg>
+          </button>
+          <span class="title">Main hub</span>
+          <div class="module-icon">
+            <svg><use href="#chevron-arrow"></use></svg>
+          </div>
+        </div>
+        <button
+          id="cancelBtn"
+          data-action="content:cancel"
+          class="cancel top-cta"
+        >
+          Cancel
+        </button>
+        <span class="top-cta-container">
+          <button id="publishBtn" data-action="content:publish" class="top-cta">
+            <svg><use href="#share"></use></svg>
+            <span class="btn-text">Publish</span>
+          </button>
+        </span>
+      </header>
+      <main class="main-content profile-section" data-style="classic">
+        <div class="top-bar">
+          <div class="chip logo">
+            <svg class="chip-icon" viewBox="0 0 24 24" fill="none">
+              <use href="#logo"></use>
+            </svg>
+          </div>
+        </div>
+      </main>
+    </div>
+
+    <h1 id="title" contenteditable="true"></h1>
+    <h2 id="subtitle" contenteditable="true"></h2>
+
+    <div class="controls">
+      <input type="text" id="binder" placeholder="Escribe algo aquí..." />
+      <select id="selector"></select>
+      <button id="btn-bind">Bind</button>
+      <button id="btn-clear">Vaciar</button>
+      <button id="run-btn">Run JS</button>
+      <textarea
+        id="js-editor"
+        placeholder="Escribe JS aquí (ej: loadStyles(styles.style1, 'set'))"
+      ></textarea>
+    </div>
+
+    <div id="root-styles-loader"></div>
+
+    <script>
+      // --- CONSTANTES Y CONFIGURACIÓN ---
+      const STORAGE_PREFIX = "APP_BIND_";
+      const DOM = {
+        TARGETS: {
+          title: "#title",
+          subtitle: "#subtitle",
+          styles_loader: "#root-styles-loader",
+        },
+        INPUTS: { main: "#binder", selector: "#selector" },
+        ACTIONS: { bind: "#btn-bind", clear: "#btn-clear", run: "run-btn" },
+      };
+
+      const BINDING_MAP = {
+        TITLE: { label: "Título Principal", selector: DOM.TARGETS.title },
+        SUBTITLE: { label: "Subtítulo", selector: DOM.TARGETS.subtitle },
+      };
+
+      const styles = {
+        style1: `:root { --background-color: #0082ca; --font-color: #ffffff; }`,
+        reset: `:root { --background-color: #efefef; --font-color: #111111; }`,
+        style2: `:root { --background-color: #222222; --font-color: #ffffff; }`,
+      };
+
+      // --- LÓGICA ---
+      function loadStyles(data, action) {
+        const container = document.querySelector(DOM.TARGETS.styles_loader);
+        container.innerHTML = action === "set" ? `<style>${data}</style>` : "";
+      }
+
+      const BindingManager = {
+        init() {
+          this.input = document.querySelector("#binder");
+          this.select = document.querySelector("#selector");
+
+          Object.values(BINDING_MAP).forEach(({ label, selector }) => {
+            const opt = document.createElement("option");
+            opt.value = selector;
+            opt.textContent = label;
+            this.select.appendChild(opt);
+          });
+
+          // Cargar persistencia
+          Object.values(BINDING_MAP).forEach(({ selector }) => {
+            const saved = localStorage.getItem(STORAGE_PREFIX + selector);
+            if (saved) document.querySelector(selector).textContent = saved;
+          });
+
+          document.querySelector(DOM.ACTIONS.bind).onclick = () => {
+            const target = document.querySelector(this.select.value);
+            target.textContent = this.input.value;
+            localStorage.setItem(
+              STORAGE_PREFIX + this.select.value,
+              this.input.value,
+            );
+          };
+
+          document.querySelector(DOM.ACTIONS.clear).onclick = () => {
+            document.querySelector(this.select.value).textContent = "";
+            localStorage.removeItem(STORAGE_PREFIX + this.select.value);
+          };
+
+          document.getElementById(DOM.ACTIONS.run).onclick = () => {
+            try {
+              eval(document.getElementById("js-editor").value);
+            } catch (e) {
+              console.error(e);
+            }
+          };
+        },
+      };
+
+      document.addEventListener("DOMContentLoaded", () =>
+        BindingManager.init(),
+      );
+    </script>
+  </body>
+</html>
