@@ -192,8 +192,6 @@
         display: flex;
         flex-direction: column;
         align-items: center;
-        scroll-behavior: smooth;
-        transition: blur-start;
       }
 
       #app {
@@ -205,7 +203,7 @@
       }
 
       /* === HEADER (PIXEL PERFECT) === */
-      .header__actions {
+      .header {
         display: flex;
         justify-content: space-between;
         align-items: center;
@@ -213,11 +211,6 @@
         margin: 50px 10px;
         margin-bottom: 30px;
         box-sizing: border-box;
-        position: sticky;
-        top: 30px;
-        transition: all 0.3s ease;
-        transform: scale(var(--scale, 1));
-        filter: blur(var(--blur, 0px));
       }
 
       .header__menu {
@@ -303,69 +296,6 @@
         opacity: 0.8;
       }
 
-      header{
-        transition: all 0.3s ease;
-      }
-
-      [data-top-menu="hidden"] + #app{
-        header {
-          margin-bottom: -50px;
-          transform: translatey(-105px);
-        }
-      }
-
-      .header__action.handler {
-        display: flex;
-        width: -webkit-fill-available;
-        justify-content: center;
-      }
-
-      .handler--drag{
-        padding: 8px 15px;
-        border-radius: 100px;
-        background-color: #fff;
-        margin: 5px;
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        cursor: pointer;
-        z-index: 1;
-      }
-
-      .handler--drag:before, 
-      .handler--drag:after{
-        content: '';
-        display: block;
-        width: 18px;
-        height: 4px;
-        background: #ccc;
-        border-radius: 2px;
-        transition: all 0.2s;
-      }
-
-      .handler--drag:before{
-        margin-right: -1px;
-      } 
-      .handler--drag:after{
-        margin-left: -1px;
-      }
-
-
-      [data-top-menu="hidden"] + #app .handler--drag:before{
-        transform: rotate(16deg);
-      } 
-      [data-top-menu="hidden"] + #app .handler--drag:after{
-        transform: rotate(-16deg);
-      }
-
-      #data-status-storage:not([data-top-menu="hidden"]) + #app .handler--drag:before{
-        transform: rotate(-16deg);
-      } 
-      #data-status-storage:not([data-top-menu="hidden"]) + #app .handler--drag:after{
-        transform: rotate(16deg);
-      }
-
-      
-
       /* === MAIN CONTENT (CARD) === */
       .main-content {
         background: var(--background-color);
@@ -379,7 +309,6 @@
         margin: 0 auto;
         width: 97%;
         height: -webkit-fill-available;
-        overflow: clip;
       }
 
       .main-content__top-bar {
@@ -463,14 +392,14 @@
         display: flex;
         flex-wrap: wrap;
         gap: 8px;
-        max-height: 48px; /* collapsed state - only handle visible */
+        max-height: 48px;           /* collapsed state - only handle visible */
         overflow: hidden;
         transition: max-height 0.35s cubic-bezier(0.32, 0.72, 0, 1);
         border-top: 1px solid #e5e5e5;
       }
 
       .controls.expanded {
-        max-height: 320px; /* enough for all fields + textarea */
+        max-height: 320px;          /* enough for all fields + textarea */
         overflow: auto;
       }
 
@@ -491,12 +420,12 @@
       }
 
       .controls__handle::after {
-        content: "";
+        content: '';
         width: 36px;
         height: 4px;
         background: #ccc;
         border-radius: 2px;
-        transition: all 0.2s;
+        transition: background 0.2s;
       }
 
       .controls:hover .controls__handle::after {
@@ -528,13 +457,6 @@
         display: flex;
         flex-direction: column;
         align-items: center;
-        height: 100vh;
-        max-height: -webkit-fill-available;
-        background-color: var(--card-background);
-      }
-
-      .main-content__user-card > div {
-        height: -webkit-fill-available;
       }
 
       /* === COVER & PROFILE PIC === */
@@ -582,29 +504,15 @@
         height: 100%;
         object-fit: cover;
       }
-
-      #card * {
-        max-width: -webkit-fill-available;
-      }
-
-      .header__action.handler:before{
-  content: '';
-  width: -webkit-fill-available;
-  position: absolute;
-  min-height: 70px;
-  background-image: linear-gradient(transparent 1%, #e6e6e6 60%, #e6e6e6);
-  border-radius: 19px;
-  transform: translateY(var(--translate));
-}
     </style>
   </head>
+
   <body>
-    <div id="data-status-storage" data-bind-attr="config.cover_active"></div>
+    <div id="data-status-storage"></div>
 
     <div id="app">
       <header class="header">
-        <div class="header__actions">
-          <div class="header__menu">
+        <div class="header__menu">
           <button
             class="header__back-btn"
             id="backBtn"
@@ -638,12 +546,6 @@
             <svg><use href="#share"></use></svg>
             <span class="header__btn-text">Publish</span>
           </button>
-          
-        </div>
-        <div class="header__action handler" aria-label="Arrastrar">
-          <span class="header__action__handler handler--drag" ></span>
-        </div>
-        
         </span>
       </header>
 
@@ -655,115 +557,140 @@
             </svg>
           </div>
         </div>
-        <div
-          id="card"
-          class="main-content__user-card"
-          data-object="binder-area"
-        >
-          <div class="cover">
-            <div class="cover__box">
-              <div class="cover__image nfc_cover" id="background_cover"></div>
-            </div>
-            <div class="cover__avatar">
-              <div data-img="none" data-status="skel"></div>
-            </div>
+
+        <div class="cover">
+          <div class="cover__box">
+            <div
+              class="cover__image nfc_cover"
+              id="background_cover"
+              style="
+                background-image: url(&quot;https://app.newfacecards.com/nfc/cover/recBOO8H0GO0RZlUU.jpg?timestamp=1723160438&amp;size=1000x500&quot;);
+              "
+            ></div>
           </div>
+          <div class="cover__avatar">
+            <img
+              decoding="async"
+              src="https://app.newfacecards.com/nfc/profile-pic/recBOO8H0GO0RZlUU.jpg?timestamp=1723160426&amp;size=1000x1000"
+              width="500"
+              height="500"
+              class="cover__avatar-img"
+              id="profile_pic"
+            />
+          </div>
+        </div>
+
+        <div id="card" class="main-content__user-card">
           <h1 id="title"></h1>
           <h2 id="subtitle"></h2>
         </div>
       </main>
     </div>
-    <!-- ======================== 
-          ISLAND MENU
-        ======================== -->
-    <div
-      id="island"
-      data-component="island"
-      data-status="idle"
-      role="toolbar"
-      aria-label="Barra de acciones"
-    ></div>
+
+    <div class="controls">
+      <div class="controls__handle" title="Abrir / cerrar herramientas"></div>
+      <input
+        type="text"
+        class="controls__input"
+        id="binder"
+        placeholder="Escribe algo aquí..."
+      />
+      <select class="controls__select" id="selector"></select>
+      <button class="controls__button" id="btn-bind">Bind</button>
+      <button class="controls__button" id="btn-clear">Vaciar</button>
+      <button class="controls__button" id="run-btn">Run JS</button>
+      <textarea
+        class="controls__editor"
+        id="js-editor"
+        placeholder="Escribe JS aquí (ej: loadStyles(styles.style1, 'set'))"
+      ></textarea>
+    </div>
+    <!--   -->
+    <div id="island" data-component="island" data-status="idle" role="toolbar" aria-label="Barra de acciones"></div>
 
     <div id="root-styles-loader"></div>
-    <!-- 2. CONFIGURACIÓN E IMPORTACIÓN DEL BINDER UTILITY (ES MODULE) -->
-    <script type="module">
-      import { DataBinder } from "/shared/utilities/binder.js";
-
-      // Configuración del sistema de bindeo e hidratación
-      const binderConfig = {
-        container: document.querySelector("#card"), // Montar e hidratar EXCLUSIVAMENTE dentro del card
-        endpoint:
-          "https://app.newfacecards.com/wp-content/uploads/ultimatemember/1/data/card-data.json",
-
-        // Habilita/Deshabilita el fetch local de respaldo en caso de que falle el remoto (SOLID Configurable)
-        allowLocalFallback: true,
-        localPath: "/data/card-data.json", // Ruta al backup local (root-relative, recomendada)
-
-        onSuccess: (data) => {
-          console.log("[App] Hidratación completada con éxito:", data);
-        },
-        onError: (err) => {
-          console.error("[App] Error crítico de hidratación:", err);
-        },
-      };
-
-      // Inicializar y ejecutar la tubería de bindeo con la plantilla cargada dinámicamente
-      const binder = new DataBinder(binderConfig);
-      const themeName = "aurora";
-      binder.loadTemplateAndRun(`/templates/cards/${themeName}.html`);
-    </script>
 
     <script>
-      /**
-       * CONFIGURACIÓN Y CONSTANTES
-       */
       const STORAGE_PREFIX = "APP_BIND_";
-
       const DOM = {
-        // Destinos de hidratación
         TARGETS: {
           title: "#title",
           subtitle: "#subtitle",
           styles_loader: "#root-styles-loader",
         },
-        // Controles de entrada
-        INPUTS: {
-          main: "#binder",
-          selector: "#selector",
-        },
-        // Acciones de usuario
-        ACTIONS: {
-          bind: "#btn-bind",
-          clear: "#btn-clear",
-          run: "run-btn",
-        },
+        INPUTS: { main: "#binder", selector: "#selector" },
+        ACTIONS: { bind: "#btn-bind", clear: "#btn-clear", run: "run-btn" },
       };
 
       const BINDING_MAP = {
-        TITLE: {
-          label: "Título Principal",
-          selector: DOM.TARGETS.title,
-        },
+        TITLE: { label: "Título Principal", selector: DOM.TARGETS.title },
         SUBTITLE: { label: "Subtítulo", selector: DOM.TARGETS.subtitle },
       };
 
-      const UI_SELECTORS = {
-        INPUT: "#binder",
-        SELECT: "#selector",
-        BUTTON_BIND: "#btn-bind",
-        BUTTON_CLEAR: "#btn-clear",
+      const styles = {
+        style1: `:root { --background-color: #0082ca; --font-color: #ffffff; }`,
+        reset: `:root { --background-color: #efefef; --font-color: #111111; }`,
+        style2: `:root { --background-color: #222222; --font-color: #ffffff; }`,
       };
 
-      /**
-       * SERVICIO DE PERSISTENCIA
-       */
-      const StorageService = {
-        save: (selector, value) =>
-          localStorage.setItem(`${STORAGE_PREFIX}${selector}`, value),
-        get: (selector) => localStorage.getItem(`${STORAGE_PREFIX}${selector}`),
-        remove: (selector) =>
-          localStorage.removeItem(`${STORAGE_PREFIX}${selector}`),
+      function loadStyles(data, action) {
+        const container = document.querySelector(DOM.TARGETS.styles_loader);
+        container.innerHTML = action === "set" ? `<style>${data}</style>` : "";
+      }
+
+      const BindingManager = {
+        init() {
+          this.input = document.querySelector("#binder");
+          this.select = document.querySelector("#selector");
+
+          Object.values(BINDING_MAP).forEach(({ label, selector }) => {
+            const opt = document.createElement("option");
+            opt.value = selector;
+            opt.textContent = label;
+            this.select.appendChild(opt);
+          });
+
+          Object.values(BINDING_MAP).forEach(({ selector }) => {
+            const saved = localStorage.getItem(STORAGE_PREFIX + selector);
+            if (saved) document.querySelector(selector).textContent = saved;
+          });
+
+          document.querySelector(DOM.ACTIONS.bind).onclick = () => {
+            const target = document.querySelector(this.select.value);
+            target.textContent = this.input.value;
+            localStorage.setItem(
+              STORAGE_PREFIX + this.select.value,
+              this.input.value,
+            );
+          };
+
+          document.querySelector(DOM.ACTIONS.clear).onclick = () => {
+            document.querySelector(this.select.value).textContent = "";
+            localStorage.removeItem(STORAGE_PREFIX + this.select.value);
+          };
+
+          document.getElementById(DOM.ACTIONS.run).onclick = () => {
+            try {
+              eval(document.getElementById("js-editor").value);
+            } catch (e) {
+              console.error(e);
+            }
+          };
+        },
       };
+
+      document.addEventListener("DOMContentLoaded", () => {
+        BindingManager.init();
+
+        // Bottom sheet toggle for .controls
+        const controls = document.querySelector('.controls');
+        const handle = controls?.querySelector('.controls__handle');
+        if (handle && controls) {
+          handle.addEventListener('click', () => {
+            controls.classList.toggle('expanded');
+          });
+        }
+      });
     </script>
 
     <!-- Island Menu: modern reusable component (auto-enhances existing markup) -->
@@ -777,27 +704,19 @@
       import { importIslandMenu } from "/shared/components/island-menu/island-menu.js";
 
       const defaultIslandConfig = {
-        edit: { label: "Editar", icon: "ti ti-edit" },
+        edit: { label: 'Editar', icon: 'ti ti-edit' },
         modes: [
-          { value: "apariencia", label: "Apariencia", icon: "ti ti-palette" },
-          {
-            value: "cardbar",
-            label: "Navegación",
-            icon: "ti ti-layout-columns",
-          },
-        ],
+          { value: 'apariencia', label: 'Apariencia', icon: 'ti ti-palette' },
+          { value: 'cardbar', label: 'Navegación', icon: 'ti ti-layout-columns' }
+        ]
       };
 
       const morphedIslandConfig = {
-        edit: { label: "Editar", icon: "ti ti-edit" },
+        edit: { label: 'Editar', icon: 'ti ti-edit' },
         modes: [
-          { value: "apariencia", label: "Perfil", icon: "ti ti-user" },
-          {
-            value: "cardbar",
-            label: "Navegacion",
-            icon: "ti ti-layout-columns",
-          },
-        ],
+          { value: 'apariencia', label: 'Perfil', icon: 'ti ti-user' },
+          { value: 'cardbar', label: 'Navegacion', icon: 'ti ti-layout-columns' }
+        ]
       };
 
       function setupIslandListeners(el) {
@@ -830,68 +749,7 @@
         .then((island) => {
           setupIslandListeners(island);
         })
-        .catch((err) =>
-          console.error("[admin binder] island bootstrap failed:", err),
-        );
-    </script>
-
-    <!-- Header: click toggle + scroll-depth compression effect -->
-    <script>
-      (function () {
-        const storage = document.getElementById('data-status-storage');
-        const handler = document.querySelector('.handler');
-        const actions = document.querySelector('.header__actions');
-        const nextHandler = document.querySelector('.header__action.handler');
-
-        if (!storage || !handler) return;
-
-        // === Click toggle for data-top-menu (handle rotation etc.) ===
-        function setTopMenuState(state) {
-          storage.setAttribute('data-top-menu', state); // "hidden" | "showing"
-        }
-
-        handler.addEventListener('click', () => {
-          const current = storage.getAttribute('data-top-menu');
-          setTopMenuState(current === 'hidden' ? 'showing' : 'hidden');
-        });
-
-        // === Scroll-depth calculator (drives --scale / --blur on header) ===
-        if (!actions) return;
-
-        const MAX_SCROLL_DEPTH = 220;
-        const MIN_SCALE = 0.7;
-        const MAX_BLUR = 7;
-
-        let ticking = false;
-
-        function updateHeaderEffect() {
-          const scrollY = window.scrollY || 0;
-          const progress = Math.min(Math.max(scrollY / MAX_SCROLL_DEPTH, 0), 1);
-
-          const scale = (1 - (1 - MIN_SCALE) * progress).toFixed(3);
-          const blur = (MAX_BLUR * progress).toFixed(1);
-          const newBlur = blur - 1.5;
-
-          actions.style.setProperty('--scale', scale);
-          actions.style.setProperty('--blur', `${newBlur}px`);
-          nextHandler.style.setProperty('--translate', `${blur * -20}px`);
-        }
-
-        function onScroll() {
-          if (!ticking) {
-            requestAnimationFrame(() => {
-              updateHeaderEffect();
-              ticking = false;
-            });
-            ticking = true;
-          }
-        }
-
-        window.addEventListener('scroll', onScroll, { passive: true });
-
-        // Initialize on load (handles restored scroll position)
-        updateHeaderEffect();
-      })();
+        .catch((err) => console.error("[admin binder] island bootstrap failed:", err));
     </script>
   </body>
 </html>

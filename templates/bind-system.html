@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Binding Minimal Testing</title>
+  </head>
+  <body>
+    <!-- 1. EJEMPLO DE BINDING EN HTML -->
+    <h1 data-bind="profile.name">Cargando nombre...</h1>
+    <p data-bind="profile.bio">Cargando bio...</p>
+    <img
+      data-bind-src="profile.photo.src"
+      alt="Foto de Perfil"
+      style="max-width: 120px; border-radius: 50%"
+    />
+
+    <!-- 2. CONFIGURACIÓN E IMPORTACIÓN DEL BINDER UTILITY (ES MODULE) -->
+    <script type="module">
+      import { DataBinder } from "/shared/utilities/binder.js";
+
+      // Configuración del sistema de bindeo e hidratación
+      const binderConfig = {
+        container: document.body, // Nodo raíz de hidratación
+        endpoint: "https://app.newfacecards.com/wp-content/uploads/ultimatemember/1/data/card-data.json",
+        
+        // Habilita/Deshabilita el fetch local de respaldo en caso de que falle el remoto (SOLID Configurable)
+        allowLocalFallback: true, 
+        localPath: "../data/card-data.json", // Ruta al backup local
+        
+        onSuccess: (data) => {
+          console.log("[App] Hidratación completada con éxito:", data);
+        },
+        onError: (err) => {
+          console.error("[App] Error crítico de hidratación:", err);
+        }
+      };
+
+      // Inicializar y ejecutar la tubería de bindeo
+      const binder = new DataBinder(binderConfig);
+      binder.run();
+    </script>
+  </body>
+</html>

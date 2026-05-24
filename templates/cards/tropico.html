@@ -1,0 +1,401 @@
+<!-- Plantilla: Tropico Card (Premium Tropic Vibes Tabs) -->
+<style>
+  @import url("https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=Josefin+Sans:wght@300;400;600&display=swap");
+
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(6px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .card--tropico {
+    display: block;
+    width: 100%;
+    max-width: 420px;
+    background: #0f3326;
+    border-radius: 20px;
+    overflow: hidden;
+    font-family: "Josefin Sans", sans-serif;
+    border-top: 3px solid #f4d03f;
+    box-shadow:
+      0 0 0 1px rgba(244, 208, 63, 0.1),
+      0 24px 64px rgba(0, 0, 0, 0.5);
+  }
+
+  .trop__media {
+    position: relative;
+    height: 165px;
+  }
+  .trop__cover {
+    width: 100%;
+    height: 165px;
+    object-fit: cover;
+    filter: saturate(1.2);
+    display: block;
+  }
+  .trop__media::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      to bottom,
+      rgba(13, 43, 31, 0.2),
+      rgba(13, 43, 31, 0.7)
+    );
+  }
+  .trop__avatar {
+    position: absolute;
+    bottom: -43px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 86px;
+    height: 86px;
+    border-radius: 50%;
+    border: 3px solid #f4d03f;
+    object-fit: cover;
+    z-index: 2;
+  }
+
+  .trop__profile {
+    margin-top: 55px;
+    padding: 0 24px 20px;
+    text-align: center;
+  }
+  .trop__name {
+    font-family: "Syne", sans-serif;
+    font-size: 1.9rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    background: linear-gradient(135deg, #f4d03f, #e8a020);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    letter-spacing: -0.02em;
+  }
+  .trop__role {
+    font-size: 0.68rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    color: #f4d03f;
+    margin-top: 4px;
+  }
+  .trop__org {
+    font-size: 0.78rem;
+    color: #8fb89e;
+    margin-top: 2px;
+  }
+  .trop__chips {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 6px;
+    margin-top: 12px;
+  }
+  .trop__chip {
+    padding: 3px 10px;
+    border-radius: 50px;
+    font-size: 0.7rem;
+    font-weight: 600;
+    background: rgba(244, 208, 63, 0.12);
+    border: 1px solid rgba(244, 208, 63, 0.3);
+    color: #f4d03f;
+    letter-spacing: 0.04em;
+  }
+
+  .trop__nav {
+    display: flex;
+    background: rgba(10, 30, 20, 0.95);
+    border-top: 1px solid rgba(244, 208, 63, 0.2);
+    border-bottom: 1px solid rgba(244, 208, 63, 0.2);
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    backdrop-filter: blur(12px);
+  }
+  .trop__nav-item {
+    flex: 1;
+    padding: 13px 4px 10px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-family: "Josefin Sans", sans-serif;
+    font-size: 0.68rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: #8fb89e;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    border-bottom: 2px solid transparent;
+    transition:
+      color 0.2s,
+      border-color 0.2s;
+  }
+  .trop__nav-item svg {
+    width: 17px;
+    height: 17px;
+    stroke: currentColor;
+    fill: none;
+    stroke-width: 1.8;
+  }
+  .trop__nav-item--active {
+    color: #f4d03f;
+    border-bottom-color: #f4d03f;
+  }
+
+  .trop__body {
+    min-height: 240px;
+  }
+  .trop__tab {
+    display: none;
+    padding: 20px;
+    animation: fadeIn 0.2s ease;
+  }
+  .trop__tab--active {
+    display: block;
+  }
+
+  .trop__btn {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 13px 16px;
+    border-radius: 12px;
+    border: 1px solid rgba(244, 208, 63, 0.2);
+    background: #1a4535;
+    text-decoration: none;
+    cursor: pointer;
+    font-family: "Josefin Sans", sans-serif;
+    font-size: 0.82rem;
+    font-weight: 400;
+    color: #f0ede5;
+    margin-bottom: 8px;
+    transition: border-color 0.2s;
+    width: 100%;
+    text-align: left;
+  }
+  .trop__btn:hover {
+    border-color: rgba(244, 208, 63, 0.5);
+  }
+  .trop__btn--cta {
+    background: linear-gradient(
+      135deg,
+      rgba(244, 208, 63, 0.25),
+      rgba(232, 160, 32, 0.25)
+    );
+    border-color: rgba(244, 208, 63, 0.5);
+    font-weight: 700;
+    text-transform: uppercase;
+    font-size: 0.75rem;
+    letter-spacing: 0.08em;
+    color: #f4d03f;
+  }
+  .trop__btn svg {
+    width: 18px;
+    height: 18px;
+    stroke: #f4d03f;
+    fill: none;
+    stroke-width: 1.8;
+    flex-shrink: 0;
+  }
+  .trop__btn img {
+    width: 20px;
+    height: 20px;
+    flex-shrink: 0;
+  }
+
+  .trop__company {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 14px;
+    background: #1a4535;
+    border: 1px solid rgba(244, 208, 63, 0.15);
+    border-radius: 12px;
+    margin-bottom: 14px;
+  }
+  .trop__company img.logo {
+    width: 44px;
+    height: 44px;
+    border-radius: 10px;
+  }
+  .trop__company-name {
+    font-family: "Syne", sans-serif;
+    font-size: 1rem;
+    font-weight: 700;
+    color: #f0ede5;
+  }
+  .trop__company-tag {
+    font-size: 0.7rem;
+    color: #8fb89e;
+    font-style: italic;
+  }
+
+  .trop__location {
+    border-radius: 12px;
+    overflow: hidden;
+    border: 1px solid rgba(244, 208, 63, 0.15);
+    text-decoration: none;
+    display: block;
+  }
+  .trop__location img {
+    width: 100%;
+    height: 80px;
+    object-fit: cover;
+    display: block;
+  }
+  .trop__location-label {
+    padding: 8px 12px;
+    background: #1a4535;
+    font-size: 0.72rem;
+    color: #8fb89e;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .trop__location-label svg {
+    width: 12px;
+    height: 12px;
+    stroke: #f4d03f;
+    fill: none;
+    stroke-width: 2;
+  }
+
+  .trop__social {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 13px 14px;
+    border-radius: 12px;
+    border: 1px solid rgba(244, 208, 63, 0.15);
+    background: #1a4535;
+    text-decoration: none;
+    margin-bottom: 8px;
+    transition: border-color 0.15s;
+  }
+  .trop__social:hover {
+    border-color: rgba(244, 208, 63, 0.4);
+  }
+  .trop__social img {
+    width: 24px;
+    height: 24px;
+    border-radius: 6px;
+  }
+  .trop__social-net {
+    font-size: 0.68rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: #f4d03f;
+  }
+  .trop__social-handle {
+    font-size: 0.8rem;
+    color: #8fb89e;
+  }
+  .trop__social-info {
+    flex: 1;
+  }
+  .trop__social-arrow {
+    color: rgba(244, 208, 63, 0.3);
+  }
+</style>
+
+<div class="card--tropico">
+  <div class="trop__media">
+    <div
+      class="trop__cover"
+      data-bind-bg="profile.cover"
+      style="
+        width: 100%;
+        height: 165px;
+        background-size: cover;
+        background-position: center;
+        filter: saturate(1.2);
+      "
+    ></div>
+    <img class="trop__avatar" data-bind-src="profile.photo" alt="Avatar" />
+  </div>
+
+  <div class="trop__profile">
+    <h1 class="trop__name" data-bind="profile.name">Cargando...</h1>
+    <p class="trop__role" data-bind="profile.title">Cargando...</p>
+    <p class="trop__org" data-bind="profile.org">Cargando...</p>
+  </div>
+
+  <nav class="trop__nav">
+    <button
+      class="trop__nav-item trop__nav-item--active"
+      data-trop-tab="contacto"
+    >
+      <svg viewBox="0 0 24 24">
+        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+        <circle cx="12" cy="7" r="4" />
+      </svg>
+      Contacto
+    </button>
+    <button class="trop__nav-item" data-trop-tab="empresa">
+      <svg viewBox="0 0 24 24">
+        <rect x="2" y="7" width="20" height="14" rx="2" />
+        <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16" />
+      </svg>
+      Empresa
+    </button>
+  </nav>
+
+  <div class="trop__body">
+    <!-- Pestaña Contacto -->
+    <div class="trop__tab trop__tab--active" id="trop-contacto">
+      <button
+        class="trop__btn trop__btn--cta"
+        id="trop-vcf"
+        style="width: 100%; border: none; cursor: pointer"
+      >
+        <svg viewBox="0 0 24 24">
+          <path
+            d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 1.27h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.37a16 16 0 0 0 5.73 5.73l1.48-1.48a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 14.92v2z"
+          />
+          <line x1="18" y1="2" x2="18" y2="8" />
+          <line x1="15" y1="5" x2="21" y2="5" />
+        </svg>
+        Agregar contacto al móvil
+      </button>
+
+      <a
+        class="trop__btn"
+        data-bind-href="profile.website"
+        target="_blank"
+        rel="noopener"
+      >
+        <svg viewBox="0 0 24 24">
+          <circle cx="12" cy="12" r="10" />
+          <line x1="2" y1="12" x2="22" y2="12" />
+          <path
+            d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"
+          />
+        </svg>
+        Página Web
+      </a>
+    </div>
+
+    <!-- Pestaña Empresa -->
+    <div class="trop__tab" id="trop-empresa" style="display: none">
+      <div class="trop__company">
+        <img class="logo" data-bind-src="empresa.logo" alt="Logo" />
+        <div>
+          <p class="trop__company-name" data-bind="empresa.name">Cargando...</p>
+          <p class="trop__company-tag" data-bind="empresa.tagline">
+            Cargando...
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,368 @@
+<!-- Plantilla: Aurora Card (Scrollable Modern Minimal) -->
+<style>
+  @import url("https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,700;1,9..144,300&family=Josefin+Sans:wght@300;400;600&display=swap");
+
+  .card--aurora {
+    display: block;
+    width: 100%;
+    max-width: 400px;
+    background: transparent;
+    border-radius: 28px;
+    overflow: hidden;
+    position: relative;
+    font-family: "Josefin Sans", sans-serif;
+  }
+
+  /* mesh gradient background */
+  .aurora__bg {
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(
+        ellipse 80% 60% at 20% 10%,
+        rgba(168, 85, 247, 0.35) 0%,
+        transparent 60%
+      ),
+      radial-gradient(
+        ellipse 70% 50% at 80% 30%,
+        rgba(59, 130, 246, 0.3) 0%,
+        transparent 55%
+      ),
+      radial-gradient(
+        ellipse 60% 70% at 50% 80%,
+        rgba(236, 72, 153, 0.25) 0%,
+        transparent 60%
+      ),
+      radial-gradient(
+        ellipse 90% 90% at 50% 50%,
+        rgba(15, 12, 30, 1) 0%,
+        rgba(15, 12, 30, 0.9) 100%
+      );
+    z-index: 0;
+  }
+  .aurora__bg::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+    opacity: 0.4;
+  }
+
+  .aurora__inner {
+    position: relative;
+    z-index: 1;
+    padding: 0 0 32px;
+  }
+
+  /* hero area */
+  .aurora__hero {
+    padding: 40px 28px 28px;
+    text-align: center;
+    position: relative;
+  }
+  .aurora__avatar {
+    width: 90px;
+    height: 90px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid rgba(168, 85, 247, 0.6);
+    box-shadow:
+      0 0 0 6px rgba(168, 85, 247, 0.1),
+      0 0 30px rgba(168, 85, 247, 0.3);
+    margin-bottom: 20px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .aurora__name {
+    font-family: "Fraunces", Georgia, serif;
+    font-size: 3rem;
+    font-weight: 700;
+    color: #ffffff;
+    line-height: 0.95;
+    letter-spacing: -0.03em;
+    margin-bottom: 10px;
+  }
+  .aurora__name em {
+    font-style: italic;
+    background: linear-gradient(135deg, #c084fc, #818cf8, #f472b6);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .aurora__title {
+    font-size: 0.68rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.22em;
+    color: rgba(196, 132, 252, 0.8);
+    margin-bottom: 6px;
+  }
+  .aurora__org {
+    font-size: 0.8rem;
+    color: rgba(255, 255, 255, 0.35);
+    letter-spacing: 0.06em;
+  }
+
+  /* social icons row */
+  .aurora__socials {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    padding: 20px 28px;
+    border-top: 1px solid rgba(255, 255, 255, 0.07);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+  }
+  .aurora__social-icon {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.07);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    transition:
+      background 0.2s,
+      transform 0.2s;
+  }
+  .aurora__social-icon:hover {
+    background: rgba(168, 85, 247, 0.25);
+    transform: translateY(-2px);
+  }
+  .aurora__social-icon img {
+    width: 18px;
+    height: 18px;
+    filter: brightness(0) invert(1);
+  }
+  .aurora__social-icon svg {
+    width: 16px;
+    height: 16px;
+    stroke: rgba(255, 255, 255, 0.7);
+    fill: none;
+    stroke-width: 1.8;
+  }
+
+  /* scroll nav */
+  .aurora__nav {
+    display: flex;
+    padding: 16px 28px;
+    gap: 8px;
+  }
+  .aurora__nav-link {
+    flex: 1;
+    padding: 10px 6px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 12px;
+    text-align: center;
+    text-decoration: none;
+    font-size: 0.68rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: rgba(255, 255, 255, 0.5);
+    transition: all 0.2s;
+  }
+  .aurora__nav-link:hover {
+    background: rgba(168, 85, 247, 0.2);
+    border-color: rgba(168, 85, 247, 0.4);
+    color: #c084fc;
+  }
+
+  /* scroll sections */
+  .aurora__sections {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+  .aurora__section {
+    padding: 24px 28px;
+    border-top: 1px solid rgba(255, 255, 255, 0.06);
+  }
+  .aurora__section-label {
+    font-size: 0.62rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    color: rgba(196, 132, 252, 0.6);
+    margin-bottom: 14px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .aurora__section-label::after {
+    content: "";
+    flex: 1;
+    height: 1px;
+    background: rgba(255, 255, 255, 0.06);
+  }
+
+  /* action buttons */
+  .aurora__btn {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 16px;
+    border-radius: 14px;
+    margin-bottom: 8px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    text-decoration: none;
+    cursor: pointer;
+    font-family: "Josefin Sans", sans-serif;
+    font-size: 0.82rem;
+    color: rgba(255, 255, 255, 0.8);
+    transition: all 0.2s;
+    width: 100%;
+    text-align: left;
+  }
+  .aurora__btn:hover {
+    background: rgba(168, 85, 247, 0.15);
+    border-color: rgba(168, 85, 247, 0.3);
+  }
+  .aurora__btn--cta {
+    background: linear-gradient(
+      135deg,
+      rgba(168, 85, 247, 0.4),
+      rgba(99, 102, 241, 0.4)
+    );
+    border-color: rgba(168, 85, 247, 0.5);
+    color: #ffffff;
+  }
+  .aurora__btn--cta:hover {
+    background: linear-gradient(
+      135deg,
+      rgba(168, 85, 247, 0.6),
+      rgba(99, 102, 241, 0.6)
+    );
+  }
+  .aurora__btn svg {
+    width: 18px;
+    height: 18px;
+    stroke: rgba(196, 132, 252, 0.8);
+    fill: none;
+    stroke-width: 1.8;
+    flex-shrink: 0;
+  }
+  .aurora__btn img {
+    width: 20px;
+    height: 20px;
+    filter: brightness(0) invert(1);
+    flex-shrink: 0;
+  }
+  .aurora__btn--cta svg {
+    stroke: white;
+  }
+
+  /* company card */
+  .aurora__company {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    padding: 14px;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.07);
+    border-radius: 14px;
+    margin-bottom: 14px;
+  }
+  .aurora__company img {
+    width: 44px;
+    height: 44px;
+    border-radius: 10px;
+  }
+  .aurora__company-name {
+    font-family: "Fraunces", serif;
+    font-size: 1rem;
+    font-weight: 700;
+    color: #fff;
+  }
+  .aurora__company-tag {
+    font-size: 0.7rem;
+    color: rgba(196, 132, 252, 0.7);
+    letter-spacing: 0.06em;
+  }
+
+  .aurora__location {
+    border-radius: 14px;
+    overflow: hidden;
+    border: 1px solid rgba(255, 255, 255, 0.07);
+    text-decoration: none;
+    display: block;
+  }
+  .aurora__location img {
+    width: 100%;
+    height: 80px;
+    object-fit: cover;
+    filter: brightness(0.6) saturate(0.5);
+    display: block;
+  }
+  .aurora__location-label {
+    padding: 8px 12px;
+    background: rgba(255, 255, 255, 0.04);
+    font-size: 0.75rem;
+    color: rgba(255, 255, 255, 0.45);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .aurora__location-label svg {
+    width: 12px;
+    height: 12px;
+    stroke: #c084fc;
+    fill: none;
+    stroke-width: 2;
+  }
+</style>
+
+<div class="card--aurora">
+  <div class="aurora__bg"></div>
+  <div class="aurora__inner">
+    <div class="aurora__hero">
+      <img
+        class="aurora__avatar"
+        data-bind-src="profile.photo"
+        alt="Foto de perfil"
+      />
+      <h1 class="aurora__name">
+        <em data-bind="profile.name">Cargando...</em>
+      </h1>
+      <p class="aurora__title" data-bind="profile.title">Cargando Cargo...</p>
+      <p class="aurora__org" data-bind="profile.org">Cargando Agencia...</p>
+    </div>
+
+    <!-- Redes sociales básicas -->
+    <div class="aurora__socials">
+      <div id="social_top_buttons-loader"></div>
+    </div>
+
+    <!-- Navegación por scroll -->
+    <div class="aurora__nav">
+      <div id="nav_buttons-loader"></div>
+    </div>
+
+    <!-- Secciones hidratadas -->
+    <div class="aurora__sections">
+      <!-- Seccion de contacto -->
+      <section class="aurora__section" id="aurora-contacto">
+        <p class="aurora__section-label">Contacto</p>
+        <div id="contact_section_buttons-loader"></div>
+      </section>
+      <!-- Seccion de la empresa -->
+      <section class="aurora__section" id="aurora-empresa">
+        <p class="aurora__section-label">Empresa</p>
+        <div class="aurora__company">
+          <div id="company_section_buttons-loader"></div>
+        </div>
+      </section>
+      <!-- Seccion de redes sociales -->
+      <section class="aurora__section" id="aurora-bottom-social">
+        <p class="aurora__section-label">Redes Sociales</p>
+        <div class="aurora__company">
+          <div id="bottom_section_buttons-loader"></div>
+        </div>
+      </section>
+    </div>
+  </div>
+</div>

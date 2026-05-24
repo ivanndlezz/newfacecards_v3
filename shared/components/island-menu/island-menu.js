@@ -97,6 +97,8 @@ function enhanceIsland(root, opts = {}) {
   // Public API (works on both <island-menu> and legacy div)
   root.setStatus = setStatus;
   root.setActiveMode = setActiveMode;
+  root._setStatus = setStatus;
+  root._setActiveMode = setActiveMode;
 
   // Bootstrap current state
   const initial = root.dataset.status || 'idle';
@@ -108,6 +110,8 @@ function enhanceIsland(root, opts = {}) {
     delete root._islandEnhanced;
     delete root.setStatus;
     delete root.setActiveMode;
+    delete root._setStatus;
+    delete root._setActiveMode;
   };
 
   return root;
@@ -132,10 +136,10 @@ export class IslandMenu extends HTMLElement {
     if (this._destroyIsland) this._destroyIsland();
   }
   setStatus(s) {
-    this.setStatus?.(s);
+    if (this._setStatus) this._setStatus(s);
   }
   setActiveMode(m) {
-    this.setActiveMode?.(m);
+    if (this._setActiveMode) this._setActiveMode(m);
   }
 }
 
@@ -220,6 +224,33 @@ export function buildIslandHTML(templateOrConfig) {
   return '';
 }
 
+function showIslandToast(msg, isError = false) {
+  // Lightweight, non-blocking visual feedback (premium UX for load errors)
+  const existing = document.querySelector('.island-toast');
+  if (existing) existing.remove();
+  const t = document.createElement('div');
+  t.className = 'island-toast';
+  t.style.cssText = `
+    position: fixed;
+    bottom: 70px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: ${isError ? '#b91c1c' : '#1f2937'};
+    color: white;
+    padding: 6px 12px;
+    border-radius: 6px;
+    font-size: 12px;
+    z-index: 10000;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+    pointer-events: none;
+  `;
+  t.textContent = msg;
+  document.body.appendChild(t);
+  setTimeout(() => {
+    if (t.parentNode) t.parentNode.removeChild(t);
+  }, 3200);
+}
+
 // Imperative loader/renderer for dynamic template importing (supports fetch for external .html files)
 export async function importIslandMenu(templateOrConfig, options = {}) {
   const target = options.target || document.body;
@@ -234,17 +265,20 @@ export async function importIslandMenu(templateOrConfig, options = {}) {
   }
 
   let html = '';
-  // Check if it's a URL path to a .html file
-  if (typeof templateOrConfig === 'string' && (templateOrConfig.endsWith('.html') || templateOrConfig.includes('/components/'))) {
+  let hadFetchError = false;
+  const isUrl = typeof templateOrConfig === 'string' && (templateOrConfig.endsWith('.html') || templateOrConfig.includes('/components/'));
+  if (isUrl) {
     try {
       const res = await fetch(templateOrConfig);
       if (res.ok) {
         html = await res.text();
       } else {
         console.error(`Failed to fetch island template from ${templateOrConfig}: ${res.statusText}`);
+        hadFetchError = true;
       }
     } catch (e) {
       console.error(`Error fetching island template from ${templateOrConfig}:`, e);
+      hadFetchError = true;
     }
   } else {
     html = buildIslandHTML(templateOrConfig);
@@ -252,6 +286,26 @@ export async function importIslandMenu(templateOrConfig, options = {}) {
 
   if (html) {
     island.innerHTML = html;
+  } else if (!island.innerHTML.trim()) {
+    // Fallback: ensure we never leave the island empty (initial load safety)
+    html = buildIslandHTML({
+      edit: { label: 'Editar', icon: 'ti ti-edit' },
+      modes: [
+        { value: 'apariencia', label: 'Apariencia', icon: 'ti ti-palette' },
+        { value: 'cardbar', label: 'Navegación', icon: 'ti ti-layout-columns' }
+      ]
+    });
+    island.innerHTML = html;
+  }
+
+  // Guarantee attributes after any innerHTML replacement (fixes chicken-egg + downstream selectors)
+  island.dataset.component = 'island';
+  if (!island.hasAttribute('role')) island.setAttribute('role', 'toolbar');
+  if (!island.hasAttribute('aria-label')) island.setAttribute('aria-label', 'Barra de acciones');
+
+  if (hadFetchError) {
+    island.dataset.loadError = 'true';
+    showIslandToast('Error al cargar plantilla del island (usando fallback)', true);
   }
 
   if (island._islandEnhanced && island._destroyIsland) {

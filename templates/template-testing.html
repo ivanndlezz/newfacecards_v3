@@ -1,0 +1,4111 @@
+<!doctype html>
+<html lang="es" data-theme="aurora">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Ivan Gonzalez · Klef Agency</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=Josefin+Sans:wght@300;400;600&family=Bebas+Neue&family=DM+Sans:wght@300;400;500&family=Playfair+Display:wght@700;900&family=IBM+Plex+Mono:wght@300;400;500&family=Noto+Serif+JP:wght@300;400&family=Cinzel+Decorative:wght@700&family=Space+Mono:wght@400;700&family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,700;1,9..144,300&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      body {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: flex-start;
+        min-height: 100vh;
+        padding: 1.5rem 1rem 4rem;
+        background: var(--page-bg);
+        transition: background 0.5s ease;
+        font-family: var(--font-body);
+      }
+
+      /* ================================================================
+       THEME SWITCHER
+    ================================================================ */
+      .theme-switcher {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 6px;
+        margin-bottom: 20px;
+        justify-content: center;
+        background: rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(12px);
+        padding: 6px;
+        border-radius: 50px;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        position: relative;
+        z-index: 200;
+      }
+      .theme-switcher__btn {
+        padding: 7px 14px;
+        border-radius: 50px;
+        border: none;
+        cursor: pointer;
+        font-size: 0.72rem;
+        font-weight: 700;
+        font-family: "DM Sans", sans-serif;
+        letter-spacing: 0.05em;
+        text-transform: uppercase;
+        background: transparent;
+        color: rgba(255, 255, 255, 0.6);
+        transition: all 0.2s ease;
+      }
+      .theme-switcher__btn--active {
+        background: white;
+        color: #111;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+      }
+
+      /* ================================================================
+       AURORA THEME
+       Behavior: SCROLL — todas las secciones visibles en vertical
+       Nav = anchor links que hacen scroll suave a cada sección
+    ================================================================ */
+      [data-theme="aurora"] {
+        --page-bg: #0e0b1a;
+        --font-display: "Fraunces", Georgia, serif;
+        --font-body: "Josefin Sans", sans-serif;
+      }
+
+      .card--aurora {
+        display: none;
+        width: 100%;
+        max-width: 400px;
+        background: transparent;
+        border-radius: 28px;
+        overflow: hidden;
+        position: relative;
+      }
+      [data-theme="aurora"] .card--aurora {
+        display: block;
+      }
+
+      /* mesh gradient background */
+      .aurora__bg {
+        position: absolute;
+        inset: 0;
+        background:
+          radial-gradient(
+            ellipse 80% 60% at 20% 10%,
+            rgba(168, 85, 247, 0.35) 0%,
+            transparent 60%
+          ),
+          radial-gradient(
+            ellipse 70% 50% at 80% 30%,
+            rgba(59, 130, 246, 0.3) 0%,
+            transparent 55%
+          ),
+          radial-gradient(
+            ellipse 60% 70% at 50% 80%,
+            rgba(236, 72, 153, 0.25) 0%,
+            transparent 60%
+          ),
+          radial-gradient(
+            ellipse 90% 90% at 50% 50%,
+            rgba(15, 12, 30, 1) 0%,
+            rgba(15, 12, 30, 0.9) 100%
+          );
+        z-index: 0;
+      }
+      /* noise texture overlay */
+      .aurora__bg::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+        opacity: 0.4;
+      }
+
+      .aurora__inner {
+        position: relative;
+        z-index: 1;
+        padding: 0 0 32px;
+      }
+
+      /* hero area — no cover image, just identity */
+      .aurora__hero {
+        padding: 40px 28px 28px;
+        text-align: center;
+        position: relative;
+      }
+      .aurora__avatar {
+        width: 90px;
+        height: 90px;
+        border-radius: 50%;
+        object-fit: cover;
+        border: 2px solid rgba(168, 85, 247, 0.6);
+        box-shadow:
+          0 0 0 6px rgba(168, 85, 247, 0.1),
+          0 0 30px rgba(168, 85, 247, 0.3);
+        margin-bottom: 20px;
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+      }
+      .aurora__name {
+        font-family: "Fraunces", Georgia, serif;
+        font-size: 3rem;
+        font-weight: 700;
+        color: #ffffff;
+        line-height: 0.95;
+        letter-spacing: -0.03em;
+        margin-bottom: 10px;
+      }
+      .aurora__name em {
+        font-style: italic;
+        background: linear-gradient(135deg, #c084fc, #818cf8, #f472b6);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+      .aurora__title {
+        font-size: 0.68rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.22em;
+        color: rgba(196, 132, 252, 0.8);
+        margin-bottom: 6px;
+      }
+      .aurora__org {
+        font-size: 0.8rem;
+        color: rgba(255, 255, 255, 0.35);
+        letter-spacing: 0.06em;
+      }
+
+      /* social icons row — always visible */
+      .aurora__socials {
+        display: flex;
+        justify-content: center;
+        gap: 10px;
+        padding: 20px 28px;
+        border-top: 1px solid rgba(255, 255, 255, 0.07);
+        border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+      }
+      .aurora__social-icon {
+        width: 38px;
+        height: 38px;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.07);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-decoration: none;
+        transition:
+          background 0.2s,
+          transform 0.2s;
+      }
+      .aurora__social-icon:hover {
+        background: rgba(168, 85, 247, 0.25);
+        transform: translateY(-2px);
+      }
+      .aurora__social-icon img {
+        width: 18px;
+        height: 18px;
+        filter: brightness(0) invert(1);
+      }
+      .aurora__social-icon svg {
+        width: 16px;
+        height: 16px;
+        stroke: rgba(255, 255, 255, 0.7);
+        fill: none;
+        stroke-width: 1.8;
+      }
+
+      /* scroll nav */
+      .aurora__nav {
+        display: flex;
+        padding: 16px 28px;
+        gap: 8px;
+      }
+      .aurora__nav-link {
+        flex: 1;
+        padding: 10px 6px;
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        border-radius: 12px;
+        text-align: center;
+        text-decoration: none;
+        font-size: 0.68rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        color: rgba(255, 255, 255, 0.5);
+        transition: all 0.2s;
+      }
+      .aurora__nav-link:hover {
+        background: rgba(168, 85, 247, 0.2);
+        border-color: rgba(168, 85, 247, 0.4);
+        color: #c084fc;
+      }
+
+      /* scroll sections */
+      .aurora__sections {
+        display: flex;
+        flex-direction: column;
+        gap: 0;
+      }
+      .aurora__section {
+        padding: 24px 28px;
+        border-top: 1px solid rgba(255, 255, 255, 0.06);
+      }
+      .aurora__section-label {
+        font-size: 0.62rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.2em;
+        color: rgba(196, 132, 252, 0.6);
+        margin-bottom: 14px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+      .aurora__section-label::after {
+        content: "";
+        flex: 1;
+        height: 1px;
+        background: rgba(255, 255, 255, 0.06);
+      }
+
+      /* aurora action btns */
+      .aurora__btn {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 12px 16px;
+        border-radius: 14px;
+        margin-bottom: 8px;
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        text-decoration: none;
+        cursor: pointer;
+        font-family: "Josefin Sans", sans-serif;
+        font-size: 0.82rem;
+        color: rgba(255, 255, 255, 0.8);
+        transition: all 0.2s;
+        width: 100%;
+        text-align: left;
+      }
+      .aurora__btn:hover {
+        background: rgba(168, 85, 247, 0.15);
+        border-color: rgba(168, 85, 247, 0.3);
+      }
+      .aurora__btn--cta {
+        background: linear-gradient(
+          135deg,
+          rgba(168, 85, 247, 0.4),
+          rgba(99, 102, 241, 0.4)
+        );
+        border-color: rgba(168, 85, 247, 0.5);
+        color: #ffffff;
+      }
+      .aurora__btn--cta:hover {
+        background: linear-gradient(
+          135deg,
+          rgba(168, 85, 247, 0.6),
+          rgba(99, 102, 241, 0.6)
+        );
+      }
+      .aurora__btn svg {
+        width: 18px;
+        height: 18px;
+        stroke: rgba(196, 132, 252, 0.8);
+        fill: none;
+        stroke-width: 1.8;
+        flex-shrink: 0;
+      }
+      .aurora__btn img {
+        width: 20px;
+        height: 20px;
+        filter: brightness(0) invert(1);
+        flex-shrink: 0;
+      }
+      .aurora__btn--cta svg {
+        stroke: white;
+      }
+
+      /* company card aurora */
+      .aurora__company {
+        display: flex;
+        gap: 12px;
+        align-items: center;
+        padding: 14px;
+        background: rgba(255, 255, 255, 0.04);
+        border: 1px solid rgba(255, 255, 255, 0.07);
+        border-radius: 14px;
+        margin-bottom: 14px;
+      }
+      .aurora__company img {
+        width: 44px;
+        height: 44px;
+        border-radius: 10px;
+      }
+      .aurora__company-name {
+        font-family: "Fraunces", serif;
+        font-size: 1rem;
+        font-weight: 700;
+        color: #fff;
+      }
+      .aurora__company-tag {
+        font-size: 0.7rem;
+        color: rgba(196, 132, 252, 0.7);
+        letter-spacing: 0.06em;
+      }
+
+      .aurora__video {
+        border-radius: 14px;
+        overflow: hidden;
+        position: relative;
+        cursor: pointer;
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        margin-bottom: 14px;
+      }
+      .aurora__video img {
+        width: 100%;
+        height: 160px;
+        object-fit: cover;
+        display: block;
+        filter: brightness(0.75) saturate(0.8);
+      }
+      .aurora__video-play {
+        position: absolute;
+        inset: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: rgba(0, 0, 0, 0.25);
+      }
+      .aurora__video-play svg {
+        width: 44px;
+        height: 44px;
+        fill: white;
+        opacity: 0.9;
+      }
+
+      .aurora__location {
+        border-radius: 14px;
+        overflow: hidden;
+        border: 1px solid rgba(255, 255, 255, 0.07);
+        text-decoration: none;
+        display: block;
+      }
+      .aurora__location img {
+        width: 100%;
+        height: 80px;
+        object-fit: cover;
+        filter: brightness(0.6) saturate(0.5);
+        display: block;
+      }
+      .aurora__location-label {
+        padding: 8px 12px;
+        background: rgba(255, 255, 255, 0.04);
+        font-size: 0.75rem;
+        color: rgba(255, 255, 255, 0.45);
+        display: flex;
+        align-items: center;
+        gap: 6px;
+      }
+      .aurora__location-label svg {
+        width: 12px;
+        height: 12px;
+        stroke: #c084fc;
+        fill: none;
+        stroke-width: 2;
+      }
+
+      /* ================================================================
+       BRUTAL THEME
+       Behavior: TABS que muestran/ocultan
+       Layout: Swiss grotesque, asimétrico, bold
+    ================================================================ */
+      [data-theme="brutal"] {
+        --page-bg: #f0ec e2;
+      }
+
+      .card--brutal {
+        display: none;
+        width: 100%;
+        max-width: 420px;
+        background: #f0ece2;
+        font-family: "Space Mono", monospace;
+      }
+      [data-theme="brutal"] .card--brutal {
+        display: block;
+      }
+
+      /* HERO: cover full bleed, name overlapping bottom */
+      .brutal__hero {
+        position: relative;
+        height: 220px;
+        overflow: visible;
+      }
+      .brutal__cover {
+        width: 100%;
+        height: 220px;
+        object-fit: cover;
+        display: block;
+        filter: grayscale(1) contrast(1.1);
+      }
+      /* black overlay bottom half */
+      .brutal__hero::after {
+        content: "";
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        height: 60%;
+        background: linear-gradient(to bottom, transparent, #111111);
+      }
+
+      /* name as big slab sticking out */
+      .brutal__identity {
+        position: relative;
+        background: #111111;
+        padding: 0 20px 20px;
+        z-index: 2;
+      }
+      .brutal__avatar-row {
+        display: flex;
+        align-items: flex-end;
+        gap: 16px;
+        margin-top: -30px;
+        margin-bottom: 12px;
+      }
+      .brutal__avatar {
+        width: 64px;
+        height: 64px;
+        object-fit: cover;
+        border-radius: 0;
+        border: 3px solid #f0ece2;
+        filter: grayscale(1);
+        flex-shrink: 0;
+      }
+      .brutal__label-stack {
+        padding-bottom: 4px;
+      }
+      .brutal__role {
+        font-family: "Space Mono", monospace;
+        font-size: 0.6rem;
+        color: #888;
+        letter-spacing: 0.15em;
+        text-transform: uppercase;
+        margin-bottom: 2px;
+      }
+      .brutal__name {
+        font-family: "Bebas Neue", sans-serif;
+        font-size: 2.4rem;
+        color: #f0ece2;
+        letter-spacing: 0.02em;
+        line-height: 1;
+      }
+      .brutal__org {
+        font-size: 0.65rem;
+        color: #555;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+      }
+
+      /* TAG strip */
+      .brutal__tags {
+        display: flex;
+        gap: 6px;
+        padding: 12px 20px;
+        background: #111;
+        overflow-x: auto;
+      }
+      .brutal__tag {
+        padding: 4px 10px;
+        background: transparent;
+        border: 1px solid rgba(240, 236, 226, 0.2);
+        font-family: "Space Mono", monospace;
+        font-size: 0.6rem;
+        color: rgba(240, 236, 226, 0.5);
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        white-space: nowrap;
+      }
+
+      /* NAV: big block buttons */
+      .brutal__nav {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+        border-top: 3px solid #111;
+      }
+      .brutal__nav-item {
+        padding: 14px 8px;
+        background: #f0ece2;
+        border: none;
+        border-right: 2px solid #111;
+        cursor: pointer;
+        font-family: "Space Mono", monospace;
+        font-size: 0.6rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        color: #777;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 5px;
+        transition:
+          background 0.15s,
+          color 0.15s;
+      }
+      .brutal__nav-item:last-child {
+        border-right: none;
+      }
+      .brutal__nav-item svg {
+        width: 16px;
+        height: 16px;
+        stroke: currentColor;
+        fill: none;
+        stroke-width: 2;
+      }
+      .brutal__nav-item--active {
+        background: #111;
+        color: #f0ece2;
+      }
+      .brutal__nav-counter {
+        font-size: 0.5rem;
+        color: #ff3b30;
+        font-family: "Space Mono", monospace;
+      }
+      .brutal__nav-item--active .brutal__nav-counter {
+        color: #ff6b6b;
+      }
+
+      /* BODY */
+      .brutal__body {
+        background: #f0ece2;
+      }
+      .brutal__tab {
+        display: none;
+      }
+      .brutal__tab--active {
+        display: block;
+      }
+
+      /* contact tab */
+      .brutal__contact {
+        padding: 20px;
+        display: flex;
+        flex-direction: column;
+        gap: 0;
+      }
+      .brutal__action {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        padding: 16px 0;
+        border-bottom: 1px solid rgba(17, 17, 17, 0.12);
+        text-decoration: none;
+        cursor: pointer;
+        background: transparent;
+        border-top: none;
+        border-left: none;
+        border-right: none;
+        font-family: "Space Mono", monospace;
+        width: 100%;
+        text-align: left;
+        transition: padding-left 0.2s;
+      }
+      .brutal__action:hover {
+        padding-left: 6px;
+      }
+      .brutal__action:first-child {
+        padding-top: 0;
+      }
+      .brutal__action-icon {
+        width: 32px;
+        height: 32px;
+        background: #111;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+      }
+      .brutal__action-icon svg {
+        width: 14px;
+        height: 14px;
+        stroke: #f0ece2;
+        fill: none;
+        stroke-width: 2;
+      }
+      .brutal__action-icon img {
+        width: 16px;
+        height: 16px;
+        filter: brightness(0) invert(1);
+      }
+      .brutal__action-icon--cta {
+        background: #ff3b30;
+      }
+      .brutal__action-label {
+        font-size: 0.75rem;
+        font-weight: 700;
+        color: #111;
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+      }
+      .brutal__action-sub {
+        font-size: 0.6rem;
+        color: #888;
+        margin-top: 1px;
+        letter-spacing: 0.04em;
+      }
+      .brutal__action-arrow {
+        margin-left: auto;
+        font-size: 0.9rem;
+        color: #bbb;
+      }
+
+      /* empresa tab */
+      .brutal__empresa {
+        padding: 20px;
+      }
+      .brutal__section-head {
+        font-family: "Bebas Neue", sans-serif;
+        font-size: 1.6rem;
+        color: #111;
+        letter-spacing: 0.03em;
+        border-bottom: 3px solid #111;
+        padding-bottom: 6px;
+        margin-bottom: 16px;
+      }
+      .brutal__service-card {
+        border: 2px solid #111;
+        margin-bottom: 14px;
+      }
+      .brutal__service-img {
+        width: 100%;
+        height: 100px;
+        object-fit: cover;
+        filter: grayscale(0.5);
+        display: block;
+      }
+      .brutal__service-body {
+        padding: 12px;
+      }
+      .brutal__service-name {
+        font-family: "Bebas Neue", sans-serif;
+        font-size: 1.2rem;
+        color: #111;
+        letter-spacing: 0.02em;
+      }
+      .brutal__service-desc {
+        font-size: 0.65rem;
+        color: #666;
+        margin-top: 4px;
+        line-height: 1.5;
+        letter-spacing: 0.03em;
+      }
+      .brutal__service-footer {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-top: 10px;
+      }
+      .brutal__service-price {
+        font-size: 0.8rem;
+        font-weight: 700;
+        color: #ff3b30;
+      }
+      .brutal__service-cta {
+        padding: 6px 14px;
+        background: #111;
+        color: #f0ece2;
+        font-family: "Space Mono", monospace;
+        font-size: 0.6rem;
+        text-decoration: none;
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+      }
+      .brutal__location-block {
+        border: 2px solid #111;
+        text-decoration: none;
+        display: block;
+      }
+      .brutal__location-img {
+        width: 100%;
+        height: 80px;
+        object-fit: cover;
+        filter: grayscale(1);
+        display: block;
+      }
+      .brutal__location-label {
+        padding: 8px 12px;
+        background: #111;
+        color: #f0ece2;
+        font-size: 0.62rem;
+        font-family: "Space Mono", monospace;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        letter-spacing: 0.06em;
+      }
+      .brutal__location-label svg {
+        width: 12px;
+        height: 12px;
+        stroke: #ff3b30;
+        fill: none;
+        stroke-width: 2;
+      }
+
+      /* redes tab */
+      .brutal__redes {
+        padding: 20px;
+      }
+      .brutal__social-row {
+        display: flex;
+        align-items: center;
+        padding: 14px 0;
+        border-bottom: 1px solid rgba(17, 17, 17, 0.1);
+        text-decoration: none;
+        gap: 12px;
+      }
+      .brutal__social-num {
+        font-family: "Bebas Neue", sans-serif;
+        font-size: 1.6rem;
+        color: rgba(17, 17, 17, 0.12);
+        width: 32px;
+        text-align: right;
+        line-height: 1;
+      }
+      .brutal__social-icon {
+        width: 28px;
+        height: 28px;
+      }
+      .brutal__social-name {
+        font-size: 0.65rem;
+        font-weight: 700;
+        color: #111;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+      }
+      .brutal__social-handle {
+        font-size: 0.6rem;
+        color: #888;
+      }
+      .brutal__social-arrow {
+        margin-left: auto;
+        color: #ccc;
+        font-size: 0.8rem;
+      }
+
+      /* ================================================================
+       OBSIDIANA THEME
+       Behavior: TABS normales ocultar/mostrar
+       Layout: glass cards, nav lateral flotante, avatar grande
+    ================================================================ */
+      [data-theme="obsidiana"] {
+        --page-bg: #090b10;
+      }
+
+      .card--obsidiana {
+        display: none;
+        width: 100%;
+        max-width: 400px;
+        border-radius: 24px;
+        overflow: hidden;
+        position: relative;
+        background: rgba(255, 255, 255, 0.04);
+        backdrop-filter: blur(20px);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        box-shadow:
+          0 24px 80px rgba(0, 0, 0, 0.6),
+          inset 0 1px 0 rgba(255, 255, 255, 0.1);
+      }
+      [data-theme="obsidiana"] .card--obsidiana {
+        display: block;
+      }
+
+      /* background */
+      [data-theme="obsidiana"] body::before {
+        content: "";
+        position: fixed;
+        inset: 0;
+        z-index: 0;
+        background:
+          radial-gradient(
+            ellipse 60% 50% at 30% 20%,
+            rgba(14, 165, 233, 0.15) 0%,
+            transparent 60%
+          ),
+          radial-gradient(
+            ellipse 50% 60% at 70% 70%,
+            rgba(20, 184, 166, 0.1) 0%,
+            transparent 60%
+          ),
+          #090b10;
+        pointer-events: none;
+      }
+      [data-theme="obsidiana"] .card--obsidiana,
+      [data-theme="obsidiana"] .theme-switcher {
+        position: relative;
+        z-index: 1;
+      }
+
+      /* cover */
+      .obs__cover-wrap {
+        position: relative;
+        height: 180px;
+      }
+      .obs__cover {
+        width: 100%;
+        height: 180px;
+        object-fit: cover;
+        display: block;
+        opacity: 0.5;
+        filter: saturate(0.4);
+      }
+      .obs__cover-gradient {
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(
+          to bottom,
+          rgba(9, 11, 16, 0) 20%,
+          rgba(9, 11, 16, 0.95) 100%
+        );
+      }
+
+      /* floating avatar */
+      .obs__avatar-wrap {
+        position: absolute;
+        bottom: -30px;
+        left: 24px;
+        z-index: 5;
+      }
+      .obs__avatar {
+        width: 72px;
+        height: 72px;
+        border-radius: 16px;
+        object-fit: cover;
+        border: 2px solid rgba(14, 165, 233, 0.5);
+        box-shadow:
+          0 8px 24px rgba(0, 0, 0, 0.5),
+          0 0 0 4px rgba(14, 165, 233, 0.08);
+      }
+
+      /* identity row */
+      .obs__identity {
+        padding: 40px 24px 20px;
+      }
+      .obs__name {
+        font-family: "Syne", sans-serif;
+        font-size: 1.6rem;
+        font-weight: 800;
+        color: rgba(255, 255, 255, 0.95);
+        letter-spacing: -0.02em;
+        line-height: 1.1;
+      }
+      .obs__name span {
+        color: #38bdf8;
+      }
+      .obs__role {
+        font-family: "DM Sans", sans-serif;
+        font-size: 0.7rem;
+        font-weight: 400;
+        color: rgba(255, 255, 255, 0.35);
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        margin-top: 4px;
+      }
+      .obs__bio {
+        font-family: "DM Sans", sans-serif;
+        font-size: 0.78rem;
+        color: rgba(255, 255, 255, 0.45);
+        margin-top: 10px;
+        line-height: 1.6;
+      }
+
+      /* stat pills */
+      .obs__stats {
+        display: flex;
+        gap: 8px;
+        padding: 0 24px 20px;
+      }
+      .obs__stat {
+        flex: 1;
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid rgba(255, 255, 255, 0.07);
+        border-radius: 12px;
+        padding: 10px 8px;
+        text-align: center;
+      }
+      .obs__stat-num {
+        font-family: "Syne", sans-serif;
+        font-size: 1.1rem;
+        font-weight: 800;
+        color: #38bdf8;
+      }
+      .obs__stat-label {
+        font-size: 0.58rem;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        color: rgba(255, 255, 255, 0.3);
+        margin-top: 2px;
+      }
+
+      /* NAV: pill tabs */
+      .obs__nav {
+        display: flex;
+        gap: 6px;
+        padding: 0 24px 16px;
+      }
+      .obs__nav-item {
+        flex: 1;
+        padding: 9px 6px;
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid rgba(255, 255, 255, 0.07);
+        border-radius: 10px;
+        cursor: pointer;
+        font-family: "DM Sans", sans-serif;
+        font-size: 0.65rem;
+        font-weight: 500;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        color: rgba(255, 255, 255, 0.35);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 4px;
+        transition: all 0.2s;
+      }
+      .obs__nav-item svg {
+        width: 16px;
+        height: 16px;
+        stroke: currentColor;
+        fill: none;
+        stroke-width: 1.8;
+      }
+      .obs__nav-item--active {
+        background: rgba(14, 165, 233, 0.2);
+        border-color: rgba(14, 165, 233, 0.4);
+        color: #38bdf8;
+      }
+
+      /* BODY */
+      .obs__body {
+        padding: 0 24px 24px;
+      }
+      .obs__tab {
+        display: none;
+      }
+      .obs__tab--active {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+      }
+
+      /* glass action btns */
+      .obs__btn {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 13px 16px;
+        background: rgba(255, 255, 255, 0.04);
+        border: 1px solid rgba(255, 255, 255, 0.07);
+        border-radius: 14px;
+        text-decoration: none;
+        cursor: pointer;
+        font-family: "DM Sans", sans-serif;
+        font-size: 0.83rem;
+        font-weight: 400;
+        color: rgba(255, 255, 255, 0.75);
+        transition: all 0.2s;
+        width: 100%;
+        text-align: left;
+      }
+      .obs__btn:hover {
+        background: rgba(14, 165, 233, 0.12);
+        border-color: rgba(14, 165, 233, 0.3);
+      }
+      .obs__btn--cta {
+        background: rgba(14, 165, 233, 0.2);
+        border-color: rgba(14, 165, 233, 0.4);
+        color: #7dd3fc;
+      }
+      .obs__btn svg {
+        width: 18px;
+        height: 18px;
+        stroke: rgba(56, 189, 248, 0.7);
+        fill: none;
+        stroke-width: 1.6;
+        flex-shrink: 0;
+      }
+      .obs__btn img {
+        width: 20px;
+        height: 20px;
+        flex-shrink: 0;
+        filter: brightness(0) invert(0.7);
+      }
+      .obs__btn--cta svg {
+        stroke: #38bdf8;
+      }
+
+      /* company glass */
+      .obs__company {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 14px;
+        background: rgba(255, 255, 255, 0.04);
+        border: 1px solid rgba(255, 255, 255, 0.07);
+        border-radius: 14px;
+      }
+      .obs__company img {
+        width: 44px;
+        height: 44px;
+        border-radius: 10px;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+      }
+      .obs__company-name {
+        font-family: "Syne", sans-serif;
+        font-size: 0.95rem;
+        font-weight: 700;
+        color: rgba(255, 255, 255, 0.85);
+      }
+      .obs__company-tag {
+        font-size: 0.68rem;
+        color: rgba(56, 189, 248, 0.6);
+        letter-spacing: 0.04em;
+        margin-top: 2px;
+      }
+
+      .obs__video {
+        border-radius: 14px;
+        overflow: hidden;
+        position: relative;
+        cursor: pointer;
+        border: 1px solid rgba(255, 255, 255, 0.07);
+      }
+      .obs__video img {
+        width: 100%;
+        height: 150px;
+        object-fit: cover;
+        display: block;
+        filter: brightness(0.6) saturate(0.7);
+      }
+      .obs__video-play {
+        position: absolute;
+        inset: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: rgba(0, 0, 0, 0.2);
+      }
+      .obs__video-play svg {
+        width: 44px;
+        height: 44px;
+        fill: white;
+        opacity: 0.85;
+        filter: drop-shadow(0 0 12px rgba(14, 165, 233, 0.6));
+      }
+
+      .obs__service {
+        background: rgba(255, 255, 255, 0.03);
+        border: 1px solid rgba(255, 255, 255, 0.07);
+        border-radius: 14px;
+        overflow: hidden;
+      }
+      .obs__service img {
+        width: 100%;
+        height: 110px;
+        object-fit: cover;
+        filter: brightness(0.7) saturate(0.6);
+        display: block;
+      }
+      .obs__service-body {
+        padding: 12px;
+      }
+      .obs__service-name {
+        font-family: "Syne", sans-serif;
+        font-size: 0.95rem;
+        font-weight: 700;
+        color: rgba(255, 255, 255, 0.85);
+      }
+      .obs__service-desc {
+        font-size: 0.72rem;
+        color: rgba(255, 255, 255, 0.4);
+        margin-top: 4px;
+        line-height: 1.5;
+      }
+      .obs__service-footer {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-top: 10px;
+      }
+      .obs__service-price {
+        font-size: 0.82rem;
+        font-weight: 700;
+        color: #38bdf8;
+      }
+      .obs__service-cta {
+        padding: 6px 14px;
+        background: rgba(14, 165, 233, 0.2);
+        color: #7dd3fc;
+        border: 1px solid rgba(14, 165, 233, 0.3);
+        border-radius: 8px;
+        font-size: 0.65rem;
+        font-weight: 600;
+        text-decoration: none;
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+      }
+
+      .obs__location {
+        border-radius: 14px;
+        overflow: hidden;
+        border: 1px solid rgba(255, 255, 255, 0.07);
+        text-decoration: none;
+        display: block;
+      }
+      .obs__location img {
+        width: 100%;
+        height: 80px;
+        object-fit: cover;
+        filter: brightness(0.5) saturate(0.4);
+        display: block;
+      }
+      .obs__location-label {
+        padding: 8px 12px;
+        background: rgba(255, 255, 255, 0.04);
+        font-size: 0.72rem;
+        color: rgba(255, 255, 255, 0.4);
+        display: flex;
+        align-items: center;
+        gap: 6px;
+      }
+      .obs__location-label svg {
+        width: 12px;
+        height: 12px;
+        stroke: #38bdf8;
+        fill: none;
+        stroke-width: 2;
+      }
+
+      /* social glass */
+      .obs__social {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 13px 14px;
+        background: rgba(255, 255, 255, 0.04);
+        border: 1px solid rgba(255, 255, 255, 0.07);
+        border-radius: 14px;
+        text-decoration: none;
+        transition: all 0.2s;
+      }
+      .obs__social:hover {
+        background: rgba(14, 165, 233, 0.1);
+        border-color: rgba(14, 165, 233, 0.25);
+      }
+      .obs__social img {
+        width: 26px;
+        height: 26px;
+        border-radius: 6px;
+        filter: brightness(0.9);
+      }
+      .obs__social-name {
+        font-size: 0.68rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        color: #38bdf8;
+      }
+      .obs__social-handle {
+        font-size: 0.78rem;
+        color: rgba(255, 255, 255, 0.5);
+      }
+      .obs__social-info {
+        flex: 1;
+      }
+      .obs__social-arrow {
+        color: rgba(255, 255, 255, 0.2);
+        font-size: 0.8rem;
+      }
+
+      /* ================================================================
+       TROPICO (unchanged)
+    ================================================================ */
+      [data-theme="tropico"] {
+        --page-bg: #0d2b1f;
+      }
+      .card--tropico {
+        display: none;
+        width: 100%;
+        max-width: 420px;
+        background: #0f3326;
+        border-radius: 20px;
+        overflow: hidden;
+        font-family: "Josefin Sans", sans-serif;
+        border-top: 3px solid #f4d03f;
+        box-shadow:
+          0 0 0 1px rgba(244, 208, 63, 0.1),
+          0 24px 64px rgba(0, 0, 0, 0.5);
+      }
+      [data-theme="tropico"] .card--tropico {
+        display: block;
+      }
+
+      .trop__media {
+        position: relative;
+        height: 165px;
+      }
+      .trop__cover {
+        width: 100%;
+        height: 165px;
+        object-fit: cover;
+        filter: saturate(1.2);
+        display: block;
+      }
+      .trop__media::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(
+          to bottom,
+          rgba(13, 43, 31, 0.2),
+          rgba(13, 43, 31, 0.7)
+        );
+      }
+      .trop__avatar {
+        position: absolute;
+        bottom: -43px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 86px;
+        height: 86px;
+        border-radius: 50%;
+        border: 3px solid #f4d03f;
+        object-fit: cover;
+        z-index: 2;
+      }
+
+      .trop__profile {
+        margin-top: 55px;
+        padding: 0 24px 20px;
+        text-align: center;
+      }
+      .trop__name {
+        font-family: "Syne", sans-serif;
+        font-size: 1.9rem;
+        font-weight: 800;
+        text-transform: uppercase;
+        background: linear-gradient(135deg, #f4d03f, #e8a020);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        letter-spacing: -0.02em;
+      }
+      .trop__role {
+        font-size: 0.68rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.2em;
+        color: #f4d03f;
+        margin-top: 4px;
+      }
+      .trop__org {
+        font-size: 0.78rem;
+        color: #8fb89e;
+        margin-top: 2px;
+      }
+      .trop__chips {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 6px;
+        margin-top: 12px;
+      }
+      .trop__chip {
+        padding: 3px 10px;
+        border-radius: 50px;
+        font-size: 0.7rem;
+        font-weight: 600;
+        background: rgba(244, 208, 63, 0.12);
+        border: 1px solid rgba(244, 208, 63, 0.3);
+        color: #f4d03f;
+        letter-spacing: 0.04em;
+      }
+
+      .trop__nav {
+        display: flex;
+        background: rgba(10, 30, 20, 0.95);
+        border-top: 1px solid rgba(244, 208, 63, 0.2);
+        border-bottom: 1px solid rgba(244, 208, 63, 0.2);
+        position: sticky;
+        top: 0;
+        z-index: 10;
+        backdrop-filter: blur(12px);
+      }
+      .trop__nav-item {
+        flex: 1;
+        padding: 13px 4px 10px;
+        background: none;
+        border: none;
+        cursor: pointer;
+        font-family: "Josefin Sans", sans-serif;
+        font-size: 0.68rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        color: #8fb89e;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 4px;
+        border-bottom: 2px solid transparent;
+        transition:
+          color 0.2s,
+          border-color 0.2s;
+      }
+      .trop__nav-item svg {
+        width: 17px;
+        height: 17px;
+        stroke: currentColor;
+        fill: none;
+        stroke-width: 1.8;
+      }
+      .trop__nav-item--active {
+        color: #f4d03f;
+        border-bottom-color: #f4d03f;
+      }
+
+      .trop__body {
+        min-height: 240px;
+      }
+      .trop__tab {
+        display: none;
+        padding: 20px;
+        animation: fadeIn 0.2s ease;
+      }
+      .trop__tab--active {
+        display: block;
+      }
+
+      .trop__btn {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 13px 16px;
+        border-radius: 12px;
+        border: 1px solid rgba(244, 208, 63, 0.2);
+        background: #1a4535;
+        text-decoration: none;
+        cursor: pointer;
+        font-family: "Josefin Sans", sans-serif;
+        font-size: 0.82rem;
+        font-weight: 400;
+        color: #f0ede5;
+        margin-bottom: 8px;
+        transition: border-color 0.2s;
+        width: 100%;
+        text-align: left;
+      }
+      .trop__btn:hover {
+        border-color: rgba(244, 208, 63, 0.5);
+      }
+      .trop__btn--cta {
+        background: linear-gradient(
+          135deg,
+          rgba(244, 208, 63, 0.25),
+          rgba(232, 160, 32, 0.25)
+        );
+        border-color: rgba(244, 208, 63, 0.5);
+        font-weight: 700;
+        text-transform: uppercase;
+        font-size: 0.75rem;
+        letter-spacing: 0.08em;
+        color: #f4d03f;
+      }
+      .trop__btn svg {
+        width: 18px;
+        height: 18px;
+        stroke: #f4d03f;
+        fill: none;
+        stroke-width: 1.8;
+        flex-shrink: 0;
+      }
+      .trop__btn img {
+        width: 20px;
+        height: 20px;
+        flex-shrink: 0;
+      }
+      .trop__company {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 14px;
+        background: #1a4535;
+        border: 1px solid rgba(244, 208, 63, 0.15);
+        border-radius: 12px;
+        margin-bottom: 14px;
+      }
+      .trop__company img.logo {
+        width: 44px;
+        height: 44px;
+        border-radius: 10px;
+      }
+      .trop__company-name {
+        font-family: "Syne", sans-serif;
+        font-size: 1rem;
+        font-weight: 700;
+        color: #f0ede5;
+      }
+      .trop__company-tag {
+        font-size: 0.7rem;
+        color: #8fb89e;
+        font-style: italic;
+      }
+      .trop__video {
+        border-radius: 12px;
+        overflow: hidden;
+        position: relative;
+        cursor: pointer;
+        border: 1px solid rgba(244, 208, 63, 0.15);
+        margin-bottom: 14px;
+      }
+      .trop__video img {
+        width: 100%;
+        height: 160px;
+        object-fit: cover;
+        display: block;
+      }
+      .trop__video-play {
+        position: absolute;
+        inset: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: rgba(0, 0, 0, 0.3);
+      }
+      .trop__video-play svg {
+        width: 44px;
+        height: 44px;
+        fill: #f4d03f;
+        opacity: 0.9;
+        filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.5));
+      }
+      .trop__service {
+        border-radius: 12px;
+        overflow: hidden;
+        border: 1px solid rgba(244, 208, 63, 0.15);
+        background: #1a4535;
+        margin-bottom: 14px;
+      }
+      .trop__service img {
+        width: 100%;
+        height: 120px;
+        object-fit: cover;
+        display: block;
+      }
+      .trop__service-body {
+        padding: 12px;
+      }
+      .trop__service-name {
+        font-family: "Syne", sans-serif;
+        font-size: 1rem;
+        font-weight: 700;
+        color: #f0ede5;
+      }
+      .trop__service-desc {
+        font-size: 0.75rem;
+        color: #8fb89e;
+        margin-top: 4px;
+        line-height: 1.5;
+      }
+      .trop__service-footer {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-top: 10px;
+      }
+      .trop__service-price {
+        font-size: 0.85rem;
+        font-weight: 700;
+        color: #f4d03f;
+      }
+      .trop__service-cta {
+        padding: 6px 14px;
+        background: #f4d03f;
+        color: #0d2b1f;
+        border-radius: 12px;
+        font-size: 0.7rem;
+        font-weight: 700;
+        text-decoration: none;
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+      }
+      .trop__location {
+        border-radius: 12px;
+        overflow: hidden;
+        border: 1px solid rgba(244, 208, 63, 0.15);
+        text-decoration: none;
+        display: block;
+      }
+      .trop__location img {
+        width: 100%;
+        height: 80px;
+        object-fit: cover;
+        display: block;
+      }
+      .trop__location-label {
+        padding: 8px 12px;
+        background: #1a4535;
+        font-size: 0.72rem;
+        color: #8fb89e;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+      }
+      .trop__location-label svg {
+        width: 12px;
+        height: 12px;
+        stroke: #f4d03f;
+        fill: none;
+        stroke-width: 2;
+      }
+      .trop__social {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 13px 14px;
+        border-radius: 12px;
+        border: 1px solid rgba(244, 208, 63, 0.15);
+        background: #1a4535;
+        text-decoration: none;
+        margin-bottom: 8px;
+        transition: border-color 0.15s;
+      }
+      .trop__social:hover {
+        border-color: rgba(244, 208, 63, 0.4);
+      }
+      .trop__social img {
+        width: 24px;
+        height: 24px;
+        border-radius: 6px;
+      }
+      .trop__social-net {
+        font-size: 0.68rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        color: #f4d03f;
+      }
+      .trop__social-handle {
+        font-size: 0.8rem;
+        color: #8fb89e;
+      }
+      .trop__social-info {
+        flex: 1;
+      }
+      .trop__social-arrow {
+        color: rgba(244, 208, 63, 0.3);
+      }
+
+      /* ================================================================
+       ZEN (unchanged)
+    ================================================================ */
+      [data-theme="zen"] {
+        --page-bg: #f7f5f0;
+      }
+      .card--zen {
+        display: none;
+        width: 100%;
+        max-width: 420px;
+        background: #fefcf8;
+        border-radius: 4px;
+        border-left: 2px solid #c0392b;
+        box-shadow:
+          0 1px 0 rgba(28, 24, 17, 0.06),
+          0 12px 40px rgba(28, 24, 17, 0.07);
+        font-family: "Josefin Sans", sans-serif;
+        overflow: hidden;
+      }
+      [data-theme="zen"] .card--zen {
+        display: block;
+      }
+
+      .zen__media {
+        position: relative;
+        height: 155px;
+      }
+      .zen__cover {
+        width: 100%;
+        height: 155px;
+        object-fit: cover;
+        filter: saturate(0.6);
+        display: block;
+      }
+      .zen__avatar {
+        position: absolute;
+        bottom: -42px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 84px;
+        height: 84px;
+        border-radius: 2px;
+        border: 1px solid rgba(28, 24, 17, 0.18);
+        object-fit: cover;
+        z-index: 2;
+      }
+
+      .zen__profile {
+        margin-top: 54px;
+        padding: 0 24px 20px;
+        text-align: center;
+      }
+      .zen__profile::before {
+        content: "一";
+        display: block;
+        font-family: "Noto Serif JP", serif;
+        font-size: 1.5rem;
+        color: rgba(192, 57, 43, 0.15);
+        margin-bottom: -8px;
+      }
+      .zen__name {
+        font-family: "Noto Serif JP", serif;
+        font-size: 1.5rem;
+        font-weight: 300;
+        letter-spacing: 0.12em;
+        color: #1c1811;
+      }
+      .zen__role {
+        font-size: 0.68rem;
+        font-weight: 400;
+        text-transform: uppercase;
+        letter-spacing: 0.2em;
+        color: #c0392b;
+        margin-top: 4px;
+      }
+      .zen__org {
+        font-size: 0.78rem;
+        color: #9a8e7e;
+        margin-top: 2px;
+      }
+      .zen__bio {
+        font-size: 0.76rem;
+        color: #9a8e7e;
+        margin-top: 10px;
+        line-height: 1.7;
+        letter-spacing: 0.04em;
+      }
+
+      .zen__nav {
+        display: flex;
+        background: rgba(254, 252, 248, 0.92);
+        border-top: 1px solid rgba(28, 24, 17, 0.08);
+        border-bottom: 1px solid rgba(28, 24, 17, 0.08);
+        position: sticky;
+        top: 0;
+        z-index: 10;
+        backdrop-filter: blur(12px);
+      }
+      .zen__nav-item {
+        flex: 1;
+        padding: 10px 4px 13px;
+        background: none;
+        border: none;
+        cursor: pointer;
+        font-family: "Josefin Sans", sans-serif;
+        font-size: 0.68rem;
+        font-weight: 400;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        color: #9a8e7e;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 4px;
+        border-top: 2px solid transparent;
+        transition:
+          color 0.2s,
+          border-color 0.2s;
+      }
+      .zen__nav-item svg {
+        width: 16px;
+        height: 16px;
+        stroke: currentColor;
+        fill: none;
+        stroke-width: 1.5;
+      }
+      .zen__nav-item--active {
+        color: #c0392b;
+        border-top-color: #c0392b;
+      }
+
+      .zen__body {
+        min-height: 240px;
+      }
+      .zen__tab {
+        display: none;
+        padding: 24px;
+        animation: fadeIn 0.2s ease;
+      }
+      .zen__tab--active {
+        display: block;
+      }
+
+      .zen__btn {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 13px 0;
+        border-bottom: 1px solid rgba(28, 24, 17, 0.07);
+        text-decoration: none;
+        cursor: pointer;
+        font-family: "Josefin Sans", sans-serif;
+        font-size: 0.8rem;
+        color: #1c1811;
+        background: none;
+        border-top: none;
+        border-left: none;
+        border-right: none;
+        width: 100%;
+        text-align: left;
+        letter-spacing: 0.03em;
+        transition: padding-left 0.2s;
+      }
+      .zen__btn:hover {
+        padding-left: 4px;
+        color: #c0392b;
+      }
+      .zen__btn:first-child {
+        padding-top: 0;
+      }
+      .zen__btn--cta {
+        color: #c0392b;
+        font-weight: 600;
+      }
+      .zen__btn svg {
+        width: 16px;
+        height: 16px;
+        stroke: currentColor;
+        fill: none;
+        stroke-width: 1.5;
+        flex-shrink: 0;
+      }
+      .zen__btn img {
+        width: 18px;
+        height: 18px;
+        flex-shrink: 0;
+        opacity: 0.7;
+      }
+      .zen__btn-label {
+        flex: 1;
+      }
+      .zen__btn-arrow {
+        color: rgba(28, 24, 17, 0.2);
+        font-size: 0.8rem;
+      }
+
+      .zen__company {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        padding: 14px;
+        background: #f2ede5;
+        border-radius: 3px;
+        margin-bottom: 14px;
+        border-left: 2px solid #c0392b;
+      }
+      .zen__company img.logo {
+        width: 40px;
+        height: 40px;
+        border-radius: 3px;
+      }
+      .zen__company-name {
+        font-family: "Noto Serif JP", serif;
+        font-size: 1rem;
+        font-weight: 400;
+        color: #1c1811;
+      }
+      .zen__company-tag {
+        font-size: 0.7rem;
+        color: #9a8e7e;
+        font-style: italic;
+        margin-top: 2px;
+      }
+      .zen__video {
+        overflow: hidden;
+        position: relative;
+        cursor: pointer;
+        border: 1px solid rgba(28, 24, 17, 0.1);
+        margin-bottom: 14px;
+      }
+      .zen__video img {
+        width: 100%;
+        height: 160px;
+        object-fit: cover;
+        display: block;
+        filter: saturate(0.5);
+      }
+      .zen__video-play {
+        position: absolute;
+        inset: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: rgba(0, 0, 0, 0.25);
+      }
+      .zen__video-play svg {
+        width: 44px;
+        height: 44px;
+        fill: white;
+        opacity: 0.8;
+      }
+      .zen__service {
+        border: 1px solid rgba(28, 24, 17, 0.08);
+        background: #f2ede5;
+        margin-bottom: 14px;
+      }
+      .zen__service img {
+        width: 100%;
+        height: 110px;
+        object-fit: cover;
+        filter: saturate(0.5);
+        display: block;
+      }
+      .zen__service-body {
+        padding: 12px;
+      }
+      .zen__service-name {
+        font-family: "Noto Serif JP", serif;
+        font-size: 0.95rem;
+        font-weight: 400;
+        color: #1c1811;
+      }
+      .zen__service-desc {
+        font-size: 0.72rem;
+        color: #9a8e7e;
+        margin-top: 4px;
+        line-height: 1.5;
+      }
+      .zen__service-footer {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-top: 10px;
+      }
+      .zen__service-price {
+        font-size: 0.82rem;
+        font-weight: 600;
+        color: #c0392b;
+      }
+      .zen__service-cta {
+        padding: 5px 12px;
+        background: #c0392b;
+        color: white;
+        font-size: 0.65rem;
+        font-weight: 400;
+        text-decoration: none;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+      }
+      .zen__location {
+        border: 1px solid rgba(28, 24, 17, 0.08);
+        text-decoration: none;
+        display: block;
+      }
+      .zen__location img {
+        width: 100%;
+        height: 80px;
+        object-fit: cover;
+        filter: saturate(0.4);
+        display: block;
+      }
+      .zen__location-label {
+        padding: 8px 12px;
+        background: #f2ede5;
+        font-size: 0.72rem;
+        color: #9a8e7e;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+      }
+      .zen__location-label svg {
+        width: 12px;
+        height: 12px;
+        stroke: #c0392b;
+        fill: none;
+        stroke-width: 2;
+      }
+      .zen__social {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 14px 0;
+        border-bottom: 1px solid rgba(28, 24, 17, 0.07);
+        text-decoration: none;
+        transition: padding-left 0.15s;
+      }
+      .zen__social:hover {
+        padding-left: 4px;
+      }
+      .zen__social:last-child {
+        border-bottom: none;
+      }
+      .zen__social img {
+        width: 22px;
+        height: 22px;
+        border-radius: 4px;
+        opacity: 0.7;
+      }
+      .zen__social-net {
+        font-size: 0.65rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        color: #c0392b;
+      }
+      .zen__social-handle {
+        font-size: 0.78rem;
+        color: #9a8e7e;
+      }
+      .zen__social-info {
+        flex: 1;
+      }
+      .zen__social-arrow {
+        color: rgba(28, 24, 17, 0.15);
+      }
+
+      /* ================================================================
+       DECO (unchanged)
+    ================================================================ */
+      [data-theme="deco"] {
+        --page-bg: #0c0a06;
+      }
+      .card--deco {
+        display: none;
+        width: 100%;
+        max-width: 420px;
+        background: #120f08;
+        border: 1px solid rgba(212, 168, 67, 0.3);
+        position: relative;
+        box-shadow:
+          0 0 0 1px rgba(212, 168, 67, 0.15),
+          0 32px 80px rgba(0, 0, 0, 0.7);
+        font-family: "IBM Plex Mono", monospace;
+        overflow: hidden;
+      }
+      [data-theme="deco"] .card--deco {
+        display: block;
+      }
+      .card--deco::before {
+        content: "";
+        position: absolute;
+        inset: 6px;
+        border: 1px solid rgba(212, 168, 67, 0.12);
+        pointer-events: none;
+        z-index: 1;
+      }
+
+      .deco__media {
+        position: relative;
+        height: 175px;
+      }
+      .deco__cover {
+        width: 100%;
+        height: 175px;
+        object-fit: cover;
+        display: block;
+      }
+      .deco__media::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(
+          to bottom,
+          rgba(12, 10, 6, 0),
+          rgba(12, 10, 6, 0.65)
+        );
+      }
+      .deco__avatar {
+        position: absolute;
+        bottom: -45px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 90px;
+        height: 90px;
+        clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
+        border: none;
+        object-fit: cover;
+        outline: 2px solid #d4a843;
+        outline-offset: 4px;
+        z-index: 2;
+      }
+
+      .deco__profile {
+        margin-top: 58px;
+        padding: 0 28px 20px;
+        text-align: center;
+      }
+      .deco__name {
+        font-family: "Cinzel Decorative", serif;
+        font-size: 1.25rem;
+        font-weight: 700;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: #d4a843;
+      }
+      .deco__role {
+        font-size: 0.65rem;
+        font-weight: 400;
+        text-transform: uppercase;
+        letter-spacing: 0.22em;
+        color: #d4a843;
+        opacity: 0.7;
+        margin-top: 4px;
+      }
+      .deco__org {
+        font-size: 0.75rem;
+        color: #8a7550;
+        margin-top: 3px;
+      }
+      .deco__profile::after {
+        content: "◆ ◇ ◆";
+        display: block;
+        margin-top: 12px;
+        color: rgba(212, 168, 67, 0.35);
+        font-size: 0.55rem;
+        letter-spacing: 0.5em;
+      }
+      .deco__bio {
+        font-size: 0.76rem;
+        color: #8a7550;
+        margin-top: 10px;
+        line-height: 1.6;
+      }
+
+      .deco__nav {
+        display: flex;
+        background: rgba(12, 10, 6, 0.96);
+        border-top: 1px solid rgba(212, 168, 67, 0.2);
+        border-bottom: 1px solid rgba(212, 168, 67, 0.2);
+        position: sticky;
+        top: 0;
+        z-index: 10;
+      }
+      .deco__nav-item {
+        flex: 1;
+        padding: 13px 4px 10px;
+        background: none;
+        border: none;
+        cursor: pointer;
+        font-family: "IBM Plex Mono", monospace;
+        font-size: 0.6rem;
+        font-weight: 400;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        color: #8a7550;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 4px;
+        border-bottom: 1px solid transparent;
+        transition:
+          color 0.2s,
+          border-color 0.2s;
+      }
+      .deco__nav-item svg {
+        width: 17px;
+        height: 17px;
+        stroke: currentColor;
+        fill: none;
+        stroke-width: 1.5;
+      }
+      .deco__nav-item--active {
+        color: #d4a843;
+        border-bottom-color: #d4a843;
+      }
+
+      .deco__body {
+        min-height: 240px;
+      }
+      .deco__tab {
+        display: none;
+        padding: 24px;
+        animation: fadeIn 0.2s ease;
+      }
+      .deco__tab--active {
+        display: block;
+      }
+
+      .deco__btn {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 13px 16px;
+        border: 1px solid rgba(212, 168, 67, 0.2);
+        background: #1c1710;
+        text-decoration: none;
+        cursor: pointer;
+        font-family: "IBM Plex Mono", monospace;
+        font-size: 0.75rem;
+        color: #f5e6c8;
+        margin-bottom: 8px;
+        transition: border-color 0.2s;
+        width: 100%;
+        text-align: left;
+      }
+      .deco__btn:hover {
+        border-color: #d4a843;
+      }
+      .deco__btn--cta {
+        background: rgba(212, 168, 67, 0.1);
+        border-color: rgba(212, 168, 67, 0.4);
+        color: #d4a843;
+        font-weight: 700;
+        letter-spacing: 0.08em;
+      }
+      .deco__btn svg {
+        width: 16px;
+        height: 16px;
+        stroke: #d4a843;
+        fill: none;
+        stroke-width: 1.5;
+        flex-shrink: 0;
+        opacity: 0.8;
+      }
+      .deco__btn img {
+        width: 18px;
+        height: 18px;
+        flex-shrink: 0;
+        filter: brightness(0.7) sepia(1) saturate(3) hue-rotate(10deg);
+      }
+      .deco__btn-label {
+        flex: 1;
+      }
+      .deco__btn-arrow {
+        color: rgba(212, 168, 67, 0.25);
+      }
+
+      .deco__company {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 14px;
+        background: #1c1710;
+        border: 1px solid rgba(212, 168, 67, 0.15);
+        margin-bottom: 14px;
+      }
+      .deco__company img.logo {
+        width: 44px;
+        height: 44px;
+        border: 1px solid rgba(212, 168, 67, 0.2);
+      }
+      .deco__company-name {
+        font-family: "Cinzel Decorative", serif;
+        font-size: 0.85rem;
+        font-weight: 700;
+        color: #d4a843;
+        letter-spacing: 0.06em;
+      }
+      .deco__company-tag {
+        font-size: 0.65rem;
+        color: #8a7550;
+        font-style: italic;
+        margin-top: 3px;
+      }
+      .deco__video {
+        overflow: hidden;
+        position: relative;
+        cursor: pointer;
+        border: 1px solid rgba(212, 168, 67, 0.2);
+        margin-bottom: 14px;
+      }
+      .deco__video img {
+        width: 100%;
+        height: 155px;
+        object-fit: cover;
+        display: block;
+        filter: sepia(0.4) brightness(0.7);
+      }
+      .deco__video-play {
+        position: absolute;
+        inset: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: rgba(0, 0, 0, 0.35);
+      }
+      .deco__video-play svg {
+        width: 44px;
+        height: 44px;
+        fill: #d4a843;
+        opacity: 0.9;
+        filter: drop-shadow(0 2px 12px rgba(212, 168, 67, 0.4));
+      }
+      .deco__service {
+        border: 1px solid rgba(212, 168, 67, 0.15);
+        background: #1c1710;
+        margin-bottom: 14px;
+      }
+      .deco__service img {
+        width: 100%;
+        height: 110px;
+        object-fit: cover;
+        filter: sepia(0.3) brightness(0.8);
+        display: block;
+      }
+      .deco__service-body {
+        padding: 12px;
+      }
+      .deco__service-name {
+        font-family: "Cinzel Decorative", serif;
+        font-size: 0.85rem;
+        font-weight: 700;
+        color: #d4a843;
+        letter-spacing: 0.04em;
+      }
+      .deco__service-desc {
+        font-size: 0.7rem;
+        color: #8a7550;
+        margin-top: 4px;
+        line-height: 1.5;
+      }
+      .deco__service-footer {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-top: 10px;
+      }
+      .deco__service-price {
+        font-size: 0.82rem;
+        font-weight: 700;
+        color: #d4a843;
+      }
+      .deco__service-cta {
+        padding: 6px 14px;
+        background: rgba(212, 168, 67, 0.15);
+        color: #d4a843;
+        border: 1px solid rgba(212, 168, 67, 0.4);
+        font-size: 0.6rem;
+        font-weight: 400;
+        text-decoration: none;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+      }
+      .deco__location {
+        border: 1px solid rgba(212, 168, 67, 0.15);
+        text-decoration: none;
+        display: block;
+      }
+      .deco__location img {
+        width: 100%;
+        height: 80px;
+        object-fit: cover;
+        filter: sepia(0.5) brightness(0.6);
+        display: block;
+      }
+      .deco__location-label {
+        padding: 8px 12px;
+        background: #1c1710;
+        font-size: 0.7rem;
+        color: #8a7550;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        letter-spacing: 0.04em;
+      }
+      .deco__location-label svg {
+        width: 12px;
+        height: 12px;
+        stroke: #d4a843;
+        fill: none;
+        stroke-width: 2;
+      }
+      .deco__social {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 12px 14px;
+        border: 1px solid rgba(212, 168, 67, 0.15);
+        background: #1c1710;
+        text-decoration: none;
+        margin-bottom: 8px;
+        transition: border-color 0.15s;
+      }
+      .deco__social:hover {
+        border-color: rgba(212, 168, 67, 0.4);
+      }
+      .deco__social img {
+        width: 22px;
+        height: 22px;
+        filter: brightness(0.6) sepia(1) saturate(2) hue-rotate(10deg);
+      }
+      .deco__social-net {
+        font-size: 0.6rem;
+        font-weight: 400;
+        text-transform: uppercase;
+        letter-spacing: 0.12em;
+        color: #d4a843;
+      }
+      .deco__social-handle {
+        font-size: 0.75rem;
+        color: #8a7550;
+      }
+      .deco__social-info {
+        flex: 1;
+      }
+      .deco__social-arrow {
+        color: rgba(212, 168, 67, 0.2);
+      }
+
+      /* SHARED UTILS */
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(6px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      /* VIDEO MODAL */
+      .modal-overlay {
+        display: none;
+        position: fixed;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.8);
+        z-index: 1000;
+        align-items: center;
+        justify-content: center;
+      }
+      .modal-overlay--open {
+        display: flex;
+      }
+      .modal-inner {
+        width: 90%;
+        max-width: 640px;
+        position: relative;
+      }
+      .modal-close {
+        position: absolute;
+        top: -36px;
+        right: 0;
+        background: none;
+        border: none;
+        color: white;
+        font-size: 1.5rem;
+        cursor: pointer;
+      }
+      .modal-inner iframe {
+        width: 100%;
+        aspect-ratio: 16/9;
+        border: none;
+        border-radius: 8px;
+        display: block;
+      }
+
+      /* page bg */
+      [data-theme="aurora"] body {
+        background: #0e0b1a;
+      }
+      [data-theme="brutal"] body {
+        background: #d8d4ca;
+      }
+      [data-theme="obsidiana"] body {
+        background: #090b10;
+      }
+      [data-theme="tropico"] body {
+        background: #0d2b1f;
+      }
+      [data-theme="zen"] body {
+        background: #f7f5f0;
+      }
+      [data-theme="deco"] body {
+        background: #0c0a06;
+      }
+
+      [data-theme="brutal"] .theme-switcher__btn {
+        color: rgba(0, 0, 0, 0.45);
+      }
+      [data-theme="zen"] .theme-switcher__btn {
+        color: rgba(0, 0, 0, 0.45);
+      }
+      [data-theme="brutal"] .theme-switcher {
+        background: rgba(0, 0, 0, 0.08);
+      }
+      [data-theme="zen"] .theme-switcher {
+        background: rgba(0, 0, 0, 0.06);
+      }
+    </style>
+  </head>
+  <body>
+    <div class="theme-switcher" role="group">
+      <button
+        class="theme-switcher__btn theme-switcher__btn--active"
+        data-switch="aurora"
+      >
+        Aurora
+      </button>
+      <button class="theme-switcher__btn" data-switch="brutal">Brutal</button>
+      <button class="theme-switcher__btn" data-switch="obsidiana">
+        Obsidiana
+      </button>
+      <button class="theme-switcher__btn" data-switch="tropico">Trópico</button>
+      <button class="theme-switcher__btn" data-switch="zen">Zen</button>
+      <button class="theme-switcher__btn" data-switch="deco">Déco</button>
+    </div>
+
+    <!-- ================================================================ AURORA: SCROLL ================================================================ -->
+    <div class="card--aurora">
+      <div class="aurora__bg"></div>
+      <div class="aurora__inner">
+        <div class="aurora__hero">
+          <img
+            class="aurora__avatar"
+            src="https://app.newfacecards.com/nfc/profile-pic/recBOO8H0GO0RZlUU.jpg?timestamp=1723160426&size=1000x1000"
+            alt="Ivan Gonzalez"
+          />
+          <h1 class="aurora__name"><em>Ivan</em><br />Gonzalez</h1>
+          <p class="aurora__title">Founder · Klef Agency</p>
+          <p class="aurora__org">Marketing &amp; Tecnología · Los Cabos</p>
+        </div>
+
+        <div class="aurora__socials">
+          <a
+            class="aurora__social-icon"
+            href="https://wa.me/+526241682048"
+            target="_blank"
+            rel="noopener"
+          >
+            <img
+              src="https://app.newfacecards.com/nfc/icons/whatsapp.png"
+              alt="WhatsApp"
+            />
+          </a>
+          <a
+            class="aurora__social-icon"
+            href="https://instagram.com/ivangonzalez.z"
+            target="_blank"
+            rel="noopener"
+          >
+            <img
+              src="https://app.newfacecards.com/nfc/icons/instagram.png"
+              alt="Instagram"
+            />
+          </a>
+          <a
+            class="aurora__social-icon"
+            href="https://instagram.com/klef.agency"
+            target="_blank"
+            rel="noopener"
+          >
+            <img
+              src="https://app.newfacecards.com/nfc/icons/instagram.png"
+              alt="Klef Instagram"
+            />
+          </a>
+          <a
+            class="aurora__social-icon"
+            href="https://facebook.com/klef.agency"
+            target="_blank"
+            rel="noopener"
+          >
+            <img
+              src="https://app.newfacecards.com/nfc/icons/facebook.png"
+              alt="Facebook"
+            />
+          </a>
+          <a
+            class="aurora__social-icon"
+            href="https://klef.agency"
+            target="_blank"
+            rel="noopener"
+          >
+            <svg viewBox="0 0 24 24">
+              <circle cx="12" cy="12" r="10" />
+              <line x1="2" y1="12" x2="22" y2="12" />
+              <path
+                d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"
+              />
+            </svg>
+          </a>
+        </div>
+
+        <div class="aurora__nav">
+          <a class="aurora__nav-link" href="#aurora-contacto">Contacto</a>
+          <a class="aurora__nav-link" href="#aurora-empresa">Empresa</a>
+          <a class="aurora__nav-link" href="#aurora-redes">Redes</a>
+        </div>
+
+        <div class="aurora__sections">
+          <div class="aurora__section" id="aurora-contacto">
+            <p class="aurora__section-label">Contacto</p>
+            <button class="aurora__btn aurora__btn--cta" id="aurora-vcf">
+              <svg viewBox="0 0 24 24">
+                <path
+                  d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 1.27h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.37a16 16 0 0 0 5.73 5.73l1.48-1.48a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 14.92v2z"
+                />
+                <line x1="18" y1="2" x2="18" y2="8" />
+                <line x1="15" y1="5" x2="21" y2="5" />
+              </svg>
+              Agregar contacto al móvil
+            </button>
+            <a
+              class="aurora__btn"
+              href="https://wa.me/+526241682048"
+              target="_blank"
+              rel="noopener"
+            >
+              <img
+                src="https://app.newfacecards.com/nfc/icons/whatsapp.png"
+                alt=""
+              />
+              WhatsApp
+            </a>
+            <a class="aurora__btn" href="tel:+526241682048">
+              <svg viewBox="0 0 24 24">
+                <path
+                  d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 1.27h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.37a16 16 0 0 0 5.73 5.73l1.48-1.48a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 14.92v2z"
+                />
+              </svg>
+              Llamar
+            </a>
+            <a class="aurora__btn" href="mailto:ivangklef@gmail.com">
+              <svg viewBox="0 0 24 24">
+                <path
+                  d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"
+                />
+                <polyline points="22,6 12,13 2,6" />
+              </svg>
+              Enviar correo
+            </a>
+            <a
+              class="aurora__btn"
+              href="https://klef.agency"
+              target="_blank"
+              rel="noopener"
+            >
+              <svg viewBox="0 0 24 24">
+                <circle cx="12" cy="12" r="10" />
+                <line x1="2" y1="12" x2="22" y2="12" />
+                <path
+                  d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"
+                />
+              </svg>
+              klef.agency
+            </a>
+          </div>
+
+          <div class="aurora__section" id="aurora-empresa">
+            <p class="aurora__section-label">Empresa</p>
+            <div class="aurora__company">
+              <img
+                src="https://app.newfacecards.com/nfc/logo/recBOO8H0GO0RZlUU.jpg?timestamp=1723071427&size=700x700"
+                alt="Klef"
+              />
+              <div>
+                <p class="aurora__company-name">Klef Agency</p>
+                <p class="aurora__company-tag">Piensa antes de ejecutar.</p>
+              </div>
+            </div>
+            <div class="aurora__video aurora-video-trigger">
+              <img
+                src="https://i.ytimg.com/vi/ItJSs8hjNvs/sddefault.jpg"
+                alt="Video"
+              />
+              <div class="aurora__video-play">
+                <svg viewBox="0 0 24 24"><path d="M5 3l14 9-14 9V3z" /></svg>
+              </div>
+            </div>
+            <a
+              class="aurora__location"
+              href="https://maps.app.goo.gl/JSsA8yroJ54wnveb7"
+              target="_blank"
+              rel="noopener"
+            >
+              <img
+                src="https://app.newfacecards.com/nfc/maps/recmgOGbLDd3U1bkA.jpg?timestamp=1730875439&size=722x260"
+                alt="Los Cabos"
+              />
+              <div class="aurora__location-label">
+                <svg viewBox="0 0 24 24">
+                  <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
+                  <circle cx="12" cy="10" r="3" />
+                </svg>
+                Los Cabos, BCS, México
+              </div>
+            </a>
+          </div>
+
+          <div class="aurora__section" id="aurora-redes">
+            <p class="aurora__section-label">Redes</p>
+            <a
+              class="aurora__btn"
+              href="https://instagram.com/ivangonzalez.z"
+              target="_blank"
+              rel="noopener"
+            >
+              <img
+                src="https://app.newfacecards.com/nfc/icons/instagram.png"
+                alt=""
+              />
+              @ivangonzalez.z
+            </a>
+            <a
+              class="aurora__btn"
+              href="https://facebook.com/klef.agency"
+              target="_blank"
+              rel="noopener"
+            >
+              <img
+                src="https://app.newfacecards.com/nfc/icons/facebook.png"
+                alt=""
+              />
+              @klef.agency
+            </a>
+            <a
+              class="aurora__btn"
+              href="https://instagram.com/klef.agency"
+              target="_blank"
+              rel="noopener"
+            >
+              <img
+                src="https://app.newfacecards.com/nfc/icons/instagram.png"
+                alt=""
+              />
+              @klef.agency
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ================================================================ BRUTAL: TABS ================================================================ -->
+    <div class="card--brutal">
+      <div class="brutal__hero">
+        <img
+          class="brutal__cover"
+          src="https://app.newfacecards.com/nfc/cover/recBOO8H0GO0RZlUU.jpg?timestamp=1723160438&size=1000x500"
+          alt="Cover"
+        />
+      </div>
+      <div class="brutal__identity">
+        <div class="brutal__avatar-row">
+          <img
+            class="brutal__avatar"
+            src="https://app.newfacecards.com/nfc/profile-pic/recBOO8H0GO0RZlUU.jpg?timestamp=1723160426&size=1000x1000"
+            alt="Ivan"
+          />
+          <div class="brutal__label-stack">
+            <p class="brutal__role">Founder · Agencia Digital</p>
+            <h1 class="brutal__name">Ivan<br />Gonzalez</h1>
+            <p class="brutal__org">KLEF.AGENCY · LOS CABOS</p>
+          </div>
+        </div>
+      </div>
+      <div class="brutal__tags">
+        <span class="brutal__tag">Marketing</span>
+        <span class="brutal__tag">Tecnología</span>
+        <span class="brutal__tag">Lujo</span>
+        <span class="brutal__tag">Turismo</span>
+        <span class="brutal__tag">Real Estate</span>
+      </div>
+
+      <nav class="brutal__nav">
+        <button
+          class="brutal__nav-item brutal__nav-item--active"
+          data-brutal-tab="contacto"
+        >
+          <svg viewBox="0 0 24 24">
+            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+            <circle cx="12" cy="7" r="4" />
+          </svg>
+          Contacto
+          <span class="brutal__nav-counter">01</span>
+        </button>
+        <button class="brutal__nav-item" data-brutal-tab="empresa">
+          <svg viewBox="0 0 24 24">
+            <rect x="2" y="7" width="20" height="14" rx="2" />
+            <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16" />
+          </svg>
+          Empresa
+          <span class="brutal__nav-counter">02</span>
+        </button>
+        <button class="brutal__nav-item" data-brutal-tab="redes">
+          <svg viewBox="0 0 24 24">
+            <circle cx="18" cy="5" r="3" />
+            <circle cx="6" cy="12" r="3" />
+            <circle cx="18" cy="19" r="3" />
+            <line x1="8.59" y1="13.51" x2="15.42" y2="17.49" />
+            <line x1="15.41" y1="6.51" x2="8.59" y2="10.49" />
+          </svg>
+          Redes
+          <span class="brutal__nav-counter">03</span>
+        </button>
+      </nav>
+
+      <div class="brutal__body">
+        <div class="brutal__tab brutal__tab--active" id="brutal-contacto">
+          <div class="brutal__contact">
+            <button class="brutal__action" id="brutal-vcf">
+              <div class="brutal__action-icon brutal__action-icon--cta">
+                <svg viewBox="0 0 24 24">
+                  <path
+                    d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 1.27h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.37a16 16 0 0 0 5.73 5.73l1.48-1.48a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 14.92v2z"
+                  />
+                  <line x1="18" y1="2" x2="18" y2="8" />
+                  <line x1="15" y1="5" x2="21" y2="5" />
+                </svg>
+              </div>
+              <div>
+                <p class="brutal__action-label">Agregar contacto</p>
+                <p class="brutal__action-sub">Guardar en móvil (.vcf)</p>
+              </div>
+              <span class="brutal__action-arrow">→</span>
+            </button>
+            <a
+              class="brutal__action"
+              href="https://wa.me/+526241682048"
+              target="_blank"
+              rel="noopener"
+            >
+              <div class="brutal__action-icon">
+                <img
+                  src="https://app.newfacecards.com/nfc/icons/whatsapp.png"
+                  alt=""
+                />
+              </div>
+              <div>
+                <p class="brutal__action-label">WhatsApp</p>
+                <p class="brutal__action-sub">+52 624 168 2048</p>
+              </div>
+              <span class="brutal__action-arrow">→</span>
+            </a>
+            <a class="brutal__action" href="tel:+526241682048">
+              <div class="brutal__action-icon">
+                <svg viewBox="0 0 24 24">
+                  <path
+                    d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 1.27h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.37a16 16 0 0 0 5.73 5.73l1.48-1.48a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 14.92v2z"
+                  />
+                </svg>
+              </div>
+              <div>
+                <p class="brutal__action-label">Llamar</p>
+                <p class="brutal__action-sub">+52 624 168 2048</p>
+              </div>
+              <span class="brutal__action-arrow">→</span>
+            </a>
+            <a class="brutal__action" href="mailto:ivangklef@gmail.com">
+              <div class="brutal__action-icon">
+                <svg viewBox="0 0 24 24">
+                  <path
+                    d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"
+                  />
+                  <polyline points="22,6 12,13 2,6" />
+                </svg>
+              </div>
+              <div>
+                <p class="brutal__action-label">Correo</p>
+                <p class="brutal__action-sub">ivangklef@gmail.com</p>
+              </div>
+              <span class="brutal__action-arrow">→</span>
+            </a>
+            <a
+              class="brutal__action"
+              href="https://klef.agency"
+              target="_blank"
+              rel="noopener"
+              style="border-bottom: none"
+            >
+              <div class="brutal__action-icon">
+                <svg viewBox="0 0 24 24">
+                  <circle cx="12" cy="12" r="10" />
+                  <line x1="2" y1="12" x2="22" y2="12" />
+                  <path
+                    d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"
+                  />
+                </svg>
+              </div>
+              <div>
+                <p class="brutal__action-label">Sitio web</p>
+                <p class="brutal__action-sub">klef.agency</p>
+              </div>
+              <span class="brutal__action-arrow">→</span>
+            </a>
+          </div>
+        </div>
+
+        <div class="brutal__tab" id="brutal-empresa">
+          <div class="brutal__empresa">
+            <p class="brutal__section-head">Klef Agency</p>
+            <div class="brutal__service-card">
+              <img
+                class="brutal__service-img"
+                src="https://app.newfacecards.com/cropped-files/recaLutcXod1kiT1h.jpg?timestamp=1731131105&size=700x700"
+                alt="Sitios Web"
+              />
+              <div class="brutal__service-body">
+                <p class="brutal__service-name">Sitios Web</p>
+                <p class="brutal__service-desc">
+                  Diseño y desarrollo web estratégico para marcas de lujo y
+                  turismo premium.
+                </p>
+                <div class="brutal__service-footer">
+                  <span class="brutal__service-price">Desde $8,500</span>
+                  <a
+                    class="brutal__service-cta"
+                    href="https://klef.agency"
+                    target="_blank"
+                    >Ver →</a
+                  >
+                </div>
+              </div>
+            </div>
+            <div class="brutal__video brutal-video-trigger">
+              <img
+                class="brutal__service-img"
+                style="height: 130px"
+                src="https://i.ytimg.com/vi/ItJSs8hjNvs/sddefault.jpg"
+                alt="Video"
+              />
+              <div
+                style="
+                  position: absolute;
+                  inset: 0;
+                  display: flex;
+                  align-items: center;
+                  justify-content: center;
+                  background: rgba(0, 0, 0, 0.35);
+                "
+              >
+                <svg
+                  viewBox="0 0 24 24"
+                  style="width: 40px; height: 40px; fill: white; opacity: 0.9"
+                >
+                  <path d="M5 3l14 9-14 9V3z" />
+                </svg>
+              </div>
+            </div>
+            <a
+              class="brutal__location-block"
+              href="https://maps.app.goo.gl/JSsA8yroJ54wnveb7"
+              target="_blank"
+              rel="noopener"
+            >
+              <img
+                class="brutal__location-img"
+                src="https://app.newfacecards.com/nfc/maps/recmgOGbLDd3U1bkA.jpg?timestamp=1730875439&size=722x260"
+                alt="Mapa"
+              />
+              <div class="brutal__location-label">
+                <svg viewBox="0 0 24 24">
+                  <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
+                  <circle cx="12" cy="10" r="3" />
+                </svg>
+                LOS CABOS, BCS, MÉXICO
+              </div>
+            </a>
+          </div>
+        </div>
+
+        <div class="brutal__tab" id="brutal-redes">
+          <div class="brutal__redes">
+            <a
+              class="brutal__social-row"
+              href="https://instagram.com/ivangonzalez.z"
+              target="_blank"
+              rel="noopener"
+            >
+              <span class="brutal__social-num">01</span>
+              <img
+                class="brutal__social-icon"
+                src="https://app.newfacecards.com/nfc/icons/instagram.png"
+                alt=""
+              />
+              <div>
+                <p class="brutal__social-name">Instagram</p>
+                <p class="brutal__social-handle">@ivangonzalez.z</p>
+              </div>
+              <span class="brutal__social-arrow">→</span>
+            </a>
+            <a
+              class="brutal__social-row"
+              href="https://facebook.com/klef.agency"
+              target="_blank"
+              rel="noopener"
+            >
+              <span class="brutal__social-num">02</span>
+              <img
+                class="brutal__social-icon"
+                src="https://app.newfacecards.com/nfc/icons/facebook.png"
+                alt=""
+              />
+              <div>
+                <p class="brutal__social-name">Facebook</p>
+                <p class="brutal__social-handle">@klef.agency</p>
+              </div>
+              <span class="brutal__social-arrow">→</span>
+            </a>
+            <a
+              class="brutal__social-row"
+              href="https://instagram.com/klef.agency"
+              target="_blank"
+              rel="noopener"
+              style="border-bottom: none"
+            >
+              <span class="brutal__social-num">03</span>
+              <img
+                class="brutal__social-icon"
+                src="https://app.newfacecards.com/nfc/icons/instagram.png"
+                alt=""
+              />
+              <div>
+                <p class="brutal__social-name">Instagram</p>
+                <p class="brutal__social-handle">@klef.agency</p>
+              </div>
+              <span class="brutal__social-arrow">→</span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ================================================================ OBSIDIANA: TABS ================================================================ -->
+    <div class="card--obsidiana">
+      <div class="obs__cover-wrap">
+        <img
+          class="obs__cover"
+          src="https://app.newfacecards.com/nfc/cover/recBOO8H0GO0RZlUU.jpg?timestamp=1723160438&size=1000x500"
+          alt="Cover"
+        />
+        <div class="obs__cover-gradient"></div>
+        <div class="obs__avatar-wrap">
+          <img
+            class="obs__avatar"
+            src="https://app.newfacecards.com/nfc/profile-pic/recBOO8H0GO0RZlUU.jpg?timestamp=1723160426&size=1000x1000"
+            alt="Ivan"
+          />
+        </div>
+      </div>
+      <div class="obs__identity">
+        <h1 class="obs__name">Ivan <span>Gonzalez</span></h1>
+        <p class="obs__role">Founder · Klef Agency · Los Cabos</p>
+        <p class="obs__bio">
+          Marketing estratégico &amp; tecnología para marcas de lujo y turismo
+          premium.
+        </p>
+      </div>
+      <div class="obs__stats">
+        <div class="obs__stat">
+          <p class="obs__stat-num">9</p>
+          <p class="obs__stat-label">Años</p>
+        </div>
+        <div class="obs__stat">
+          <p class="obs__stat-num">+60</p>
+          <p class="obs__stat-label">Clientes</p>
+        </div>
+        <div class="obs__stat">
+          <p class="obs__stat-num">3</p>
+          <p class="obs__stat-label">Sectores</p>
+        </div>
+      </div>
+
+      <nav class="obs__nav">
+        <button
+          class="obs__nav-item obs__nav-item--active"
+          data-obs-tab="contacto"
+        >
+          <svg viewBox="0 0 24 24">
+            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+            <circle cx="12" cy="7" r="4" />
+          </svg>
+          Contacto
+        </button>
+        <button class="obs__nav-item" data-obs-tab="empresa">
+          <svg viewBox="0 0 24 24">
+            <rect x="2" y="7" width="20" height="14" rx="2" />
+            <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16" />
+          </svg>
+          Empresa
+        </button>
+        <button class="obs__nav-item" data-obs-tab="redes">
+          <svg viewBox="0 0 24 24">
+            <circle cx="18" cy="5" r="3" />
+            <circle cx="6" cy="12" r="3" />
+            <circle cx="18" cy="19" r="3" />
+            <line x1="8.59" y1="13.51" x2="15.42" y2="17.49" />
+            <line x1="15.41" y1="6.51" x2="8.59" y2="10.49" />
+          </svg>
+          Redes
+        </button>
+      </nav>
+
+      <div class="obs__body">
+        <div class="obs__tab obs__tab--active" id="obs-contacto">
+          <button class="obs__btn obs__btn--cta" id="obs-vcf">
+            <svg viewBox="0 0 24 24">
+              <path
+                d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 1.27h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.37a16 16 0 0 0 5.73 5.73l1.48-1.48a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 14.92v2z"
+              />
+              <line x1="18" y1="2" x2="18" y2="8" />
+              <line x1="15" y1="5" x2="21" y2="5" />
+            </svg>
+            Agregar contacto al móvil
+          </button>
+          <a
+            class="obs__btn"
+            href="https://wa.me/+526241682048"
+            target="_blank"
+            rel="noopener"
+          >
+            <img
+              src="https://app.newfacecards.com/nfc/icons/whatsapp.png"
+              alt=""
+            />
+            WhatsApp
+          </a>
+          <a class="obs__btn" href="tel:+526241682048">
+            <svg viewBox="0 0 24 24">
+              <path
+                d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 1.27h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.37a16 16 0 0 0 5.73 5.73l1.48-1.48a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 14.92v2z"
+              />
+            </svg>
+            Llamar
+          </a>
+          <a class="obs__btn" href="mailto:ivangklef@gmail.com">
+            <svg viewBox="0 0 24 24">
+              <path
+                d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"
+              />
+              <polyline points="22,6 12,13 2,6" />
+            </svg>
+            Enviar correo
+          </a>
+          <a
+            class="obs__btn"
+            href="https://klef.agency"
+            target="_blank"
+            rel="noopener"
+          >
+            <svg viewBox="0 0 24 24">
+              <circle cx="12" cy="12" r="10" />
+              <line x1="2" y1="12" x2="22" y2="12" />
+              <path
+                d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"
+              />
+            </svg>
+            Página web
+          </a>
+        </div>
+
+        <div class="obs__tab" id="obs-empresa">
+          <div class="obs__company">
+            <img
+              src="https://app.newfacecards.com/nfc/logo/recBOO8H0GO0RZlUU.jpg?timestamp=1723071427&size=700x700"
+              alt="Klef"
+            />
+            <div>
+              <p class="obs__company-name">Klef Agency</p>
+              <p class="obs__company-tag">Piensa antes de ejecutar.</p>
+            </div>
+          </div>
+          <div class="obs__video obs-video-trigger">
+            <img
+              src="https://i.ytimg.com/vi/ItJSs8hjNvs/sddefault.jpg"
+              alt="Video"
+            />
+            <div class="obs__video-play">
+              <svg viewBox="0 0 24 24"><path d="M5 3l14 9-14 9V3z" /></svg>
+            </div>
+          </div>
+          <div class="obs__service">
+            <img
+              src="https://app.newfacecards.com/cropped-files/recaLutcXod1kiT1h.jpg?timestamp=1731131105&size=700x700"
+              alt="Sitios Web"
+            />
+            <div class="obs__service-body">
+              <p class="obs__service-name">Sitios Web</p>
+              <p class="obs__service-desc">
+                Diseño y desarrollo web estratégico para marcas de lujo y
+                turismo premium.
+              </p>
+              <div class="obs__service-footer">
+                <span class="obs__service-price">Desde $8,500</span>
+                <a
+                  class="obs__service-cta"
+                  href="https://klef.agency"
+                  target="_blank"
+                  >Ver más</a
+                >
+              </div>
+            </div>
+          </div>
+          <a
+            class="obs__location"
+            href="https://maps.app.goo.gl/JSsA8yroJ54wnveb7"
+            target="_blank"
+            rel="noopener"
+          >
+            <img
+              src="https://app.newfacecards.com/nfc/maps/recmgOGbLDd3U1bkA.jpg?timestamp=1730875439&size=722x260"
+              alt="Mapa"
+            />
+            <div class="obs__location-label">
+              <svg viewBox="0 0 24 24">
+                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
+                <circle cx="12" cy="10" r="3" />
+              </svg>
+              Los Cabos, BCS, México
+            </div>
+          </a>
+        </div>
+
+        <div class="obs__tab" id="obs-redes">
+          <a
+            class="obs__social"
+            href="https://instagram.com/ivangonzalez.z"
+            target="_blank"
+            rel="noopener"
+          >
+            <img
+              src="https://app.newfacecards.com/nfc/icons/instagram.png"
+              alt=""
+            />
+            <div class="obs__social-info">
+              <p class="obs__social-name">Instagram</p>
+              <p class="obs__social-handle">@ivangonzalez.z</p>
+            </div>
+            <span class="obs__social-arrow">›</span>
+          </a>
+          <a
+            class="obs__social"
+            href="https://facebook.com/klef.agency"
+            target="_blank"
+            rel="noopener"
+          >
+            <img
+              src="https://app.newfacecards.com/nfc/icons/facebook.png"
+              alt=""
+            />
+            <div class="obs__social-info">
+              <p class="obs__social-name">Facebook</p>
+              <p class="obs__social-handle">@klef.agency</p>
+            </div>
+            <span class="obs__social-arrow">›</span>
+          </a>
+          <a
+            class="obs__social"
+            href="https://instagram.com/klef.agency"
+            target="_blank"
+            rel="noopener"
+          >
+            <img
+              src="https://app.newfacecards.com/nfc/icons/instagram.png"
+              alt=""
+            />
+            <div class="obs__social-info">
+              <p class="obs__social-name">Instagram</p>
+              <p class="obs__social-handle">@klef.agency</p>
+            </div>
+            <span class="obs__social-arrow">›</span>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- ================================================================ TROPICO: TABS ================================================================ -->
+    <div class="card--tropico">
+      <div class="trop__media">
+        <img
+          class="trop__cover"
+          src="https://app.newfacecards.com/nfc/cover/recBOO8H0GO0RZlUU.jpg?timestamp=1723160438&size=1000x500"
+          alt="Cover"
+        />
+        <img
+          class="trop__avatar"
+          src="https://app.newfacecards.com/nfc/profile-pic/recBOO8H0GO0RZlUU.jpg?timestamp=1723160426&size=1000x1000"
+          alt="Ivan"
+        />
+      </div>
+      <div class="trop__profile">
+        <h1 class="trop__name">Ivan Gonzalez</h1>
+        <p class="trop__role">Founder at Klef</p>
+        <p class="trop__org">Klef Agency</p>
+        <div class="trop__chips">
+          <span class="trop__chip">Marketing</span>
+          <span class="trop__chip">Tecnología</span>
+          <span class="trop__chip">Agencia Digital</span>
+          <span class="trop__chip">Los Cabos</span>
+        </div>
+      </div>
+      <nav class="trop__nav">
+        <button
+          class="trop__nav-item trop__nav-item--active"
+          data-trop-tab="contacto"
+        >
+          <svg viewBox="0 0 24 24">
+            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+            <circle cx="12" cy="7" r="4" />
+          </svg>
+          Contacto
+        </button>
+        <button class="trop__nav-item" data-trop-tab="empresa">
+          <svg viewBox="0 0 24 24">
+            <rect x="2" y="7" width="20" height="14" rx="2" />
+            <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16" />
+          </svg>
+          Empresa
+        </button>
+        <button class="trop__nav-item" data-trop-tab="redes">
+          <svg viewBox="0 0 24 24">
+            <circle cx="18" cy="5" r="3" />
+            <circle cx="6" cy="12" r="3" />
+            <circle cx="18" cy="19" r="3" />
+            <line x1="8.59" y1="13.51" x2="15.42" y2="17.49" />
+            <line x1="15.41" y1="6.51" x2="8.59" y2="10.49" />
+          </svg>
+          Redes
+        </button>
+      </nav>
+      <div class="trop__body">
+        <div class="trop__tab trop__tab--active" id="trop-contacto">
+          <button
+            class="trop__btn trop__btn--cta"
+            id="trop-vcf"
+            style="width: 100%; border: none; cursor: pointer"
+          >
+            <svg viewBox="0 0 24 24">
+              <path
+                d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 1.27h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.37a16 16 0 0 0 5.73 5.73l1.48-1.48a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 14.92v2z"
+              />
+              <line x1="18" y1="2" x2="18" y2="8" />
+              <line x1="15" y1="5" x2="21" y2="5" />
+            </svg>
+            Agregar contacto al móvil
+          </button>
+          <a
+            class="trop__btn"
+            href="https://wa.me/+526241682048"
+            target="_blank"
+            rel="noopener"
+          >
+            <img
+              src="https://app.newfacecards.com/nfc/icons/whatsapp.png"
+              alt=""
+            />
+            WhatsApp
+          </a>
+          <a class="trop__btn" href="tel:+526241682048">
+            <svg viewBox="0 0 24 24">
+              <path
+                d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 1.27h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.37a16 16 0 0 0 5.73 5.73l1.48-1.48a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 14.92v2z"
+              />
+            </svg>
+            Llamar
+          </a>
+          <a class="trop__btn" href="mailto:ivangklef@gmail.com">
+            <svg viewBox="0 0 24 24">
+              <path
+                d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"
+              />
+              <polyline points="22,6 12,13 2,6" />
+            </svg>
+            Enviar correo
+          </a>
+          <a
+            class="trop__btn"
+            href="https://klef.agency"
+            target="_blank"
+            rel="noopener"
+          >
+            <svg viewBox="0 0 24 24">
+              <circle cx="12" cy="12" r="10" />
+              <line x1="2" y1="12" x2="22" y2="12" />
+              <path
+                d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"
+              />
+            </svg>
+            klef.agency
+          </a>
+        </div>
+        <div class="trop__tab" id="trop-empresa">
+          <div class="trop__company">
+            <img
+              class="logo"
+              src="https://app.newfacecards.com/nfc/logo/recBOO8H0GO0RZlUU.jpg?timestamp=1723071427&size=700x700"
+              alt="Klef"
+            />
+            <div>
+              <p class="trop__company-name">Klef Agency</p>
+              <p class="trop__company-tag">Piensa antes de ejecutar.</p>
+            </div>
+          </div>
+          <div class="trop__video trop-video-trigger">
+            <img
+              src="https://i.ytimg.com/vi/ItJSs8hjNvs/sddefault.jpg"
+              alt="Video"
+            />
+            <div class="trop__video-play">
+              <svg viewBox="0 0 24 24"><path d="M5 3l14 9-14 9V3z" /></svg>
+            </div>
+          </div>
+          <div class="trop__service">
+            <img
+              src="https://app.newfacecards.com/cropped-files/recaLutcXod1kiT1h.jpg?timestamp=1731131105&size=700x700"
+              alt="Web"
+            />
+            <div class="trop__service-body">
+              <p class="trop__service-name">Sitios Web</p>
+              <p class="trop__service-desc">
+                Diseño y desarrollo web estratégico para marcas de lujo y
+                turismo premium.
+              </p>
+              <div class="trop__service-footer">
+                <span class="trop__service-price">Desde $8,500</span>
+                <a
+                  class="trop__service-cta"
+                  href="https://klef.agency"
+                  target="_blank"
+                  >Ver →</a
+                >
+              </div>
+            </div>
+          </div>
+          <a
+            class="trop__location"
+            href="https://maps.app.goo.gl/JSsA8yroJ54wnveb7"
+            target="_blank"
+            rel="noopener"
+          >
+            <img
+              src="https://app.newfacecards.com/nfc/maps/recmgOGbLDd3U1bkA.jpg?timestamp=1730875439&size=722x260"
+              alt="Mapa"
+            />
+            <div class="trop__location-label">
+              <svg viewBox="0 0 24 24">
+                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
+                <circle cx="12" cy="10" r="3" />
+              </svg>
+              Los Cabos, BCS, México
+            </div>
+          </a>
+        </div>
+        <div class="trop__tab" id="trop-redes">
+          <a
+            class="trop__social"
+            href="https://instagram.com/ivangonzalez.z"
+            target="_blank"
+            rel="noopener"
+          >
+            <img
+              src="https://app.newfacecards.com/nfc/icons/instagram.png"
+              alt=""
+            />
+            <div class="trop__social-info">
+              <p class="trop__social-net">Instagram</p>
+              <p class="trop__social-handle">@ivangonzalez.z</p>
+            </div>
+            <span class="trop__social-arrow">›</span>
+          </a>
+          <a
+            class="trop__social"
+            href="https://facebook.com/klef.agency"
+            target="_blank"
+            rel="noopener"
+          >
+            <img
+              src="https://app.newfacecards.com/nfc/icons/facebook.png"
+              alt=""
+            />
+            <div class="trop__social-info">
+              <p class="trop__social-net">Facebook</p>
+              <p class="trop__social-handle">@klef.agency</p>
+            </div>
+            <span class="trop__social-arrow">›</span>
+          </a>
+          <a
+            class="trop__social"
+            href="https://instagram.com/klef.agency"
+            target="_blank"
+            rel="noopener"
+          >
+            <img
+              src="https://app.newfacecards.com/nfc/icons/instagram.png"
+              alt=""
+            />
+            <div class="trop__social-info">
+              <p class="trop__social-net">Instagram</p>
+              <p class="trop__social-handle">@klef.agency</p>
+            </div>
+            <span class="trop__social-arrow">›</span>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- ================================================================ ZEN: TABS ================================================================ -->
+    <div class="card--zen">
+      <div class="zen__media">
+        <img
+          class="zen__cover"
+          src="https://app.newfacecards.com/nfc/cover/recBOO8H0GO0RZlUU.jpg?timestamp=1723160438&size=1000x500"
+          alt="Cover"
+        />
+        <img
+          class="zen__avatar"
+          src="https://app.newfacecards.com/nfc/profile-pic/recBOO8H0GO0RZlUU.jpg?timestamp=1723160426&size=1000x1000"
+          alt="Ivan"
+        />
+      </div>
+      <div class="zen__profile">
+        <h1 class="zen__name">Ivan Gonzalez</h1>
+        <p class="zen__role">Founder · Klef Agency</p>
+        <p class="zen__org">Los Cabos, BCS</p>
+        <p class="zen__bio">
+          Marketing &amp; Tecnología · Agencia Digital · Turismo &amp; Lujo
+        </p>
+      </div>
+      <nav class="zen__nav">
+        <button
+          class="zen__nav-item zen__nav-item--active"
+          data-zen-tab="contacto"
+        >
+          <svg viewBox="0 0 24 24">
+            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+            <circle cx="12" cy="7" r="4" />
+          </svg>
+          Contacto
+        </button>
+        <button class="zen__nav-item" data-zen-tab="empresa">
+          <svg viewBox="0 0 24 24">
+            <rect x="2" y="7" width="20" height="14" rx="2" />
+            <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16" />
+          </svg>
+          Empresa
+        </button>
+        <button class="zen__nav-item" data-zen-tab="redes">
+          <svg viewBox="0 0 24 24">
+            <circle cx="18" cy="5" r="3" />
+            <circle cx="6" cy="12" r="3" />
+            <circle cx="18" cy="19" r="3" />
+            <line x1="8.59" y1="13.51" x2="15.42" y2="17.49" />
+            <line x1="15.41" y1="6.51" x2="8.59" y2="10.49" />
+          </svg>
+          Redes
+        </button>
+      </nav>
+      <div class="zen__body">
+        <div class="zen__tab zen__tab--active" id="zen-contacto">
+          <button
+            class="zen__btn zen__btn--cta"
+            id="zen-vcf"
+            style="
+              width: 100%;
+              border-top: none;
+              border-left: none;
+              border-right: none;
+              cursor: pointer;
+              background: none;
+              padding-top: 0;
+            "
+          >
+            <svg viewBox="0 0 24 24">
+              <path
+                d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 1.27h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.37a16 16 0 0 0 5.73 5.73l1.48-1.48a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 14.92v2z"
+              />
+              <line x1="18" y1="2" x2="18" y2="8" />
+              <line x1="15" y1="5" x2="21" y2="5" />
+            </svg>
+            <span class="zen__btn-label">Agregar contacto al móvil</span
+            ><span class="zen__btn-arrow">›</span>
+          </button>
+          <a
+            class="zen__btn"
+            href="https://wa.me/+526241682048"
+            target="_blank"
+            rel="noopener"
+          >
+            <img
+              src="https://app.newfacecards.com/nfc/icons/whatsapp.png"
+              alt=""
+            />
+            <span class="zen__btn-label">WhatsApp</span
+            ><span class="zen__btn-arrow">›</span>
+          </a>
+          <a class="zen__btn" href="tel:+526241682048">
+            <svg viewBox="0 0 24 24">
+              <path
+                d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 1.27h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.37a16 16 0 0 0 5.73 5.73l1.48-1.48a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 14.92v2z"
+              />
+            </svg>
+            <span class="zen__btn-label">Llamar</span
+            ><span class="zen__btn-arrow">›</span>
+          </a>
+          <a class="zen__btn" href="mailto:ivangklef@gmail.com">
+            <svg viewBox="0 0 24 24">
+              <path
+                d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"
+              />
+              <polyline points="22,6 12,13 2,6" />
+            </svg>
+            <span class="zen__btn-label">Enviar correo</span
+            ><span class="zen__btn-arrow">›</span>
+          </a>
+          <a
+            class="zen__btn"
+            href="https://klef.agency"
+            target="_blank"
+            rel="noopener"
+            style="border-bottom: none"
+          >
+            <svg viewBox="0 0 24 24">
+              <circle cx="12" cy="12" r="10" />
+              <line x1="2" y1="12" x2="22" y2="12" />
+              <path
+                d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"
+              />
+            </svg>
+            <span class="zen__btn-label">klef.agency</span
+            ><span class="zen__btn-arrow">›</span>
+          </a>
+        </div>
+        <div class="zen__tab" id="zen-empresa">
+          <div class="zen__company">
+            <img
+              class="logo"
+              src="https://app.newfacecards.com/nfc/logo/recBOO8H0GO0RZlUU.jpg?timestamp=1723071427&size=700x700"
+              alt="Klef"
+            />
+            <div>
+              <p class="zen__company-name">Klef Agency</p>
+              <p class="zen__company-tag">Piensa antes de ejecutar.</p>
+            </div>
+          </div>
+          <div class="zen__video zen-video-trigger">
+            <img
+              src="https://i.ytimg.com/vi/ItJSs8hjNvs/sddefault.jpg"
+              alt="Video"
+            />
+            <div class="zen__video-play">
+              <svg viewBox="0 0 24 24"><path d="M5 3l14 9-14 9V3z" /></svg>
+            </div>
+          </div>
+          <div class="zen__service">
+            <img
+              src="https://app.newfacecards.com/cropped-files/recaLutcXod1kiT1h.jpg?timestamp=1731131105&size=700x700"
+              alt="Web"
+            />
+            <div class="zen__service-body">
+              <p class="zen__service-name">Sitios Web</p>
+              <p class="zen__service-desc">
+                Diseño y desarrollo web estratégico para marcas de lujo y
+                turismo premium.
+              </p>
+              <div class="zen__service-footer">
+                <span class="zen__service-price">Desde $8,500</span>
+                <a
+                  class="zen__service-cta"
+                  href="https://klef.agency"
+                  target="_blank"
+                  >Ver</a
+                >
+              </div>
+            </div>
+          </div>
+          <a
+            class="zen__location"
+            href="https://maps.app.goo.gl/JSsA8yroJ54wnveb7"
+            target="_blank"
+            rel="noopener"
+          >
+            <img
+              src="https://app.newfacecards.com/nfc/maps/recmgOGbLDd3U1bkA.jpg?timestamp=1730875439&size=722x260"
+              alt="Mapa"
+            />
+            <div class="zen__location-label">
+              <svg viewBox="0 0 24 24">
+                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
+                <circle cx="12" cy="10" r="3" />
+              </svg>
+              Los Cabos, BCS, México
+            </div>
+          </a>
+        </div>
+        <div class="zen__tab" id="zen-redes">
+          <a
+            class="zen__social"
+            href="https://instagram.com/ivangonzalez.z"
+            target="_blank"
+            rel="noopener"
+          >
+            <img
+              src="https://app.newfacecards.com/nfc/icons/instagram.png"
+              alt=""
+            />
+            <div class="zen__social-info">
+              <p class="zen__social-net">Instagram</p>
+              <p class="zen__social-handle">@ivangonzalez.z</p>
+            </div>
+            <span class="zen__social-arrow">›</span>
+          </a>
+          <a
+            class="zen__social"
+            href="https://facebook.com/klef.agency"
+            target="_blank"
+            rel="noopener"
+          >
+            <img
+              src="https://app.newfacecards.com/nfc/icons/facebook.png"
+              alt=""
+            />
+            <div class="zen__social-info">
+              <p class="zen__social-net">Facebook</p>
+              <p class="zen__social-handle">@klef.agency</p>
+            </div>
+            <span class="zen__social-arrow">›</span>
+          </a>
+          <a
+            class="zen__social"
+            href="https://instagram.com/klef.agency"
+            target="_blank"
+            rel="noopener"
+          >
+            <img
+              src="https://app.newfacecards.com/nfc/icons/instagram.png"
+              alt=""
+            />
+            <div class="zen__social-info">
+              <p class="zen__social-net">Instagram</p>
+              <p class="zen__social-handle">@klef.agency</p>
+            </div>
+            <span class="zen__social-arrow">›</span>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- ================================================================ DECO: TABS ================================================================ -->
+    <div class="card--deco">
+      <div class="deco__media">
+        <img
+          class="deco__cover"
+          src="https://app.newfacecards.com/nfc/cover/recBOO8H0GO0RZlUU.jpg?timestamp=1723160438&size=1000x500"
+          alt="Cover"
+        />
+        <img
+          class="deco__avatar"
+          src="https://app.newfacecards.com/nfc/profile-pic/recBOO8H0GO0RZlUU.jpg?timestamp=1723160426&size=1000x1000"
+          alt="Ivan"
+        />
+      </div>
+      <div class="deco__profile">
+        <h1 class="deco__name">Ivan Gonzalez</h1>
+        <p class="deco__role">Founder · Klef Agency</p>
+        <p class="deco__org">Los Cabos · BCS · México</p>
+        <p class="deco__bio">
+          Marketing &amp; Tecnología para marcas de lujo y turismo premium.
+        </p>
+      </div>
+      <nav class="deco__nav">
+        <button
+          class="deco__nav-item deco__nav-item--active"
+          data-deco-tab="contacto"
+        >
+          <svg viewBox="0 0 24 24">
+            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+            <circle cx="12" cy="7" r="4" />
+          </svg>
+          Contacto
+        </button>
+        <button class="deco__nav-item" data-deco-tab="empresa">
+          <svg viewBox="0 0 24 24">
+            <rect x="2" y="7" width="20" height="14" rx="2" />
+            <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16" />
+          </svg>
+          Empresa
+        </button>
+        <button class="deco__nav-item" data-deco-tab="redes">
+          <svg viewBox="0 0 24 24">
+            <circle cx="18" cy="5" r="3" />
+            <circle cx="6" cy="12" r="3" />
+            <circle cx="18" cy="19" r="3" />
+            <line x1="8.59" y1="13.51" x2="15.42" y2="17.49" />
+            <line x1="15.41" y1="6.51" x2="8.59" y2="10.49" />
+          </svg>
+          Redes
+        </button>
+      </nav>
+      <div class="deco__body">
+        <div class="deco__tab deco__tab--active" id="deco-contacto">
+          <button
+            class="deco__btn deco__btn--cta"
+            id="deco-vcf"
+            style="width: 100%; cursor: pointer"
+          >
+            <svg viewBox="0 0 24 24">
+              <path
+                d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 1.27h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.37a16 16 0 0 0 5.73 5.73l1.48-1.48a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 14.92v2z"
+              />
+              <line x1="18" y1="2" x2="18" y2="8" />
+              <line x1="15" y1="5" x2="21" y2="5" />
+            </svg>
+            <span class="deco__btn-label">Agregar contacto al móvil</span
+            ><span class="deco__btn-arrow">›</span>
+          </button>
+          <a
+            class="deco__btn"
+            href="https://wa.me/+526241682048"
+            target="_blank"
+            rel="noopener"
+          >
+            <img
+              src="https://app.newfacecards.com/nfc/icons/whatsapp.png"
+              alt=""
+            />
+            <span class="deco__btn-label">WhatsApp</span
+            ><span class="deco__btn-arrow">›</span>
+          </a>
+          <a class="deco__btn" href="tel:+526241682048">
+            <svg viewBox="0 0 24 24">
+              <path
+                d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 1.27h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.37a16 16 0 0 0 5.73 5.73l1.48-1.48a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 14.92v2z"
+              />
+            </svg>
+            <span class="deco__btn-label">Llamar</span
+            ><span class="deco__btn-arrow">›</span>
+          </a>
+          <a class="deco__btn" href="mailto:ivangklef@gmail.com">
+            <svg viewBox="0 0 24 24">
+              <path
+                d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"
+              />
+              <polyline points="22,6 12,13 2,6" />
+            </svg>
+            <span class="deco__btn-label">Enviar correo</span
+            ><span class="deco__btn-arrow">›</span>
+          </a>
+          <a
+            class="deco__btn"
+            href="https://klef.agency"
+            target="_blank"
+            rel="noopener"
+          >
+            <svg viewBox="0 0 24 24">
+              <circle cx="12" cy="12" r="10" />
+              <line x1="2" y1="12" x2="22" y2="12" />
+              <path
+                d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"
+              />
+            </svg>
+            <span class="deco__btn-label">klef.agency</span
+            ><span class="deco__btn-arrow">›</span>
+          </a>
+        </div>
+        <div class="deco__tab" id="deco-empresa">
+          <div class="deco__company">
+            <img
+              class="logo"
+              src="https://app.newfacecards.com/nfc/logo/recBOO8H0GO0RZlUU.jpg?timestamp=1723071427&size=700x700"
+              alt="Klef"
+            />
+            <div>
+              <p class="deco__company-name">Klef Agency</p>
+              <p class="deco__company-tag">Piensa antes de ejecutar.</p>
+            </div>
+          </div>
+          <div class="deco__video deco-video-trigger">
+            <img
+              src="https://i.ytimg.com/vi/ItJSs8hjNvs/sddefault.jpg"
+              alt="Video"
+            />
+            <div class="deco__video-play">
+              <svg viewBox="0 0 24 24"><path d="M5 3l14 9-14 9V3z" /></svg>
+            </div>
+          </div>
+          <div class="deco__service">
+            <img
+              src="https://app.newfacecards.com/cropped-files/recaLutcXod1kiT1h.jpg?timestamp=1731131105&size=700x700"
+              alt="Web"
+            />
+            <div class="deco__service-body">
+              <p class="deco__service-name">Sitios Web</p>
+              <p class="deco__service-desc">
+                Diseño y desarrollo web estratégico para marcas de lujo y
+                turismo premium.
+              </p>
+              <div class="deco__service-footer">
+                <span class="deco__service-price">Desde $8,500</span>
+                <a
+                  class="deco__service-cta"
+                  href="https://klef.agency"
+                  target="_blank"
+                  >Ver →</a
+                >
+              </div>
+            </div>
+          </div>
+          <a
+            class="deco__location"
+            href="https://maps.app.goo.gl/JSsA8yroJ54wnveb7"
+            target="_blank"
+            rel="noopener"
+          >
+            <img
+              src="https://app.newfacecards.com/nfc/maps/recmgOGbLDd3U1bkA.jpg?timestamp=1730875439&size=722x260"
+              alt="Mapa"
+            />
+            <div class="deco__location-label">
+              <svg viewBox="0 0 24 24">
+                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
+                <circle cx="12" cy="10" r="3" />
+              </svg>
+              Los Cabos, BCS, México
+            </div>
+          </a>
+        </div>
+        <div class="deco__tab" id="deco-redes">
+          <a
+            class="deco__social"
+            href="https://instagram.com/ivangonzalez.z"
+            target="_blank"
+            rel="noopener"
+          >
+            <img
+              src="https://app.newfacecards.com/nfc/icons/instagram.png"
+              alt=""
+            />
+            <div class="deco__social-info">
+              <p class="deco__social-net">Instagram</p>
+              <p class="deco__social-handle">@ivangonzalez.z</p>
+            </div>
+            <span class="deco__social-arrow">›</span>
+          </a>
+          <a
+            class="deco__social"
+            href="https://facebook.com/klef.agency"
+            target="_blank"
+            rel="noopener"
+          >
+            <img
+              src="https://app.newfacecards.com/nfc/icons/facebook.png"
+              alt=""
+            />
+            <div class="deco__social-info">
+              <p class="deco__social-net">Facebook</p>
+              <p class="deco__social-handle">@klef.agency</p>
+            </div>
+            <span class="deco__social-arrow">›</span>
+          </a>
+          <a
+            class="deco__social"
+            href="https://instagram.com/klef.agency"
+            target="_blank"
+            rel="noopener"
+          >
+            <img
+              src="https://app.newfacecards.com/nfc/icons/instagram.png"
+              alt=""
+            />
+            <div class="deco__social-info">
+              <p class="deco__social-net">Instagram</p>
+              <p class="deco__social-handle">@klef.agency</p>
+            </div>
+            <span class="deco__social-arrow">›</span>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- VIDEO MODAL -->
+    <div class="modal-overlay" id="video-modal">
+      <div class="modal-inner">
+        <button class="modal-close" id="modal-close">&times;</button>
+        <iframe
+          id="modal-iframe"
+          src=""
+          title="Klef Agency Video"
+          allow="autoplay; encrypted-media"
+          allowfullscreen
+        ></iframe>
+      </div>
+    </div>
+
+    <script>
+      const VIDEO_URL =
+        "https://www.youtube.com/embed/videoseries?list=PLEzDWCD5dPq_qwkLcIoY8hX0UoyAoRyWc&autoplay=1";
+      const modal = document.getElementById("video-modal");
+      const iframe = document.getElementById("modal-iframe");
+
+      function openModal() {
+        iframe.src = VIDEO_URL;
+        modal.classList.add("modal-overlay--open");
+        document.body.style.overflow = "hidden";
+      }
+      function closeModal() {
+        modal.classList.remove("modal-overlay--open");
+        iframe.src = "";
+        document.body.style.overflow = "";
+      }
+
+      document
+        .getElementById("modal-close")
+        .addEventListener("click", closeModal);
+      modal.addEventListener("click", (e) => {
+        if (e.target === modal) closeModal();
+      });
+      document.addEventListener("keydown", (e) => {
+        if (e.key === "Escape") closeModal();
+      });
+
+      // video triggers
+      document
+        .querySelectorAll(
+          ".aurora-video-trigger, .brutal-video-trigger, .obs-video-trigger, .trop-video-trigger, .zen-video-trigger, .deco-video-trigger",
+        )
+        .forEach((el) => {
+          el.addEventListener("click", openModal);
+        });
+
+      // THEME SWITCHER
+      document.querySelectorAll(".theme-switcher__btn").forEach((btn) => {
+        btn.addEventListener("click", () => {
+          document.documentElement.setAttribute(
+            "data-theme",
+            btn.dataset.switch,
+          );
+          document
+            .querySelectorAll(".theme-switcher__btn")
+            .forEach((b) => b.classList.remove("theme-switcher__btn--active"));
+          btn.classList.add("theme-switcher__btn--active");
+        });
+      });
+
+      // VCF helper
+      function downloadVCF() {
+        const vcard = [
+          "BEGIN:VCARD",
+          "VERSION:3.0",
+          "FN:Ivan Gonzalez",
+          "ORG:Klef Agency",
+          "TITLE:Founder at Klef",
+          "TEL;TYPE=CELL:+526241682048",
+          "EMAIL:ivangklef@gmail.com",
+          "URL:https://klef.agency",
+          "END:VCARD",
+        ].join("\r\n");
+        const blob = new Blob([vcard], { type: "text/vcard" });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = "ivan-gonzalez-klef.vcf";
+        a.click();
+        URL.revokeObjectURL(url);
+      }
+      [
+        "aurora-vcf",
+        "brutal-vcf",
+        "obs-vcf",
+        "trop-vcf",
+        "zen-vcf",
+        "deco-vcf",
+      ].forEach((id) => {
+        const el = document.getElementById(id);
+        if (el) el.addEventListener("click", downloadVCF);
+      });
+
+      // BRUTAL TABS
+      document.querySelectorAll("[data-brutal-tab]").forEach((btn) => {
+        btn.addEventListener("click", () => {
+          const target = btn.dataset.brutalTab;
+          document
+            .querySelectorAll("[data-brutal-tab]")
+            .forEach((b) => b.classList.remove("brutal__nav-item--active"));
+          document
+            .querySelectorAll(".brutal__tab")
+            .forEach((t) => t.classList.remove("brutal__tab--active"));
+          btn.classList.add("brutal__nav-item--active");
+          document
+            .getElementById("brutal-" + target)
+            .classList.add("brutal__tab--active");
+        });
+      });
+
+      // OBS TABS
+      document.querySelectorAll("[data-obs-tab]").forEach((btn) => {
+        btn.addEventListener("click", () => {
+          const target = btn.dataset.obsTab;
+          document
+            .querySelectorAll("[data-obs-tab]")
+            .forEach((b) => b.classList.remove("obs__nav-item--active"));
+          document
+            .querySelectorAll(".obs__tab")
+            .forEach((t) => t.classList.remove("obs__tab--active"));
+          btn.classList.add("obs__nav-item--active");
+          document
+            .getElementById("obs-" + target)
+            .classList.add("obs__tab--active");
+        });
+      });
+
+      // TROP TABS
+      document.querySelectorAll("[data-trop-tab]").forEach((btn) => {
+        btn.addEventListener("click", () => {
+          const target = btn.dataset.tropTab;
+          document
+            .querySelectorAll("[data-trop-tab]")
+            .forEach((b) => b.classList.remove("trop__nav-item--active"));
+          document
+            .querySelectorAll(".trop__tab")
+            .forEach((t) => t.classList.remove("trop__tab--active"));
+          btn.classList.add("trop__nav-item--active");
+          document
+            .getElementById("trop-" + target)
+            .classList.add("trop__tab--active");
+        });
+      });
+
+      // ZEN TABS
+      document.querySelectorAll("[data-zen-tab]").forEach((btn) => {
+        btn.addEventListener("click", () => {
+          const target = btn.dataset.zenTab;
+          document
+            .querySelectorAll("[data-zen-tab]")
+            .forEach((b) => b.classList.remove("zen__nav-item--active"));
+          document
+            .querySelectorAll(".zen__tab")
+            .forEach((t) => t.classList.remove("zen__tab--active"));
+          btn.classList.add("zen__nav-item--active");
+          document
+            .getElementById("zen-" + target)
+            .classList.add("zen__tab--active");
+        });
+      });
+
+      // DECO TABS
+      document.querySelectorAll("[data-deco-tab]").forEach((btn) => {
+        btn.addEventListener("click", () => {
+          const target = btn.dataset.decoTab;
+          document
+            .querySelectorAll("[data-deco-tab]")
+            .forEach((b) => b.classList.remove("deco__nav-item--active"));
+          document
+            .querySelectorAll(".deco__tab")
+            .forEach((t) => t.classList.remove("deco__tab--active"));
+          btn.classList.add("deco__nav-item--active");
+          document
+            .getElementById("deco-" + target)
+            .classList.add("deco__tab--active");
+        });
+      });
+    </script>
+  </body>
+</html>

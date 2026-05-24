@@ -1,0 +1,425 @@
+<!-- Plantilla: Obsidiana Card (Glassmorphic Luxury Tabs) -->
+<style>
+  @import url("https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=DM+Sans:wght@300;400;500&display=swap");
+
+  :root {
+    --card-background: #090b10;
+  }
+
+  .card--obsidiana {
+    display: block;
+    width: 100%;
+    max-width: 400px;
+    border-radius: 24px;
+    overflow: hidden;
+    position: relative;
+    background: rgba(255, 255, 255, 0.04);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    box-shadow:
+      0 24px 80px rgba(0, 0, 0, 0.6),
+      inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    font-family: "DM Sans", sans-serif;
+  }
+
+  /* cover */
+  .obs__cover-wrap {
+    position: relative;
+    height: 180px;
+  }
+  .obs__cover {
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
+    display: block;
+    opacity: 0.5;
+    filter: saturate(0.4);
+  }
+  .obs__cover-gradient {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      to bottom,
+      rgba(9, 11, 16, 0) 20%,
+      rgba(9, 11, 16, 0.95) 100%
+    );
+  }
+
+  /* floating avatar */
+  .obs__avatar-wrap {
+    position: absolute;
+    bottom: -30px;
+    left: 24px;
+    z-index: 5;
+  }
+  .obs__avatar {
+    width: 72px;
+    height: 72px;
+    border-radius: 16px;
+    object-fit: cover;
+    border: 2px solid rgba(14, 165, 233, 0.5);
+    box-shadow:
+      0 8px 24px rgba(0, 0, 0, 0.5),
+      0 0 0 4px rgba(14, 165, 233, 0.08);
+  }
+
+  /* identity row */
+  .obs__identity {
+    padding: 40px 24px 20px;
+  }
+  .obs__name {
+    font-family: "Syne", sans-serif;
+    font-size: 1.6rem;
+    font-weight: 800;
+    color: rgba(255, 255, 255, 0.95);
+    letter-spacing: -0.02em;
+    line-height: 1.1;
+  }
+  .obs__name span {
+    color: #38bdf8;
+  }
+  .obs__role {
+    font-size: 0.7rem;
+    font-weight: 400;
+    color: rgba(255, 255, 255, 0.35);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    margin-top: 4px;
+  }
+  .obs__bio {
+    font-size: 0.78rem;
+    color: rgba(255, 255, 255, 0.45);
+    margin-top: 10px;
+    line-height: 1.6;
+  }
+
+  /* stat pills */
+  .obs__stats {
+    display: flex;
+    gap: 8px;
+    padding: 0 24px 20px;
+  }
+  .obs__stat {
+    flex: 1;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.07);
+    border-radius: 12px;
+    padding: 10px 8px;
+    text-align: center;
+  }
+  .obs__stat-num {
+    font-family: "Syne", sans-serif;
+    font-size: 1.1rem;
+    font-weight: 800;
+    color: #38bdf8;
+  }
+  .obs__stat-label {
+    font-size: 0.58rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: rgba(255, 255, 255, 0.3);
+    margin-top: 2px;
+  }
+
+  /* NAV: pill tabs */
+  .obs__nav {
+    display: flex;
+    gap: 6px;
+    padding: 0 24px 16px;
+  }
+  .obs__nav-item {
+    flex: 1;
+    padding: 9px 6px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.07);
+    border-radius: 10px;
+    cursor: pointer;
+    font-family: "DM Sans", sans-serif;
+    font-size: 0.65rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: rgba(255, 255, 255, 0.35);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    transition: all 0.2s;
+  }
+  .obs__nav-item svg {
+    width: 16px;
+    height: 16px;
+    stroke: currentColor;
+    fill: none;
+    stroke-width: 1.8;
+  }
+  .obs__nav-item--active {
+    background: rgba(14, 165, 233, 0.2);
+    border-color: rgba(14, 165, 233, 0.4);
+    color: #38bdf8;
+  }
+
+  /* BODY */
+  .obs__body {
+    padding: 0 24px 24px;
+  }
+  .obs__tab {
+    display: none;
+  }
+  .obs__tab--active {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  /* glass action buttons */
+  .obs__btn {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 13px 16px;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.07);
+    border-radius: 14px;
+    text-decoration: none;
+    cursor: pointer;
+    font-family: "DM Sans", sans-serif;
+    font-size: 0.83rem;
+    font-weight: 400;
+    color: rgba(255, 255, 255, 0.75);
+    transition: all 0.2s;
+    width: 100%;
+    text-align: left;
+  }
+  .obs__btn:hover {
+    background: rgba(14, 165, 233, 0.12);
+    border-color: rgba(14, 165, 233, 0.3);
+  }
+  .obs__btn--cta {
+    background: rgba(14, 165, 233, 0.2);
+    border-color: rgba(14, 165, 233, 0.4);
+    color: #7dd3fc;
+  }
+  .obs__btn svg {
+    width: 18px;
+    height: 18px;
+    stroke: rgba(56, 189, 248, 0.7);
+    fill: none;
+    stroke-width: 1.6;
+    flex-shrink: 0;
+  }
+  .obs__btn img {
+    width: 20px;
+    height: 20px;
+    flex-shrink: 0;
+    filter: brightness(0) invert(0.7);
+  }
+  .obs__btn--cta svg {
+    stroke: #38bdf8;
+  }
+
+  /* company glass */
+  .obs__company {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 14px;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.07);
+    border-radius: 14px;
+  }
+  .obs__company img {
+    width: 44px;
+    height: 44px;
+    border-radius: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+  }
+  .obs__company-name {
+    font-family: "Syne", sans-serif;
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: rgba(255, 255, 255, 0.85);
+  }
+  .obs__company-tag {
+    font-size: 0.68rem;
+    color: rgba(56, 189, 248, 0.6);
+    letter-spacing: 0.04em;
+    margin-top: 2px;
+  }
+
+  .obs__location {
+    border-radius: 14px;
+    overflow: hidden;
+    border: 1px solid rgba(255, 255, 255, 0.07);
+    text-decoration: none;
+    display: block;
+  }
+  .obs__location img {
+    width: 100%;
+    height: 80px;
+    object-fit: cover;
+    filter: brightness(0.5) saturate(0.4);
+    display: block;
+  }
+  .obs__location-label {
+    padding: 8px 12px;
+    background: rgba(255, 255, 255, 0.04);
+    font-size: 0.72rem;
+    color: rgba(255, 255, 255, 0.4);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .obs__location-label svg {
+    width: 12px;
+    height: 12px;
+    stroke: #38bdf8;
+    fill: none;
+    stroke-width: 2;
+  }
+
+  /* social glass */
+  .obs__social {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 13px 14px;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.07);
+    border-radius: 14px;
+    text-decoration: none;
+    transition: all 0.2s;
+  }
+  .obs__social:hover {
+    background: rgba(14, 165, 233, 0.1);
+    border-color: rgba(14, 165, 233, 0.25);
+  }
+  .obs__social img {
+    width: 26px;
+    height: 26px;
+    border-radius: 6px;
+    filter: brightness(0.9);
+  }
+  .obs__social-name {
+    font-size: 0.68rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: #38bdf8;
+  }
+  .obs__social-handle {
+    font-size: 0.78rem;
+    color: rgba(255, 255, 255, 0.5);
+  }
+  .obs__social-info {
+    flex: 1;
+  }
+  .obs__social-arrow {
+    color: rgba(255, 255, 255, 0.2);
+    font-size: 0.8rem;
+  }
+</style>
+
+<div class="card--obsidiana">
+  <div class="obs__cover-wrap">
+    <div
+      class="obs__cover"
+      data-bind-bg="profile.cover"
+      style="
+        width: 100%;
+        height: 180px;
+        background-size: cover;
+        background-position: center;
+        opacity: 0.5;
+        filter: saturate(0.4);
+      "
+    ></div>
+    <div class="obs__cover-gradient"></div>
+    <div class="obs__avatar-wrap">
+      <img class="obs__avatar" data-bind-src="profile.photo" alt="Foto" />
+    </div>
+  </div>
+
+  <div class="obs__identity">
+    <h1 class="obs__name" data-bind="profile.name">Cargando Nombre</h1>
+    <p class="obs__role" data-bind="profile.title">Cargando Cargo...</p>
+    <p class="obs__bio" data-bind="profile.bio">Cargando biografía...</p>
+  </div>
+
+  <div class="obs__stats">
+    <div class="obs__stat">
+      <p class="obs__stat-num">9</p>
+      <p class="obs__stat-label">Años</p>
+    </div>
+    <div class="obs__stat">
+      <p class="obs__stat-num">+60</p>
+      <p class="obs__stat-label">Proyectos</p>
+    </div>
+    <div class="obs__stat">
+      <p class="obs__stat-num">Klef</p>
+      <p class="obs__stat-label">Agencia</p>
+    </div>
+  </div>
+
+  <nav class="obs__nav">
+    <button class="obs__nav-item obs__nav-item--active" data-obs-tab="contacto">
+      <svg viewBox="0 0 24 24">
+        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+        <circle cx="12" cy="7" r="4" />
+      </svg>
+      Contacto
+    </button>
+    <button class="obs__nav-item" data-obs-tab="empresa">
+      <svg viewBox="0 0 24 24">
+        <rect x="2" y="7" width="20" height="14" rx="2" />
+        <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16" />
+      </svg>
+      Empresa
+    </button>
+  </nav>
+
+  <div class="obs__body">
+    <!-- Pestaña Contacto -->
+    <div class="obs__tab obs__tab--active" id="obs-contacto">
+      <button class="obs__btn obs__btn--cta" id="obs-vcf">
+        <svg viewBox="0 0 24 24">
+          <path
+            d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 1.27h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.37a16 16 0 0 0 5.73 5.73l1.48-1.48a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 14.92v2z"
+          />
+          <line x1="18" y1="2" x2="18" y2="8" />
+          <line x1="15" y1="5" x2="21" y2="5" />
+        </svg>
+        Agregar contacto al móvil
+      </button>
+
+      <a
+        class="obs__btn"
+        data-bind-href="profile.website"
+        target="_blank"
+        rel="noopener"
+      >
+        <svg viewBox="0 0 24 24">
+          <circle cx="12" cy="12" r="10" />
+          <line x1="2" y1="12" x2="22" y2="12" />
+          <path
+            d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"
+          />
+        </svg>
+        Página Web
+      </a>
+    </div>
+
+    <!-- Pestaña Empresa -->
+    <div class="obs__tab" id="obs-empresa" style="display: none">
+      <div class="obs__company">
+        <img data-bind-src="empresa.logo" alt="Logo" />
+        <div>
+          <p class="obs__company-name" data-bind="empresa.name">Cargando...</p>
+          <p class="obs__company-tag" data-bind="empresa.tagline">
+            Cargando...
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

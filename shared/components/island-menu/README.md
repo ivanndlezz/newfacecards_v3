@@ -81,6 +81,34 @@ island.addEventListener('island-action', (e) => {
 });
 ```
 
+## Dynamic templates & `importIslandMenu`
+
+The loader supports two forms for the first argument:
+
+- **Object config** (for default / classic island):
+  ```js
+  import { importIslandMenu } from '/shared/components/island-menu/island-menu.js';
+  const island = await importIslandMenu({
+    edit: { label: 'Editar', icon: 'ti ti-edit' },
+    modes: [
+      { value: 'apariencia', label: 'Apariencia', icon: 'ti ti-palette' },
+      { value: 'cardbar', label: 'Navegación', icon: 'ti ti-layout-columns' }
+    ]
+  });
+  ```
+
+- **URL to .html fragment** (for context-specific variants, e.g. admin "more-options" morph):
+  ```js
+  // After satellite "more-options" in edit mode:
+  importIslandMenu('/shared/components/island-menu/templates/app-edit.html');
+  // or the shipped default:
+  // importIslandMenu('/shared/components/island-menu/templates/default.html');
+  ```
+
+After any `importIslandMenu` call the target element's `innerHTML` is replaced, `data-component="island"` (and role/aria) are asserted, previous enhancement is torn down, and `enhanceIsland` is re-run. All `CustomEvent`s continue to fire and host listeners on the stable root element keep working (no re-attachment required).
+
+See `admin/user/ivangonzalez/index.html` for a live two-phase example (initial object-config bootstrap + runtime URL morph).
+
 ## Decisions on the 6 open questions (2026-05-22)
 
 1. **Auto-injection**: Yes (enabled by default). JS injects CSS + Tabler at module load time if missing. Manual `<link>` + `<script>` still works and is shown in examples as the explicit path. Duplicate guards prevent double loads.
@@ -95,8 +123,11 @@ island.addEventListener('island-action', (e) => {
 ```
 shared/components/island-menu/
 ├── island-menu.css
-├── island-menu.js   # the only file you need to load
-├── island-spa.html  # standalone demo (now uses the real module)
+├── island-menu.js
+├── templates/
+│   ├── default.html   # classic buttons (file-based)
+│   └── app-edit.html  # Perfil/Navegacion variant (used by admin morph)
+├── island-spa.html
 └── README.md
 ```
 

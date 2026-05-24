@@ -1,0 +1,151 @@
+{
+  "meta": {
+    "slug": "ivan-gonzalez-klef",
+    "version": "1.1.0",
+    "title": "Ivan Gonzalez · Klef Agency",
+    "description": "Founder at Klef Agency · Marketing & Tecnología · Los Cabos"
+  },
+  "profile": {
+    "name": "Ivan Gonzalez",
+    "title": "Founder at Klef",
+    "org": "Klef Agency",
+    "bio": "🏖️ Marketing & Tecnología · 🚀 Agencia Digital · 📍 Los Cabos",
+    "email": "ivangklef@gmail.com",
+    "phone": "+526241682048",
+    "website": "https://klef.agency",
+    "photo": {
+      "src": "https://app.newfacecards.com/nfc/profile-pic/recBOO8H0GO0RZlUU.jpg?timestamp=1723160426&size=1000x1000",
+      "alt": "Ivan Gonzalez - Founder Klef Agency"
+    },
+    "cover": {
+      "src": "https://app.newfacecards.com/nfc/cover/recBOO8H0GO0RZlUU.jpg?timestamp=1723160438&size=1000x500",
+      "alt": "Klef Agency Cover"
+    }
+  },
+  "contact": {
+    "actions": [
+      {
+        "id": "add-contact",
+        "label": "Agregar contacto al móvil",
+        "icon": "icon-phone",
+        "type": "vcf",
+        "variant": "primary"
+      },
+      {
+        "id": "whatsapp",
+        "label": "WhatsApp",
+        "icon": "icon-send",
+        "iconUrl": "https://app.newfacecards.com/nfc/icons/whatsapp.png",
+        "href": "https://wa.me/+526241682048",
+        "variant": "secondary"
+      },
+      {
+        "id": "call",
+        "label": "Llamar",
+        "icon": "icon-call",
+        "href": "tel:+526241682048",
+        "variant": "secondary"
+      },
+      {
+        "id": "email",
+        "label": "Enviar correo",
+        "icon": "icon-mail",
+        "href": "mailto:ivangklef@gmail.com",
+        "variant": "secondary"
+      },
+      {
+        "id": "website",
+        "label": "Página web",
+        "icon": "icon-web",
+        "href": "https://klef.agency",
+        "variant": "secondary"
+      }
+    ]
+  },
+  "empresa": {
+    "logo": {
+      "src": "https://app.newfacecards.com/nfc/logo/recBOO8H0GO0RZlUU.jpg?timestamp=1723071427&size=700x700",
+      "alt": "Klef Agency Logo"
+    },
+    "name": "Klef Agency",
+    "tagline": "Piensa antes de ejecutar.",
+    "video": {
+      "thumbnail": {
+        "src": "https://i.ytimg.com/vi/ItJSs8hjNvs/sddefault.jpg",
+        "alt": "Klef Agency - Video introductorio"
+      },
+      "embedUrl": "https://www.youtube.com/embed/videoseries?list=PLEzDWCD5dPq_qwkLcIoY8hX0UoyAoRyWc"
+    },
+    "services": [
+      {
+        "id": "recaLutcXod1kiT1h",
+        "name": "Sitios Web",
+        "description": "Diseño y desarrollo web estratégico para marcas de lujo y turismo premium.",
+        "price": "Desde $8,500",
+        "cta": {
+          "label": "Conoce Klef",
+          "href": "https://klef.agency"
+        },
+        "image": {
+          "src": "https://app.newfacecards.com/cropped-files/recaLutcXod1kiT1h.jpg?timestamp=1731131105&size=700x700",
+          "alt": "Sitios Web - Klef Agency"
+        }
+      }
+    ],
+    "location": {
+      "label": "Los Cabos, BCS, México",
+      "mapsUrl": "https://maps.app.goo.gl/JSsA8yroJ54wnveb7",
+      "thumbnail": {
+        "src": "https://app.newfacecards.com/nfc/maps/recmgOGbLDd3U1bkA.jpg?timestamp=1730875439&size=722x260",
+        "alt": "Klef Agency - Los Cabos, BCS, México"
+      }
+    }
+  },
+  "redes": [
+    {
+      "id": "ig-personal",
+      "network": "instagram",
+      "label": "@ivangonzalez.z",
+      "href": "https://instagram.com/ivangonzalez.z",
+      "icon": "icon-instagram",
+      "iconUrl": "https://app.newfacecards.com/nfc/icons/instagram.png"
+    },
+    {
+      "id": "fb-agency",
+      "network": "facebook",
+      "label": "@klef.agency",
+      "href": "https://facebook.com/klef.agency",
+      "icon": "icon-facebook",
+      "iconUrl": "https://app.newfacecards.com/nfc/icons/facebook.png"
+    },
+    {
+      "id": "ig-agency",
+      "network": "instagram",
+      "label": "@klef.agency",
+      "href": "https://instagram.com/klef.agency",
+      "icon": "icon-instagram",
+      "iconUrl": "https://app.newfacecards.com/nfc/icons/instagram.png"
+    }
+  ],
+  "nav": [
+    {
+      "id": "contacto",
+      "label": "Contacto",
+      "icon": "icon-user"
+    },
+    {
+      "id": "empresa",
+      "label": "Empresa",
+      "icon": "icon-case"
+    },
+    {
+      "id": "redes",
+      "label": "Redes",
+      "icon": "icon-social"
+    }
+  ],
+  "config": {
+    "cover-active": false,
+    "nav-type": "scroll"
+  }
+}

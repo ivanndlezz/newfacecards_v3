@@ -114,27 +114,48 @@
       <main class="main-content">
         <div class="cover">
           <div class="cover__box">
-            <div class="cover__image nfc_cover" id="background_cover" style="background-image: url('https://app.newfacecards.com/nfc/cover/recBOO8H0GO0RZlUU.jpg?timestamp=1723160438&amp;size=1000x500');">
+            <div class="cover__image nfc_cover" id="background_cover" data-bind-bg="profile.cover">
             </div>
           </div>
           <div class="cover__avatar">
-            <img decoding="async" src="https://app.newfacecards.com/nfc/profile-pic/recBOO8H0GO0RZlUU.jpg?timestamp=1723160426&amp;size=1000x1000" width="500" height="500" class="cover__avatar-img" id="profile_pic">
+            <img decoding="async" src="" width="500" height="500" class="cover__avatar-img" id="profile_pic" data-bind-src="profile.photo">
           </div>
         </div>
 
         <div class="main-content__user-card">
-          <h1 id="title">Ivan Gonzalez</h1>
-          <h2 id="subtitle">Software Engineer</h2>
+          <h1 id="title" data-bind="profile.name">Ivan Gonzalez</h1>
+          <h2 id="subtitle" data-bind="profile.title">Software Engineer</h2>
         </div>
       </main>
     </div>
 
-    <script>
-      const STORAGE_PREFIX = "APP_BIND_";
-      const title = localStorage.getItem(STORAGE_PREFIX + "#title") || "Ivan Gonzalez";
-      const subtitle = localStorage.getItem(STORAGE_PREFIX + "#subtitle") || "Software Engineer";
-      document.getElementById("title").textContent = title;
-      document.getElementById("subtitle").textContent = subtitle;
+    <!-- 2. IMPORTACIÓN Y CONFIGURACIÓN DEL BINDER UTILITY (ES MODULE) -->
+    <script type="module">
+      import { DataBinder } from "/shared/utilities/binder.js";
+
+      const binderConfig = {
+        container: document.querySelector(".main-content"), // Montar e hidratar sobre el card actual
+        endpoint: "https://app.newfacecards.com/wp-content/uploads/ultimatemember/1/data/card-data.json",
+        
+        allowLocalFallback: true,
+        localPath: "/data/card-data.json", // Backup local robusto
+        
+        onSuccess: (data) => {
+          console.log("[Perfil Público] Hidratación completada con éxito:", data);
+        },
+        onError: (err) => {
+          console.error("[Perfil Público] Error de hidratación:", err);
+        }
+      };
+
+      const binder = new DataBinder(binderConfig);
+
+      // OPCIÓN A: Hidratar directamente la estructura HTML actual del perfil
+      binder.run();
+
+      // OPCIÓN B (Opcional): Si deseas cargar una plantilla externa de temas (ej: la tarjeta Zen)
+      // Nota: Recuerda linkear la hoja de estilos de temas correspondiente en el head si usas esta opción.
+      // binder.loadTemplateAndRun("/templates/cards/zen.html");
     </script>
 
     <!-- Island Menu component (first real integration in public profile section) -->
