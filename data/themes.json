@@ -1,0 +1,54 @@
+{
+  "version": "1.0.0",
+  "default": "aurora",
+  "themes": [
+    {
+      "id": "aurora",
+      "label": "Aurora",
+      "templateUrl": "/templates/cards/aurora.html",
+      "previewColor": "#5b21b6",
+      "previewMotif": "mesh gradient purple-blue"
+    },
+    {
+      "id": "zen",
+      "label": "Zen",
+      "templateUrl": "/templates/cards/zen.html",
+      "previewColor": "#166534",
+      "previewMotif": "calm green minimal"
+    },
+    {
+      "id": "tropico",
+      "label": "Tropico",
+      "templateUrl": "/templates/cards/tropico.html",
+      "previewColor": "#c2410f",
+      "previewMotif": "warm sunset orange"
+    },
+    {
+      "id": "obsidiana",
+      "label": "Obsidiana",
+      "templateUrl": "/templates/cards/obsidiana.html",
+      "previewColor": "#1f2937",
+      "previewMotif": "dark volcanic black"
+    },
+    {
+      "id": "brutal",
+      "label": "Brutal",
+      "templateUrl": "/templates/cards/brutal.html",
+      "previewColor": "#854d0e",
+      "previewMotif": "bold concrete yellow"
+    },
+    {
+      "id": "deco",
+      "label": "Deco",
+      "templateUrl": "/templates/cards/deco.html",
+      "previewColor": "#854d0e",
+      "previewMotif": "art deco gold lines"
+    }
+  ],
+  "legacyAliases": {
+    "forest-pattern": "zen",
+    "neon": "brutal",
+    "gold": "deco"
+  },
+  "notes": "Only the 6 production themes are active. Legacy skeleton names from card-carousel.html map to real themes via aliases for compatibility."
+}

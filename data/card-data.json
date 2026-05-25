@@ -145,6 +145,7 @@
     }
   ],
   "config": {
+    "selectedTheme": "aurora",
     "cover-active": false,
     "nav-type": "scroll"
   }

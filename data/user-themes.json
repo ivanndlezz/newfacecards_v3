@@ -1,0 +1,15 @@
+{
+  "userId": "ivan-gonzalez-klef",
+  "ownedThemes": [
+    {
+      "id": "aurora",
+      "label": "Aurora",
+      "templateUrl": "/templates/cards/aurora.html",
+      "previewColor": "#5b21b6",
+      "previewMotif": "mesh gradient purple-blue",
+      "isFree": true,
+      "acquiredAt": "2026-05-25T15:30:00Z",
+      "pricePaid": 0.0
+    }
+  ]
+}

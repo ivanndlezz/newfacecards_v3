@@ -180,7 +180,6 @@
       :root {
         --background-color: #efefef;
         --font-color: #111111;
-        --w100: -webkit-fill-available;
       }
 
       body {
@@ -198,7 +197,8 @@
       }
 
       #app {
-        width: var(--w100);
+        width: 100%;
+        max-width: 500px;
         display: flex;
         flex-direction: column;
         position: relative;
@@ -209,8 +209,9 @@
         display: flex;
         justify-content: space-between;
         align-items: center;
-        width: var(--w100);
-        margin: 50px 0px 30px 10px;
+        width: -webkit-fill-available;
+        margin: 50px 10px;
+        margin-bottom: 30px;
         box-sizing: border-box;
         position: sticky;
         top: 30px;
@@ -315,9 +316,6 @@
 
       header {
         transition: all 0.3s ease;
-        margin: 0 auto;
-        width: var(--w100);
-        max-width: 500px;
       }
 
       [data-top-menu="hidden"] + #app {
@@ -329,7 +327,7 @@
 
       .header__action.handler {
         display: flex;
-        width: var(--w100);
+        width: -webkit-fill-available;
         justify-content: center;
       }
 
@@ -392,13 +390,13 @@
         max-width: 500px;
         margin: 0 auto;
         width: 97%;
-        height: var(--w100);
+        height: -webkit-fill-available;
         overflow: clip;
       }
 
       .main-content__top-bar {
         display: flex;
-        width: var(--w100);
+        width: -webkit-fill-available;
         justify-content: space-between;
         margin-bottom: 5px;
         transition: all 0.5s ease;
@@ -543,12 +541,12 @@
         flex-direction: column;
         align-items: center;
         height: 100vh;
-        max-height: var(--w100);
+        max-height: -webkit-fill-available;
         background-color: var(--card-background);
       }
 
       .main-content__user-card > div {
-        height: var(--w100);
+        height: -webkit-fill-available;
       }
 
       /* === COVER & PROFILE PIC === */
@@ -598,12 +596,12 @@
       }
 
       #card * {
-        max-width: var(--w100);
+        max-width: -webkit-fill-available;
       }
 
       .header__action.handler:before {
         content: "";
-        width: var(--w100);
+        width: -webkit-fill-available;
         position: absolute;
         min-height: 70px;
         background-image: linear-gradient(transparent 1%, #e6e6e6 60%, #e6e6e6);
@@ -614,176 +612,8 @@
   </head>
   <body>
     <div id="data-status-storage" data-bind-attr="config.cover_active"></div>
+
     <div id="app">
-      <div class="card-carousel" id="carousel-viewport">
-        <div class="card-carousel__track" id="stage">
-          <div class="profile-card profile-card--glass profile-card--active">
-            <div class="profile-card__content">
-              <div class="profile-card__avatar-container">
-                <img
-                  src="https://api.dicebear.com/7.x/notionists/svg?seed=Alex&amp;backgroundColor=transparent"
-                  alt="Avatar"
-                  class="profile-card__avatar"
-                />
-              </div>
-              <h2 class="profile-card__name">Alex Rivera</h2>
-              <p class="profile-card__role">Creative Developer &amp; UI/UX</p>
-              <p class="profile-card__location">
-                <i class="fa-solid fa-location-dot"></i> Madrid, ES
-              </p>
-            </div>
-            <div class="profile-card__links">
-              <a href="#" class="profile-card__link">
-                <i class="fa-solid fa-globe"></i>
-                <span>Portfolio</span>
-              </a>
-
-              <a href="#" class="profile-card__link">
-                <i class="fa-brands fa-github"></i>
-                <span>GitHub</span>
-              </a>
-
-              <a href="#" class="profile-card__link">
-                <i class="fa-brands fa-linkedin-in"></i>
-                <span>LinkedIn</span>
-              </a>
-            </div>
-            <div class="profile-card__theme-tag">Glassmorphism</div>
-          </div>
-          <div class="profile-card profile-card--cyber profile-card--next">
-            <div class="profile-card__content">
-              <div class="profile-card__avatar-container">
-                <img
-                  src="https://api.dicebear.com/7.x/notionists/svg?seed=Alex&amp;backgroundColor=transparent"
-                  alt="Avatar"
-                  class="profile-card__avatar"
-                />
-              </div>
-              <h2 class="profile-card__name">Alex Rivera</h2>
-              <p class="profile-card__role">Creative Developer &amp; UI/UX</p>
-              <p class="profile-card__location">
-                <i class="fa-solid fa-location-dot"></i> Madrid, ES
-              </p>
-            </div>
-            <div class="profile-card__links">
-              <a href="#" class="profile-card__link">
-                <i class="fa-solid fa-globe"></i>
-                <span>Portfolio</span>
-              </a>
-
-              <a href="#" class="profile-card__link">
-                <i class="fa-brands fa-github"></i>
-                <span>GitHub</span>
-              </a>
-
-              <a href="#" class="profile-card__link">
-                <i class="fa-brands fa-linkedin-in"></i>
-                <span>LinkedIn</span>
-              </a>
-            </div>
-            <div class="profile-card__theme-tag">Cyberpunk</div>
-          </div>
-          <div class="profile-card profile-card--minimal profile-card--hidden">
-            <div class="profile-card__content">
-              <div class="profile-card__avatar-container">
-                <img
-                  src="https://api.dicebear.com/7.x/notionists/svg?seed=Alex&amp;backgroundColor=transparent"
-                  alt="Avatar"
-                  class="profile-card__avatar"
-                />
-              </div>
-              <h2 class="profile-card__name">Alex Rivera</h2>
-              <p class="profile-card__role">Creative Developer &amp; UI/UX</p>
-              <p class="profile-card__location">
-                <i class="fa-solid fa-location-dot"></i> Madrid, ES
-              </p>
-            </div>
-            <div class="profile-card__links">
-              <a href="#" class="profile-card__link">
-                <i class="fa-solid fa-globe"></i>
-                <span>Portfolio</span>
-              </a>
-
-              <a href="#" class="profile-card__link">
-                <i class="fa-brands fa-github"></i>
-                <span>GitHub</span>
-              </a>
-
-              <a href="#" class="profile-card__link">
-                <i class="fa-brands fa-linkedin-in"></i>
-                <span>LinkedIn</span>
-              </a>
-            </div>
-            <div class="profile-card__theme-tag">Minimal Light</div>
-          </div>
-          <div class="profile-card profile-card--hacker profile-card--hidden">
-            <div class="profile-card__content">
-              <div class="profile-card__avatar-container">
-                <img
-                  src="https://api.dicebear.com/7.x/notionists/svg?seed=Alex&amp;backgroundColor=transparent"
-                  alt="Avatar"
-                  class="profile-card__avatar"
-                />
-              </div>
-              <h2 class="profile-card__name">Alex Rivera</h2>
-              <p class="profile-card__role">Creative Developer &amp; UI/UX</p>
-              <p class="profile-card__location">
-                <i class="fa-solid fa-location-dot"></i> Madrid, ES
-              </p>
-            </div>
-            <div class="profile-card__links">
-              <a href="#" class="profile-card__link">
-                <i class="fa-solid fa-globe"></i>
-                <span>Portfolio</span>
-              </a>
-
-              <a href="#" class="profile-card__link">
-                <i class="fa-brands fa-github"></i>
-                <span>GitHub</span>
-              </a>
-
-              <a href="#" class="profile-card__link">
-                <i class="fa-brands fa-linkedin-in"></i>
-                <span>LinkedIn</span>
-              </a>
-            </div>
-            <div class="profile-card__theme-tag">Terminal</div>
-          </div>
-          <div class="profile-card profile-card--sunset profile-card--prev">
-            <div class="profile-card__content">
-              <div class="profile-card__avatar-container">
-                <img
-                  src="https://api.dicebear.com/7.x/notionists/svg?seed=Alex&amp;backgroundColor=transparent"
-                  alt="Avatar"
-                  class="profile-card__avatar"
-                />
-              </div>
-              <h2 class="profile-card__name">Alex Rivera</h2>
-              <p class="profile-card__role">Creative Developer &amp; UI/UX</p>
-              <p class="profile-card__location">
-                <i class="fa-solid fa-location-dot"></i> Madrid, ES
-              </p>
-            </div>
-            <div class="profile-card__links">
-              <a href="#" class="profile-card__link">
-                <i class="fa-solid fa-globe"></i>
-                <span>Portfolio</span>
-              </a>
-
-              <a href="#" class="profile-card__link">
-                <i class="fa-brands fa-github"></i>
-                <span>GitHub</span>
-              </a>
-
-              <a href="#" class="profile-card__link">
-                <i class="fa-brands fa-linkedin-in"></i>
-                <span>LinkedIn</span>
-              </a>
-            </div>
-            <div class="profile-card__theme-tag">Sunset Gradient</div>
-          </div>
-        </div>
-      </div>
       <header class="header">
         <div>
           <div class="header__actions">
@@ -862,25 +692,21 @@
             </div>
           </div>
           <h1 id="title"></h1>
-          <h2 id="subtitle"></h2>
-        </div>
+           <h2 id="subtitle"></h2>
+         </div>
 
-        <!-- Apariencia carousel panel (lives OUTSIDE #card so binder swaps never destroy it) -->
-        <div
-          id="appearance-panel"
-          hidden
-          data-role="appearance-panel"
-          style="
-            margin: 12px 0 24px;
-            padding: 8px 0;
-            border-top: 1px solid rgba(255, 255, 255, 0.08);
-          "
-        >
-          <!-- Populated dynamically by card-carousel when island mode === 'apariencia' -->
-        </div>
-      </main>
-    </div>
-    <!-- ======================== 
+         <!-- Apariencia carousel panel (lives OUTSIDE #card so binder swaps never destroy it) -->
+         <div
+           id="appearance-panel"
+           hidden
+           data-role="appearance-panel"
+           style="margin: 12px 0 24px; padding: 8px 0; border-top: 1px solid rgba(255,255,255,0.08);"
+         >
+           <!-- Populated dynamically by card-carousel when island mode === 'apariencia' -->
+         </div>
+       </main>
+     </div>
+     <!-- ======================== 
            ISLAND MENU
          ======================== -->
     <div
@@ -922,33 +748,25 @@
       const OVERRIDES_KEY = "APP_THEME_OVERRIDES";
       const initialTheme = localStorage.getItem(THEME_STORAGE_KEY) || "aurora";
       const initialOverrides = (() => {
-        try {
-          return JSON.parse(localStorage.getItem(OVERRIDES_KEY) || "{}");
-        } catch {
-          return {};
-        }
+        try { return JSON.parse(localStorage.getItem(OVERRIDES_KEY) || '{}'); } catch { return {}; }
       })();
-      binder
-        .loadTemplateAndRun(`/templates/cards/${initialTheme}.html`)
-        .then(() => {
-          if (initialOverrides && Object.keys(initialOverrides).length)
-            applyLiveOverrides(initialOverrides);
-        });
+      binder.loadTemplateAndRun(`/templates/cards/${initialTheme}.html`).then(() => {
+        if (initialOverrides && Object.keys(initialOverrides).length) applyLiveOverrides(initialOverrides);
+      });
 
       window.__adminBinder = binder;
 
       function applyLiveOverrides(overrides) {
-        const cardEl = document.getElementById("card");
+        const cardEl = document.getElementById('card');
         if (!cardEl || !overrides) return;
-        let styleEl = document.getElementById("live-theme-overrides");
+        let styleEl = document.getElementById('live-theme-overrides');
         if (!styleEl) {
-          styleEl = document.createElement("style");
-          styleEl.id = "live-theme-overrides";
+          styleEl = document.createElement('style');
+          styleEl.id = 'live-theme-overrides';
           document.head.appendChild(styleEl);
         }
-        let css = "";
-        if (overrides.font)
-          css += `#card, #card * { font-family: "${overrides.font}", system-ui, -apple-system, sans-serif !important; }`;
+        let css = '';
+        if (overrides.font) css += `#card, #card * { font-family: "${overrides.font}", system-ui, -apple-system, sans-serif !important; }`;
         if (overrides.accentColor) {
           const a = overrides.accentColor;
           css += `#card [class*="__avatar"], #card [class*="avatar"] { border-color: ${a} !important; box-shadow: 0 0 0 6px ${a}22 !important; }`;
@@ -960,18 +778,10 @@
 
       window.__setCardTheme = (themeId) => {
         if (!themeId) return;
-        binder
-          .loadTemplateAndRun(`/templates/cards/${themeId}.html`)
-          .then(() => {
-            const saved = (() => {
-              try {
-                return JSON.parse(localStorage.getItem(OVERRIDES_KEY) || "{}");
-              } catch {
-                return {};
-              }
-            })();
-            applyLiveOverrides(saved);
-          });
+        binder.loadTemplateAndRun(`/templates/cards/${themeId}.html`).then(() => {
+          const saved = (() => { try { return JSON.parse(localStorage.getItem(OVERRIDES_KEY) || '{}'); } catch { return {}; } })();
+          applyLiveOverrides(saved);
+        });
         localStorage.setItem(THEME_STORAGE_KEY, themeId);
       };
 
@@ -980,11 +790,9 @@
         const merged = { ...(overrides || {}) };
         localStorage.setItem(THEME_STORAGE_KEY, themeId);
         localStorage.setItem(OVERRIDES_KEY, JSON.stringify(merged));
-        binder
-          .loadTemplateAndRun(`/templates/cards/${themeId}.html`)
-          .then(() => {
-            applyLiveOverrides(merged);
-          });
+        binder.loadTemplateAndRun(`/templates/cards/${themeId}.html`).then(() => {
+          applyLiveOverrides(merged);
+        });
       };
     </script>
 
@@ -1098,7 +906,7 @@
         });
         el.addEventListener("island-status-change", (e) => {
           console.log("[admin binder] island-status-change:", e.detail);
-          if (e.detail.status !== "edit") {
+          if (e.detail.status !== 'edit') {
             hideAppearancePanel();
           }
         });
@@ -1106,13 +914,12 @@
 
       // ===== Apariencia / Immersive Editor integration (new premium path) =====
       let appearanceEditorModule = null;
-      const appearancePanel = document.getElementById("appearance-panel");
+      const appearancePanel = document.getElementById('appearance-panel');
       if (appearancePanel) appearancePanel.hidden = true;
 
       async function ensureAppearanceEditor() {
         if (appearanceEditorModule) return appearanceEditorModule;
-        appearanceEditorModule =
-          await import("/shared/components/appearance-editor/appearance-editor.js");
+        appearanceEditorModule = await import('/shared/components/appearance-editor/appearance-editor.js');
         return appearanceEditorModule;
       }
 
@@ -1120,27 +927,22 @@
 
       function openImmersiveAppearance() {
         if (activeEditor) return;
-        ensureAppearanceEditor()
-          .then(({ openAppearanceEditor }) => {
-            activeEditor = openAppearanceEditor({
-              currentTheme:
-                localStorage.getItem("APP_THEME_SELECTED") || "aurora",
-              livePatchCard: true,
-              onApply: (themeId, overrides) => {
-                if (window.__applyCardTheme) {
-                  window.__applyCardTheme(themeId, overrides || {});
-                } else if (window.__setCardTheme) {
-                  window.__setCardTheme(themeId);
-                }
-              },
-              onClose: () => {
-                activeEditor = null;
-              },
-            });
-          })
-          .catch((err) =>
-            console.error("[admin] appearance editor load failed:", err),
-          );
+        ensureAppearanceEditor().then(({ openAppearanceEditor }) => {
+          activeEditor = openAppearanceEditor({
+            currentTheme: localStorage.getItem('APP_THEME_SELECTED') || 'aurora',
+            livePatchCard: true,
+            onApply: (themeId, overrides) => {
+              if (window.__applyCardTheme) {
+                window.__applyCardTheme(themeId, overrides || {});
+              } else if (window.__setCardTheme) {
+                window.__setCardTheme(themeId);
+              }
+            },
+            onClose: () => {
+              activeEditor = null;
+            }
+          });
+        }).catch(err => console.error('[admin] appearance editor load failed:', err));
       }
 
       function closeImmersiveAppearance() {
@@ -1150,20 +952,16 @@
         }
       }
 
-      let lastIslandStatus = "idle";
-      document.getElementById("island")?.addEventListener(
-        "island-status-change",
-        (e) => {
-          lastIslandStatus = e.detail?.status || "idle";
-          if (lastIslandStatus !== "edit") closeImmersiveAppearance();
-        },
-        { passive: true },
-      );
+      let lastIslandStatus = 'idle';
+      document.getElementById('island')?.addEventListener('island-status-change', (e) => {
+        lastIslandStatus = e.detail?.status || 'idle';
+        if (lastIslandStatus !== 'edit') closeImmersiveAppearance();
+      }, { passive: true });
 
       function handleAparienciaMode(mode) {
-        if (mode === "apariencia" && lastIslandStatus === "edit") {
+        if (mode === 'apariencia' && lastIslandStatus === 'edit') {
           openImmersiveAppearance();
-        } else if (mode !== "apariencia") {
+        } else if (mode !== 'apariencia') {
           closeImmersiveAppearance();
         }
       }

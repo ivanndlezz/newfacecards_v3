@@ -41,9 +41,11 @@ island-menu {
 [data-component="island"],
 island-menu {
   position: fixed;
-  right: 10px;
+  /* right: 10px; */
   bottom: 10px;
   z-index: 9999;
+  left: 50%;
+  transform: translate(-50%, 0%);
 }
 
 /* Island en Estado Edición (data-status="edit") */
@@ -67,16 +69,7 @@ island-menu {
   width: fit-content;
 }
 
-/* Escape hatch for demo/centered pages: data-position="static" keeps it in normal flow */
-[data-component="island"][data-position="static"],
-island-menu[data-position="static"] {
-  position: static;
-  bottom: auto;
-  left: auto;
-  transform: none;
-}
-
-/* Island en Estado Edición (data-status="edit") */
+/* Island en Estado Edición (data-status="edit") * /
 [data-component="island"][data-status="edit"] {
   background: #08141fef;
   border-color: rgba(255, 255, 255, 0.25);
@@ -86,6 +79,15 @@ island-menu[data-position="static"] {
     0 15px 40px rgba(0, 0, 0, 0.6),
     0 0 60px 10px rgba(59, 130, 246, 0.15);
   padding: 6px;
+}/**/
+
+/* Escape hatch for demo/centered pages: data-position="static" keeps it in normal flow */
+[data-component="island"][data-position="static"],
+island-menu[data-position="static"] {
+  position: static;
+  bottom: auto;
+  left: auto;
+  transform: none;
 }
 
 /* Satélite Izquierdo (Check / Volver) */
@@ -292,3 +294,69 @@ island-menu[data-position="static"] {
 }
 
 /**/
+
+:root {
+  --island-text: #636159;
+  /* Island */
+  --island-border: #88857a;
+  --island-bg-1: #e7e5e4;
+  --island-bg-2: #f3eee9;
+  /* Buttons*/
+  --primary-btn-border: white;
+  --primary-btn-bg: wwhite;
+  --sat-right: white;
+  /* */
+}
+
+[data-component="island"][data-status="edit"] {
+  border-color: var(--island-border);
+  background-color: var(--island-bg-2);
+}
+
+[data-role="primary"],
+[data-role="sat-right"] {
+  border-color: var(--island-border);
+  background-color: var(--island-bg-1);
+}
+
+[data-role="mode-opt"] {
+  color: var(--island-text);
+  transition: all 0.3s ease;
+}
+
+[data-role="mode-opt"]:last-child {
+  border: solid 1px transparent;
+  border-radius: 0px 50px 50px 0px;
+}
+
+[data-role="mode-opt"]:first-child {
+  border: solid 1px transparent;
+  border-right-color: var(--island-border);
+  border-radius: 50px 0px 0px 50px;
+}
+
+[data-role="mode-opt"]:last-child:hover {
+  border-color: #333333;
+  border-left-color: transparent;
+}
+
+[data-role="mode-opt"]:first-child:hover {
+  border-color: #333333;
+}
+
+[data-role="primary"]:has(:hover) [data-role="mode-opt"]:first-child {
+  border-right-color: #333333;
+}
+
+[data-component="island"][data-status="edit"] [data-role="sat-left"] {
+  background-color: #06886c;
+  color: white;
+}
+
+[data-component="island"]:not([data-status="edit"]) [data-role="sat-left"] {
+  display: none;
+}
+
+[data-role="mode-opt"][data-active="true"] {
+  color: #333333;
+}

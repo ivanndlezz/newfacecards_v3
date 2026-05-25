@@ -1,0 +1,834 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+    />
+    <title>Digital Business Card - Dynamic Themes</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@500;700&family=JetBrains+Mono:wght@400;700&display=swap");
+
+      :root {
+        --bg-color: #09090b; /* Zinc 950 */
+      }
+
+      /* Reset & Base Styles */
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      body {
+        background-color: var(--bg-color);
+        color: #fff;
+        font-family: "Inter", sans-serif;
+        overflow: hidden;
+        touch-action: pan-y; /* Previene scroll horizontal nativo en móviles */
+      }
+
+      /* --- App Layout --- */
+      .card-app {
+        height: 100vh;
+        height: 100dvh;
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+      }
+
+      /* Fondo animado sutil */
+      .card-app__bg {
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        z-index: 0;
+        overflow: hidden;
+        pointer-events: none;
+      }
+
+      .card-app__blob {
+        position: absolute;
+        width: 40%;
+        height: 40%;
+        border-radius: 9999px;
+        filter: blur(120px);
+        -webkit-filter: blur(120px);
+      }
+
+      .card-app__blob--indigo {
+        top: -10%;
+        left: -10%;
+        background-color: rgba(79, 70, 229, 0.1); /* bg-indigo-600/10 */
+      }
+
+      .card-app__blob--purple {
+        bottom: -10%;
+        right: -10%;
+        background-color: rgba(147, 51, 234, 0.1); /* bg-purple-600/10 */
+      }
+
+      .card-app__main {
+        width: 100%;
+        max-width: 80rem; /* 1280px */
+        margin-left: auto;
+        margin-right: auto;
+        padding-left: 1rem;
+        padding-right: 1rem;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+        z-index: 10;
+        flex: 1 1 0%;
+      }
+
+      /* --- Contenedor del Carrusel 3D --- */
+      .card-carousel {
+        perspective: 1200px;
+        transform-style: preserve-3d;
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 550px;
+      }
+
+      .card-carousel__track {
+        position: relative;
+        width: 320px;
+        height: 480px;
+        transform-style: preserve-3d;
+      }
+
+      /* --- Tarjeta de Perfil --- */
+      .profile-card {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        border-radius: 24px;
+        padding: 32px 24px;
+        box-sizing: border-box;
+        will-change: transform, opacity;
+        transition:
+          transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1),
+          opacity 0.6s ease,
+          filter 0.6s ease;
+        display: flex;
+        flex-direction: column;
+        user-select: none;
+      }
+
+      /* ESTADOS DE POSICIÓN (Mantenemos coherencia visual con la perspectiva) */
+      /* Modo Edición */
+      body.edit-mode .profile-card.profile-card--active {
+        transform: translateX(0) translateZ(0) scale(1);
+        opacity: 1;
+        z-index: 10;
+        filter: brightness(1);
+        box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+      }
+
+      body.edit-mode .profile-card.profile-card--prev {
+        transform: translateX(-70%) translateZ(-150px) scale(0.85);
+        opacity: 0.4;
+        z-index: 5;
+        filter: brightness(0.5);
+        cursor: pointer;
+      }
+
+      body.edit-mode .profile-card.profile-card--next {
+        transform: translateX(70%) translateZ(-150px) scale(0.85);
+        opacity: 0.4;
+        z-index: 5;
+        filter: brightness(0.5);
+        cursor: pointer;
+      }
+
+      body.edit-mode .profile-card.profile-card--hidden {
+        transform: translateX(0) translateZ(-300px) scale(0.6);
+        opacity: 0;
+        z-index: 1;
+        pointer-events: none;
+      }
+
+      /* Modo Vista */
+      body.view-mode .profile-card.profile-card--active {
+        transform: translateX(0) translateZ(40px) scale(1.05);
+        opacity: 1;
+        z-index: 10;
+        filter: brightness(1);
+        box-shadow:
+          0 35px 60px -15px rgba(0, 0, 0, 0.8),
+          0 0 40px rgba(255, 255, 255, 0.05);
+      }
+
+      body.view-mode .profile-card:not(.profile-card--active) {
+        transform: translateX(0) translateZ(-200px) scale(0.8);
+        opacity: 0;
+        z-index: 1;
+        pointer-events: none;
+        filter: brightness(0);
+      }
+
+      /* --- Dots Indicadores --- */
+      .card-carousel__dots {
+        transition:
+          opacity 0.4s ease,
+          transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+        display: flex;
+        align-items: center;
+        gap: 0.75rem; /* gap-3 */
+        margin-top: 1rem; /* mt-4 */
+        height: 1.5rem; /* h-6 */
+      }
+
+      body.view-mode .card-carousel__dots {
+        opacity: 0;
+        pointer-events: none;
+        transform: translateY(15px);
+      }
+
+      body.edit-mode .card-carousel__dots {
+        opacity: 1;
+        pointer-events: auto;
+        transform: translateY(0);
+      }
+
+      .card-carousel__dot {
+        width: 0.5rem; /* w-2 */
+        height: 0.5rem; /* h-2 */
+        border-radius: 9999px;
+        background-color: rgba(255, 255, 255, 0.3);
+        transition: all 0.3s ease;
+        cursor: pointer;
+      }
+
+      .card-carousel__dot--active {
+        width: 1.5rem; /* w-6 */
+        background-color: #ffffff;
+      }
+
+      /* --- Componentes Internos de la Tarjeta --- */
+      .profile-card__content {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        flex: 1 1 0%;
+        text-align: center;
+      }
+
+      .profile-card__avatar-container {
+        width: 6rem; /* w-24 */
+        height: 6rem; /* h-24 */
+        border-radius: 9999px;
+        background-color: rgba(0, 0, 0, 0.2);
+        margin-bottom: 1rem; /* mb-4 */
+        padding: 0.5rem; /* p-2 */
+        backdrop-filter: blur(4px);
+        -webkit-backdrop-filter: blur(4px);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+      }
+
+      .profile-card__avatar {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        border-radius: 9999px;
+      }
+
+      .profile-card__name {
+        font-size: 1.5rem; /* text-2xl */
+        margin-bottom: 0.25rem; /* mb-1 */
+      }
+
+      .profile-card__role {
+        font-size: 0.875rem; /* text-sm */
+        font-weight: 500;
+        margin-bottom: 0.25rem; /* mb-1 */
+      }
+
+      .profile-card__location {
+        font-size: 0.75rem; /* text-xs */
+        opacity: 0.8;
+        display: flex;
+        align-items: center;
+        gap: 0.25rem; /* gap-1 */
+      }
+
+      .profile-card__links {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        gap: 0.75rem; /* gap-3 */
+        margin-top: 1.5rem; /* mt-6 */
+      }
+
+      .profile-card__link {
+        width: 100%;
+        padding-top: 0.75rem; /* py-3 */
+        padding-bottom: 0.75rem;
+        padding-left: 1rem; /* px-4 */
+        padding-right: 1rem;
+        border-radius: 0.75rem; /* rounded-xl */
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.75rem; /* gap-3 */
+        text-decoration: none;
+        transition: background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+      }
+
+      .profile-card__link i {
+        font-size: 1rem;
+      }
+
+      .profile-card__link span {
+        font-weight: 500;
+        font-size: 0.875rem; /* text-sm */
+      }
+
+      .profile-card__theme-tag {
+        position: absolute;
+        top: 1rem; /* top-4 */
+        right: 1rem; /* right-4 */
+        font-size: 10px; /* text-[10px] */
+        text-transform: uppercase;
+        letter-spacing: 0.05em; /* tracking-wider */
+        opacity: 0.3;
+        font-weight: 700;
+      }
+
+      /* --- Temas de Tarjeta (BEM Modifiers) --- */
+      
+      /* 1. Glassmorphism */
+      .profile-card--glass {
+        background-color: rgba(255, 255, 255, 0.1);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        backdrop-filter: blur(40px);
+        -webkit-backdrop-filter: blur(40px);
+        box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+      }
+      .profile-card--glass .profile-card__name {
+        color: #ffffff;
+        font-weight: 600;
+      }
+      .profile-card--glass .profile-card__role,
+      .profile-card--glass .profile-card__location {
+        color: #d4d4d8; /* text-zinc-300 */
+      }
+      .profile-card--glass .profile-card__link {
+        background-color: rgba(255, 255, 255, 0.1);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        color: #ffffff;
+      }
+      .profile-card--glass .profile-card__link:hover {
+        background-color: rgba(255, 255, 255, 0.2);
+      }
+      .profile-card--glass .profile-card__theme-tag {
+        color: #ffffff;
+      }
+
+      /* 2. Cyberpunk */
+      .profile-card--cyber {
+        background-color: #18181b; /* bg-zinc-900 */
+        border: 2px solid #facc15; /* border-yellow-400 */
+        box-shadow: 0 0 30px rgba(250, 204, 21, 0.2);
+        font-family: 'Space Grotesk', sans-serif;
+      }
+      .profile-card--cyber .profile-card__name {
+        color: #facc15; /* text-yellow-400 */
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.05em; /* tracking-wide */
+      }
+      .profile-card--cyber .profile-card__role,
+      .profile-card--cyber .profile-card__location {
+        color: #a1a1aa; /* text-zinc-400 */
+      }
+      .profile-card--cyber .profile-card__link {
+        background-color: rgba(250, 204, 21, 0.1); /* bg-yellow-400/10 */
+        border: 1px solid rgba(250, 204, 21, 0.5); /* border-yellow-400/50 */
+        color: #facc15;
+      }
+      .profile-card--cyber .profile-card__link:hover {
+        background-color: rgba(250, 204, 21, 0.2);
+      }
+      .profile-card--cyber .profile-card__theme-tag {
+        color: #facc15;
+      }
+
+      /* 3. Minimal Light */
+      .profile-card--minimal {
+        background-color: #f4f4f5; /* bg-zinc-100 */
+        border: 1px solid #e4e4e7; /* border-zinc-200 */
+        box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+      }
+      .profile-card--minimal .profile-card__name {
+        color: #18181b; /* text-zinc-900 */
+        font-weight: 700;
+      }
+      .profile-card--minimal .profile-card__role,
+      .profile-card--minimal .profile-card__location {
+        color: #71717a; /* text-zinc-500 */
+      }
+      .profile-card--minimal .profile-card__link {
+        background-color: #e4e4e7; /* bg-zinc-200 */
+        border: 1px solid transparent;
+        color: #27272a; /* text-zinc-800 */
+      }
+      .profile-card--minimal .profile-card__link:hover {
+        background-color: #d4d4d8; /* bg-zinc-300 */
+      }
+      .profile-card--minimal .profile-card__theme-tag {
+        color: #18181b;
+      }
+
+      /* 4. Terminal */
+      .profile-card--hacker {
+        background-color: #000000; /* bg-black */
+        border: 1px solid #22c55e; /* border-green-500 */
+        box-shadow: 0 0 20px rgba(34, 197, 94, 0.1);
+        font-family: 'JetBrains Mono', monospace;
+      }
+      .profile-card--hacker .profile-card__name {
+        color: #22c55e; /* text-green-500 */
+        font-weight: 700;
+      }
+      .profile-card--hacker .profile-card__role,
+      .profile-card--hacker .profile-card__location {
+        color: #15803d; /* text-green-700 */
+      }
+      .profile-card--hacker .profile-card__link {
+        background-color: rgba(34, 197, 94, 0.1); /* bg-green-500/10 */
+        border: 1px solid rgba(34, 197, 94, 0.5); /* border-green-500/50 */
+        color: #22c55e;
+      }
+      .profile-card--hacker .profile-card__link:hover {
+        background-color: rgba(34, 197, 94, 0.2);
+      }
+      .profile-card--hacker .profile-card__theme-tag {
+        color: #22c55e;
+      }
+
+      /* 5. Sunset Gradient */
+      .profile-card--sunset {
+        background: linear-gradient(135deg, #f97316, #db2777); /* bg-gradient-to-br from-orange-500 to-pink-600 */
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        box-shadow: 0 25px 50px -12px rgba(249, 115, 22, 0.2);
+      }
+      .profile-card--sunset .profile-card__name {
+        color: #ffffff;
+        font-weight: 700;
+      }
+      .profile-card--sunset .profile-card__role,
+      .profile-card--sunset .profile-card__location {
+        color: #ffedd5; /* text-orange-100 */
+      }
+      .profile-card--sunset .profile-card__link {
+        background-color: rgba(0, 0, 0, 0.2); /* bg-black/20 */
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        color: #ffffff;
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+      }
+      .profile-card--sunset .profile-card__link:hover {
+        background-color: rgba(0, 0, 0, 0.3);
+      }
+      .profile-card--sunset .profile-card__theme-tag {
+        color: #ffffff;
+      }
+
+      /* --- Botón de Acción --- */
+      .action-button-container {
+        position: absolute;
+        bottom: 2.5rem; /* bottom-10 */
+        z-index: 20;
+        display: flex;
+        justify-content: center;
+        width: 100%;
+        padding-left: 1.5rem; /* px-6 */
+        padding-right: 1.5rem;
+      }
+
+      .action-button {
+        position: relative;
+        padding-left: 2rem; /* px-8 */
+        padding-right: 2rem;
+        padding-top: 0.875rem; /* py-3.5 */
+        padding-bottom: 0.875rem;
+        border-radius: 9999px; /* rounded-full */
+        font-family: inherit;
+        font-size: 1rem;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        gap: 0.75rem; /* gap-3 */
+        overflow: hidden;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        user-select: none;
+      }
+
+      .action-button:active {
+        transform: scale(0.95);
+      }
+
+      .action-button__icon i {
+        font-size: 0.875rem; /* text-sm */
+      }
+
+      /* Estado: Editar (Normal) */
+      .action-button--edit {
+        background-color: rgba(255, 255, 255, 0.1); /* bg-white/10 */
+        color: #ffffff;
+        font-weight: 500;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(24px); /* backdrop-blur-xl */
+        -webkit-backdrop-filter: blur(24px);
+        box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3);
+      }
+
+      .action-button--edit:hover {
+        background-color: rgba(255, 255, 255, 0.2); /* hover:bg-white/20 */
+      }
+
+      /* Estado: Guardar (Verde) */
+      .action-button--save {
+        background-color: #10b981; /* bg-emerald-500 */
+        color: #022c22; /* text-emerald-950 */
+        font-weight: 700;
+        border: 1px solid transparent;
+        box-shadow: 0 0 30px rgba(16, 185, 129, 0.3);
+      }
+
+      .action-button--save:hover {
+        background-color: #34d399; /* hover:bg-emerald-400 */
+      }
+    </style>
+  </head>
+  <body class="view-mode card-app">
+    <!-- Fondo animado sutil -->
+    <div class="card-app__bg">
+      <div class="card-app__blob card-app__blob--indigo"></div>
+      <div class="card-app__blob card-app__blob--purple"></div>
+    </div>
+
+    <!-- Contenedor Principal Carrusel -->
+    <main class="card-app__main">
+      <div class="card-carousel" id="carousel-viewport">
+        <div class="card-carousel__track" id="stage">
+          <!-- Las tarjetas se inyectarán aquí por JS -->
+        </div>
+      </div>
+
+      <!-- Puntos indicadores (Dots) -->
+      <div id="dots-container" class="card-carousel__dots">
+        <!-- Los dots se inyectan por JS -->
+      </div>
+    </main>
+
+    <!-- Botón de Acción Persistente (Inferior central) -->
+    <div class="action-button-container">
+      <button id="action-btn" class="action-button action-button--edit">
+        <!-- El contenido del botón cambia dinámicamente -->
+        <span id="action-icon"><i class="fa-solid fa-pen text-sm"></i></span>
+        <span id="action-text">Editar Diseño</span>
+      </button>
+    </div>
+
+    <script>
+      // 1. DATA: Origen de la verdad
+      const BIO_PROFILE_DATA = {
+        name: "Alex Rivera",
+        role: "Creative Developer & UI/UX",
+        avatar:
+          "https://api.dicebear.com/7.x/notionists/svg?seed=Alex&backgroundColor=transparent",
+        location: "Madrid, ES",
+        links: [
+          { title: "Portfolio", url: "#", icon: "fa-solid fa-globe" },
+          { title: "GitHub", url: "#", icon: "fa-brands fa-github" },
+          { title: "LinkedIn", url: "#", icon: "fa-brands fa-linkedin-in" },
+        ],
+      };
+
+      // 2. TEMAS: Diferentes formas de presentar la misma Data
+      const themesData = [
+        {
+          id: "theme-glass",
+          name: "Glassmorphism",
+          themeClass: "profile-card--glass",
+        },
+        {
+          id: "theme-cyber",
+          name: "Cyberpunk",
+          themeClass: "profile-card--cyber",
+        },
+        {
+          id: "theme-minimal",
+          name: "Minimal Light",
+          themeClass: "profile-card--minimal",
+        },
+        {
+          id: "theme-hacker",
+          name: "Terminal",
+          themeClass: "profile-card--hacker",
+        },
+        {
+          id: "theme-sunset",
+          name: "Sunset Gradient",
+          themeClass: "profile-card--sunset",
+        },
+      ];
+
+      // ==========================================
+      // LÓGICA DE APLICACIÓN Y CARRUSEL
+      // ==========================================
+
+      const stage = document.getElementById("stage");
+      const dotsContainer = document.getElementById("dots-container");
+      let cards = [];
+      let dots = [];
+      let currentIndex = 0;
+      let isTransitioning = false;
+
+      // Estado Global (Falso = Modo Vista, Verdadero = Modo Edición)
+      let isEditMode = false;
+
+      // Renderizar las tarjetas
+      function renderCards() {
+        stage.innerHTML = "";
+        dotsContainer.innerHTML = "";
+        cards = [];
+        dots = [];
+
+        themesData.forEach((theme, index) => {
+          // Crear Tarjeta
+          const cardEl = document.createElement("div");
+          cardEl.className = `profile-card ${theme.themeClass}`;
+
+          // Inyectar HTML combinando DATA y CLASES DEL TEMA
+          cardEl.innerHTML = `
+          <div class="profile-card__content">
+            <div class="profile-card__avatar-container">
+              <img src="${BIO_PROFILE_DATA.avatar}" alt="Avatar" class="profile-card__avatar">
+            </div>
+            <h2 class="profile-card__name">${BIO_PROFILE_DATA.name}</h2>
+            <p class="profile-card__role">${BIO_PROFILE_DATA.role}</p>
+            <p class="profile-card__location">
+              <i class="fa-solid fa-location-dot"></i> ${BIO_PROFILE_DATA.location}
+            </p>
+          </div>
+          <div class="profile-card__links">
+            ${BIO_PROFILE_DATA.links
+              .map(
+                (link) => `
+              <a href="${link.url}" class="profile-card__link">
+                <i class="${link.icon}"></i>
+                <span>${link.title}</span>
+              </a>
+            `,
+              )
+              .join("")}
+          </div>
+          <div class="profile-card__theme-tag">
+            ${theme.name}
+          </div>
+        `;
+
+          // Click lateral para cambiar de tarjeta (Solo si estamos en Edit Mode)
+          cardEl.addEventListener("click", () => {
+            if (!isEditMode || isTransitioning) return;
+            if (cardEl.classList.contains("profile-card--prev")) goToIndex(currentIndex - 1);
+            if (cardEl.classList.contains("profile-card--next")) goToIndex(currentIndex + 1);
+          });
+
+          stage.appendChild(cardEl);
+          cards.push(cardEl);
+
+          // Crear Dot (Punto indicador)
+          const dot = document.createElement("div");
+          dot.className = `card-carousel__dot`;
+          dot.addEventListener("click", () => {
+            if (isEditMode && !isTransitioning) goToIndex(index);
+          });
+          dotsContainer.appendChild(dot);
+          dots.push(dot);
+        });
+
+        updateClasses();
+      }
+
+      // Actualizar clases de posiciones (prev, active, next, hidden)
+      function updateClasses() {
+        const length = cards.length;
+
+        cards.forEach((card, index) => {
+          card.className = card.className
+            .replace(/\b(profile-card--(active|prev|next|hidden))\b/g, "")
+            .trim();
+          dots[index].classList.remove("card-carousel__dot--active");
+
+          if (index === currentIndex) {
+            card.classList.add("profile-card--active");
+            dots[index].classList.add("card-carousel__dot--active");
+          } else if (index === (currentIndex - 1 + length) % length) {
+            card.classList.add("profile-card--prev");
+          } else if (index === (currentIndex + 1) % length) {
+            card.classList.add("profile-card--next");
+          } else {
+            card.classList.add("profile-card--hidden");
+          }
+        });
+      }
+
+      // Navegar a un índice específico
+      function goToIndex(newIndex) {
+        if (isTransitioning) return;
+        isTransitioning = true;
+        const length = cards.length;
+        currentIndex = (newIndex + length) % length;
+        updateClasses();
+        setTimeout(() => {
+          isTransitioning = false;
+        }, 600); // Coincide con la transición CSS
+      }
+
+      // Inicializar Render
+      renderCards();
+
+      // ==========================================
+      // LÓGICA DE BOTÓN MODO VISTA/EDICIÓN
+      // ==========================================
+      const actionBtn = document.getElementById("action-btn");
+      const actionIcon = document.getElementById("action-icon");
+      const actionText = document.getElementById("action-text");
+
+      actionBtn.addEventListener("click", () => {
+        isEditMode = !isEditMode;
+        const bodyCls = document.body.classList;
+
+        if (isEditMode) {
+          // Pasar a MODO EDICIÓN: Mostramos el carrusel y los dots
+          bodyCls.remove("view-mode");
+          bodyCls.add("edit-mode");
+
+          // Cambiar estilo del botón a "Guardar"
+          actionBtn.className = "action-button action-button--save";
+          actionIcon.innerHTML = '<i class="fa-solid fa-check text-sm"></i>';
+          actionText.innerText = "Guardar Selección";
+        } else {
+          // Pasar a MODO VISTA: Ocultamos el resto de tarjetas
+          bodyCls.remove("edit-mode");
+          bodyCls.add("view-mode");
+
+          // Volver estilo del botón a "Editar"
+          actionBtn.className = "action-button action-button--edit";
+          actionIcon.innerHTML = '<i class="fa-solid fa-pen text-sm"></i>';
+          actionText.innerText = "Editar Diseño";
+        }
+      });
+
+      // ==========================================
+      // CONTROLES DE NAVEGACIÓN (Solo activos en Edit Mode)
+      // ==========================================
+      const viewport = document.getElementById("carousel-viewport");
+
+      // 1. Teclado
+      document.addEventListener("keydown", (e) => {
+        if (!isEditMode || isTransitioning) return;
+        if (e.key === "ArrowRight") goToIndex(currentIndex + 1);
+        if (e.key === "ArrowLeft") goToIndex(currentIndex - 1);
+      });
+
+      // 2. Scroll (Trackpad / Mouse Wheel)
+      let wheelAccumulator = 0;
+      let isWheelOnCooldown = false;
+
+      viewport.addEventListener(
+        "wheel",
+        (e) => {
+          if (!isEditMode) return; // Si no estamos editando, no hacer nada
+
+          const delta =
+            Math.abs(e.deltaX) > Math.abs(e.deltaY) ? e.deltaX : e.deltaY;
+          if (Math.abs(delta) > 5) e.preventDefault();
+
+          if (isWheelOnCooldown || isTransitioning) return;
+
+          wheelAccumulator += delta;
+
+          if (wheelAccumulator > 60) {
+            goToIndex(currentIndex + 1);
+            triggerWheelCooldown();
+          } else if (wheelAccumulator < -60) {
+            goToIndex(currentIndex - 1);
+            triggerWheelCooldown();
+          }
+        },
+        { passive: false },
+      );
+
+      function triggerWheelCooldown() {
+        wheelAccumulator = 0;
+        isWheelOnCooldown = true;
+        setTimeout(() => {
+          isWheelOnCooldown = false;
+          wheelAccumulator = 0;
+        }, 400);
+      }
+
+      // 3. Gestos (Swipe / Arrastre con mouse)
+      let startX = 0;
+      let isDragging = false;
+
+      function getPositionX(e) {
+        if (e.type.includes("mouse")) {
+          return e.clientX;
+        } else {
+          return e.type.includes("end")
+            ? e.changedTouches[0].clientX
+            : e.touches[0].clientX;
+        }
+      }
+
+      function touchStart(e) {
+        if (!isEditMode) return; // Si estamos en modo vista, no permitir arrastre
+        isDragging = true;
+        startX = getPositionX(e);
+      }
+
+      function touchEnd(e) {
+        if (!isDragging || !isEditMode) return;
+        isDragging = false;
+        const endX = getPositionX(e);
+        const diffX = startX - endX;
+
+        if (Math.abs(diffX) > 50 && !isTransitioning) {
+          if (diffX > 0) goToIndex(currentIndex + 1);
+          else goToIndex(currentIndex - 1);
+        }
+      }
+
+      viewport.addEventListener("mousedown", touchStart);
+      viewport.addEventListener("mouseup", touchEnd);
+      viewport.addEventListener("mouseleave", () => (isDragging = false));
+
+      viewport.addEventListener("touchstart", touchStart, { passive: true });
+      viewport.addEventListener("touchend", touchEnd);
+    </script>
+  </body>
+</html>

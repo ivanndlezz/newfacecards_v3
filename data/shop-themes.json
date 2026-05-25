@@ -1,0 +1,61 @@
+{
+  "version": "1.0.0",
+  "currency": "USD",
+  "shopThemes": [
+    {
+      "id": "zen",
+      "label": "Zen",
+      "description": "Un tema minimalista verde calma que evoca paz y profesionalismo limpio.",
+      "templateUrl": "/templates/cards/zen.html",
+      "price": 4.99,
+      "previewColor": "#166534",
+      "previewMotif": "calm green minimal",
+      "rating": 4.8,
+      "popular": false
+    },
+    {
+      "id": "tropico",
+      "label": "Tropico",
+      "description": "Tonos atardecer cálidos e intensos, perfectos para perfiles creativos y veraniegos.",
+      "templateUrl": "/templates/cards/tropico.html",
+      "price": 4.99,
+      "previewColor": "#c2410f",
+      "previewMotif": "warm sunset orange",
+      "rating": 4.9,
+      "popular": true
+    },
+    {
+      "id": "obsidiana",
+      "label": "Obsidiana",
+      "description": "Elegancia oscura y profunda inspirada en roca volcánica y minimalismo premium.",
+      "templateUrl": "/templates/cards/obsidiana.html",
+      "price": 5.99,
+      "previewColor": "#1f2937",
+      "previewMotif": "dark volcanic black",
+      "rating": 4.7,
+      "popular": false
+    },
+    {
+      "id": "brutal",
+      "label": "Brutal",
+      "description": "Estilo brutalista audaz sobre fondo amarillo de alto contraste y tipografía sólida.",
+      "templateUrl": "/templates/cards/brutal.html",
+      "price": 3.99,
+      "previewColor": "#854d0e",
+      "previewMotif": "bold concrete yellow",
+      "rating": 4.5,
+      "popular": false
+    },
+    {
+      "id": "deco",
+      "label": "Deco",
+      "description": "Estilo Art Deco clásico y sofisticado con líneas doradas y ornamentos sutiles.",
+      "templateUrl": "/templates/cards/deco.html",
+      "price": 6.99,
+      "previewColor": "#854d0e",
+      "previewMotif": "art deco gold lines",
+      "rating": 5.0,
+      "popular": true
+    }
+  ]
+}
