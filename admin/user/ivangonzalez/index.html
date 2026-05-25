@@ -12,6 +12,10 @@
       rel="stylesheet"
       href="/shared/components/island-menu/island-menu.css"
     />
+    <link
+      rel="stylesheet"
+      href="/shared/components/card-carousel/card-carousel-latest.css"
+    />
     <title>SPA Binder & Style Loader</title>
     <!-- ========================================================================================= -->
     <!-- ===== ICONOS ===== -->
@@ -615,173 +619,10 @@
   <body>
     <div id="data-status-storage" data-bind-attr="config.cover_active"></div>
     <div id="app">
+      <!-- Selector de Temas Carrusel 3D Overlay -->
       <div class="card-carousel" id="carousel-viewport">
         <div class="card-carousel__track" id="stage">
-          <div class="profile-card profile-card--glass profile-card--active">
-            <div class="profile-card__content">
-              <div class="profile-card__avatar-container">
-                <img
-                  src="https://api.dicebear.com/7.x/notionists/svg?seed=Alex&amp;backgroundColor=transparent"
-                  alt="Avatar"
-                  class="profile-card__avatar"
-                />
-              </div>
-              <h2 class="profile-card__name">Alex Rivera</h2>
-              <p class="profile-card__role">Creative Developer &amp; UI/UX</p>
-              <p class="profile-card__location">
-                <i class="fa-solid fa-location-dot"></i> Madrid, ES
-              </p>
-            </div>
-            <div class="profile-card__links">
-              <a href="#" class="profile-card__link">
-                <i class="fa-solid fa-globe"></i>
-                <span>Portfolio</span>
-              </a>
-
-              <a href="#" class="profile-card__link">
-                <i class="fa-brands fa-github"></i>
-                <span>GitHub</span>
-              </a>
-
-              <a href="#" class="profile-card__link">
-                <i class="fa-brands fa-linkedin-in"></i>
-                <span>LinkedIn</span>
-              </a>
-            </div>
-            <div class="profile-card__theme-tag">Glassmorphism</div>
-          </div>
-          <div class="profile-card profile-card--cyber profile-card--next">
-            <div class="profile-card__content">
-              <div class="profile-card__avatar-container">
-                <img
-                  src="https://api.dicebear.com/7.x/notionists/svg?seed=Alex&amp;backgroundColor=transparent"
-                  alt="Avatar"
-                  class="profile-card__avatar"
-                />
-              </div>
-              <h2 class="profile-card__name">Alex Rivera</h2>
-              <p class="profile-card__role">Creative Developer &amp; UI/UX</p>
-              <p class="profile-card__location">
-                <i class="fa-solid fa-location-dot"></i> Madrid, ES
-              </p>
-            </div>
-            <div class="profile-card__links">
-              <a href="#" class="profile-card__link">
-                <i class="fa-solid fa-globe"></i>
-                <span>Portfolio</span>
-              </a>
-
-              <a href="#" class="profile-card__link">
-                <i class="fa-brands fa-github"></i>
-                <span>GitHub</span>
-              </a>
-
-              <a href="#" class="profile-card__link">
-                <i class="fa-brands fa-linkedin-in"></i>
-                <span>LinkedIn</span>
-              </a>
-            </div>
-            <div class="profile-card__theme-tag">Cyberpunk</div>
-          </div>
-          <div class="profile-card profile-card--minimal profile-card--hidden">
-            <div class="profile-card__content">
-              <div class="profile-card__avatar-container">
-                <img
-                  src="https://api.dicebear.com/7.x/notionists/svg?seed=Alex&amp;backgroundColor=transparent"
-                  alt="Avatar"
-                  class="profile-card__avatar"
-                />
-              </div>
-              <h2 class="profile-card__name">Alex Rivera</h2>
-              <p class="profile-card__role">Creative Developer &amp; UI/UX</p>
-              <p class="profile-card__location">
-                <i class="fa-solid fa-location-dot"></i> Madrid, ES
-              </p>
-            </div>
-            <div class="profile-card__links">
-              <a href="#" class="profile-card__link">
-                <i class="fa-solid fa-globe"></i>
-                <span>Portfolio</span>
-              </a>
-
-              <a href="#" class="profile-card__link">
-                <i class="fa-brands fa-github"></i>
-                <span>GitHub</span>
-              </a>
-
-              <a href="#" class="profile-card__link">
-                <i class="fa-brands fa-linkedin-in"></i>
-                <span>LinkedIn</span>
-              </a>
-            </div>
-            <div class="profile-card__theme-tag">Minimal Light</div>
-          </div>
-          <div class="profile-card profile-card--hacker profile-card--hidden">
-            <div class="profile-card__content">
-              <div class="profile-card__avatar-container">
-                <img
-                  src="https://api.dicebear.com/7.x/notionists/svg?seed=Alex&amp;backgroundColor=transparent"
-                  alt="Avatar"
-                  class="profile-card__avatar"
-                />
-              </div>
-              <h2 class="profile-card__name">Alex Rivera</h2>
-              <p class="profile-card__role">Creative Developer &amp; UI/UX</p>
-              <p class="profile-card__location">
-                <i class="fa-solid fa-location-dot"></i> Madrid, ES
-              </p>
-            </div>
-            <div class="profile-card__links">
-              <a href="#" class="profile-card__link">
-                <i class="fa-solid fa-globe"></i>
-                <span>Portfolio</span>
-              </a>
-
-              <a href="#" class="profile-card__link">
-                <i class="fa-brands fa-github"></i>
-                <span>GitHub</span>
-              </a>
-
-              <a href="#" class="profile-card__link">
-                <i class="fa-brands fa-linkedin-in"></i>
-                <span>LinkedIn</span>
-              </a>
-            </div>
-            <div class="profile-card__theme-tag">Terminal</div>
-          </div>
-          <div class="profile-card profile-card--sunset profile-card--prev">
-            <div class="profile-card__content">
-              <div class="profile-card__avatar-container">
-                <img
-                  src="https://api.dicebear.com/7.x/notionists/svg?seed=Alex&amp;backgroundColor=transparent"
-                  alt="Avatar"
-                  class="profile-card__avatar"
-                />
-              </div>
-              <h2 class="profile-card__name">Alex Rivera</h2>
-              <p class="profile-card__role">Creative Developer &amp; UI/UX</p>
-              <p class="profile-card__location">
-                <i class="fa-solid fa-location-dot"></i> Madrid, ES
-              </p>
-            </div>
-            <div class="profile-card__links">
-              <a href="#" class="profile-card__link">
-                <i class="fa-solid fa-globe"></i>
-                <span>Portfolio</span>
-              </a>
-
-              <a href="#" class="profile-card__link">
-                <i class="fa-brands fa-github"></i>
-                <span>GitHub</span>
-              </a>
-
-              <a href="#" class="profile-card__link">
-                <i class="fa-brands fa-linkedin-in"></i>
-                <span>LinkedIn</span>
-              </a>
-            </div>
-            <div class="profile-card__theme-tag">Sunset Gradient</div>
-          </div>
+          <!-- Inyectado dinámicamente -->
         </div>
       </div>
       <header class="header">
@@ -917,9 +758,11 @@
       // Inicializar y ejecutar la tubería de bindeo con la plantilla cargada dinámicamente
       const binder = new DataBinder(binderConfig);
 
-      // Theme bootstrap + overrides (core live font/accent WYSIWYG)
       const THEME_STORAGE_KEY = "APP_THEME_SELECTED";
       const OVERRIDES_KEY = "APP_THEME_OVERRIDES";
+      // expose globally for other script blocks
+      window.THEME_STORAGE_KEY = THEME_STORAGE_KEY;
+      window.OVERRIDES_KEY = OVERRIDES_KEY;
       const initialTheme = localStorage.getItem(THEME_STORAGE_KEY) || "aurora";
       const initialOverrides = (() => {
         try {
@@ -1099,55 +942,440 @@
         el.addEventListener("island-status-change", (e) => {
           console.log("[admin binder] island-status-change:", e.detail);
           if (e.detail.status !== "edit") {
-            hideAppearancePanel();
+            closeCarouselOverlay();
           }
         });
       }
 
-      // ===== Apariencia / Immersive Editor integration (new premium path) =====
-      let appearanceEditorModule = null;
-      const appearancePanel = document.getElementById("appearance-panel");
-      if (appearancePanel) appearancePanel.hidden = true;
+      // ===== Selector de Temas Carrusel 3D Overlay (Micro-transacciones simuladas) =====
+      // THEME_STORAGE_KEY ya declarada arriba ("APP_THEME_SELECTED") — no re-declarar.
+      const OWNED_THEMES_KEY = "NFC_OWNED_THEMES";
 
-      async function ensureAppearanceEditor() {
-        if (appearanceEditorModule) return appearanceEditorModule;
-        appearanceEditorModule =
-          await import("/shared/components/appearance-editor/appearance-editor.js");
-        return appearanceEditorModule;
+      const BACKUP_THEMES = [
+        {
+          id: "aurora",
+          label: "Aurora",
+          accent: "#a855f7",
+          font: "Josefin Sans",
+          isFree: true,
+          price: 0,
+        },
+        {
+          id: "zen",
+          label: "Zen",
+          accent: "#c0392b",
+          font: "Noto Serif JP",
+          price: 4.99,
+          description: "Minimalista verde calma de paz visual.",
+        },
+        {
+          id: "tropico",
+          label: "Tropico",
+          accent: "#f4d03f",
+          font: "Syne",
+          price: 4.99,
+          description: "Tonos atardecer intensos y creativos.",
+        },
+        {
+          id: "obsidiana",
+          label: "Obsidiana",
+          accent: "#0ea5e9",
+          font: "DM Sans",
+          price: 5.99,
+          description: "Elegancia oscura y profunda premium.",
+        },
+        {
+          id: "brutal",
+          label: "Brutal",
+          accent: "#f59e0b",
+          font: "Bebas Neue",
+          price: 3.99,
+          description: "Diseño brutalista audaz de alto contraste.",
+        },
+        {
+          id: "deco",
+          label: "Deco",
+          accent: "#d4a843",
+          font: "Cinzel Decorative",
+          price: 6.99,
+          description: "Art Deco clásico sofisticado con líneas de oro.",
+        },
+      ];
+
+      let ownedThemes = [];
+      let shopThemes = [];
+      let allThemes = [];
+
+      function initOwnedThemes() {
+        let stored = localStorage.getItem(OWNED_THEMES_KEY);
+        if (stored) {
+          try {
+            ownedThemes = JSON.parse(stored);
+          } catch (e) {
+            ownedThemes = ["aurora"];
+          }
+        } else {
+          ownedThemes = ["aurora"];
+          localStorage.setItem(OWNED_THEMES_KEY, JSON.stringify(ownedThemes));
+        }
       }
 
-      let activeEditor = null;
+      async function loadThemesData() {
+        initOwnedThemes();
+        try {
+          const [userRes, shopRes] = await Promise.all([
+            fetch("/data/user-themes.json")
+              .then((r) => r.json())
+              .catch(() => null),
+            fetch("/data/shop-themes.json")
+              .then((r) => r.json())
+              .catch(() => null),
+          ]);
+
+          if (userRes && userRes.ownedThemes) {
+            userRes.ownedThemes.forEach((t) => {
+              if (!ownedThemes.includes(t.id)) ownedThemes.push(t.id);
+            });
+            localStorage.setItem(OWNED_THEMES_KEY, JSON.stringify(ownedThemes));
+          }
+
+          if (shopRes && shopRes.shopThemes) {
+            shopThemes = shopRes.shopThemes;
+          } else {
+            shopThemes = BACKUP_THEMES.filter((t) => !t.isFree);
+          }
+        } catch (e) {
+          console.warn("Error loading theme JSON databases, falling back:", e);
+          shopThemes = BACKUP_THEMES.filter((t) => !t.isFree);
+        }
+
+        allThemes = [];
+        const aurora = BACKUP_THEMES.find((t) => t.id === "aurora");
+        allThemes.push(aurora);
+
+        shopThemes.forEach((t) => {
+          if (!allThemes.some((x) => x.id === t.id)) {
+            allThemes.push(t);
+          }
+        });
+      }
+
+      function renderHighFidelityPreview(themeId, host, accentColor, fontName) {
+        if (!host) return;
+        host.innerHTML = "";
+        const accent = accentColor || "#a855f7";
+        const font = fontName || "system-ui";
+        let inner = "";
+
+        if (themeId === "aurora") {
+          inner = `<div style="width:100%;height:100%;background:radial-gradient(ellipse 80% 60% at 20% 10%, rgba(168,85,247,.42) 0%,transparent 60%),radial-gradient(ellipse 70% 50% at 80% 30%, rgba(59,130,246,.38) 0%,transparent 55%),radial-gradient(ellipse 60% 70% at 50% 80%, rgba(236,72,153,.32) 0%,transparent 60%),#0f0c1e;position:relative;overflow:hidden"><div style="padding:28px 16px 10px;text-align:center"><div style="width:68px;height:68px;border-radius:50%;margin:0 auto 10px;border:2px solid ${accent};box-shadow:0 0 0 5px ${accent}22;background:#222"></div><div style="font-family:'Fraunces',Georgia,serif;font-size:21px;font-weight:700;color:#fff;letter-spacing:-.025em;line-height:.92">Jane <em style="font-style:italic;background:linear-gradient(135deg,#c084fc,#818cf8,#f472b6);-webkit-background-clip:text;-webkit-text-fill-color:transparent">Doe</em></div><div style="font-size:9px;text-transform:uppercase;letter-spacing:.18em;color:#c084fc;margin-top:3px;opacity:.8">Product Designer</div></div><div style="position:absolute;bottom:18px;left:50%;transform:translateX(-50%);display:flex;gap:10px;opacity:.6"><span style="font-size:11px">in</span><span style="font-size:11px">✕</span><span style="font-size:11px">◎</span></div></div>`;
+        } else if (themeId === "zen") {
+          inner = `<div style="width:100%;height:100%;background:#fefcf8;position:relative;border-left:3px solid ${accent}"><div style="height:118px;background:linear-gradient(#ddd,#f4f1e9);filter:saturate(.6)"></div><div style="position:absolute;top:78px;left:50%;transform:translateX(-50%);width:62px;height:62px;border:1px solid #1c181122;background:#e8e0d0"></div><div style="padding:62px 14px 8px;text-align:center;font-family:'Noto Serif JP',serif"><div style="font-size:15px;color:#1c1811;letter-spacing:.08em">山田 太郎</div><div style="font-size:8.5px;color:${accent};margin-top:1px;letter-spacing:.16em">ENGINEER</div></div><div style="position:absolute;bottom:12px;left:0;right:0;height:22px;background:rgba(254,252,248,.9);display:flex;align-items:center;justify-content:space-around;font-size:8px;color:#9a8e7e;border-top:1px solid #1c181122"><span>一</span><span>二</span><span>三</span></div></div>`;
+        } else if (themeId === "tropico") {
+          inner = `<div style="width:100%;height:100%;background:#0f3326;position:relative;border-top:4px solid ${accent}"><div style="height:108px;background:linear-gradient(#3a2a1a,#0f3326);filter:saturate(1.25)"></div><div style="position:absolute;top:72px;left:50%;transform:translateX(-50%);width:62px;height:62px;border-radius:50%;border:3px solid ${accent};background:#222"></div><div style="padding:68px 12px 6px;text-align:center"><div style="font-family:'Syne',sans-serif;font-size:17px;font-weight:800;color:${accent};letter-spacing:-.01em;text-transform:uppercase">LUNA RIOS</div><div style="font-size:8px;color:#f4d03f;margin-top:2px;letter-spacing:.14em">CREATIVE</div></div><div style="position:absolute;bottom:14px;left:50%;transform:translateX(-50%);display:flex;gap:4px"><div style="font-size:7px;background:#f4d03f22;color:#f4d03f;padding:1px 5px;border-radius:3px">SUN</div></div></div>`;
+        } else if (themeId === "obsidiana") {
+          inner = `<div style="width:100%;height:100%;background:rgba(255,255,255,.035);backdrop-filter:blur(18px);border:1px solid rgba(255,255,255,.07);position:relative"><div style="height:102px;background:linear-gradient(rgba(9,11,16,0),#090b10);opacity:.6"></div><div style="position:absolute;top:66px;left:18px;width:54px;height:54px;border-radius:12px;border:2px solid ${accent};background:#222"></div><div style="padding:54px 14px 6px 72px"><div style="font-family:'Syne',sans-serif;font-size:15px;font-weight:800;color:#fff;letter-spacing:-.015em">Alex Rivera</div><div style="font-size:8px;color:#64748b;margin-top:1px;letter-spacing:.1em">FOUNDER</div></div><div style="position:absolute;bottom:12px;left:14px;right:14px;display:flex;gap:4px"><div style="flex:1;height:14px;background:rgba(255,255,255,.06);border-radius:3px"></div><div style="flex:1;height:14px;background:rgba(255,255,255,.06);border-radius:3px"></div></div></div>`;
+        } else if (themeId === "brutal") {
+          inner = `<div style="width:100%;height:100%;background:#f59e0b;position:relative;border: 2px solid #000;"><div style="height:132px;background:#222;filter:grayscale(1) contrast(1.15)"></div><div style="position:absolute;top:102px;left:16px;width:46px;height:46px;background:#ddd;border:3px solid #f0ece2;filter:grayscale(1)"></div><div style="padding:106px 12px 6px 70px;font-family:'Bebas Neue',sans-serif"><div style="font-size:18px;color:#111;letter-spacing:.01em;line-height:1">BRUTAL</div><div style="font-size:7px;color:#666;margin-top:-1px;letter-spacing:.12em">STUDIO</div></div><div style="position:absolute;bottom:10px;left:12px;right:12px;height:18px;background:#111;display:flex;gap:3px;align-items:center;padding:0 6px"><div style="font-size:6px;color:#f0ece244;letter-spacing:.08em">01 02 03</div></div></div>`;
+        } else {
+          inner = `<div style="width:100%;height:100%;background:#120f08;position:relative;border:1px solid #d4a84333"><div style="height:106px;background:#222"></div><div style="position:absolute;top:68px;left:50%;transform:translateX(-50%);width:58px;height:58px;clip-path:polygon(50% 0,100% 50%,50% 100%,0 50%);background:#222;outline:2px solid ${accent};outline-offset:2px"></div><div style="padding:62px 10px 4px;text-align:center;font-family:'Cinzel Decorative',serif"><div style="font-size:13px;color:#d4a843;letter-spacing:.06em">ATELIER</div><div style="font-size:8px;color:#d4a84388;margin-top:1px;letter-spacing:.18em">PARIS</div></div><div style="position:absolute;bottom:12px;left:50%;transform:translateX(-50%);font-size:8px;color:#d4a84344">◆ ◇ ◆</div></div>`;
+        }
+
+        const wrap = document.createElement("div");
+        wrap.style.cssText =
+          "position:absolute;inset:0;font-family:" + font + ",system-ui";
+        wrap.innerHTML = inner;
+        host.appendChild(wrap);
+      }
+
+      let carouselCards = [];
+      let carouselCurrentIndex = 0;
+      let carouselTransitioning = false;
+      let isCarouselActive = false;
+
+      function showSuccessToast(themeLabel) {
+        let toast = document.querySelector(".buy-toast");
+        if (!toast) {
+          toast = document.createElement("div");
+          toast.className = "buy-toast";
+          document.body.appendChild(toast);
+        }
+        toast.innerHTML = `<i class="fa-solid fa-circle-check"></i> ¡Tema <strong>${themeLabel}</strong> adquirido con éxito!`;
+        toast.classList.add("buy-toast--visible");
+        setTimeout(() => {
+          toast.classList.remove("buy-toast--visible");
+        }, 2200);
+      }
+
+      function buildCarouselUI() {
+        const stage = document.getElementById("stage");
+        if (!stage) return;
+        stage.innerHTML = "";
+        carouselCards = [];
+
+        const currentSelectedTheme =
+          localStorage.getItem(THEME_STORAGE_KEY) || "aurora";
+
+        allThemes.forEach((theme, index) => {
+          const isOwned = ownedThemes.includes(theme.id);
+          const isActive = theme.id === currentSelectedTheme;
+
+          const cardEl = document.createElement("div");
+          cardEl.className = `profile-card profile-card--glass`;
+
+          const aeCard = document.createElement("div");
+          aeCard.className = "ae-card";
+          aeCard.dataset.theme = theme.id;
+
+          const previewHost = document.createElement("div");
+          previewHost.className = "ae-preview-host";
+          previewHost.style.cssText = "position:absolute;inset:0;";
+
+          renderHighFidelityPreview(
+            theme.id,
+            previewHost,
+            theme.accent,
+            theme.font,
+          );
+
+          const labelEl = document.createElement("div");
+          labelEl.className = "ae-card-label";
+          labelEl.innerText = theme.label;
+
+          aeCard.appendChild(previewHost);
+          aeCard.appendChild(labelEl);
+          cardEl.appendChild(aeCard);
+
+          const actionBar = document.createElement("div");
+          actionBar.className = "profile-card__action-bar";
+
+          if (isActive) {
+            actionBar.innerHTML = `
+              <div class="theme-active-badge">
+                <i class="fa-solid fa-circle-check"></i> Tema Activo
+              </div>
+            `;
+          } else if (isOwned) {
+            const applyBtn = document.createElement("button");
+            applyBtn.className = "apply-theme-btn";
+            applyBtn.innerHTML = `<i class="fa-solid fa-palette"></i> Aplicar`;
+            applyBtn.addEventListener("click", (e) => {
+              e.stopPropagation();
+              applyThemeSelection(theme.id);
+            });
+            actionBar.appendChild(applyBtn);
+          } else {
+            const buyBtn = document.createElement("button");
+            buyBtn.className = "buy-theme-btn";
+            buyBtn.innerHTML = `<i class="fa-solid fa-cart-shopping"></i> Comprar $${theme.price || "4.99"}`;
+            buyBtn.addEventListener("click", (e) => {
+              e.stopPropagation();
+              simulatePurchase(theme);
+            });
+            actionBar.appendChild(buyBtn);
+          }
+
+          cardEl.appendChild(actionBar);
+
+          cardEl.addEventListener("click", () => {
+            if (carouselTransitioning || !isCarouselActive) return;
+            if (cardEl.classList.contains("profile-card--prev"))
+              rotateCarousel(carouselCurrentIndex - 1);
+            if (cardEl.classList.contains("profile-card--next"))
+              rotateCarousel(carouselCurrentIndex + 1);
+          });
+
+          stage.appendChild(cardEl);
+          carouselCards.push(cardEl);
+        });
+
+        const activeIdx = allThemes.findIndex(
+          (t) => t.id === currentSelectedTheme,
+        );
+        carouselCurrentIndex = activeIdx >= 0 ? activeIdx : 0;
+
+        updateCarouselClasses();
+      }
+
+      function updateCarouselClasses() {
+        const length = carouselCards.length;
+        if (length === 0) return;
+
+        carouselCards.forEach((card, index) => {
+          card.className = card.className
+            .replace(/\b(profile-card--(active|prev|next|hidden))\b/g, "")
+            .trim();
+
+          if (index === carouselCurrentIndex) {
+            card.classList.add("profile-card--active");
+          } else if (index === (carouselCurrentIndex - 1 + length) % length) {
+            card.classList.add("profile-card--prev");
+          } else if (index === (carouselCurrentIndex + 1) % length) {
+            card.classList.add("profile-card--next");
+          } else {
+            card.classList.add("profile-card--hidden");
+          }
+        });
+      }
+
+      function rotateCarousel(newIndex) {
+        if (carouselTransitioning) return;
+        carouselTransitioning = true;
+        const length = carouselCards.length;
+        carouselCurrentIndex = (newIndex + length) % length;
+        updateCarouselClasses();
+        setTimeout(() => {
+          carouselTransitioning = false;
+        }, 500);
+      }
+
+      function simulatePurchase(theme) {
+        if (ownedThemes.includes(theme.id)) return;
+
+        ownedThemes.push(theme.id);
+        localStorage.setItem(OWNED_THEMES_KEY, JSON.stringify(ownedThemes));
+
+        showSuccessToast(theme.label);
+        buildCarouselUI();
+      }
+
+      function applyThemeSelection(themeId) {
+        if (window.__setCardTheme) {
+          window.__setCardTheme(themeId);
+        } else {
+          localStorage.setItem(THEME_STORAGE_KEY, themeId);
+        }
+
+        buildCarouselUI();
+        closeCarouselOverlay();
+
+        const island = document.getElementById("island");
+        if (island && island.dispatchEvent) {
+          island.dispatchEvent(
+            new CustomEvent("island-request-status", {
+              detail: { status: "idle" },
+            }),
+          );
+        }
+      }
+
+      function openCarouselOverlay() {
+        isCarouselActive = true;
+        loadThemesData().then(() => {
+          buildCarouselUI();
+          const viewport = document.getElementById("carousel-viewport");
+          if (viewport) {
+            viewport.style.display = "flex";
+            viewport.offsetHeight; // force reflow
+            viewport.classList.add("card-carousel--visible");
+          }
+        });
+      }
+
+      function closeCarouselOverlay() {
+        isCarouselActive = false;
+        const viewport = document.getElementById("carousel-viewport");
+        if (viewport) {
+          viewport.classList.remove("card-carousel--visible");
+          setTimeout(() => {
+            if (!isCarouselActive) viewport.style.display = "none";
+          }, 400);
+        }
+      }
+
+      function setupCarouselControls() {
+        const viewport = document.getElementById("carousel-viewport");
+        if (!viewport) return;
+
+        document.addEventListener("keydown", (e) => {
+          if (!isCarouselActive || carouselTransitioning) return;
+          if (e.key === "ArrowRight") rotateCarousel(carouselCurrentIndex + 1);
+          if (e.key === "ArrowLeft") rotateCarousel(carouselCurrentIndex - 1);
+        });
+
+        let wheelAccumulator = 0;
+        let isWheelOnCooldown = false;
+
+        viewport.addEventListener(
+          "wheel",
+          (e) => {
+            if (!isCarouselActive) return;
+
+            const delta =
+              Math.abs(e.deltaX) > Math.abs(e.deltaY) ? e.deltaX : e.deltaY;
+            if (Math.abs(delta) > 5) e.preventDefault();
+
+            if (isWheelOnCooldown || carouselTransitioning) return;
+
+            wheelAccumulator += delta;
+
+            if (wheelAccumulator > 60) {
+              rotateCarousel(carouselCurrentIndex + 1);
+              triggerWheelCooldown();
+            } else if (wheelAccumulator < -60) {
+              rotateCarousel(carouselCurrentIndex - 1);
+              triggerWheelCooldown();
+            }
+          },
+          { passive: false },
+        );
+
+        function triggerWheelCooldown() {
+          wheelAccumulator = 0;
+          isWheelOnCooldown = true;
+          setTimeout(() => {
+            isWheelOnCooldown = false;
+            wheelAccumulator = 0;
+          }, 400);
+        }
+
+        let startX = 0;
+        let isDragging = false;
+
+        function getPositionX(e) {
+          if (e.type.includes("mouse")) {
+            return e.clientX;
+          } else {
+            return e.type.includes("end")
+              ? e.changedTouches[0].clientX
+              : e.touches[0].clientX;
+          }
+        }
+
+        function touchStart(e) {
+          if (!isCarouselActive) return;
+          isDragging = true;
+          startX = getPositionX(e);
+        }
+
+        function touchEnd(e) {
+          if (!isDragging || !isCarouselActive) return;
+          isDragging = false;
+          const endX = getPositionX(e);
+          const diffX = startX - endX;
+
+          if (Math.abs(diffX) > 50 && !carouselTransitioning) {
+            if (diffX > 0) rotateCarousel(carouselCurrentIndex + 1);
+            else rotateCarousel(carouselCurrentIndex - 1);
+          }
+        }
+
+        viewport.addEventListener("mousedown", touchStart);
+        viewport.addEventListener("mouseup", touchEnd);
+        viewport.addEventListener("mouseleave", () => (isDragging = false));
+
+        viewport.addEventListener("touchstart", touchStart, { passive: true });
+        viewport.addEventListener("touchend", touchEnd);
+      }
+
+      setupCarouselControls();
 
       function openImmersiveAppearance() {
-        if (activeEditor) return;
-        ensureAppearanceEditor()
-          .then(({ openAppearanceEditor }) => {
-            activeEditor = openAppearanceEditor({
-              currentTheme:
-                localStorage.getItem("APP_THEME_SELECTED") || "aurora",
-              livePatchCard: true,
-              onApply: (themeId, overrides) => {
-                if (window.__applyCardTheme) {
-                  window.__applyCardTheme(themeId, overrides || {});
-                } else if (window.__setCardTheme) {
-                  window.__setCardTheme(themeId);
-                }
-              },
-              onClose: () => {
-                activeEditor = null;
-              },
-            });
-          })
-          .catch((err) =>
-            console.error("[admin] appearance editor load failed:", err),
-          );
+        openCarouselOverlay();
       }
 
       function closeImmersiveAppearance() {
-        if (activeEditor && activeEditor.close) {
-          activeEditor.close();
-          activeEditor = null;
-        }
+        closeCarouselOverlay();
       }
 
       let lastIslandStatus = "idle";
@@ -1155,22 +1383,30 @@
         "island-status-change",
         (e) => {
           lastIslandStatus = e.detail?.status || "idle";
-          if (lastIslandStatus !== "edit") closeImmersiveAppearance();
+          if (lastIslandStatus !== "edit") closeCarouselOverlay();
         },
         { passive: true },
       );
 
       function handleAparienciaMode(mode) {
-        if (mode === "apariencia" && lastIslandStatus === "edit") {
+        if (mode === "apariencia") {
+          // If the island is still idle when the user taps "Apariencia", auto-enter
+          // edit mode first so the overlay always opens on the very first click.
+          if (lastIslandStatus !== "edit") {
+            const islandEl = document.getElementById("island");
+            if (islandEl && islandEl.setStatus) {
+              islandEl.setStatus("edit");
+            }
+          }
           openImmersiveAppearance();
-        } else if (mode !== "apariencia") {
+        } else {
           closeImmersiveAppearance();
         }
       }
+
       window.__openAppearanceEditor = openImmersiveAppearance;
       window.__closeAppearanceEditor = closeImmersiveAppearance;
 
-      // Bootstrap: populate via the new API right away using the JS-declared template you chose
       importIslandMenu(morphedIslandConfig)
         .then((island) => {
           setupIslandListeners(island);
