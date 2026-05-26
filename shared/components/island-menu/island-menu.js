@@ -69,9 +69,26 @@ function enhanceIsland(root, opts = {}) {
     setActiveMode(null);
   });
 
-  // 3. Mode opts toggle
+  // 3. Mode opts toggle (debounced + click counter for diagnostics)
+  let _modeClickCooldown = 0;
+  let _modeClickCount = 0;
+  let _modeClickResetTimer = null;
+  const MODE_DEBOUNCE_MS = 300;
+  const MODE_COUNTER_WINDOW_MS = 15000;
   DOM.modeOpts.forEach((opt) => {
     opt.addEventListener('click', () => {
+      const now = Date.now();
+      const debounced = now - _modeClickCooldown < MODE_DEBOUNCE_MS;
+
+      // Click counter: resets after 15s of inactivity
+      _modeClickCount++;
+      if (_modeClickResetTimer) clearTimeout(_modeClickResetTimer);
+      _modeClickResetTimer = setTimeout(() => { _modeClickCount = 0; }, MODE_COUNTER_WINDOW_MS);
+
+      console.log(`[island] click ${_modeClickCount} on "${opt.dataset.value}" | active=${opt.dataset.active} | debounced=${debounced}`);
+
+      if (debounced) return;
+      _modeClickCooldown = now;
       const alreadyActive = opt.dataset.active === 'true';
       setActiveMode(alreadyActive ? null : opt.dataset.value);
     });

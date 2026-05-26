@@ -1,0 +1,1054 @@
+:root {
+  --bg-color: #09090b; /* Zinc 950 */
+}
+
+/* Reset & Base Styles */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* --- App Layout --- */
+.card-app {
+  height: 100vh;
+  height: 100dvh;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+/* Fondo animado sutil */
+.card-app__bg {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.card-app__blob {
+  position: absolute;
+  width: 40%;
+  height: 40%;
+  border-radius: 9999px;
+  filter: blur(120px);
+  -webkit-filter: blur(120px);
+}
+
+.card-app__blob--indigo {
+  top: -10%;
+  left: -10%;
+  background-color: rgba(79, 70, 229, 0.1); /* bg-indigo-600/10 */
+}
+
+.card-app__blob--purple {
+  bottom: -10%;
+  right: -10%;
+  background-color: rgba(147, 51, 234, 0.1); /* bg-purple-600/10 */
+}
+
+.card-app__main {
+  width: 100%;
+  max-width: 80rem; /* 1280px */
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  z-index: 10;
+  flex: 1 1 0%;
+}
+
+/* --- Contenedor del Carrusel 3D --- */
+.card-carousel {
+  perspective: 1200px;
+  transform-style: preserve-3d;
+  width: 100%;
+  height: 100vh;
+  height: 100dvh;
+  display: none; /* Oculto por defecto */
+  justify-content: center;
+  align-items: center;
+  position: fixed; /* Pantalla completa overlay */
+  top: 0;
+  left: 0;
+  z-index: 9999;
+  background-color: rgba(9, 9, 11, 0.85); /* Fondo oscuro */
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+
+.card-carousel.card-carousel--visible {
+  display: flex;
+  opacity: 1;
+}
+
+.card-carousel__track {
+  position: relative;
+  width: 320px;
+  height: 480px;
+  transform-style: preserve-3d;
+}
+
+/* --- Tarjeta de Perfil --- */
+.profile-card {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: 24px;
+  box-sizing: border-box;
+  will-change: transform, opacity;
+  transition:
+    transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1),
+    opacity 0.6s ease,
+    filter 0.6s ease;
+  display: flex;
+  flex-direction: column;
+  overflow: clip;
+}
+
+/* ESTADOS DE POSICIÓN PARA EL MODO SELECTOR */
+
+.card-carousel--visible .profile-card.profile-card--prev {
+  transform: translateX(-70%) translateZ(-150px) scale(0.85);
+  opacity: 0.4;
+  z-index: 5;
+  filter: brightness(0.5);
+  cursor: pointer;
+}
+
+.card-carousel--visible .profile-card.profile-card--next {
+  transform: translateX(70%) translateZ(-150px) scale(0.85);
+  opacity: 0.9;
+  z-index: 5;
+  filter: brightness(0.9);
+  cursor: pointer;
+}
+
+.card-carousel--visible .profile-card.profile-card--hidden {
+  transform: translateX(0) translateZ(-300px) scale(0.6);
+  opacity: 0;
+  z-index: 1;
+  pointer-events: none;
+}
+
+/* --- Dots Indicadores --- */
+.card-carousel__dots {
+  transition:
+    opacity 0.4s ease,
+    transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+  display: flex;
+  align-items: center;
+  gap: 0.75rem; /* gap-3 */
+  margin-top: 1rem; /* mt-4 */
+  height: 1.5rem; /* h-6 */
+}
+
+body.view-mode .card-carousel__dots {
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(15px);
+}
+
+body.edit-mode .card-carousel__dots {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateY(0);
+}
+
+.card-carousel__dot {
+  width: 0.5rem; /* w-2 */
+  height: 0.5rem; /* h-2 */
+  border-radius: 9999px;
+  background-color: rgba(255, 255, 255, 0.3);
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.card-carousel__dot--active {
+  width: 1.5rem; /* w-6 */
+  background-color: #ffffff;
+}
+
+/* --- Componentes Internos de la Tarjeta --- */
+.profile-card__content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  flex: 1 1 0%;
+  text-align: center;
+}
+
+.profile-card__avatar-container {
+  width: 6rem; /* w-24 */
+  height: 6rem; /* h-24 */
+  border-radius: 9999px;
+  background-color: rgba(0, 0, 0, 0.2);
+  margin-bottom: 1rem; /* mb-4 */
+  padding: 0.5rem; /* p-2 */
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.profile-card__avatar {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 9999px;
+}
+
+.profile-card__name {
+  font-size: 1.5rem; /* text-2xl */
+  margin-bottom: 0.25rem; /* mb-1 */
+}
+
+.profile-card__role {
+  font-size: 0.875rem; /* text-sm */
+  font-weight: 500;
+  margin-bottom: 0.25rem; /* mb-1 */
+}
+
+.profile-card__location {
+  font-size: 0.75rem; /* text-xs */
+  opacity: 0.8;
+  display: flex;
+  align-items: center;
+  gap: 0.25rem; /* gap-1 */
+}
+
+.profile-card__links {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem; /* gap-3 */
+  margin-top: 1.5rem; /* mt-6 */
+}
+
+.profile-card__link {
+  width: 100%;
+  padding-top: 0.75rem; /* py-3 */
+  padding-bottom: 0.75rem;
+  padding-left: 1rem; /* px-4 */
+  padding-right: 1rem;
+  border-radius: 0.75rem; /* rounded-xl */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem; /* gap-3 */
+  text-decoration: none;
+  transition:
+    background-color 0.15s ease,
+    border-color 0.15s ease,
+    color 0.15s ease;
+}
+
+.profile-card__link i {
+  font-size: 1rem;
+}
+
+.profile-card__link span {
+  font-weight: 500;
+  font-size: 0.875rem; /* text-sm */
+}
+
+.profile-card__theme-tag {
+  position: absolute;
+  top: 1rem; /* top-4 */
+  right: 1rem; /* right-4 */
+  font-size: 10px; /* text-[10px] */
+  text-transform: uppercase;
+  letter-spacing: 0.05em; /* tracking-wider */
+  opacity: 0.3;
+  font-weight: 700;
+}
+
+/* --- Temas de Tarjeta (BEM Modifiers) --- */
+
+/* 1. Glassmorphism */
+.profile-card--glass {
+  background-color: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(40px);
+  -webkit-backdrop-filter: blur(40px);
+  box-shadow:
+    0 20px 25px -5px rgba(0, 0, 0, 0.1),
+    0 10px 10px -5px rgba(0, 0, 0, 0.04);
+}
+.profile-card--glass .profile-card__name {
+  color: #ffffff;
+  font-weight: 600;
+}
+.profile-card--glass .profile-card__role,
+.profile-card--glass .profile-card__location {
+  color: #d4d4d8; /* text-zinc-300 */
+}
+.profile-card--glass .profile-card__link {
+  background-color: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: #ffffff;
+}
+.profile-card--glass .profile-card__link:hover {
+  background-color: rgba(255, 255, 255, 0.2);
+}
+.profile-card--glass .profile-card__theme-tag {
+  color: #ffffff;
+}
+
+/* 2. Cyberpunk */
+.profile-card--cyber {
+  background-color: #18181b; /* bg-zinc-900 */
+  border: 2px solid #facc15; /* border-yellow-400 */
+  box-shadow: 0 0 30px rgba(250, 204, 21, 0.2);
+  font-family: "Space Grotesk", sans-serif;
+}
+.profile-card--cyber .profile-card__name {
+  color: #facc15; /* text-yellow-400 */
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em; /* tracking-wide */
+}
+.profile-card--cyber .profile-card__role,
+.profile-card--cyber .profile-card__location {
+  color: #a1a1aa; /* text-zinc-400 */
+}
+.profile-card--cyber .profile-card__link {
+  background-color: rgba(250, 204, 21, 0.1); /* bg-yellow-400/10 */
+  border: 1px solid rgba(250, 204, 21, 0.5); /* border-yellow-400/50 */
+  color: #facc15;
+}
+.profile-card--cyber .profile-card__link:hover {
+  background-color: rgba(250, 204, 21, 0.2);
+}
+.profile-card--cyber .profile-card__theme-tag {
+  color: #facc15;
+}
+
+/* 3. Minimal Light */
+.profile-card--minimal {
+  background-color: #f4f4f5; /* bg-zinc-100 */
+  border: 1px solid #e4e4e7; /* border-zinc-200 */
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+}
+.profile-card--minimal .profile-card__name {
+  color: #18181b; /* text-zinc-900 */
+  font-weight: 700;
+}
+.profile-card--minimal .profile-card__role,
+.profile-card--minimal .profile-card__location {
+  color: #71717a; /* text-zinc-500 */
+}
+.profile-card--minimal .profile-card__link {
+  background-color: #e4e4e7; /* bg-zinc-200 */
+  border: 1px solid transparent;
+  color: #27272a; /* text-zinc-800 */
+}
+.profile-card--minimal .profile-card__link:hover {
+  background-color: #d4d4d8; /* bg-zinc-300 */
+}
+.profile-card--minimal .profile-card__theme-tag {
+  color: #18181b;
+}
+
+/* 4. Terminal */
+.profile-card--hacker {
+  background-color: #000000; /* bg-black */
+  border: 1px solid #22c55e; /* border-green-500 */
+  box-shadow: 0 0 20px rgba(34, 197, 94, 0.1);
+  font-family: "JetBrains Mono", monospace;
+}
+.profile-card--hacker .profile-card__name {
+  color: #22c55e; /* text-green-500 */
+  font-weight: 700;
+}
+.profile-card--hacker .profile-card__role,
+.profile-card--hacker .profile-card__location {
+  color: #15803d; /* text-green-700 */
+}
+.profile-card--hacker .profile-card__link {
+  background-color: rgba(34, 197, 94, 0.1); /* bg-green-500/10 */
+  border: 1px solid rgba(34, 197, 94, 0.5); /* border-green-500/50 */
+  color: #22c55e;
+}
+.profile-card--hacker .profile-card__link:hover {
+  background-color: rgba(34, 197, 94, 0.2);
+}
+.profile-card--hacker .profile-card__theme-tag {
+  color: #22c55e;
+}
+
+/* 5. Sunset Gradient */
+.profile-card--sunset {
+  background: linear-gradient(
+    135deg,
+    #f97316,
+    #db2777
+  ); /* bg-gradient-to-br from-orange-500 to-pink-600 */
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 0 25px 50px -12px rgba(249, 115, 22, 0.2);
+}
+.profile-card--sunset .profile-card__name {
+  color: #ffffff;
+  font-weight: 700;
+}
+.profile-card--sunset .profile-card__role,
+.profile-card--sunset .profile-card__location {
+  color: #ffedd5; /* text-orange-100 */
+}
+.profile-card--sunset .profile-card__link {
+  background-color: rgba(0, 0, 0, 0.2); /* bg-black/20 */
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: #ffffff;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+.profile-card--sunset .profile-card__link:hover {
+  background-color: rgba(0, 0, 0, 0.3);
+}
+.profile-card--sunset .profile-card__theme-tag {
+  color: #ffffff;
+}
+
+/* --- Botón de Acción --- */
+.action-button-container {
+  position: absolute;
+  bottom: 2.5rem; /* bottom-10 */
+  z-index: 20;
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  padding-left: 1.5rem; /* px-6 */
+  padding-right: 1.5rem;
+}
+
+.action-button {
+  position: relative;
+  padding-left: 2rem; /* px-8 */
+  padding-right: 2rem;
+  padding-top: 0.875rem; /* py-3.5 */
+  padding-bottom: 0.875rem;
+  border-radius: 9999px; /* rounded-full */
+  font-family: inherit;
+  font-size: 1rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem; /* gap-3 */
+  overflow: hidden;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  user-select: none;
+}
+
+.action-button:active {
+  transform: scale(0.95);
+}
+
+.action-button__icon i {
+  font-size: 0.875rem; /* text-sm */
+}
+
+/* Estado: Editar (Normal) */
+.action-button--edit {
+  background-color: rgba(255, 255, 255, 0.1); /* bg-white/10 */
+  color: #ffffff;
+  font-weight: 500;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(24px); /* backdrop-blur-xl */
+  -webkit-backdrop-filter: blur(24px);
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3);
+}
+
+.action-button--edit:hover {
+  background-color: rgba(255, 255, 255, 0.2); /* hover:bg-white/20 */
+}
+
+/* Estado: Guardar (Verde) */
+.action-button--save {
+  background-color: #10b981; /* bg-emerald-500 */
+  color: #022c22; /* text-emerald-950 */
+  font-weight: 700;
+  border: 1px solid transparent;
+  box-shadow: 0 0 30px rgba(16, 185, 129, 0.3);
+}
+
+.action-button--save:hover {
+  background-color: #34d399; /* hover:bg-emerald-400 */
+}
+
+/* --- Barra de Acción de Compra / Aplicar en Tarjetas --- */
+.profile-card__action-bar {
+  position: absolute;
+  bottom: 2rem;
+  left: 1.5rem;
+  right: 1.5rem;
+  z-index: 30;
+  display: flex;
+  justify-content: center;
+  pointer-events: none;
+  opacity: 0;
+  transition:
+    opacity 0.3s ease,
+    transform 0.3s ease;
+  transform: translateY(10px);
+}
+
+.profile-card.profile-card--active .profile-card__action-bar {
+  pointer-events: auto;
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Botones Premium del Selector de Temas */
+.buy-theme-btn,
+.apply-theme-btn {
+  padding: 0.75rem 1.5rem;
+  border-radius: 9999px;
+  font-weight: 700;
+  font-size: 0.875rem;
+  border: none;
+  cursor: pointer;
+  font-family: inherit;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  text-decoration: none;
+}
+
+.buy-theme-btn {
+  background: linear-gradient(135deg, #f59e0b, #d97706); /* Amber gradient */
+  color: #ffffff;
+  box-shadow: 0 0 20px rgba(245, 158, 11, 0.3);
+}
+
+.buy-theme-btn:hover {
+  background: linear-gradient(135deg, #fbbf24, #f59e0b);
+  transform: scale(1.05);
+}
+
+.apply-theme-btn {
+  background: #ffffff;
+  color: #09090b;
+  box-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
+}
+
+.apply-theme-btn:hover {
+  background: #f4f4f5;
+  transform: scale(1.05);
+}
+
+/* Badge de Tema Activo */
+.theme-active-badge {
+  background-color: #10b981; /* Emerald 500 */
+  color: #ffffff;
+  font-weight: 700;
+  font-size: 0.875rem;
+  padding: 0.75rem 1.5rem;
+  border-radius: 9999px;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  box-shadow: 0 0 15px rgba(16, 185, 129, 0.4);
+  cursor: default;
+}
+
+/* Toast de Compra Exitosa */
+.buy-toast {
+  position: fixed;
+  bottom: 2rem;
+  left: 50%;
+  transform: translateX(-50%) translateY(100px);
+  background-color: #10b981; /* Emerald 500 */
+  color: white;
+  padding: 1rem 2rem;
+  border-radius: 9999px;
+  font-weight: 700;
+  z-index: 100000;
+  box-shadow: 0 10px 25px rgba(16, 185, 129, 0.5);
+  transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.buy-toast.buy-toast--visible {
+  transform: translateX(-50%) translateY(0);
+}
+
+/* --- High-Fidelity Theme Mockup Card Scoped to Carousel (.ae-card) --- */
+.card-carousel .ae-card {
+  position: absolute !important;
+  inset: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+  border-radius: 24px !important;
+  overflow: hidden !important;
+  z-index: 1 !important;
+  box-shadow: none !important;
+  transform: none !important;
+  background: transparent !important;
+}
+
+.card-carousel .ae-preview-host {
+  position: absolute !important;
+  inset: 0 !important;
+  z-index: 1 !important;
+  width: 100% !important;
+  height: 100% !important;
+}
+
+.card-carousel .ae-card-label {
+  position: absolute !important;
+  top: 1.5rem !important;
+  bottom: auto !important;
+  left: 50% !important;
+  transform: translateX(-50%) !important;
+  background: rgba(9, 9, 11, 0.75) !important;
+  backdrop-filter: blur(12px) !important;
+  -webkit-backdrop-filter: blur(12px) !important;
+  font-size: 11px !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.1em !important;
+  text-transform: uppercase !important;
+  padding: 6px 16px !important;
+  border-radius: 999px !important;
+  color: #ffffff !important;
+  border: 1px solid rgba(255, 255, 255, 0.15) !important;
+  white-space: nowrap !important;
+  z-index: 10 !important;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4) !important;
+  transition: all 0.3s ease !important;
+}
+
+.card-carousel .profile-card.profile-card--active .ae-card-label {
+  border-color: rgba(255, 255, 255, 0.3) !important;
+  background: rgba(9, 9, 11, 0.85) !important;
+  box-shadow: 0 4px 25px rgba(0, 0, 0, 0.5) !important;
+}
+
+/* --- Special Action Cards (.profile-card--special) --- */
+.profile-card--special {
+  border: 2px dashed rgba(255, 255, 255, 0.2);
+  background: rgba(255, 255, 255, 0.02) !important;
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  box-shadow: inset 0 0 20px rgba(255, 255, 255, 0.01) !important;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.profile-card--special:hover {
+  border-color: rgba(255, 255, 255, 0.4);
+  background: rgba(255, 255, 255, 0.04) !important;
+}
+
+.profile-card--special.profile-card--active {
+  border: 2px dashed #a855f7; /* Violet theme matching aurora default */
+  background: rgba(168, 85, 247, 0.06) !important;
+  box-shadow:
+    0 25px 50px -12px rgba(0, 0, 0, 0.5),
+    0 0 30px rgba(168, 85, 247, 0.15) !important;
+}
+
+.special-card__content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  width: 100%;
+  gap: 1.5rem;
+  pointer-events: none;
+}
+
+.special-card__icon {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.special-card__icon i {
+  font-size: 24px;
+  transition: transform 0.3s ease;
+}
+
+.profile-card--special.profile-card--active .special-card__icon {
+  background: rgba(168, 85, 247, 0.2);
+  border-color: rgba(168, 85, 247, 0.4);
+  color: #c084fc;
+  box-shadow: 0 0 20px rgba(168, 85, 247, 0.25);
+}
+
+.profile-card--special.profile-card--active .special-card__icon i {
+  transform: scale(1.1);
+}
+
+.special-card__label {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #ffffff;
+  letter-spacing: -0.01em;
+  text-align: center;
+  transition: color 0.3s ease;
+}
+
+.profile-card--special.profile-card--active .special-card__label {
+  color: #c084fc;
+}
+
+.special-card__hint {
+  font-size: 0.875rem;
+  color: rgba(255, 255, 255, 0.4);
+  font-weight: 400;
+  text-align: center;
+  max-width: 85%;
+  line-height: 1.4;
+  transition: color 0.3s ease;
+}
+
+.profile-card--special.profile-card--active .special-card__hint {
+  color: rgba(255, 255, 255, 0.7);
+}
+
+/**/
+
+#app:has(.card-carousel.card-carousel--visible) header {
+  margin-bottom: -50px;
+  transform: translatey(-115px);
+}
+
+.handler--drag {
+  transition: all 0.3s ease;
+}
+
+#app:has(.card-carousel.card-carousel--visible) .handler--drag {
+  transform: scale(0);
+}
+
+#app:has(.card-carousel.card-carousel--visible) .card-carousel__track {
+  position: relative;
+  width: 400px;
+  height: 750px;
+  transform-style: preserve-3d;
+  transform: translatey(24px);
+}
+
+#app:has(.card-carousel.card-carousel--visible) .main-content {
+  transform: scale(0) translatey(-122px);
+}
+
+/* --- Cohort Profile Editor Overlay & Sheet --- /* Profile editor styles have been moved to shared/components/profile-editor/profile-editor.css */
+
+/* --- Portada Style radio grids --- */
+.image-style-fieldset {
+  border: 0;
+  padding: 0;
+  margin: 0;
+}
+
+.image-style-fieldset > legend {
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: rgba(255, 255, 255, 0.4);
+  margin-bottom: 12px;
+}
+
+.image-style-grid {
+  display: flex;
+  gap: 12px;
+  width: 100%;
+}
+
+.image-style-grid > input[type="radio"] {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.image-style-card {
+  position: relative;
+  display: grid;
+  place-items: center;
+  gap: 8px;
+  padding: 14px 8px;
+  border: 2px solid rgba(255, 255, 255, 0.08);
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.02);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  flex: 1;
+  box-sizing: border-box;
+}
+
+.image-style-card:active {
+  transform: scale(0.98);
+}
+
+.image-style-card:hover {
+  border-color: rgba(255, 255, 255, 0.15);
+  background: rgba(255, 255, 255, 0.04);
+}
+
+input[type="radio"]:focus-visible + .image-style-card {
+  outline: 3px solid rgba(168, 85, 247, 0.2);
+  outline-offset: 2px;
+}
+
+input[type="radio"]:checked + .image-style-card {
+  border-color: #a855f7;
+  background: rgba(168, 85, 247, 0.06);
+  box-shadow: 0 0 20px rgba(168, 85, 247, 0.15);
+}
+
+.image-style-card .checkmark {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  border: 2px solid rgba(255, 255, 255, 0.15);
+  background: rgba(0, 0, 0, 0.3);
+}
+
+input[type="radio"]:checked + .image-style-card .checkmark {
+  border-color: #a855f7;
+  background: radial-gradient(circle at 50% 50%, #a855f7 50%, transparent 51%);
+}
+
+.image-style-title {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #fff;
+}
+
+.badge--pro {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  font-size: 9px;
+  font-weight: 700;
+  padding: 2px 6px;
+  border-radius: 6px;
+  background: #a855f7;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  line-height: 1;
+}
+
+.preview {
+  width: 100%;
+  height: 56px;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.04);
+  display: grid;
+  place-items: center;
+}
+
+.preview--classic::before {
+  content: "";
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.2);
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.preview--hero::before {
+  content: "";
+  width: 36px;
+  height: 24px;
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.2);
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.preview--cover {
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+}
+
+.preview--cover .cover-bg {
+  position: absolute;
+  inset: 0 0 45% 0;
+  background: linear-gradient(
+    135deg,
+    rgba(168, 85, 247, 0.3),
+    rgba(99, 102, 241, 0.3)
+  );
+}
+
+.preview--cover .avatar {
+  position: absolute;
+  bottom: 4px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.8);
+}
+
+/* =========================================================================
+   iOS-STYLE INLINE PROFILE EDIT MODE STYLES
+   ========================================================================= */
+
+/* Highlight editable zones when edit mode is active on card */
+#card.edit-mode-active [data-editable-zone] {
+  position: relative !important;
+  cursor: pointer !important;
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1) !important;
+  border: 1.5px dashed rgba(168, 85, 247, 0.5) !important;
+  border-radius: 14px !important;
+  padding: 8px !important;
+  margin: -8px !important;
+  background: rgba(168, 85, 247, 0.03) !important;
+  box-shadow: 0 0 0 0 rgba(168, 85, 247, 0) !important;
+  /* Ensure absolute wiggles can render outside */
+  overflow: visible !important;
+}
+
+#card.edit-mode-active [data-editable-zone]:hover {
+  border-color: #a855f7 !important;
+  background: rgba(168, 85, 247, 0.08) !important;
+  box-shadow: 0 4px 20px rgba(168, 85, 247, 0.2) !important;
+  transform: scale(1.02) !important;
+}
+
+/* Edit pencil circular badge — positioned absolutely on the zone's corner */
+#card.edit-mode-active [data-editable-zone]::after {
+  content: "\270E" !important;
+  position: absolute !important;
+  top: -8px !important;
+  right: -8px !important;
+  width: 24px !important;
+  height: 24px !important;
+  background: #a855f7 !important;
+  color: #ffffff !important;
+  border-radius: 50% !important;
+  font-size: 13px !important;
+  font-weight: bold !important;
+  line-height: 24px !important;
+  text-align: center !important;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4) !important;
+  z-index: 999 !important;
+  pointer-events: none !important;
+  border: 1.5px solid #ffffff !important;
+  animation: popIn 0.3s cubic-bezier(0.34, 1.56, 0.64, 1) both !important;
+}
+
+/* Custom visual offsets for specific elements to look clean */
+#card.edit-mode-active .aurora__avatar[data-editable-zone],
+#card.edit-mode-active .zen__avatar[data-editable-zone],
+#card.edit-mode-active .obs__avatar[data-editable-zone] {
+  border-radius: 50% !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  border-width: 2px !important;
+}
+
+#card.edit-mode-active .aurora__avatar[data-editable-zone]::after,
+#card.edit-mode-active .zen__avatar[data-editable-zone]::after,
+#card.edit-mode-active .obs__avatar[data-editable-zone]::after {
+  top: 0px !important;
+  right: 0px !important;
+}
+
+#card.edit-mode-active .nfc_cover[data-editable-zone],
+#card.edit-mode-active .zen__cover[data-editable-zone],
+#card.edit-mode-active .obs__cover[data-editable-zone] {
+  border-radius: 0 0 16px 16px !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+/* Wiggle animation during edit mode to feel alive — only when NOT hovered */
+#card.edit-mode-active [data-editable-zone]:not(:hover) {
+  animation: iosWiggle 0.5s ease-in-out infinite alternate;
+}
+
+#card.edit-mode-active [data-editable-zone]:hover {
+  animation: none;
+}
+
+@keyframes iosWiggle {
+  0% {
+    transform: rotate(-0.4deg) scale(1);
+  }
+  100% {
+    transform: rotate(0.4deg) scale(1);
+  }
+}
+
+@keyframes popIn {
+  0% {
+    transform: scale(0);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+/* Contextual sheet refinements */
+.profile-editor-sheet.contextual-mode .cohort-tabs-container {
+  display: none !important;
+}
+
+.profile-editor-sheet.contextual-mode {
+  height: auto !important;
+  max-height: 80vh;
+  max-height: 80dvh;
+  border-radius: 28px 28px 0 0;
+}
+
+.profile-editor-sheet.contextual-mode .profile-editor-content {
+  padding: 20px 24px 32px;
+}
+
+/* Enable overflow visible on parent card wrappers in edit mode to prevent dashed border / badge clipping */
+.main-content.edit-mode-active,
+.main-content.edit-mode-active #card,
+.main-content.edit-mode-active .card--aurora,
+.main-content.edit-mode-active .card--zen,
+.main-content.edit-mode-active .card--obsidiana,
+.main-content.edit-mode-active .card--brutal,
+.main-content.edit-mode-active .card--tropico,
+.main-content.edit-mode-active .card--deco,
+.main-content.edit-mode-active .card--blank {
+  overflow: visible !important;
+}

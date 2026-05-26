@@ -16,6 +16,15 @@
       rel="stylesheet"
       href="/shared/components/card-carousel/card-carousel-latest.css"
     />
+    <link
+      rel="stylesheet"
+      href="/shared/components/appearance-editor/appearance-editor.css"
+    />
+    <link
+      rel="stylesheet"
+      href="/shared/components/profile-editor/profile-editor.css"
+    />
+
     <title>SPA Binder & Style Loader</title>
     <!-- ========================================================================================= -->
     <!-- ===== ICONOS ===== -->
@@ -719,18 +728,299 @@
         >
           <!-- Populated dynamically by card-carousel when island mode === 'apariencia' -->
         </div>
+
+        <!-- Cohort profile editor panel -->
+        <div id="profile-editor-panel" hidden class="profile-editor-overlay">
+          <div class="profile-editor-sheet">
+            <div class="profile-editor-header">
+              <span class="pe-title">Edición de Perfil</span>
+              <button
+                id="closeProfileEditorBtn"
+                class="close-btn"
+                aria-label="Listo"
+                style="
+                  font-size: 0.95rem;
+                  font-weight: 600;
+                  color: #a855f7;
+                  opacity: 1;
+                "
+              >
+                Listo
+              </button>
+            </div>
+
+            <!-- Navigation Mode Selector (Scroll vs Tab) -->
+            <div
+              class="nav-mode-selector-container"
+              id="nav-mode-selector-container"
+            >
+              <div class="segmented-control">
+                <button
+                  type="button"
+                  class="segmented-btn active"
+                  id="btn-nav-scroll"
+                  data-nav-mode="scroll"
+                >
+                  <i class="ti ti-fold" aria-hidden="true"></i> Scroll
+                </button>
+                <button
+                  type="button"
+                  class="segmented-btn"
+                  id="btn-nav-tabs"
+                  data-nav-mode="tabs"
+                >
+                  <i class="ti ti-layout-columns" aria-hidden="true"></i> Tab
+                </button>
+              </div>
+            </div>
+
+            <!-- Cohort Tabs Selector (simplified for Contacto/Redes navigation) -->
+            <div class="cohort-tabs-container">
+              <div class="cohort-tabs">
+                <button class="cohort-tab active" data-cohort="3">
+                  <i class="ti ti-phone" aria-hidden="true"></i> Contacto
+                </button>
+                <button class="cohort-tab" data-cohort="5">
+                  <i class="ti ti-brand-instagram" aria-hidden="true"></i> Redes
+                </button>
+              </div>
+            </div>
+
+            <div class="profile-editor-content">
+              <!-- Cohort 1: Foto y Portada -->
+              <div class="cohort-pane active" id="pane-1">
+                <div class="editor-section">
+                  <label class="editor-label">Foto de Perfil</label>
+                  <div class="avatar-edit-container">
+                    <img
+                      id="edit-avatar-preview"
+                      src=""
+                      class="avatar-edit-preview"
+                      alt="Avatar"
+                    />
+                    <input
+                      type="text"
+                      id="input-profile-photo"
+                      class="editor-input"
+                      placeholder="Pegar URL de imagen..."
+                    />
+                  </div>
+                </div>
+
+                <div class="editor-section">
+                  <label class="editor-label">Imagen de Portada (Cover)</label>
+                  <div class="cover-edit-container">
+                    <div
+                      id="edit-cover-preview"
+                      class="cover-edit-preview"
+                    ></div>
+                    <input
+                      type="text"
+                      id="input-profile-cover"
+                      class="editor-input"
+                      placeholder="Pegar URL de portada..."
+                    />
+                  </div>
+                </div>
+
+                <div class="editor-section">
+                  <div class="image-style-section">
+                    <form class="image-style-form" id="image-style-form">
+                      <fieldset class="image-style-fieldset">
+                        <legend><span>image style</span></legend>
+                        <div class="image-style-grid">
+                          <!-- Classic -->
+                          <input
+                            type="radio"
+                            name="image_style"
+                            id="style-classic"
+                            value="classic"
+                            checked
+                          />
+                          <label class="image-style-card" for="style-classic">
+                            <span
+                              class="preview preview--classic"
+                              aria-hidden="true"
+                            ></span>
+                            <span class="image-style-title">Clásico</span>
+                            <span class="checkmark" aria-hidden="true"></span>
+                          </label>
+                          <!-- Hero -->
+                          <input
+                            type="radio"
+                            name="image_style"
+                            id="style-hero"
+                            value="hero"
+                          />
+                          <label class="image-style-card" for="style-hero">
+                            <span
+                              class="preview preview--hero"
+                              aria-hidden="true"
+                            ></span>
+                            <span class="image-style-title">Hero</span>
+                            <span class="badge badge--pro" aria-hidden="true">
+                              Pro
+                              <svg
+                                style="width: 12px; height: 12px; color: white"
+                                viewBox="0 0 24 24"
+                                fill="currentColor"
+                              >
+                                <use href="#pro-spark"></use>
+                              </svg>
+                            </span>
+                            <span class="checkmark" aria-hidden="true"></span>
+                          </label>
+                          <!-- With Cover -->
+                          <input
+                            type="radio"
+                            name="image_style"
+                            id="style-cover"
+                            value="with-cover"
+                          />
+                          <label class="image-style-card" for="style-cover">
+                            <span
+                              class="preview preview--cover"
+                              aria-hidden="true"
+                            >
+                              <span class="cover-bg"></span>
+                              <span class="avatar"></span>
+                            </span>
+                            <span class="image-style-title">Con portada</span>
+                            <span class="badge badge--pro" aria-hidden="true">
+                              Pro
+                              <svg
+                                style="width: 12px; height: 12px; color: white"
+                                viewBox="0 0 24 24"
+                                fill="currentColor"
+                              >
+                                <use href="#pro-spark"></use>
+                              </svg>
+                            </span>
+                            <span class="checkmark" aria-hidden="true"></span>
+                          </label>
+                        </div>
+                      </fieldset>
+                    </form>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Cohort 2: Datos principales -->
+              <div class="cohort-pane" id="pane-2">
+                <div class="editor-section">
+                  <label class="editor-label">Nombre Completo</label>
+                  <input
+                    type="text"
+                    id="input-profile-name"
+                    class="editor-input"
+                    placeholder="Nombre..."
+                  />
+                </div>
+                <div class="editor-section">
+                  <label class="editor-label">Puesto / Cargo</label>
+                  <input
+                    type="text"
+                    id="input-profile-title"
+                    class="editor-input"
+                    placeholder="Cargo..."
+                  />
+                </div>
+                <div class="editor-section">
+                  <label class="editor-label">Agencia / Organización</label>
+                  <input
+                    type="text"
+                    id="input-profile-org"
+                    class="editor-input"
+                    placeholder="Organización..."
+                  />
+                </div>
+                <div class="editor-section">
+                  <label class="editor-label">Biografía / Presentación</label>
+                  <textarea
+                    id="input-profile-bio"
+                    class="editor-textarea"
+                    placeholder="Escribe tu bio..."
+                  ></textarea>
+                </div>
+                <div class="editor-section">
+                  <label class="editor-label">Ajustes de Iconos de Redes</label>
+                  <div class="toggle-switch-container">
+                    <span>Mostrar iconos de redes justo debajo de la Bio</span>
+                    <label class="toggle-switch">
+                      <input
+                        type="checkbox"
+                        id="toggle-social-icons-under-bio"
+                      />
+                      <span class="toggle-slider"></span>
+                    </label>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Cohort 3: Datos de Contacto -->
+              <div class="cohort-pane" id="pane-3">
+                <div class="editor-section">
+                  <label class="editor-label">Correo Electrónico</label>
+                  <input
+                    type="email"
+                    id="input-profile-email"
+                    class="editor-input"
+                    placeholder="email@ejemplo.com"
+                  />
+                </div>
+                <div class="editor-section">
+                  <label class="editor-label">Teléfono Móvil</label>
+                  <input
+                    type="tel"
+                    id="input-profile-phone"
+                    class="editor-input"
+                    placeholder="+52..."
+                  />
+                </div>
+                <div class="editor-section">
+                  <label class="editor-label">Página Web</label>
+                  <input
+                    type="url"
+                    id="input-profile-website"
+                    class="editor-input"
+                    placeholder="https://..."
+                  />
+                </div>
+              </div>
+
+              <!-- Cohort 5: Redes (Listas de redes ignoradas por ahora) -->
+              <div class="cohort-pane" id="pane-5">
+                <div class="editor-section">
+                  <p
+                    style="
+                      color: rgba(0, 0, 0, 0.5);
+                      font-size: 0.9rem;
+                      text-align: center;
+                      margin: 32px 0;
+                    "
+                  >
+                    La configuración de enlaces de redes sociales se habilitará
+                    en una futura versión.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       </main>
     </div>
     <!-- ======================== 
            ISLAND MENU
          ======================== -->
-    <div
-      id="island"
-      data-component="island"
-      data-status="idle"
-      role="toolbar"
-      aria-label="Barra de acciones"
-    ></div>
+    <div id="root-island-menu">
+      <div
+        id="island"
+        data-component="island"
+        data-status="idle"
+        role="toolbar"
+        aria-label="Barra de acciones"
+      ></div>
+    </div>
 
     <div id="root-styles-loader"></div>
     <!-- 2. CONFIGURACIÓN E IMPORTACIÓN DEL BINDER UTILITY (ES MODULE) -->
@@ -909,11 +1199,12 @@
       const morphedIslandConfig = {
         edit: { label: "Editar", icon: "ti ti-edit" },
         modes: [
-          { value: "apariencia", label: "Perfil", icon: "ti ti-user" },
+          { value: "apariencia", label: "Apariencia", icon: "ti ti-palette" },
+
           {
             value: "cardbar",
-            label: "Navegacion",
-            icon: "ti ti-layout-columns",
+            label: "Perfil",
+            icon: "ti ti-user",
           },
         ],
       };
@@ -937,12 +1228,19 @@
         });
         el.addEventListener("island-mode-change", (e) => {
           console.log("[admin binder] island-mode-change:", e.detail);
-          handleAparienciaMode(e.detail.mode);
+          if (typeof handleIslandMode === "function") {
+            handleIslandMode(e.detail.mode);
+          } else {
+            handleAparienciaMode(e.detail.mode);
+          }
         });
         el.addEventListener("island-status-change", (e) => {
           console.log("[admin binder] island-status-change:", e.detail);
           if (e.detail.status !== "edit") {
             closeCarouselOverlay();
+            // Full exit: deactivate card edit mode too
+            if (typeof closeProfileEditor === "function")
+              closeProfileEditor(true);
           }
         });
       }
@@ -1117,7 +1415,9 @@
           localStorage.getItem(THEME_STORAGE_KEY) || "aurora";
 
         // Only show themes the user already owns (finite, non-looping list)
-        const displayThemes = allThemes.filter(t => ownedThemes.includes(t.id));
+        const displayThemes = allThemes.filter((t) =>
+          ownedThemes.includes(t.id),
+        );
 
         displayThemes.forEach((theme, index) => {
           const isActive = theme.id === currentSelectedTheme;
@@ -1184,7 +1484,8 @@
 
         // ── Special card: "Buscar más themes" ──
         const searchCard = document.createElement("div");
-        searchCard.className = "profile-card profile-card--glass profile-card--special";
+        searchCard.className =
+          "profile-card profile-card--glass profile-card--special";
         searchCard.innerHTML = `
           <div class="special-card__content">
             <div class="special-card__icon"><i class="ti ti-search" aria-hidden="true"></i></div>
@@ -1207,7 +1508,8 @@
 
         // ── Special card: "Empezar en blanco" ──
         const blankCard = document.createElement("div");
-        blankCard.className = "profile-card profile-card--glass profile-card--special";
+        blankCard.className =
+          "profile-card profile-card--glass profile-card--special";
         blankCard.innerHTML = `
           <div class="special-card__content">
             <div class="special-card__icon"><i class="ti ti-plus" aria-hidden="true"></i></div>
@@ -1231,7 +1533,11 @@
         const activeIdx = displayThemes.findIndex(
           (t) => t.id === currentSelectedTheme,
         );
-        carouselCurrentIndex = activeIdx >= 0 ? activeIdx : 0;
+        if (currentSelectedTheme === "blank") {
+          carouselCurrentIndex = carouselCards.length - 1;
+        } else {
+          carouselCurrentIndex = activeIdx >= 0 ? activeIdx : 0;
+        }
 
         updateCarouselClasses();
       }
@@ -1247,9 +1553,15 @@
 
           if (index === carouselCurrentIndex) {
             card.classList.add("profile-card--active");
-          } else if (index === carouselCurrentIndex - 1 && carouselCurrentIndex > 0) {
+          } else if (
+            index === carouselCurrentIndex - 1 &&
+            carouselCurrentIndex > 0
+          ) {
             card.classList.add("profile-card--prev");
-          } else if (index === carouselCurrentIndex + 1 && carouselCurrentIndex < length - 1) {
+          } else if (
+            index === carouselCurrentIndex + 1 &&
+            carouselCurrentIndex < length - 1
+          ) {
             card.classList.add("profile-card--next");
           } else {
             card.classList.add("profile-card--hidden");
@@ -1291,18 +1603,17 @@
         closeCarouselOverlay();
 
         const island = document.getElementById("island");
-        if (island && island.dispatchEvent) {
-          island.dispatchEvent(
-            new CustomEvent("island-request-status", {
-              detail: { status: "idle" },
-            }),
-          );
+        if (island && typeof island.setActiveMode === "function") {
+          island.setActiveMode(null);
         }
       }
 
       function openCarouselOverlay() {
+        if (isCarouselActive) return; // Guard: already open, don't re-trigger animation
         isCarouselActive = true;
         loadThemesData().then(() => {
+          // Double-check: user may have toggled off while themes were loading
+          if (!isCarouselActive) return;
           buildCarouselUI();
           const viewport = document.getElementById("carousel-viewport");
           if (viewport) {
@@ -1429,21 +1740,496 @@
         { passive: true },
       );
 
-      function handleAparienciaMode(mode) {
+      // ── iOS-style contextual editor: cohort titles ──
+      const COHORT_TITLES = {
+        1: "Editar Foto y Portada",
+        2: "Editar Datos Personales",
+        3: "Editar Contacto",
+        4: "Editar Empresa",
+        5: "Editar Redes Sociales",
+        6: "Ajustes de Iconos",
+      };
+
+      function handleIslandMode(mode) {
+        console.log("[handleIslandMode]", mode, "| carousel active:", isCarouselActive);
         if (mode === "apariencia") {
-          // If the island is still idle when the user taps "Apariencia", auto-enter
-          // edit mode first so the overlay always opens on the very first click.
+          // Exit card-edit mode & profile editor first
+          deactivateCardEditMode();
+          if (typeof closeProfileEditor === "function") {
+            // CRITICAL: Call closeProfileEditor with false (fullyExit = false) to prevent it 
+            // from internally resetting the island mode back to null and breaking the switch.
+            closeProfileEditor(false);
+          }
+          // Ensure island stays in edit status
           if (lastIslandStatus !== "edit") {
             const islandEl = document.getElementById("island");
-            if (islandEl && islandEl.setStatus) {
-              islandEl.setStatus("edit");
-            }
+            if (islandEl && islandEl.setStatus) islandEl.setStatus("edit");
           }
           openImmersiveAppearance();
-        } else {
+        } else if (mode === "cardbar") {
+          // Exit appearance mode first
           closeImmersiveAppearance();
+          // Ensure island stays in edit status
+          if (lastIslandStatus !== "edit") {
+            const islandEl = document.getElementById("island");
+            if (islandEl && islandEl.setStatus) islandEl.setStatus("edit");
+          }
+          // iOS-style: activate visual edit mode on card, don't open the sheet yet
+          activateCardEditMode();
+        } else {
+          // mode === null → toggle OFF: clean up all active sub-modes
+          console.log("[handleIslandMode] toggle OFF — closing everything");
+          deactivateCardEditMode();
+          closeImmersiveAppearance();
+          if (typeof closeProfileEditor === "function") {
+            // Call with false to avoid redundant loop calls when the island is already null
+            closeProfileEditor(false);
+          }
         }
       }
+
+      // Toggle .edit-mode-active on #card, body and .main-content
+      function activateCardEditMode() {
+        console.log("[Perfil Editor] activateCardEditMode called");
+        const card = document.getElementById("card");
+        if (!card) {
+          console.error("[Perfil Editor] #card element NOT found!");
+          return;
+        }
+        card.classList.add("edit-mode-active");
+        document.body.classList.add("edit-mode-active");
+        const mainContent = document.querySelector(".main-content");
+        if (mainContent) mainContent.classList.add("edit-mode-active");
+
+        console.log("[Perfil Editor] #card classes:", card.className);
+        setupCardEditDelegation();
+      }
+
+      function deactivateCardEditMode() {
+        console.log("[Perfil Editor] deactivateCardEditMode called");
+        const card = document.getElementById("card");
+        if (card) card.classList.remove("edit-mode-active");
+        document.body.classList.remove("edit-mode-active");
+        const mainContent = document.querySelector(".main-content");
+        if (mainContent) mainContent.classList.remove("edit-mode-active");
+      }
+
+      // Event delegation on #card: detect clicks on [data-editable-zone]
+      let _cardDelegationSetup = false;
+      function setupCardEditDelegation() {
+        if (_cardDelegationSetup) return;
+        _cardDelegationSetup = true;
+        const card = document.getElementById("card");
+        if (!card) {
+          console.error(
+            "[Perfil Editor] setupCardEditDelegation failed: no #card",
+          );
+          return;
+        }
+        console.log(
+          "[Perfil Editor] Setting up card edit delegation click listener on #card",
+        );
+
+        card.addEventListener("click", (e) => {
+          console.log("[Perfil Editor] Click detected inside #card:", e.target);
+          const card = document.getElementById("card");
+          if (!card || !card.classList.contains("edit-mode-active")) {
+            console.log(
+              "[Perfil Editor] Click ignored: edit-mode-active not on card",
+            );
+            return;
+          }
+
+          const zone = e.target.closest("[data-editable-zone]");
+          if (!zone) {
+            console.log(
+              "[Perfil Editor] Click ignored: not inside an editable zone",
+            );
+            return;
+          }
+
+          e.stopPropagation();
+          const cohort = parseInt(zone.dataset.editableCohort || "1", 10);
+          if (cohort === 4) {
+            console.log(
+              "[Perfil Editor] Click ignored: Cohort 4 (Empresa) is ignored in this update.",
+            );
+            return;
+          }
+          console.log(
+            "[Perfil Editor] Clicked inside editable zone! Cohort:",
+            cohort,
+            zone,
+          );
+          openContextualEditor(cohort);
+        });
+      }
+
+      // Open the bottom sheet focused on one cohort (contextual mode)
+      async function openContextualEditor(cohortNumber) {
+        // Load and populate all data first
+        await openProfileEditor();
+
+        // Then configure contextual mode
+        const sheet = document.querySelector(".profile-editor-sheet");
+        const titleEl = document.querySelector(
+          ".profile-editor-sheet .pe-title",
+        );
+
+        if (sheet) {
+          sheet.classList.add("contextual-mode");
+          // Establecer el cohort activo como un atributo de datos
+          sheet.setAttribute("data-active-cohort", cohortNumber);
+        }
+
+        // Títulos dinámicos basados en el cohort
+        if (titleEl) {
+          if (cohortNumber === 1) {
+            titleEl.textContent = "Editar Foto y Portada";
+          } else if (cohortNumber === 2) {
+            titleEl.textContent = "Editar Datos Personales";
+          } else {
+            titleEl.textContent = "Navegación y Secciones";
+          }
+        }
+
+        // Si es cohort 3 o 5 (Navegación / Contacto y Redes)
+        if (cohortNumber === 3 || cohortNumber === 5) {
+          // Inicializar modo de navegación (Scroll vs Tab)
+          const navType = cachedCardData?.config?.["nav-type"] || "scroll";
+          setNavModeUI(navType);
+
+          // Activar pane y tab
+          document
+            .querySelectorAll(".cohort-tab")
+            .forEach((t) => t.classList.remove("active"));
+          document
+            .querySelectorAll(".cohort-pane")
+            .forEach((p) => p.classList.remove("active"));
+
+          const targetPane = document.getElementById(`pane-${cohortNumber}`);
+          if (targetPane) targetPane.classList.add("active");
+
+          const targetTab = document.querySelector(
+            `.cohort-tab[data-cohort="${cohortNumber}"]`,
+          );
+          if (targetTab) targetTab.classList.add("active");
+        } else {
+          // Cohorts 1 y 2
+          document
+            .querySelectorAll(".cohort-pane")
+            .forEach((p) => p.classList.remove("active"));
+          const pane = document.getElementById(`pane-${cohortNumber}`);
+          if (pane) pane.classList.add("active");
+        }
+      }
+
+      function setNavModeUI(mode) {
+        const sheet = document.querySelector(".profile-editor-sheet");
+        if (!sheet) return;
+
+        if (mode === "scroll") {
+          sheet.classList.remove("mode-tabs");
+          sheet.classList.add("mode-scroll");
+          document.getElementById("btn-nav-scroll")?.classList.add("active");
+          document.getElementById("btn-nav-tabs")?.classList.remove("active");
+        } else {
+          sheet.classList.remove("mode-scroll");
+          sheet.classList.add("mode-tabs");
+          document.getElementById("btn-nav-tabs")?.classList.add("active");
+          document.getElementById("btn-nav-scroll")?.classList.remove("active");
+        }
+      }
+
+      function handleAparienciaMode(mode) {
+        handleIslandMode(mode);
+      }
+
+      // ===== COHORT PROFILE EDITOR CONTROLLER =====
+      let profileEditorActive = false;
+      let cachedCardData = null;
+
+      // 1. Intercept binder fetcher to establish Single Source of Truth
+      function initBinderFetcherIntercept() {
+        if (!window.__adminBinder || !window.__adminBinder.fetcher) return;
+        const originalFetch = window.__adminBinder.fetcher.fetchData.bind(
+          window.__adminBinder.fetcher,
+        );
+        window.__adminBinder.fetcher.fetchData = async function () {
+          const stored = localStorage.getItem("NFC_CARD_DATA");
+          if (stored) {
+            try {
+              return JSON.parse(stored);
+            } catch (e) {}
+          }
+          const fetched = await originalFetch();
+          localStorage.setItem("NFC_CARD_DATA", JSON.stringify(fetched));
+          return fetched;
+        };
+      }
+
+      // Initialize the intercept once binder is ready
+      setTimeout(initBinderFetcherIntercept, 100);
+
+      // Load data helper
+      async function getCardData() {
+        if (window.__adminBinder && window.__adminBinder.fetcher) {
+          return await window.__adminBinder.fetcher.fetchData();
+        }
+        const stored = localStorage.getItem("NFC_CARD_DATA");
+        if (stored) {
+          try {
+            return JSON.parse(stored);
+          } catch (e) {}
+        }
+        return await fetch("/data/card-data.json")
+          .then((r) => r.json())
+          .catch(() => ({}));
+      }
+
+      // Save data helper
+      function saveCardData(data) {
+        localStorage.setItem("NFC_CARD_DATA", JSON.stringify(data));
+        if (window.__adminBinder && window.__adminBinder.hydrator) {
+          window.__adminBinder.hydrator.hydrate(data);
+        }
+      }
+
+      // Open Profile Editor (mode === "cardbar")
+      async function openProfileEditor() {
+        profileEditorActive = true;
+        const data = await getCardData();
+        cachedCardData = data;
+
+        // Ensure nodes exist in cache
+        if (!data.profile) data.profile = {};
+        if (!data.profile.photo) data.profile.photo = { src: "" };
+        if (!data.profile.cover) data.profile.cover = { src: "" };
+        if (!data.config) data.config = {};
+
+        const setVal = (id, val) => {
+          const el = document.getElementById(id);
+          if (el) el.value = val;
+        };
+
+        // Populate fields
+        // Cohort 1: Foto y portada
+        setVal("input-profile-photo", data.profile.photo.src || "");
+        const avatarPrev = document.getElementById("edit-avatar-preview");
+        if (avatarPrev) avatarPrev.src = data.profile.photo.src || "";
+
+        setVal("input-profile-cover", data.profile.cover.src || "");
+        const coverPrev = document.getElementById("edit-cover-preview");
+        if (coverPrev) {
+          coverPrev.style.backgroundImage = data.profile.cover.src
+            ? `url("${data.profile.cover.src}")`
+            : "";
+        }
+
+        // Check active cover style
+        const mainEl = document.querySelector(".main-content");
+        const activeStyle = mainEl
+          ? mainEl.getAttribute("data-style")
+          : "classic";
+        const radioEl = document.querySelector(
+          `input[name="image_style"][value="${activeStyle}"]`,
+        );
+        if (radioEl) radioEl.checked = true;
+
+        // Cohort 2: Datos
+        setVal("input-profile-name", data.profile.name || "");
+        setVal("input-profile-title", data.profile.title || "");
+        setVal("input-profile-org", data.profile.org || "");
+        setVal("input-profile-bio", data.profile.bio || "");
+
+        // Cohort 3: Contacto
+        setVal("input-profile-email", data.profile.email || "");
+        setVal("input-profile-phone", data.profile.phone || "");
+        setVal("input-profile-website", data.profile.website || "");
+
+        // Cohort 6: Redes Icons Toggle
+        const showUnderBio = data.config["show-networks-under-bio"] ?? true;
+        const toggleSocial = document.getElementById(
+          "toggle-social-icons-under-bio",
+        );
+        if (toggleSocial) toggleSocial.checked = showUnderBio;
+
+        // Display panel
+        const panel = document.getElementById("profile-editor-panel");
+        if (panel) {
+          panel.style.display = "flex";
+          panel.offsetHeight; // force reflow
+          panel.classList.add("active");
+        }
+      }
+
+      // closeProfileEditor: if fullyExit=true, reset island; otherwise just close sheet and
+      // keep the card in edit mode so the user can continue tapping other zones.
+      function closeProfileEditor(fullyExit = false) {
+        profileEditorActive = false;
+        const panel = document.getElementById("profile-editor-panel");
+        const sheet = document.querySelector(".profile-editor-sheet");
+
+        if (sheet) sheet.classList.remove("contextual-mode");
+        if (panel) {
+          panel.classList.remove("active");
+          setTimeout(() => {
+            if (!profileEditorActive) panel.style.display = "none";
+          }, 400);
+        }
+
+        // Reset sheet title back to generic
+        const titleEl = document.querySelector(
+          ".profile-editor-sheet .pe-title",
+        );
+        if (titleEl) titleEl.textContent = "Edición de Perfil";
+
+        if (fullyExit) {
+          deactivateCardEditMode();
+          const island = document.getElementById("island");
+          if (island && typeof island.setActiveMode === "function") {
+            island.setActiveMode(null);
+          }
+        }
+        // Otherwise: keep card in edit-mode-active so user can tap another zone
+      }
+
+      window.closeProfileEditor = closeProfileEditor;
+
+      // Tabs switching mechanism
+      document.querySelectorAll(".cohort-tab").forEach((tab) => {
+        tab.addEventListener("click", (e) => {
+          const btn = e.target.closest(".cohort-tab");
+          const cohort = btn.dataset.cohort;
+
+          document
+            .querySelectorAll(".cohort-tab")
+            .forEach((t) => t.classList.remove("active"));
+          btn.classList.add("active");
+
+          document
+            .querySelectorAll(".cohort-pane")
+            .forEach((p) => p.classList.remove("active"));
+          document.getElementById(`pane-${cohort}`).classList.add("active");
+        });
+      });
+
+      // Segmented Control (Scroll vs Tab) Mode Listeners
+      document.querySelectorAll("[data-nav-mode]").forEach((btn) => {
+        btn.addEventListener("click", (e) => {
+          const targetMode = e.currentTarget.dataset.navMode;
+          if (!cachedCardData) return;
+          if (!cachedCardData.config) cachedCardData.config = {};
+          cachedCardData.config["nav-type"] = targetMode;
+          saveCardData(cachedCardData);
+
+          // Update UI styles and active buttons
+          setNavModeUI(targetMode);
+        });
+      });
+
+      // Close button: just dismiss the sheet, NOT a full exit
+      document
+        .getElementById("closeProfileEditorBtn")
+        ?.addEventListener("click", () => closeProfileEditor(false));
+
+      // Save sync with inputs
+      function bindCohortInputs() {
+        const syncValue = (inputId, objPath, isSrc = false, isBg = false) => {
+          const el = document.getElementById(inputId);
+          if (!el) return;
+
+          el.addEventListener("input", (e) => {
+            if (!cachedCardData) return;
+            const val = e.target.value;
+
+            // Set nested value
+            const parts = objPath.split(".");
+            let current = cachedCardData;
+            for (let i = 0; i < parts.length - 1; i++) {
+              current = current[parts[i]];
+            }
+            current[parts[parts.length - 1]] = val;
+
+            // Sync live previews in sheet
+            if (isSrc) {
+              const prev = document.getElementById(
+                inputId.replace("input-", "") + "-preview",
+              );
+              if (prev) prev.src = val;
+            }
+            if (isBg) {
+              const prev = document.getElementById(
+                inputId.replace("input-", "") + "-preview",
+              );
+              if (prev) prev.style.backgroundImage = val ? `url("${val}")` : "";
+            }
+
+            // Sync visual covers
+            if (objPath === "profile.cover.src") {
+              const bgCover = document.getElementById("background_cover");
+              if (bgCover)
+                bgCover.style.backgroundImage = val ? `url("${val}")` : "";
+            }
+
+            saveCardData(cachedCardData);
+          });
+        };
+
+        // Cohort 1
+        syncValue("input-profile-photo", "profile.photo.src", true);
+        syncValue("input-profile-cover", "profile.cover.src", false, true);
+
+        // Radio buttons style change event
+        document
+          .querySelectorAll('input[name="image_style"]')
+          .forEach((radio) => {
+            radio.addEventListener("change", (e) => {
+              const val = e.target.value;
+              const mainEl = document.querySelector(".main-content");
+              if (mainEl) {
+                mainEl.setAttribute("data-style", val);
+                // Save to config
+                if (cachedCardData) {
+                  if (!cachedCardData.config) cachedCardData.config = {};
+                  cachedCardData.config.cover_active = val === "with-cover";
+                  saveCardData(cachedCardData);
+                }
+              }
+            });
+          });
+
+        // Cohort 2
+        syncValue("input-profile-name", "profile.name");
+        syncValue("input-profile-title", "profile.title");
+        syncValue("input-profile-org", "profile.org");
+        syncValue("input-profile-bio", "profile.bio");
+
+        // Cohort 3
+        syncValue("input-profile-email", "profile.email");
+        syncValue("input-profile-phone", "profile.phone");
+        syncValue("input-profile-website", "profile.website");
+
+        // Cohort 6: toggle icons
+        document
+          .getElementById("toggle-social-icons-under-bio")
+          ?.addEventListener("change", (e) => {
+            if (!cachedCardData) return;
+            cachedCardData.config["show-networks-under-bio"] = e.target.checked;
+            saveCardData(cachedCardData);
+
+            // Toggle UI list visibility
+            const list =
+              document.querySelector(".aurora__socials") ||
+              document.querySelector(".blank__socials");
+            if (list) {
+              list.style.display = e.target.checked ? "flex" : "none";
+            }
+          });
+      }
+
+      // Initialize inputs listeners
+      setTimeout(bindCohortInputs, 200);
 
       window.__openAppearanceEditor = openImmersiveAppearance;
       window.__closeAppearanceEditor = closeImmersiveAppearance;

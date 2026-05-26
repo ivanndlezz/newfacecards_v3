@@ -344,17 +344,19 @@
 <div class="card--brutal">
   <div class="brutal__hero">
     <!-- Cover bindeado automáticamente a la imagen cover -->
-    <div class="brutal__cover" data-bind-bg="profile.cover" style="width: 100%; height: 220px; background-size: cover; background-position: center; filter: grayscale(1) contrast(1.1);"></div>
+    <div class="brutal__cover" data-editable-zone data-editable-cohort="1" data-bind-bg="profile.cover" style="width: 100%; height: 220px; background-size: cover; background-position: center; filter: grayscale(1) contrast(1.1);"></div>
   </div>
   
   <div class="brutal__identity">
     <div class="brutal__avatar-row">
       <img
         class="brutal__avatar"
+        data-editable-zone
+        data-editable-cohort="1"
         data-bind-src="profile.photo"
         alt="Foto"
       />
-      <div class="brutal__label-stack">
+      <div class="brutal__label-stack" data-editable-zone data-editable-cohort="2">
         <p class="brutal__role" data-bind="profile.title">Cargando Cargo...</p>
         <h1 class="brutal__name" data-bind="profile.name">Cargando Nombre</h1>
         <p class="brutal__org" data-bind="profile.org">Cargando Empresa</p>
@@ -389,7 +391,7 @@
 
   <div class="brutal__body">
     <!-- Pestaña Contacto -->
-    <div class="brutal__tab brutal__tab--active" id="brutal-contacto">
+    <div class="brutal__tab brutal__tab--active" id="brutal-contacto" data-editable-zone data-editable-cohort="3">
       <div class="brutal__contact">
         <button class="brutal__action" id="brutal-vcf">
           <div class="brutal__action-icon brutal__action-icon--cta">
@@ -424,7 +426,7 @@
     </div>
 
     <!-- Pestaña Empresa -->
-    <div class="brutal__tab" id="brutal-empresa" style="display: none;">
+    <div class="brutal__tab" id="brutal-empresa" style="display: none;" data-editable-zone data-editable-cohort="4">
       <div class="brutal__empresa">
         <p class="brutal__section-head" data-bind="empresa.name">Cargando...</p>
         <div class="brutal__service-card">

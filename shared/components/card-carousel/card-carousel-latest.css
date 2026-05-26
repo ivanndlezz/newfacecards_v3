@@ -1,17 +1,128 @@
+/* ============================================================
+   CARD SYSTEM — Design Tokens & Component Styles
+   Refactored: variable-driven, DRY, BEM-consistent
+   ============================================================ */
+
+/* ─────────────────────────────────────────────────────────────
+   1. DESIGN TOKENS
+   ───────────────────────────────────────────────────────────── */
 :root {
-  --bg-color: #09090b; /* Zinc 950 */
+  /* Core palette */
+  --color-bg-app: #09090b;
+  --color-white: #ffffff;
+  --color-black: #000000;
+
+  /* Zinc scale */
+  --color-zinc-100: #f4f4f5;
+  --color-zinc-200: #e4e4e7;
+  --color-zinc-300: #d4d4d8;
+  --color-zinc-400: #a1a1aa;
+  --color-zinc-500: #71717a;
+  --color-zinc-800: #27272a;
+  --color-zinc-900: #18181b;
+
+  /* Brand / accent */
+  --color-violet: #a855f7;
+  --color-violet-dark: #8427e0;
+  --color-violet-light: #c084fc;
+
+  /* Semantic theme accents */
+  --color-cyber-accent: #facc15;
+  --color-hacker-accent: #22c55e;
+  --color-hacker-muted: #15803d;
+  --color-sunset-from: #f97316;
+  --color-sunset-to: #db2777;
+
+  /* Feedback */
+  --color-emerald: #10b981;
+  --color-emerald-light: #34d399;
+  --color-emerald-dark: #022c22;
+  --color-amber: #f59e0b;
+  --color-amber-dark: #d97706;
+
+  /* ─── Spacing ─── */
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.25rem;
+  --space-6: 1.5rem;
+  --space-8: 2rem;
+  --space-10: 2.5rem;
+
+  /* ─── Typography ─── */
+  --text-xs: 0.75rem;
+  --text-sm: 0.875rem;
+  --text-base: 1rem;
+  --text-2xl: 1.5rem;
+  --text-tag: 10px;
+
+  /* ─── Radii ─── */
+  --radius-sm: 0.75rem;
+  --radius-md: 14px;
+  --radius-lg: 24px;
+  --radius-full: 9999px;
+
+  /* ─── Glass / overlay ─── */
+  --glass-bg: rgba(255, 255, 255, 0.1);
+  --glass-border: rgba(255, 255, 255, 0.2);
+  --glass-bg-hover: rgba(255, 255, 255, 0.2);
+  --glass-blur: blur(40px);
+  --glass-blur-md: blur(24px);
+  --glass-blur-sm: blur(12px);
+
+  /* ─── Violet glass ─── */
+  --violet-glass-bg: rgba(168, 85, 247, 0.06);
+  --violet-glass-border: rgba(168, 85, 247, 0.4);
+  --violet-glass-hover: rgba(168, 85, 247, 0.08);
+  --violet-glow: rgba(168, 85, 247, 0.15);
+
+  /* ─── Shadows ─── */
+  --shadow-card: 0 35px 70px -15px rgba(0, 0, 0, 0.45);
+  --shadow-card-sm: 0 12px 30px -10px rgba(0, 0, 0, 0.25);
+  --shadow-emerald: 0 0 30px rgba(16, 185, 129, 0.3);
+  --shadow-emerald-toast: 0 10px 25px rgba(16, 185, 129, 0.5);
+
+  /* ─── Transitions ─── */
+  --transition-base: 0.15s ease;
+  --transition-md: 0.25s ease;
+  --transition-lg: 0.35s ease;
+  --transition-spring: 0.46s cubic-bezier(0.16, 1, 0.3, 1); /* Liquid smooth, Apple-style premium ease */
+  --transition-smooth: 0.28s cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-bounce: 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.12);
+
+  /* ─── Blob backgrounds ─── */
+  --blob-indigo: rgba(79, 70, 229, 0.1);
+  --blob-purple: rgba(147, 51, 234, 0.1);
+  --blob-blur: blur(120px);
+
+  /* ─── Card dimensions ─── */
+  --card-w: 320px;
+  --card-h: 480px;
+  --card-w-lg: 400px;
+  --card-h-lg: 750px;
+
+  /* ─── Avatar ─── */
+  --avatar-size: 6rem;
+  --avatar-bg: rgba(0, 0, 0, 0.2);
+  --avatar-border: rgba(255, 255, 255, 0.1);
 }
 
-/* Reset & Base Styles */
-* {
+/* ─────────────────────────────────────────────────────────────
+   2. RESET
+   ───────────────────────────────────────────────────────────── */
+*,
+*::before,
+*::after {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
 }
 
-/* --- App Layout --- */
+/* ─────────────────────────────────────────────────────────────
+   3. APP LAYOUT
+   ───────────────────────────────────────────────────────────── */
 .card-app {
-  height: 100vh;
   height: 100dvh;
   width: 100%;
   display: flex;
@@ -21,13 +132,10 @@
   position: relative;
 }
 
-/* Fondo animado sutil */
+/* Animated background blobs */
 .card-app__bg {
   position: absolute;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
+  inset: 0;
   z-index: 0;
   overflow: hidden;
   pointer-events: none;
@@ -37,58 +145,57 @@
   position: absolute;
   width: 40%;
   height: 40%;
-  border-radius: 9999px;
-  filter: blur(120px);
-  -webkit-filter: blur(120px);
+  border-radius: var(--radius-full);
+  filter: var(--blob-blur);
 }
 
 .card-app__blob--indigo {
   top: -10%;
   left: -10%;
-  background-color: rgba(79, 70, 229, 0.1); /* bg-indigo-600/10 */
+  background-color: var(--blob-indigo);
 }
 
 .card-app__blob--purple {
   bottom: -10%;
   right: -10%;
-  background-color: rgba(147, 51, 234, 0.1); /* bg-purple-600/10 */
+  background-color: var(--blob-purple);
 }
 
 .card-app__main {
   width: 100%;
-  max-width: 80rem; /* 1280px */
-  margin-left: auto;
-  margin-right: auto;
-  padding-left: 1rem;
-  padding-right: 1rem;
+  max-width: 80rem;
+  margin-inline: auto;
+  padding-inline: var(--space-4);
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   position: relative;
   z-index: 10;
-  flex: 1 1 0%;
+  flex: 1;
 }
 
-/* --- Contenedor del Carrusel 3D --- */
+/* ─────────────────────────────────────────────────────────────
+   4. CAROUSEL
+   ───────────────────────────────────────────────────────────── */
 .card-carousel {
-  perspective: 1200px;
-  transform-style: preserve-3d;
   width: 100%;
-  height: 100vh;
   height: 100dvh;
-  display: none; /* Oculto por defecto */
+  display: none;
   justify-content: center;
   align-items: center;
-  position: fixed; /* Pantalla completa overlay */
-  top: 0;
-  left: 0;
+  position: fixed;
+  inset: 0;
   z-index: 9999;
-  background-color: rgba(9, 9, 11, 0.85); /* Fondo oscuro */
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
+  background-color: rgba(
+    225,
+    225,
+    230,
+    0.88
+  ); /* Refined light studio grey to keep a bright, clean light-mode aesthetic with enhanced contrast */
+  backdrop-filter: var(--glass-blur-sm);
   opacity: 0;
-  transition: opacity 0.4s ease;
+  transition: opacity var(--transition-lg);
 }
 
 .card-carousel.card-carousel--visible {
@@ -98,73 +205,27 @@
 
 .card-carousel__track {
   position: relative;
-  width: 320px;
-  height: 480px;
-  transform-style: preserve-3d;
+  width: var(--card-w);
+  height: var(--card-h);
 }
 
-/* --- Tarjeta de Perfil --- */
-.profile-card {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  border-radius: 24px;
-  padding: 32px 24px;
-  box-sizing: border-box;
-  will-change: transform, opacity;
-  transition:
-    transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1),
-    opacity 0.6s ease,
-    filter 0.6s ease;
-  display: flex;
-  flex-direction: column;
-  overflow: clip;
+/* Expanded track when carousel is open */
+#app:has(.card-carousel--visible) .card-carousel__track {
+  width: var(--card-w-lg);
+  height: var(--card-h-lg);
+  transform: translateY(24px);
 }
 
-/* ESTADOS DE POSICIÓN PARA EL MODO SELECTOR */
-.card-carousel--visible .profile-card.profile-card--active {
-  transform: translateX(0) translateZ(0) scale(1);
-  opacity: 1;
-  z-index: 10;
-  filter: brightness(1);
-  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
-}
-
-.card-carousel--visible .profile-card.profile-card--prev {
-  transform: translateX(-70%) translateZ(-150px) scale(0.85);
-  opacity: 0.4;
-  z-index: 5;
-  filter: brightness(0.5);
-  cursor: pointer;
-}
-
-.card-carousel--visible .profile-card.profile-card--next {
-  transform: translateX(70%) translateZ(-150px) scale(0.85);
-  opacity: 0.4;
-  z-index: 5;
-  filter: brightness(0.5);
-  cursor: pointer;
-}
-
-.card-carousel--visible .profile-card.profile-card--hidden {
-  transform: translateX(0) translateZ(-300px) scale(0.6);
-  opacity: 0;
-  z-index: 1;
-  pointer-events: none;
-}
-
-/* --- Dots Indicadores --- */
+/* Dots */
 .card-carousel__dots {
-  transition:
-    opacity 0.4s ease,
-    transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
   display: flex;
   align-items: center;
-  gap: 0.75rem; /* gap-3 */
-  margin-top: 1rem; /* mt-4 */
-  height: 1.5rem; /* h-6 */
+  gap: var(--space-3);
+  margin-top: var(--space-4);
+  height: 1.5rem;
+  transition:
+    opacity var(--transition-lg),
+    transform var(--transition-bounce);
 }
 
 body.view-mode .card-carousel__dots {
@@ -180,339 +241,200 @@ body.edit-mode .card-carousel__dots {
 }
 
 .card-carousel__dot {
-  width: 0.5rem; /* w-2 */
-  height: 0.5rem; /* h-2 */
-  border-radius: 9999px;
+  width: var(--space-2);
+  height: var(--space-2);
+  border-radius: var(--radius-full);
   background-color: rgba(255, 255, 255, 0.3);
-  transition: all 0.3s ease;
+  transition: all var(--transition-md);
   cursor: pointer;
 }
 
 .card-carousel__dot--active {
-  width: 1.5rem; /* w-6 */
+  width: 1.5rem;
+  background-color: var(--color-white);
+}
+
+/* ─────────────────────────────────────────────────────────────
+   5. PROFILE CARD — BASE
+   ───────────────────────────────────────────────────────────── */
+.profile-card {
+  position: absolute;
+  inset: 0;
+  border-radius: var(--radius-lg);
+  padding: 32px var(--space-6);
+  will-change: transform, opacity;
+  transition:
+    transform var(--transition-spring),
+    opacity var(--transition-spring),
+    filter var(--transition-spring);
+  display: flex;
+  flex-direction: column;
+  overflow: clip;
+}
+
+/* ── Card position states ── */
+.card-carousel--visible .profile-card.profile-card--active {
+  transform: translate(0, 0) scale(1);
+  opacity: 1;
+  z-index: 10;
+  filter: brightness(1);
+  box-shadow: var(--shadow-card);
+}
+
+/* ── Shared styles for all non-active side cards ── */
+.card-carousel--visible .profile-card.profile-card--prev,
+.card-carousel--visible .profile-card.profile-card--next {
+  z-index: 5;
+
+  cursor: pointer;
+  box-shadow: var(--shadow-card-sm);
+  opacity: 1;
+  filter: brightness(1);
   background-color: #ffffff;
 }
 
-/* --- Componentes Internos de la Tarjeta --- */
+/* Only the X-direction differs per side */
+.card-carousel--visible .profile-card.profile-card--prev {
+  transform: translateX(-70%) translateY(12px) scale(0.82);
+  opacity: 1;
+  background-color: #ffffff;
+}
+
+.card-carousel--visible .profile-card.profile-card--next {
+  transform: translateX(70%) translateY(12px) scale(0.82);
+  opacity: 1;
+  filter: brightness(1);
+  background-color: #ffffff;
+}
+
+.card-carousel--visible .profile-card.profile-card--hidden {
+  transform: translate(0, 40px) scale(0.6);
+  opacity: 0;
+  z-index: 1;
+  pointer-events: none;
+}
+
+/* ── Card internals ── */
 .profile-card__content {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  flex: 1 1 0%;
+  flex: 1;
   text-align: center;
 }
 
 .profile-card__avatar-container {
-  width: 6rem; /* w-24 */
-  height: 6rem; /* h-24 */
-  border-radius: 9999px;
-  background-color: rgba(0, 0, 0, 0.2);
-  margin-bottom: 1rem; /* mb-4 */
-  padding: 0.5rem; /* p-2 */
+  width: var(--avatar-size);
+  height: var(--avatar-size);
+  border-radius: var(--radius-full);
+  background-color: var(--avatar-bg);
+  margin-bottom: var(--space-4);
+  padding: var(--space-2);
   backdrop-filter: blur(4px);
-  -webkit-backdrop-filter: blur(4px);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  border: 1px solid var(--avatar-border);
 }
 
 .profile-card__avatar {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  border-radius: 9999px;
+  border-radius: var(--radius-full);
 }
 
 .profile-card__name {
-  font-size: 1.5rem; /* text-2xl */
-  margin-bottom: 0.25rem; /* mb-1 */
+  font-size: var(--text-2xl);
+  margin-bottom: var(--space-1);
 }
 
 .profile-card__role {
-  font-size: 0.875rem; /* text-sm */
+  font-size: var(--text-sm);
   font-weight: 500;
-  margin-bottom: 0.25rem; /* mb-1 */
+  margin-bottom: var(--space-1);
 }
 
 .profile-card__location {
-  font-size: 0.75rem; /* text-xs */
+  font-size: var(--text-xs);
   opacity: 0.8;
   display: flex;
   align-items: center;
-  gap: 0.25rem; /* gap-1 */
+  gap: var(--space-1);
 }
 
 .profile-card__links {
   width: 100%;
   display: flex;
   flex-direction: column;
-  gap: 0.75rem; /* gap-3 */
-  margin-top: 1.5rem; /* mt-6 */
+  gap: var(--space-3);
+  margin-top: var(--space-6);
 }
 
+/* ── Shared button base (used by theme buttons, action buttons, and profile links) ── */
+.buy-theme-btn,
+.apply-theme-btn,
+.action-button,
 .profile-card__link {
-  width: 100%;
-  padding-top: 0.75rem; /* py-3 */
-  padding-bottom: 0.75rem;
-  padding-left: 1rem; /* px-4 */
-  padding-right: 1rem;
-  border-radius: 0.75rem; /* rounded-xl */
-  display: flex;
+  padding: var(--space-3) var(--space-6);
+  border-radius: var(--radius-full);
+  font-weight: 700;
+  font-size: var(--text-sm);
+  border: none;
+  cursor: pointer;
+  font-family: inherit;
+  transition: all var(--transition-smooth);
+  display: inline-flex;
   align-items: center;
-  justify-content: center;
-  gap: 0.75rem; /* gap-3 */
+  gap: var(--space-2);
   text-decoration: none;
-  transition:
-    background-color 0.15s ease,
-    border-color 0.15s ease,
-    color 0.15s ease;
 }
 
-.profile-card__link i {
-  font-size: 1rem;
-}
+/* Theme button specific backgrounds remain later */
 
-.profile-card__link span {
-  font-weight: 500;
-  font-size: 0.875rem; /* text-sm */
-}
-
-.profile-card__theme-tag {
-  position: absolute;
-  top: 1rem; /* top-4 */
-  right: 1rem; /* right-4 */
-  font-size: 10px; /* text-[10px] */
-  text-transform: uppercase;
-  letter-spacing: 0.05em; /* tracking-wider */
-  opacity: 0.3;
-  font-weight: 700;
-}
-
-/* --- Temas de Tarjeta (BEM Modifiers) --- */
-
-/* 1. Glassmorphism */
-.profile-card--glass {
-  background-color: rgba(255, 255, 255, 0.1);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  backdrop-filter: blur(40px);
-  -webkit-backdrop-filter: blur(40px);
-  box-shadow:
-    0 20px 25px -5px rgba(0, 0, 0, 0.1),
-    0 10px 10px -5px rgba(0, 0, 0, 0.04);
-}
-.profile-card--glass .profile-card__name {
-  color: #ffffff;
-  font-weight: 600;
-}
-.profile-card--glass .profile-card__role,
-.profile-card--glass .profile-card__location {
-  color: #d4d4d8; /* text-zinc-300 */
-}
-.profile-card--glass .profile-card__link {
-  background-color: rgba(255, 255, 255, 0.1);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  color: #ffffff;
-}
-.profile-card--glass .profile-card__link:hover {
-  background-color: rgba(255, 255, 255, 0.2);
-}
-.profile-card--glass .profile-card__theme-tag {
-  color: #ffffff;
-}
-
-/* 2. Cyberpunk */
-.profile-card--cyber {
-  background-color: #18181b; /* bg-zinc-900 */
-  border: 2px solid #facc15; /* border-yellow-400 */
-  box-shadow: 0 0 30px rgba(250, 204, 21, 0.2);
-  font-family: "Space Grotesk", sans-serif;
-}
-.profile-card--cyber .profile-card__name {
-  color: #facc15; /* text-yellow-400 */
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.05em; /* tracking-wide */
-}
-.profile-card--cyber .profile-card__role,
-.profile-card--cyber .profile-card__location {
-  color: #a1a1aa; /* text-zinc-400 */
-}
-.profile-card--cyber .profile-card__link {
-  background-color: rgba(250, 204, 21, 0.1); /* bg-yellow-400/10 */
-  border: 1px solid rgba(250, 204, 21, 0.5); /* border-yellow-400/50 */
-  color: #facc15;
-}
-.profile-card--cyber .profile-card__link:hover {
-  background-color: rgba(250, 204, 21, 0.2);
-}
-.profile-card--cyber .profile-card__theme-tag {
-  color: #facc15;
-}
-
-/* 3. Minimal Light */
-.profile-card--minimal {
-  background-color: #f4f4f5; /* bg-zinc-100 */
-  border: 1px solid #e4e4e7; /* border-zinc-200 */
-  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
-}
-.profile-card--minimal .profile-card__name {
-  color: #18181b; /* text-zinc-900 */
-  font-weight: 700;
-}
-.profile-card--minimal .profile-card__role,
-.profile-card--minimal .profile-card__location {
-  color: #71717a; /* text-zinc-500 */
-}
-.profile-card--minimal .profile-card__link {
-  background-color: #e4e4e7; /* bg-zinc-200 */
-  border: 1px solid transparent;
-  color: #27272a; /* text-zinc-800 */
-}
-.profile-card--minimal .profile-card__link:hover {
-  background-color: #d4d4d8; /* bg-zinc-300 */
-}
-.profile-card--minimal .profile-card__theme-tag {
-  color: #18181b;
-}
-
-/* 4. Terminal */
-.profile-card--hacker {
-  background-color: #000000; /* bg-black */
-  border: 1px solid #22c55e; /* border-green-500 */
-  box-shadow: 0 0 20px rgba(34, 197, 94, 0.1);
-  font-family: "JetBrains Mono", monospace;
-}
-.profile-card--hacker .profile-card__name {
-  color: #22c55e; /* text-green-500 */
-  font-weight: 700;
-}
-.profile-card--hacker .profile-card__role,
-.profile-card--hacker .profile-card__location {
-  color: #15803d; /* text-green-700 */
-}
-.profile-card--hacker .profile-card__link {
-  background-color: rgba(34, 197, 94, 0.1); /* bg-green-500/10 */
-  border: 1px solid rgba(34, 197, 94, 0.5); /* border-green-500/50 */
-  color: #22c55e;
-}
-.profile-card--hacker .profile-card__link:hover {
-  background-color: rgba(34, 197, 94, 0.2);
-}
-.profile-card--hacker .profile-card__theme-tag {
-  color: #22c55e;
-}
-
-/* 5. Sunset Gradient */
-.profile-card--sunset {
-  background: linear-gradient(
-    135deg,
-    #f97316,
-    #db2777
-  ); /* bg-gradient-to-br from-orange-500 to-pink-600 */
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  box-shadow: 0 25px 50px -12px rgba(249, 115, 22, 0.2);
-}
-.profile-card--sunset .profile-card__name {
-  color: #ffffff;
-  font-weight: 700;
-}
-.profile-card--sunset .profile-card__role,
-.profile-card--sunset .profile-card__location {
-  color: #ffedd5; /* text-orange-100 */
-}
-.profile-card--sunset .profile-card__link {
-  background-color: rgba(0, 0, 0, 0.2); /* bg-black/20 */
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  color: #ffffff;
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-}
-.profile-card--sunset .profile-card__link:hover {
-  background-color: rgba(0, 0, 0, 0.3);
-}
-.profile-card--sunset .profile-card__theme-tag {
-  color: #ffffff;
-}
-
-/* --- Botón de Acción --- */
-.action-button-container {
-  position: absolute;
-  bottom: 2.5rem; /* bottom-10 */
-  z-index: 20;
-  display: flex;
-  justify-content: center;
-  width: 100%;
-  padding-left: 1.5rem; /* px-6 */
-  padding-right: 1.5rem;
-}
-
+/* Action button specific properties */
 .action-button {
   position: relative;
-  padding-left: 2rem; /* px-8 */
-  padding-right: 2rem;
-  padding-top: 0.875rem; /* py-3.5 */
-  padding-bottom: 0.875rem;
-  border-radius: 9999px; /* rounded-full */
-  font-family: inherit;
-  font-size: 1rem;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  gap: 0.75rem; /* gap-3 */
   overflow: hidden;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   user-select: none;
 }
-
 .action-button:active {
   transform: scale(0.95);
 }
 
-.action-button__icon i {
-  font-size: 0.875rem; /* text-sm */
+/* Profile link specific overrides */
+.profile-card__link {
+  background-color: var(--theme-link-bg);
+  border: 1px solid var(--theme-link-border);
+  color: var(--theme-link-color);
+}
+.profile-card__link:hover {
+  background-color: var(--theme-link-bg-hover);
 }
 
-/* Estado: Editar (Normal) */
-.action-button--edit {
-  background-color: rgba(255, 255, 255, 0.1); /* bg-white/10 */
-  color: #ffffff;
-  font-weight: 500;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  backdrop-filter: blur(24px); /* backdrop-blur-xl */
-  -webkit-backdrop-filter: blur(24px);
-  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3);
-}
-
-.action-button--edit:hover {
-  background-color: rgba(255, 255, 255, 0.2); /* hover:bg-white/20 */
-}
-
-/* Estado: Guardar (Verde) */
-.action-button--save {
-  background-color: #10b981; /* bg-emerald-500 */
-  color: #022c22; /* text-emerald-950 */
+.profile-card__theme-tag {
+  position: absolute;
+  top: var(--space-4);
+  right: var(--space-4);
+  font-size: var(--text-tag);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  opacity: 0.3;
   font-weight: 700;
-  border: 1px solid transparent;
-  box-shadow: 0 0 30px rgba(16, 185, 129, 0.3);
 }
 
-.action-button--save:hover {
-  background-color: #34d399; /* hover:bg-emerald-400 */
-}
-
-/* --- Barra de Acción de Compra / Aplicar en Tarjetas --- */
+/* Action bar (shown only on active card) */
 .profile-card__action-bar {
   position: absolute;
-  bottom: 2rem;
-  left: 1.5rem;
-  right: 1.5rem;
+  bottom: var(--space-8);
+  left: var(--space-6);
+  right: var(--space-6);
   z-index: 30;
   display: flex;
   justify-content: center;
   pointer-events: none;
   opacity: 0;
   transition:
-    opacity 0.3s ease,
-    transform 0.3s ease;
+    opacity var(--transition-md),
+    transform var(--transition-md);
   transform: translateY(10px);
 }
 
@@ -522,79 +444,473 @@ body.edit-mode .card-carousel__dots {
   transform: translateY(0);
 }
 
-/* Botones Premium del Selector de Temas */
+/* ─────────────────────────────────────────────────────────────
+   6. CARD THEMES
+   Shared link pattern via custom props; overridden per theme.
+   ───────────────────────────────────────────────────────────── */
+
+/* ── Theme mixin: each theme sets these four custom props,
+      which the shared .profile-card__link rule consumes.       ── */
+.profile-card__link {
+  background-color: var(--theme-link-bg);
+  border: 1px solid var(--theme-link-border);
+  color: var(--theme-link-color);
+}
+
+.profile-card__link:hover {
+  background-color: var(--theme-link-bg-hover);
+}
+
+/* 6a. Glassmorphism */
+.profile-card--glass {
+  background-color: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  backdrop-filter: var(--glass-blur);
+  box-shadow:
+    0 20px 25px -5px rgba(0, 0, 0, 0.1),
+    0 10px 10px -5px rgba(0, 0, 0, 0.04);
+
+  --theme-link-bg: rgba(255, 255, 255, 0.1);
+  --theme-link-border: rgba(255, 255, 255, 0.1);
+  --theme-link-color: var(--color-white);
+  --theme-link-bg-hover: rgba(255, 255, 255, 0.2);
+}
+.profile-card--glass .profile-card__name {
+  color: var(--color-white);
+  font-weight: 600;
+}
+.profile-card--glass .profile-card__role,
+.profile-card--glass .profile-card__location {
+  color: var(--color-zinc-300);
+}
+.profile-card--glass .profile-card__theme-tag {
+  color: var(--color-white);
+}
+
+/* 6b. Cyberpunk */
+.profile-card--cyber {
+  background-color: var(--color-zinc-900);
+  border: 2px solid var(--color-cyber-accent);
+  box-shadow: 0 0 30px rgba(250, 204, 21, 0.2);
+  font-family: "Space Grotesk", sans-serif;
+
+  --theme-link-bg: rgba(250, 204, 21, 0.1);
+  --theme-link-border: rgba(250, 204, 21, 0.5);
+  --theme-link-color: var(--color-cyber-accent);
+  --theme-link-bg-hover: rgba(250, 204, 21, 0.2);
+}
+.profile-card--cyber .profile-card__name {
+  color: var(--color-cyber-accent);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+.profile-card--cyber .profile-card__role,
+.profile-card--cyber .profile-card__location {
+  color: var(--color-zinc-400);
+}
+.profile-card--cyber .profile-card__theme-tag {
+  color: var(--color-cyber-accent);
+}
+
+/* 6c. Minimal Light */
+.profile-card--minimal {
+  background-color: var(--color-zinc-100);
+  border: 1px solid var(--color-zinc-200);
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+
+  --theme-link-bg: var(--color-zinc-200);
+  --theme-link-border: transparent;
+  --theme-link-color: var(--color-zinc-800);
+  --theme-link-bg-hover: var(--color-zinc-300);
+}
+.profile-card--minimal .profile-card__name {
+  color: var(--color-zinc-900);
+  font-weight: 700;
+}
+.profile-card--minimal .profile-card__role,
+.profile-card--minimal .profile-card__location {
+  color: var(--color-zinc-500);
+}
+.profile-card--minimal .profile-card__theme-tag {
+  color: var(--color-zinc-900);
+}
+
+/* 6d. Terminal / Hacker */
+.profile-card--hacker {
+  background-color: var(--color-black);
+  border: 1px solid var(--color-hacker-accent);
+  box-shadow: 0 0 20px rgba(34, 197, 94, 0.1);
+  font-family: "JetBrains Mono", monospace;
+
+  --theme-link-bg: rgba(34, 197, 94, 0.1);
+  --theme-link-border: rgba(34, 197, 94, 0.5);
+  --theme-link-color: var(--color-hacker-accent);
+  --theme-link-bg-hover: rgba(34, 197, 94, 0.2);
+}
+.profile-card--hacker .profile-card__name {
+  color: var(--color-hacker-accent);
+  font-weight: 700;
+}
+.profile-card--hacker .profile-card__role,
+.profile-card--hacker .profile-card__location {
+  color: var(--color-hacker-muted);
+}
+.profile-card--hacker .profile-card__theme-tag {
+  color: var(--color-hacker-accent);
+}
+
+/* 6e. Sunset Gradient */
+.profile-card--sunset {
+  background: linear-gradient(
+    135deg,
+    var(--color-sunset-from),
+    var(--color-sunset-to)
+  );
+  border: 1px solid var(--glass-border);
+  box-shadow: 0 25px 50px -12px rgba(249, 115, 22, 0.2);
+
+  --theme-link-bg: rgba(0, 0, 0, 0.2);
+  --theme-link-border: rgba(255, 255, 255, 0.2);
+  --theme-link-color: var(--color-white);
+  --theme-link-bg-hover: rgba(0, 0, 0, 0.3);
+}
+.profile-card--sunset .profile-card__link {
+  backdrop-filter: var(--glass-blur-sm);
+}
+.profile-card--sunset .profile-card__name {
+  color: var(--color-white);
+  font-weight: 700;
+}
+.profile-card--sunset .profile-card__role,
+.profile-card--sunset .profile-card__location {
+  color: #ffedd5;
+}
+.profile-card--sunset .profile-card__theme-tag {
+  color: var(--color-white);
+}
+
+/* ─────────────────────────────────────────────────────────────
+   7. ACTION BUTTON
+   ───────────────────────────────────────────────────────────── */
+.action-button-container {
+  position: absolute;
+  bottom: var(--space-10);
+  z-index: 20;
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  padding-inline: var(--space-6);
+}
+
+.action-button {
+  position: relative;
+  padding: 0.875rem var(--space-8);
+  border-radius: var(--radius-full);
+  font-family: inherit;
+  font-size: var(--text-base);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  overflow: hidden;
+  transition: all var(--transition-smooth);
+  user-select: none;
+}
+
+.action-button:active {
+  transform: scale(0.95);
+}
+.action-button__icon i {
+  font-size: var(--text-sm);
+}
+
+.action-button--edit {
+  background-color: var(--glass-bg);
+  color: var(--color-white);
+  font-weight: 500;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  backdrop-filter: var(--glass-blur-md);
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3);
+}
+.action-button--edit:hover {
+  background-color: var(--glass-bg-hover);
+}
+
+.action-button--save {
+  background-color: var(--color-emerald);
+  color: var(--color-emerald-dark);
+  font-weight: 700;
+  border: 1px solid transparent;
+  box-shadow: var(--shadow-emerald);
+}
+.action-button--save:hover {
+  background-color: var(--color-emerald-light);
+}
+
+/* ─────────────────────────────────────────────────────────────
+   8. THEME SELECTOR BUTTONS & BADGES
+   ───────────────────────────────────────────────────────────── */
 .buy-theme-btn,
 .apply-theme-btn {
-  padding: 0.75rem 1.5rem;
-  border-radius: 9999px;
+  padding: var(--space-3) var(--space-6);
+  border-radius: var(--radius-full);
   font-weight: 700;
-  font-size: 0.875rem;
+  font-size: var(--text-sm);
   border: none;
   cursor: pointer;
   font-family: inherit;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: all var(--transition-smooth);
   display: inline-flex;
   align-items: center;
-  gap: 0.5rem;
+  gap: var(--space-2);
   text-decoration: none;
 }
 
 .buy-theme-btn {
-  background: linear-gradient(135deg, #f59e0b, #d97706); /* Amber gradient */
-  color: #ffffff;
+  background: linear-gradient(
+    135deg,
+    var(--color-amber),
+    var(--color-amber-dark)
+  );
+  color: var(--color-white);
   box-shadow: 0 0 20px rgba(245, 158, 11, 0.3);
 }
-
 .buy-theme-btn:hover {
-  background: linear-gradient(135deg, #fbbf24, #f59e0b);
+  background: linear-gradient(135deg, #fbbf24, var(--color-amber));
   transform: scale(1.05);
 }
 
 .apply-theme-btn {
-  background: #ffffff;
-  color: #09090b;
+  background: var(--color-white);
+  color: var(--color-bg-app);
   box-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
 }
-
 .apply-theme-btn:hover {
-  background: #f4f4f5;
+  background: var(--color-zinc-100);
   transform: scale(1.05);
 }
 
-/* Badge de Tema Activo */
 .theme-active-badge {
-  background-color: #10b981; /* Emerald 500 */
-  color: #ffffff;
+  background-color: var(--color-emerald);
+  color: var(--color-white);
   font-weight: 700;
-  font-size: 0.875rem;
-  padding: 0.75rem 1.5rem;
-  border-radius: 9999px;
+  font-size: var(--text-sm);
+  padding: var(--space-3) var(--space-6);
+  border-radius: var(--radius-full);
   display: inline-flex;
   align-items: center;
-  gap: 0.5rem;
+  gap: var(--space-2);
   box-shadow: 0 0 15px rgba(16, 185, 129, 0.4);
   cursor: default;
 }
 
-/* Toast de Compra Exitosa */
+/* ─────────────────────────────────────────────────────────────
+   9. TOAST
+   ───────────────────────────────────────────────────────────── */
 .buy-toast {
   position: fixed;
-  bottom: 2rem;
+  bottom: var(--space-8);
   left: 50%;
   transform: translateX(-50%) translateY(100px);
-  background-color: #10b981; /* Emerald 500 */
-  color: white;
-  padding: 1rem 2rem;
-  border-radius: 9999px;
+  background-color: var(--color-emerald);
+  color: var(--color-white);
+  padding: var(--space-4) var(--space-8);
+  border-radius: var(--radius-full);
   font-weight: 700;
   z-index: 100000;
-  box-shadow: 0 10px 25px rgba(16, 185, 129, 0.5);
+  box-shadow: var(--shadow-emerald-toast);
   transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
   display: flex;
   align-items: center;
-  gap: 0.5rem;
+  gap: var(--space-2);
 }
 
 .buy-toast.buy-toast--visible {
   transform: translateX(-50%) translateY(0);
+}
+
+/* ─────────────────────────────────────────────────────────────
+   10. HIGH-FIDELITY CARD (ae-card) SCOPED TO CAROUSEL
+   ───────────────────────────────────────────────────────────── */
+.card-carousel .profile-card .ae-card {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  z-index: 1;
+  box-shadow: none;
+  transform: none;
+  background: transparent;
+}
+
+.card-carousel .profile-card .ae-preview-host {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  width: 100%;
+  height: 100%;
+}
+
+.card-carousel .profile-card .ae-card-label {
+  position: absolute;
+  height: fit-content;
+  top: var(--space-6);
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(9, 9, 11, 0.75);
+  backdrop-filter: var(--glass-blur-sm);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 6px 16px;
+  border-radius: var(--radius-full);
+  color: var(--color-white);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  white-space: nowrap;
+  z-index: 10;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+  transition: all var(--transition-md);
+}
+
+.card-carousel .profile-card.profile-card--active .ae-card-label {
+  border-color: rgba(255, 255, 255, 0.3);
+  background: rgba(9, 9, 11, 0.85);
+  box-shadow: 0 4px 25px rgba(0, 0, 0, 0.5);
+}
+
+/* ─────────────────────────────────────────────────────────────
+   11. SPECIAL ACTION CARDS
+   ───────────────────────────────────────────────────────────── */
+.card-carousel .profile-card--special {
+  border: 2px dashed #999999;
+  background: rgba(255, 255, 255, 0.02);
+  backdrop-filter: blur(20px);
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  /* Only transition background/border local styles to let it inherit the main card transitions smoothly */
+  transition:
+    border-color var(--transition-md),
+    background-color var(--transition-md),
+    box-shadow var(--transition-md);
+}
+
+.card-carousel .profile-card--special:hover {
+  border-color: #111;
+  background: #ffffff;
+}
+
+.card-carousel .profile-card--special.profile-card--active {
+  border: 2px dashed var(--color-violet);
+  background: #ffffff73;
+  box-shadow:
+    0 25px 50px -12px rgba(0, 0, 0, 0.5),
+    0 0 30px var(--violet-glow);
+  will-change: auto;
+  overflow: visible;
+  transition: all 0.4s ease;
+}
+
+.card-carousel .profile-card--special.profile-card--active::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: var(--radius-lg);
+  background: rgba(255, 255, 255, 0.3);
+  backdrop-filter: var(--glass-blur-md);
+  z-index: -1;
+  pointer-events: none;
+}
+
+/* Special card internals */
+.special-card__content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  width: 100%;
+  gap: var(--space-6);
+  pointer-events: none;
+}
+
+.special-card__icon {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all var(--transition-bounce);
+  background: rgba(168, 85, 247, 0.2);
+  border-color: var(--violet-glass-border);
+  color: var(--color-violet-light);
+}
+
+.special-card__icon i {
+  font-size: 24px;
+  transition: transform var(--transition-md);
+}
+
+.profile-card--special.profile-card--active .special-card__icon {
+  box-shadow: 0 0 20px rgba(168, 85, 247, 0.25);
+}
+
+.profile-card--special.profile-card--active .special-card__icon i {
+  transform: scale(1.1);
+}
+
+.special-card__label {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--color-violet-dark);
+  letter-spacing: -0.01em;
+  text-align: center;
+  transition: color var(--transition-md);
+}
+
+.profile-card--special.profile-card--active .special-card__label {
+  color: var(--color-violet-light);
+}
+
+.special-card__hint {
+  font-size: var(--text-sm);
+  color: var(--color-violet-light);
+  text-align: center;
+  max-width: 85%;
+  line-height: 1.4;
+  transition: color var(--transition-md);
+}
+
+/* ─────────────────────────────────────────────────────────────
+   12. CONTEXT-DRIVEN LAYOUT ADJUSTMENTS
+   ───────────────────────────────────────────────────────────── */
+#app:has(.card-carousel--visible) header {
+  margin-bottom: -50px;
+  transform: translateY(-115px);
+}
+
+.handler--drag {
+  transition: all var(--transition-md);
+}
+
+#app:has(.card-carousel--visible) .handler--drag {
+  transform: scale(0);
+}
+
+#app:has(.card-carousel--visible) .main-content {
+  transform: scale(0) translateY(-122px);
+}
+
+/* Overflow unlock for edit mode */
+.main-content.edit-mode-active,
+.main-content.edit-mode-active #card,
+.main-content.edit-mode-active [class^="card--"] {
+  overflow: visible !important;
 }

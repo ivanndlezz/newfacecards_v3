@@ -1,0 +1,192 @@
+<!-- Plantilla: Blank Card (Clean Canvas) -->
+<style>
+  .card--blank {
+    display: block;
+    width: 100%;
+    max-width: 400px;
+    background: #ffffff;
+    color: #111111;
+    overflow: hidden;
+    position: relative;
+    font-family:
+      -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial,
+      sans-serif;
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+    transition: all 0.3s ease;
+  }
+
+  .blank__inner {
+    position: relative;
+    z-index: 1;
+    padding: 32px 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+  }
+
+  /* Hero profile area */
+  .blank__hero {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+  }
+
+  .blank__avatar {
+    width: 96px;
+    height: 96px;
+    border-radius: 50%;
+    object-fit: cover;
+    background: #f3f4f6;
+    border: 3px solid #ffffff;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    transition: all 0.4s var(--transition-ease);
+  }
+
+  .blank__info {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .blank__name {
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: #111827;
+    margin: 0;
+    letter-spacing: -0.02em;
+  }
+
+  .blank__title {
+    font-size: 0.95rem;
+    font-weight: 500;
+    color: #4b5563;
+    margin: 0;
+  }
+
+  .blank__org {
+    font-size: 0.85rem;
+    font-weight: 400;
+    color: #9ca3af;
+    margin: 0;
+  }
+
+  /* Social row loader */
+  .blank__socials {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+  }
+
+  /* Navigation loader */
+  .blank__nav {
+    display: flex;
+    gap: 8px;
+  }
+
+  /* Sections container */
+  .blank__sections {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .blank__section {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .blank__section-label {
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: #9ca3af;
+    border-bottom: 1px solid #f3f4f6;
+    padding-bottom: 6px;
+    margin: 0;
+  }
+
+  /* Contact and company lists */
+  .blank__list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  #blank-contacto:not(:has(a)) {
+    display: none;
+  }
+
+  #blank-contacto:not(:has(a)),
+  #blank-empresa:not(:has(a)),
+  #blank-bottom-social:not(:has(a)) {
+    display: none;
+  }
+</style>
+
+<div class="card--blank">
+  <div class="blank__inner">
+    <div class="blank__hero">
+      <img
+        class="blank__avatar"
+        data-editable-zone
+        data-editable-cohort="1"
+        data-bind-src="profile.photo"
+        alt="Foto de perfil"
+      />
+      <div class="blank__info" data-editable-zone data-editable-cohort="2">
+        <h1 class="blank__name" data-bind="profile.name">Cargando...</h1>
+        <p class="blank__title" data-bind="profile.title">Cargando Cargo...</p>
+        <p class="blank__org" data-bind="profile.org">Cargando Agencia...</p>
+      </div>
+    </div>
+
+    <!-- Redes sociales básicas -->
+    <div class="blank__socials" data-editable-zone data-editable-cohort="5">
+      <div id="social_top_buttons-loader"></div>
+    </div>
+
+    <!-- Navegación por scroll -->
+    <div class="blank__nav">
+      <div id="nav_buttons-loader"></div>
+    </div>
+
+    <!-- Secciones hidratadas -->
+    <div class="blank__sections">
+      <!-- Seccion de contacto -->
+      <section
+        class="blank__section"
+        id="blank-contacto"
+        data-editable-zone
+        data-editable-cohort="3"
+      >
+        <p class="blank__section-label">Contacto</p>
+        <div class="blank__list" id="contact_section_buttons-loader"></div>
+      </section>
+      <!-- Seccion de la empresa -->
+      <section
+        class="blank__section"
+        id="blank-empresa"
+        data-editable-zone
+        data-editable-cohort="4"
+      >
+        <p class="blank__section-label">Empresa</p>
+        <div class="blank__list" id="company_section_buttons-loader"></div>
+      </section>
+      <!-- Seccion de redes sociales -->
+      <section
+        class="blank__section"
+        id="blank-bottom-social"
+        data-editable-zone
+        data-editable-cohort="5"
+      >
+        <p class="blank__section-label">Redes Sociales</p>
+        <div class="blank__list" id="bottom_section_buttons-loader"></div>
+      </section>
+    </div>
+  </div>
+</div>

@@ -324,6 +324,8 @@
   <div class="obs__cover-wrap">
     <div
       class="obs__cover"
+      data-editable-zone
+      data-editable-cohort="1"
       data-bind-bg="profile.cover"
       style="
         width: 100%;
@@ -336,11 +338,11 @@
     ></div>
     <div class="obs__cover-gradient"></div>
     <div class="obs__avatar-wrap">
-      <img class="obs__avatar" data-bind-src="profile.photo" alt="Foto" />
+      <img class="obs__avatar" data-editable-zone data-editable-cohort="1" data-bind-src="profile.photo" alt="Foto" />
     </div>
   </div>
 
-  <div class="obs__identity">
+  <div class="obs__identity" data-editable-zone data-editable-cohort="2">
     <h1 class="obs__name" data-bind="profile.name">Cargando Nombre</h1>
     <p class="obs__role" data-bind="profile.title">Cargando Cargo...</p>
     <p class="obs__bio" data-bind="profile.bio">Cargando biografía...</p>
@@ -380,7 +382,7 @@
 
   <div class="obs__body">
     <!-- Pestaña Contacto -->
-    <div class="obs__tab obs__tab--active" id="obs-contacto">
+    <div class="obs__tab obs__tab--active" id="obs-contacto" data-editable-zone data-editable-cohort="3">
       <button class="obs__btn obs__btn--cta" id="obs-vcf">
         <svg viewBox="0 0 24 24">
           <path
@@ -410,7 +412,7 @@
     </div>
 
     <!-- Pestaña Empresa -->
-    <div class="obs__tab" id="obs-empresa" style="display: none">
+    <div class="obs__tab" id="obs-empresa" style="display: none" data-editable-zone data-editable-cohort="4">
       <div class="obs__company">
         <img data-bind-src="empresa.logo" alt="Logo" />
         <div>

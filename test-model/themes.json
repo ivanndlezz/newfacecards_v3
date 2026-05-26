@@ -1,0 +1,75 @@
+{
+  "themes": {
+    "unset": {
+      "name": "unset",
+      "bgStart": "#efefef",
+      "bgEnd": "#efefef",
+      "accent": "#333",
+      "textPrimary": "#333"
+    },
+    "sunset": {
+      "name": "Sunset",
+      "bgStart": "#e8a87c",
+      "bgEnd": "#d68c5c",
+      "accent": "#f9b24b",
+      "textPrimary": "#2b2b2b"
+    },
+    "ocean": {
+      "name": "Ocean",
+      "bgStart": "#4facfe",
+      "bgEnd": "#00f2fe",
+      "accent": "#00bfff",
+      "textPrimary": "#0c3d50"
+      
+    },
+    "forest": {
+      "name": "Forest",
+      "bgStart": "#56ab2f",
+      "bgEnd": "#a8e6cf",
+      "accent": "#71b280",
+      "textPrimary": "#075543"
+    },
+    "purple": {
+      "name": "Purple",
+      "bgStart": "#667eea",
+      "bgEnd": "#764ba2",
+      "accent": "#9b59b6",
+      "textPrimary": "#ffffff"
+    },
+    "rose": {
+      "name": "Rose",
+      "bgStart": "#f093fb",
+      "bgEnd": "#f5576c",
+      "accent": "#ff7f94",
+      "textPrimary": "#ffffff"
+    },
+    "dark": {
+      "name": "Dark",
+      "bgStart": "#2c3e50",
+      "bgEnd": "#34495e",
+      "accent": "#95a5a6",
+      "textPrimary": "#ffffff"
+    },
+    "mint": {
+      "name": "Mint",
+      "bgStart": "#00b09b",
+      "bgEnd": "#96c93d",
+      "accent": "#b2ff59",
+      "textPrimary": "#ffffff"
+    },
+    "fire": {
+      "name": "Fire",
+      "bgStart": "#ff6b6b",
+      "bgEnd": "#ffa500",
+      "accent": "#ff5722",
+      "textPrimary": "#ffffff"
+    },
+    "sky": {
+      "name": "Sky",
+      "bgStart": "#87ceeb",
+      "bgEnd": "#98d8e8",
+      "accent": "#1e90ff",
+      "textPrimary": "#ffffff"
+    }
+  }
+}

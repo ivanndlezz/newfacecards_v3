@@ -1,0 +1,38 @@
+{
+  "buttons": [
+    {
+      "type": "chips",
+      "index": 0,
+      "items": [
+        {
+          "sectionTitle": "facebook",
+          "sectionContent": "facebook",
+          "sectionUrl": "facebook.com/klef.agency"
+        },
+        {
+          "sectionTitle": "instagram",
+          "sectionContent": "instagram",
+          "sectionUrl": "instagram.com/klef.agency"
+        }
+      ]
+    },
+    {
+      "index": 3,
+      "sectionTitle": "Icons pool",
+      "sectionContent": "Lorem Ipsum",
+      "sectionUrl": "https://example.com/icons"
+    },
+    {
+      "index": 1,
+      "sectionTitle": "Colors",
+      "sectionContent": "Color palette",
+      "sectionUrl": "https://example.com/colors"
+    },
+    {
+      "index": 2,
+      "sectionTitle": "Typography",
+      "sectionContent": "Font styles",
+      "sectionUrl": "https://example.com/fonts"
+    }
+  ]
+}

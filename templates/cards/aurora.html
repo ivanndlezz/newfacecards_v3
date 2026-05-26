@@ -332,17 +332,21 @@
       <img
         class="aurora__avatar"
         data-bind-src="profile.photo"
+        data-editable-zone
+        data-editable-cohort="1"
         alt="Foto de perfil"
       />
-      <h1 class="aurora__name">
-        <em data-bind="profile.name">Cargando...</em>
-      </h1>
-      <p class="aurora__title" data-bind="profile.title">Cargando Cargo...</p>
-      <p class="aurora__org" data-bind="profile.org">Cargando Agencia...</p>
+      <div data-editable-zone data-editable-cohort="2">
+        <h1 class="aurora__name">
+          <em data-bind="profile.name">Cargando...</em>
+        </h1>
+        <p class="aurora__title" data-bind="profile.title">Cargando Cargo...</p>
+        <p class="aurora__org" data-bind="profile.org">Cargando Agencia...</p>
+      </div>
     </div>
 
     <!-- Redes sociales básicas -->
-    <div class="aurora__socials">
+    <div class="aurora__socials" data-editable-zone data-editable-cohort="5">
       <div id="social_top_buttons-loader"></div>
     </div>
 
@@ -354,19 +358,19 @@
     <!-- Secciones hidratadas -->
     <div class="aurora__sections">
       <!-- Seccion de contacto -->
-      <section class="aurora__section" id="aurora-contacto">
+      <section class="aurora__section" id="aurora-contacto" data-editable-zone data-editable-cohort="3">
         <p class="aurora__section-label">Contacto</p>
         <div id="contact_section_buttons-loader"></div>
       </section>
       <!-- Seccion de la empresa -->
-      <section class="aurora__section" id="aurora-empresa">
+      <section class="aurora__section" id="aurora-empresa" data-editable-zone data-editable-cohort="4">
         <p class="aurora__section-label">Empresa</p>
         <div class="aurora__company">
           <div id="company_section_buttons-loader"></div>
         </div>
       </section>
       <!-- Seccion de redes sociales -->
-      <section class="aurora__section" id="aurora-bottom-social">
+      <section class="aurora__section" id="aurora-bottom-social" data-editable-zone data-editable-cohort="5">
         <p class="aurora__section-label">Redes Sociales</p>
         <div class="aurora__company">
           <div id="bottom_section_buttons-loader"></div>

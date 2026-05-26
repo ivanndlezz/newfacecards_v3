@@ -38,22 +38,20 @@ island-menu {
 }
 
 /* Floating positioning by default (makes it "just work" on any page) */
-[data-component="island"],
-island-menu {
+
+#root-island-menu {
+  display: flex;
+  width: var(--w100);
   position: fixed;
-  /* right: 10px; */
+  left: 0px;
   bottom: 10px;
   z-index: 9999;
-  left: 50%;
-  transform: translate(-50%, 0%);
+  transition: all 0.3s ease;
+  justify-content: center;
 }
 
 /* Island en Estado Edición (data-status="edit") */
 [data-component="island"][data-status="edit"] {
-  position: fixed;
-  left: 50%;
-  transform: translate(-50%, 0%);
-  bottom: 10px;
   display: flex;
   align-items: center;
   gap: 8px;
@@ -67,6 +65,11 @@ island-menu {
   border: solid 1px #9ba0a2;
   border-style: ridge;
   width: fit-content;
+}
+
+#app:has(.profile-editor-overlay.active) + #root-island-menu {
+  transform: translatey(100px);
+  transform-origin: center;
 }
 
 /* Island en Estado Edición (data-status="edit") * /
@@ -321,7 +324,7 @@ island-menu[data-position="static"] {
 
 [data-role="mode-opt"] {
   color: var(--island-text);
-  transition: all 0.3s ease;
+  transition: all 0.1s ease;
 }
 
 [data-role="mode-opt"]:last-child {
@@ -359,4 +362,56 @@ island-menu[data-position="static"] {
 
 [data-role="mode-opt"][data-active="true"] {
   color: #333333;
+}
+
+/**/
+
+#island:has([data-value="apariencia"][data-active="true"])
+  [data-value="apariencia"][data-active="true"] {
+  border-radius: 100px;
+  border: solid 0px;
+  font-size: 0px;
+}
+
+#island:has([data-value="apariencia"][data-active="true"])
+  [data-role="primary"] {
+  border-color: transparent;
+}
+
+#island:has([data-value="apariencia"][data-active="true"])
+  [data-value="apariencia"][data-active="true"]::after {
+  font-family: "tabler-icons" !important;
+  content: "\eb0b";
+  font-size: 14px;
+  position: absolute;
+  transform: rotate(45deg);
+}
+
+#island:has([data-value="apariencia"][data-active="true"])
+  [data-role="mode-opt"] {
+  min-width: fit-content;
+}
+
+#island:has([data-value="apariencia"][data-active="true"]) {
+  padding: 0px;
+}
+
+#island:has([data-value="apariencia"][data-active="true"])
+  [data-role="sat-left"] {
+  transform: scale(0);
+  width: 0;
+  height: 0;
+  padding: 0;
+  position: absolute;
+}
+
+#island:has([data-value="apariencia"][data-active="true"])
+  [data-role="mode-opt"]:last-child,
+#island:has([data-value="apariencia"][data-active="true"])
+  [data-role="sat-right"] {
+  transform: scale(0);
+  width: 0;
+  height: 0;
+  padding: 0;
+  position: absolute;
 }

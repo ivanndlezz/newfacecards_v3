@@ -312,6 +312,8 @@
   <div class="trop__media">
     <div
       class="trop__cover"
+      data-editable-zone
+      data-editable-cohort="1"
       data-bind-bg="profile.cover"
       style="
         width: 100%;
@@ -321,10 +323,10 @@
         filter: saturate(1.2);
       "
     ></div>
-    <img class="trop__avatar" data-bind-src="profile.photo" alt="Avatar" />
+    <img class="trop__avatar" data-editable-zone data-editable-cohort="1" data-bind-src="profile.photo" alt="Avatar" />
   </div>
 
-  <div class="trop__profile">
+  <div class="trop__profile" data-editable-zone data-editable-cohort="2">
     <h1 class="trop__name" data-bind="profile.name">Cargando...</h1>
     <p class="trop__role" data-bind="profile.title">Cargando...</p>
     <p class="trop__org" data-bind="profile.org">Cargando...</p>
@@ -352,7 +354,7 @@
 
   <div class="trop__body">
     <!-- Pestaña Contacto -->
-    <div class="trop__tab trop__tab--active" id="trop-contacto">
+    <div class="trop__tab trop__tab--active" id="trop-contacto" data-editable-zone data-editable-cohort="3">
       <button
         class="trop__btn trop__btn--cta"
         id="trop-vcf"
@@ -386,7 +388,7 @@
     </div>
 
     <!-- Pestaña Empresa -->
-    <div class="trop__tab" id="trop-empresa" style="display: none">
+    <div class="trop__tab" id="trop-empresa" style="display: none" data-editable-zone data-editable-cohort="4">
       <div class="trop__company">
         <img class="logo" data-bind-src="empresa.logo" alt="Logo" />
         <div>
