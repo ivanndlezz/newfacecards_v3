@@ -5,9 +5,7 @@
   position: fixed;
   inset: 0;
   z-index: 9998; /* just behind carousel */
-  background: rgba(0, 0, 0, 0.75); /* dark backdrop */
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
+  background: rgba(0, 0, 0, 0.05); /* dark backdrop */
   display: none;
   justify-content: center;
   align-items: flex-end;
@@ -28,9 +26,9 @@
 .profile-editor-sheet {
   width: 100%;
   max-width: 500px;
-  height: 85vh;
+  height: 50vh;
   background: #fff; /* light background */
-  color: #111;   /* dark text */
+  color: #111; /* dark text */
   border-radius: 32px 32px 0 0;
   border: 1px solid rgba(0, 0, 0, 0.1);
   box-shadow: 0 -20px 60px rgba(0, 0, 0, 0.1);
@@ -66,7 +64,9 @@
   align-items: center;
   justify-content: center;
 }
-.profile-editor-header .close-btn:hover { opacity: 1; }
+.profile-editor-header .close-btn:hover {
+  opacity: 1;
+}
 
 /* Tabs Bar */
 .cohort-tabs-container {
@@ -125,7 +125,8 @@
   letter-spacing: 0.05em;
   color: rgba(0, 0, 0, 0.4);
 }
-.editor-input, .editor-textarea {
+.editor-input,
+.editor-textarea {
   background: rgba(0, 0, 0, 0.04);
   border: 1px solid rgba(0, 0, 0, 0.08);
   border-radius: 12px;
@@ -137,13 +138,17 @@
   width: 100%;
   box-sizing: border-box;
 }
-.editor-input:focus, .editor-textarea:focus {
+.editor-input:focus,
+.editor-textarea:focus {
   border-color: #a855f7;
   background: rgba(0, 0, 0, 0.08);
   outline: none;
   box-shadow: 0 0 10px rgba(168, 85, 247, 0.15);
 }
-.editor-textarea { height: 90px; resize: vertical; }
+.editor-textarea {
+  height: 90px;
+  resize: vertical;
+}
 
 /* Avatar / Cover Edit Preview */
 .avatar-edit-container,
@@ -194,7 +199,12 @@
   display: flex;
   justify-content: center;
 }
-.red-editor-inputs { flex: 1; display: flex; flex-direction: column; gap: 8px; }
+.red-editor-inputs {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
 
 /* Button secondary */
 .editor-btn-secondary {
@@ -213,7 +223,9 @@
   transition: all 0.2s ease;
   width: 100%;
 }
-.editor-btn-secondary:hover { background: rgba(0, 0, 0, 0.08); }
+.editor-btn-secondary:hover {
+  background: rgba(0, 0, 0, 0.08);
+}
 
 /* Delete red button */
 .delete-red-btn {
@@ -225,7 +237,9 @@
   transition: opacity 0.2s;
   padding: 8px;
 }
-.delete-red-btn:hover { opacity: 1; }
+.delete-red-btn:hover {
+  opacity: 1;
+}
 
 /* Toggle Switch */
 .toggle-switch-container {
@@ -247,13 +261,17 @@
   height: 26px;
   cursor: pointer;
 }
-.toggle-switch input { opacity: 0; width: 0; height: 0; }
+.toggle-switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
 .toggle-switch .toggle-slider {
   position: absolute;
   inset: 0;
   background-color: rgba(0, 0, 0, 0.2);
   border-radius: 34px;
-  transition: .4s;
+  transition: 0.4s;
 }
 .toggle-switch .toggle-slider:before {
   position: absolute;
@@ -264,10 +282,14 @@
   bottom: 4px;
   background-color: #fff;
   border-radius: 50%;
-  transition: .4s;
+  transition: 0.4s;
 }
-.toggle-switch input:checked + .toggle-slider { background-color: #10b981; }
-.toggle-switch input:checked + .toggle-slider:before { transform: translateX(24px); }
+.toggle-switch input:checked + .toggle-slider {
+  background-color: #10b981;
+}
+.toggle-switch input:checked + .toggle-slider:before {
+  transform: translateX(24px);
+}
 
 /* Segmented Control for Navigation Mode */
 .nav-mode-selector-container {
@@ -358,4 +380,3 @@
 .profile-editor-sheet.mode-scroll .cohort-tabs-container {
   display: none !important;
 }
-

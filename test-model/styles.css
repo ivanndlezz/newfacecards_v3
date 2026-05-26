@@ -115,23 +115,34 @@ body {
   bottom: 30px;
   left: var(--sz);
   transform: translateX(calc(var(--sz) * -1));
-  background: white;
-  border-radius: 28px;
-  padding: 5px 0vw;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
-  z-index: 20;
-  animation: slideUp 0.6s ease-out;
+  background: rgba(255, 255, 255, 0.94);
+  border-radius: 40px;
+  padding: 8px 16px;
+  box-shadow:
+    0 24px 48px -12px rgba(0, 0, 0, 0.08),
+    0 0 1px 1px rgba(0, 0, 0, 0.02),
+    inset 0 1px 0 0 rgba(255, 255, 255, 0.6);
+  border: 1px solid rgba(0, 0, 0, 0.04);
+  z-index: 10000;
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
   width: auto;
-  max-width: 90%;
-  transition: all 0.3s ease;
+  max-width: 92%;
+  transition:
+    transform 0.6s cubic-bezier(0.16, 1, 0.3, 1),
+    opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1),
+    background-color 0.3s ease;
+  animation: slideUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
 @keyframes slideUp {
   from {
-    transform: translateY(100%) translateX(-50%);
+    transform: translateY(120px) translateX(-50%) scale(0.95);
+    opacity: 0;
   }
   to {
-    transform: translateY(0) translateX(-50%);
+    transform: translateY(0) translateX(-50%) scale(1);
+    opacity: 1;
   }
 }
 
@@ -139,22 +150,43 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  gap: 1vw;
-  padding: 0px 8vw;
+  gap: 8px;
+  padding: 0 4px;
 }
 
 .module-item {
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
+  gap: 5px;
+  padding: 10px 16px;
+  border-radius: 20px;
+  transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  position: relative;
   cursor: pointer;
-  transition: transform 0.2s ease;
-  padding: 8px 12px;
-  border-radius: 12px;
+  user-select: none;
+  min-width: 68px;
 }
 
-.module-item:hover {
-  transform: translateY(-4px);
+/* Premium micro-interactions: spotlight hover background */
+.module-item:not(#addlink)::before {
+  content: "";
+  position: absolute;
+  inset: 4px;
+  border-radius: 16px;
+  background: rgba(15, 135, 108, 0.06);
+  opacity: 0;
+  transform: scale(0.85);
+  transition:
+    opacity 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  z-index: 0;
+}
+
+.module-item:not(#addlink):hover::before {
+  opacity: 1;
+  transform: scale(1);
 }
 
 .module-item:active {
@@ -162,52 +194,77 @@ body {
 }
 
 .module-icon {
-  width: 28px;
-  height: 28px;
-  opacity: 0.7;
-  transition: all 0.2s ease;
+  width: 26px;
+  height: 26px;
+  opacity: 0.65;
+  color: #64748b;
+  z-index: 1;
   display: flex;
   align-items: center;
   justify-content: center;
+  transition:
+    transform 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275),
+    color 0.35s ease,
+    opacity 0.35s ease;
+  stroke-width: 2px;
 }
 
 .module-item:hover .module-icon {
   opacity: 1;
+  color: #0f876c;
+  transform: translateY(-2px) scale(1.08);
 }
 
 .module-label {
-  font-size: 14px;
-  font-weight: 500;
-  color: #4a5568;
+  font-size: 11px;
+  font-weight: 700;
+  color: #475569;
+  z-index: 1;
+  transition:
+    color 0.35s ease,
+    transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  letter-spacing: -0.01em;
 }
 
+.module-item:hover .module-label {
+  color: #1e293b;
+  transform: translateY(-1px);
+}
+
+/* Plus button: Link specific overrides */
 .plus-icon-container {
-  width: 32px;
-  height: 32px;
-  background: linear-gradient(135deg, #06896c 0%, #159478 100%);
-  border-radius: 8px;
+  width: 36px;
+  height: 36px;
+  background: #0f876c;
+  border-radius: 11px;
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-bottom: 8px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
-  transition: all 0.2s ease;
+  margin-bottom: 0; /* Reset margins */
+  box-shadow: 0 4px 10px rgba(15, 135, 108, 0.22);
+  transition: all 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  z-index: 1;
 }
 
 .module-item:hover .plus-icon-container {
-  transform: scale(1.1);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  transform: translateY(-3px) scale(1.08);
+  box-shadow: 0 6px 16px rgba(15, 135, 108, 0.32);
+  background: #0d755e;
 }
 
 .plus-icon {
   width: 20px;
   height: 20px;
   color: white;
-  transition: transform 0.2s ease;
+  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .module-item:hover .plus-icon {
   transform: rotate(90deg);
+}
+
+.module-item:hover #addlink .module-label {
+  color: #0f876c;
 }
 
 /* Dynamic Floating Card Module*/

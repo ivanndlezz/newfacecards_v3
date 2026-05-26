@@ -1,417 +1,405 @@
-/* ─────────────────────────────────────────────────────────────
-       TOKENS & VARIABLES (CSS)
-       ───────────────────────────────────────────────────────────── */
+/* ============================================================
+   ISLAND MENU — island-menu.css — v6
+   Selectores basados en data-action + data-status.
+   Sin data-role. Sin máquina de estados idle/edit.
+   ============================================================ */
+
+/* ============================================================
+   1. DESIGN TOKENS
+   ============================================================ */
 :root {
-  --island-bg: #0d121f;
-  --island-surface: #171d2e;
-  --island-border: rgba(255, 255, 255, 0.12);
-  --island-border-hover: rgba(255, 255, 255, 0.25);
+  --island-accent: #0f876c;
+  --island-accent-hover: #0b6e58;
+  --island-accent-glow: rgba(15, 135, 108, 0.38);
+  --island-accent-subtle: rgba(15, 135, 108, 0.08);
 
-  --island-text: #f3f4f6;
-  --island-text-muted: rgba(243, 244, 246, 0.5);
+  --island-bg: rgba(255, 255, 255, 0.88);
+  --island-border: rgba(255, 255, 255, 0.72);
+  --island-text-primary: #1e293b;
+  --island-text-muted: #94a3b8;
 
-  --island-accent-success: #34d399;
-  --island-accent-info: #60a5fa;
+  --island-shadow:
+    0 1px 0 0 rgba(255, 255, 255, 0.85) inset, 0 0 0 1px rgba(0, 0, 0, 0.05),
+    0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 16px 32px -8px rgba(0, 0, 0, 0.12);
 
-  --radius-pill: 999px;
-  --transition-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
-  --transition-ease: cubic-bezier(0.4, 0, 0.2, 1);
-  --duration-base: 0.35s;
+  --island-shadow-lifted:
+    0 1px 0 0 rgba(255, 255, 255, 0.9) inset, 0 0 0 1px rgba(0, 0, 0, 0.06),
+    0 8px 16px -2px rgba(0, 0, 0, 0.08), 0 28px 56px -8px rgba(0, 0, 0, 0.18);
+
+  --spring: cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  --spring-fast: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-smooth: cubic-bezier(0.25, 1, 0.5, 1);
+
+  --cta-size: 40px;
+  --cta-radius: 14px;
+  --icon-wrapper-size: 30px;
+  --font-island:
+    -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
 }
 
-/* ─────────────────────────────────────────────────────────────
-        THE ISLAND COMPONENT CSS
-        ───────────────────────────────────────────────────────────── */
+/* ============================================================
+   2. RESET
+   ============================================================ */
+[data-component="island"] button,
+[data-component="island"] [data-action] {
+  all: unset;
+  box-sizing: border-box;
+}
+
+/* ============================================================
+   3. LAYOUT WRAPPER
+   ============================================================ */
+#root-island-menu {
+  position: fixed;
+  bottom: 24px;
+  left: 0;
+  z-index: 99999;
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  pointer-events: none;
+}
+
+/* ============================================================
+   4. ISLAND CAPSULE
+   ============================================================ */
 [data-component="island"],
 island-menu {
+  position: relative;
   display: flex;
   align-items: center;
-  gap: 8px;
-  border-radius: var(--radius-pill);
-  padding: 4px;
+  gap: 12px;
+  padding: 12px 20px;
+  max-width: 92%;
+  width: auto;
+
+  background: var(--island-bg);
+  backdrop-filter: blur(28px) saturate(160%);
+  -webkit-backdrop-filter: blur(28px) saturate(160%);
   border: 1px solid var(--island-border);
+  border-radius: 33px;
+  box-shadow: var(--island-shadow);
+
+  font-family: var(--font-island);
+  pointer-events: auto;
+  will-change: transform;
+  isolation: isolate;
+
+  transition: all 0.3s var(--ease-out);
+}
+
+[data-component="island"]:hover,
+island-menu:hover {
+  box-shadow: var(--island-shadow-lifted);
+}
+
+/* ============================================================
+   5. ITEM BASE
+   Aplica a cualquier elemento con data-action dentro del island.
+   ============================================================ */
+[data-component="island"] [data-action] {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  padding: 7px 11px;
+  min-width: 60px;
+  border-radius: 22px;
+  cursor: pointer;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
   transition:
-    background var(--duration-base) var(--transition-ease),
-    border-color var(--duration-base) var(--transition-ease),
-    box-shadow var(--duration-base) var(--transition-ease),
-    padding var(--duration-base) var(--transition-ease);
+    transform 0.35s var(--spring-fast),
+    opacity 0.3s var(--ease-out);
 }
 
-/* Floating positioning by default (makes it "just work" on any page) */
-
-#root-island-menu {
-  display: flex;
-  width: var(--w100);
-  position: fixed;
-  left: 0px;
-  bottom: 10px;
-  z-index: 9999;
-  transition: all 0.3s ease;
-  justify-content: center;
+/* Press */
+[data-component="island"] [data-action]:active {
+  transform: scale(0.91);
+  transition-duration: 0.08s;
 }
 
-/* Island en Estado Edición (data-status="edit") */
-[data-component="island"][data-status="edit"] {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  background-color: #08141fcf;
-  padding: 9px 16px;
-  border-radius: 100px;
-  backdrop-filter: blur(18px);
-  box-shadow:
-    0 15px 40px rgba(0, 0, 0, 0.6),
-    0 0 60px 10px rgba(59, 130, 246, 0.15);
-  border: solid 1px #9ba0a2;
-  border-style: ridge;
-  width: fit-content;
+/* Disabled */
+[data-component="island"] [data-action][data-status="disabled"] {
+  opacity: 0.35;
+  cursor: not-allowed;
+  pointer-events: none;
 }
 
-#app:has(.profile-editor-overlay.active) + #root-island-menu {
-  transform: translatey(100px);
-  transform-origin: center;
-}
-
-/* Island en Estado Edición (data-status="edit") * /
-[data-component="island"][data-status="edit"] {
-  background: #08141fef;
-  border-color: rgba(255, 255, 255, 0.25);
-  backdrop-filter: blur(18px);
-  -webkit-backdrop-filter: blur(18px);
-  box-shadow:
-    0 15px 40px rgba(0, 0, 0, 0.6),
-    0 0 60px 10px rgba(59, 130, 246, 0.15);
-  padding: 6px;
-}/**/
-
-/* Escape hatch for demo/centered pages: data-position="static" keeps it in normal flow */
-[data-component="island"][data-position="static"],
-island-menu[data-position="static"] {
-  position: static;
-  bottom: auto;
-  left: auto;
-  transform: none;
-}
-
-/* Satélite Izquierdo (Check / Volver) */
-[data-role="sat-left"] {
+/* ── Ícono ── */
+[data-component="island"] [data-action] i,
+[data-component="island"] [data-action] svg.module-icon {
+  font-size: 29px;
+  color: #828282;
+  line-height: 1;
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 0;
-  height: 38px;
-  overflow: hidden;
-  flex-shrink: 0;
+  transition:
+    color 0.25s ease,
+    transform 0.35s var(--spring-fast),
+    filter 0.25s ease;
+  padding: 5px;
+}
+
+/* ── Label ── */
+[data-component="island"] [data-action] .island-item__label,
+[data-component="island"] [data-action] .module-label {
+  font-size: 15px;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+  line-height: 1;
+  white-space: nowrap;
+
+  transition: color 0.25s ease;
+}
+
+/* ── Halo wrapper (opcional — si el item usa island-item__icon-wrapper) ── */
+[data-component="island"] [data-action] .island-item__icon-wrapper,
+[data-component="island"] [data-action] .plus-icon-container {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--icon-wrapper-size);
+  height: var(--icon-wrapper-size);
   border-radius: 50%;
-  border: 1px solid var(--island-border);
-  background: var(--island-surface);
-  color: var(--island-accent-success);
-  font-size: 16px;
+}
+
+[data-component="island"] [data-action] .island-item__icon-wrapper::before {
+  content: "";
+  position: absolute;
+  inset: -6px;
+  z-index: -1;
+  border-radius: 50%;
+  background: var(--island-accent-subtle);
   opacity: 0;
   transform: scale(0.65);
-  cursor: pointer;
-
+  pointer-events: none;
   transition:
-    width var(--duration-base) var(--transition-ease),
-    height var(--duration-base) var(--transition-ease),
-    opacity 0.22s var(--transition-ease),
-    transform var(--duration-base) var(--transition-spring),
-    background 0.15s ease,
-    border-color 0.15s ease;
+    opacity 0.28s ease,
+    transform 0.35s var(--spring-fast);
 }
 
-[data-role="sat-left"]:hover {
-  background: var(--island-bg);
-  border-color: var(--island-border-hover);
-  color: #fff;
+/* ============================================================
+   6. HOVER — todos los items interactivos
+   ============================================================ */
+[data-component="island"] [data-action]:not([data-status="disabled"]):hover {
+  transform: translateY(-2.5px);
 }
 
-[data-component="island"][data-status="edit"] [data-role="sat-left"] {
-  width: 38px;
-  height: 38px;
+[data-component="island"] [data-action]:hover i,
+[data-component="island"] [data-action]:hover svg.module-icon {
+  color: var(--island-accent);
+  transform: scale(1.12);
+}
+
+[data-component="island"] [data-action]:hover .island-item__label,
+[data-component="island"] [data-action]:hover .module-label {
+  color: var(--island-text-primary);
+}
+
+[data-component="island"]
+  [data-action]:hover
+  .island-item__icon-wrapper::before {
   opacity: 1;
   transform: scale(1);
 }
 
-/* Región Primaria (Contenedor de Editar / Modos) */
-[data-role="primary"] {
-  display: flex;
-  align-items: center;
-  height: 38px;
-  overflow: hidden;
-  border-radius: var(--radius-pill);
-  border: 1px solid var(--island-border);
-  background: var(--island-surface);
-  transition: border-color var(--duration-base) var(--transition-ease);
+/* ============================================================
+   7. ESTADO ACTIVO — data-status="active"
+   Aplica a cualquier action que tenga estado toggle (island:mode, island:open)
+   ============================================================ */
+[data-component="island"] [data-action][data-status="active"] i,
+[data-component="island"] [data-action][data-status="active"] svg.module-icon {
+  color: var(--island-accent);
+  transform: scale(1.08);
+  filter: drop-shadow(0 2px 8px var(--island-accent-glow));
 }
 
-[data-role="primary"]:hover {
-  border-color: var(--island-border-hover);
-}
-
-/* Botón Editar */
-[data-role="btn-edit"] {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  height: 100%;
-  max-width: 140px;
-  padding: 0 18px;
-  overflow: hidden;
-  white-space: nowrap;
-  border: none;
-  background: transparent;
-  color: var(--island-text);
-  font-size: 13.5px;
-  font-weight: 600;
-  cursor: pointer;
+[data-component="island"]
+  [data-action][data-status="active"]
+  .island-item__icon-wrapper::before {
   opacity: 1;
-
-  transition:
-    max-width var(--duration-base) var(--transition-ease),
-    padding var(--duration-base) var(--transition-ease),
-    opacity 0.2s var(--transition-ease);
+  transform: scale(1);
 }
 
-[data-role="btn-edit"]:hover {
-  background-color: rgba(255, 255, 255, 0.05);
+[data-component="island"]
+  [data-action][data-status="active"]
+  .island-item__label,
+[data-component="island"] [data-action][data-status="active"] .module-label {
+  color: var(--island-accent);
+  font-weight: 800;
 }
 
-[data-component="island"][data-status="edit"] [data-role="btn-edit"] {
-  max-width: 0;
-  padding: 0;
-  opacity: 0;
-  pointer-events: none;
+/* Dot indicator bajo el item activo */
+
+/* ============================================================
+   8. VARIANT: CTA  (.island-item--cta)
+   Botón de acción primaria — fondo verde, forma cuadrada redondeada.
+   No depende de data-action específico: cualquier item con variant="cta"
+   recibe este estilo.
+   ============================================================ */
+[data-component="island"] .island-item--cta {
+  min-width: auto;
+  flex-shrink: 0;
+  padding: 6px 10px;
 }
 
-/* Grupo de Modos (Apariencia / Navegación) */
-[data-role="mode-group"] {
-  display: flex;
-  align-items: center;
-  height: 100%;
-  max-width: 0;
-  overflow: hidden;
-  opacity: 0;
-  transition:
-    max-width var(--duration-base) var(--transition-ease),
-    opacity 0.22s var(--transition-ease);
-}
-
-[data-component="island"][data-status="edit"] [data-role="mode-group"] {
-  max-width: 340px;
-  opacity: 1;
-}
-
-[data-role="mode-opt"] {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 6px;
-  height: 100%;
-  padding: 0 16px;
-  border: none;
-  border-right: 1px solid var(--island-border);
-  background: transparent;
-  color: var(--island-text-muted);
-  font-size: 13px;
-  font-weight: 500;
-  white-space: nowrap;
-  cursor: pointer;
-  transition:
-    background 0.15s ease,
-    color 0.15s ease;
-  min-width: 110px;
-}
-
-[data-role="mode-opt"]:last-child {
-  border-right: none;
-}
-
-[data-role="mode-opt"]:hover {
-  background-color: rgba(255, 255, 255, 0.05);
-  color: var(--island-text);
-}
-
-[data-role="mode-opt"][data-active="true"] {
-  color: var(--island-accent-info);
-  background-color: rgba(96, 165, 250, 0.1);
-  font-weight: 600;
-}
-
-/* Satélite Derecho (Más opciones / Plus / Dots) */
-[data-role="sat-right"] {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 38px;
-  height: 38px;
+[data-component="island"] .island-item--cta .island-item__icon-wrapper,
+[data-component="island"] .island-item--cta .plus-icon-container {
   position: relative;
   overflow: hidden;
-  flex-shrink: 0;
+  width: var(--cta-size);
+  height: var(--cta-size);
+  border-radius: var(--cta-radius);
+  background: var(--island-accent);
+  box-shadow: 0 5px 18px var(--island-accent-glow);
+  transition:
+    background 0.25s ease,
+    box-shadow 0.3s ease,
+    transform 0.48s var(--spring),
+    border-radius 0.38s var(--ease-smooth);
+}
+
+/* El ícono dentro del CTA es blanco */
+[data-component="island"] .island-item--cta i,
+[data-component="island"] .island-item--cta svg.plus-icon {
+  color: #fff !important;
+  stroke: #fff;
+  font-size: 20px !important;
+}
+
+/* Hover CTA: eleva, rota, pill → circle */
+[data-component="island"] .island-item--cta:hover .island-item__icon-wrapper,
+[data-component="island"] .island-item--cta:hover .plus-icon-container {
+  background: var(--island-accent-hover);
+  box-shadow: 0 10px 36px rgba(15, 135, 108, 0.52);
+  transform: translateY(-3px) scale(1.09) rotate(90deg);
   border-radius: 50%;
-  border: 1px solid var(--island-border);
-  background: var(--island-surface);
-  color: var(--island-text);
-  font-size: 18px;
-  cursor: pointer;
-  transition:
-    background 0.15s ease,
-    border-color 0.15s ease;
 }
 
-[data-role="sat-right"]:hover {
-  background: var(--island-bg);
-  border-color: var(--island-border-hover);
+[data-component="island"] .island-item--cta:active .island-item__icon-wrapper,
+[data-component="island"] .island-item--cta:active .plus-icon-container {
+  transform: scale(0.92) rotate(90deg);
+  transition-duration: 0.09s;
 }
 
-/* Morphing del Satélite Derecho */
-[data-role="sat-right"] [data-icon] {
+[data-component="island"] .island-item--cta .island-item__label,
+[data-component="island"] .island-item--cta .module-label {
+  transition: color 0.25s ease;
+}
+
+[data-component="island"] .island-item--cta:hover .island-item__label,
+[data-component="island"] .island-item--cta:hover .module-label {
+  color: var(--island-accent);
+}
+
+/* Aura pulse ring en hover */
+[data-component="island"] .island-item--cta::before {
+  content: "";
   position: absolute;
-  transition:
-    transform var(--duration-base) var(--transition-ease),
-    opacity 0.22s var(--transition-ease);
-}
-
-[data-role="sat-right"] [data-icon="plus"] {
-  transform: translateY(0);
-  opacity: 1;
-}
-
-[data-role="sat-right"] [data-icon="dots"] {
-  transform: translateY(28px);
+  top: 6px;
+  left: 50%;
+  width: var(--cta-size);
+  height: var(--cta-size);
+  border-radius: var(--cta-radius);
+  border: 2px solid var(--island-accent);
   opacity: 0;
+  pointer-events: none;
+  transition: border-radius 0.38s ease;
 }
 
-[data-component="island"][data-status="edit"]
-  [data-role="sat-right"]
-  [data-icon="plus"] {
-  transform: translateY(-28px);
-  opacity: 0;
+[data-component="island"] .island-item--cta:hover::before {
+  border-radius: 50%;
+  animation: auraPulse 1.15s cubic-bezier(0.24, 0, 0.38, 1) infinite;
 }
 
-[data-component="island"][data-status="edit"]
-  [data-role="sat-right"]
-  [data-icon="dots"] {
-  transform: translateY(0);
-  opacity: 1;
-}
-
-/**/
-
-:root {
-  --island-text: #636159;
-  /* Island */
-  --island-border: #88857a;
-  --island-bg-1: #e7e5e4;
-  --island-bg-2: #f3eee9;
-  /* Buttons*/
-  --primary-btn-border: white;
-  --primary-btn-bg: wwhite;
-  --sat-right: white;
-  /* */
-}
-
-[data-component="island"][data-status="edit"] {
-  border-color: var(--island-border);
-  background-color: var(--island-bg-2);
-}
-
-[data-role="primary"],
-[data-role="sat-right"] {
-  border-color: var(--island-border);
-  background-color: var(--island-bg-1);
-}
-
-[data-role="mode-opt"] {
-  color: var(--island-text);
-  transition: all 0.1s ease;
-}
-
-[data-role="mode-opt"]:last-child {
-  border: solid 1px transparent;
-  border-radius: 0px 50px 50px 0px;
-}
-
-[data-role="mode-opt"]:first-child {
-  border: solid 1px transparent;
-  border-right-color: var(--island-border);
-  border-radius: 50px 0px 0px 50px;
-}
-
-[data-role="mode-opt"]:last-child:hover {
-  border-color: #333333;
-  border-left-color: transparent;
-}
-
-[data-role="mode-opt"]:first-child:hover {
-  border-color: #333333;
-}
-
-[data-role="primary"]:has(:hover) [data-role="mode-opt"]:first-child {
-  border-right-color: #333333;
-}
-
-[data-component="island"][data-status="edit"] [data-role="sat-left"] {
-  background-color: #06886c;
-  color: white;
-}
-
-[data-component="island"]:not([data-status="edit"]) [data-role="sat-left"] {
+/* El dot indicator no aplica al CTA */
+[data-component="island"] .island-item--cta[data-status="active"]::after {
   display: none;
 }
 
-[data-role="mode-opt"][data-active="true"] {
-  color: #333333;
+/* ============================================================
+   9. DIVIDER
+   ============================================================ */
+[data-component="island"] .island-divider {
+  width: 1px;
+  height: 28px;
+  background: rgba(0, 0, 0, 0.07);
+  border-radius: 1px;
+  flex-shrink: 0;
+  margin: 0 2px;
 }
 
-/**/
-
-#island:has([data-value="apariencia"][data-active="true"])
-  [data-value="apariencia"][data-active="true"] {
-  border-radius: 100px;
-  border: solid 0px;
-  font-size: 0px;
+/* ============================================================
+   10. KEYFRAMES
+   ============================================================ */
+@keyframes islandSlideUp {
+  0% {
+    transform: translateY(72px) scale(0.88);
+    opacity: 0;
+    filter: blur(6px);
+  }
+  55% {
+    filter: blur(0px);
+  }
+  100% {
+    transform: translateY(0) scale(1);
+    opacity: 1;
+    filter: blur(0px);
+  }
 }
 
-#island:has([data-value="apariencia"][data-active="true"])
-  [data-role="primary"] {
-  border-color: transparent;
+@keyframes dotPop {
+  0% {
+    transform: translateX(-50%) scale(0) translateY(3px);
+    opacity: 0;
+  }
+  100% {
+    transform: translateX(-50%) scale(1) translateY(0);
+    opacity: 1;
+  }
 }
 
-#island:has([data-value="apariencia"][data-active="true"])
-  [data-value="apariencia"][data-active="true"]::after {
-  font-family: "tabler-icons" !important;
-  content: "\eb0b";
-  font-size: 14px;
-  position: absolute;
-  transform: rotate(45deg);
+@keyframes dotPulse {
+  0%,
+  100% {
+    box-shadow: 0 0 0 0 rgba(15, 135, 108, 0.5);
+    opacity: 0.85;
+  }
+  50% {
+    box-shadow: 0 0 0 5px rgba(15, 135, 108, 0);
+    opacity: 1;
+  }
 }
 
-#island:has([data-value="apariencia"][data-active="true"])
-  [data-role="mode-opt"] {
-  min-width: fit-content;
+@keyframes auraPulse {
+  0% {
+    transform: translateX(-50%) scale(0.92);
+    opacity: 0.75;
+  }
+  100% {
+    transform: translateX(-50%) scale(1.5);
+    opacity: 0;
+  }
 }
 
-#island:has([data-value="apariencia"][data-active="true"]) {
-  padding: 0px;
+[data-component="island"] i.ti.ti-plus {
+  background-color: #06896c;
+  padding: 8px;
+  border-radius: 9px;
 }
 
-#island:has([data-value="apariencia"][data-active="true"])
-  [data-role="sat-left"] {
-  transform: scale(0);
-  width: 0;
-  height: 0;
-  padding: 0;
-  position: absolute;
+#island {
+  transform: translateY(0);
 }
 
-#island:has([data-value="apariencia"][data-active="true"])
-  [data-role="mode-opt"]:last-child,
-#island:has([data-value="apariencia"][data-active="true"])
-  [data-role="sat-right"] {
-  transform: scale(0);
-  width: 0;
-  height: 0;
-  padding: 0;
-  position: absolute;
+#app:has(.profile-editor-overlay.active) + #root-island-menu #island {
+  transform: translatey(130px);
+  transform-origin: center;
 }
