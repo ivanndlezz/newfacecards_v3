@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Test Bottom Sheet Component</title>
+  <!-- Tabler Icons via CDN -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.x/dist/tabler-icons.min.css">
+  
+  <style>
+    body {
+      font-family: system-ui, -apple-system, sans-serif;
+      background: #f3f4f6;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      margin: 0;
+      gap: 16px;
+    }
+    
+    button.trigger-btn {
+      padding: 12px 24px;
+      font-size: 1rem;
+      font-weight: 600;
+      border: none;
+      border-radius: 12px;
+      background: #0f876c;
+      color: white;
+      cursor: pointer;
+      box-shadow: 0 4px 6px rgba(15, 135, 108, 0.2);
+      transition: background 0.2s, transform 0.1s;
+    }
+    
+    button.trigger-btn:hover {
+      background: #0b6e58;
+    }
+    
+    button.trigger-btn:active {
+      transform: scale(0.98);
+    }
+
+    #data-status-storage {
+      display: none;
+    }
+    
+    .test-content {
+      padding: 10px 0;
+      color: #374151;
+      line-height: 1.5;
+    }
+  </style>
+
+  <!-- SVG Icons representation -->
+  <svg style="display: none;">
+    <symbol id="search" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="11" cy="11" r="8"></circle>
+      <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+    </symbol>
+    <symbol id="icon-avatar" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+      <circle cx="12" cy="7" r="4"></circle>
+    </symbol>
+  </svg>
+</head>
+<body>
+
+  <div id="data-status-storage" data-bottom-sheet="hidden"></div>
+
+  <h1>Bottom Sheet Test Suite</h1>
+  
+  <button class="trigger-btn" id="btn-single">1. Single Layout (HTML String)</button>
+  <button class="trigger-btn" id="btn-dual">2. Dual Layout (Template)</button>
+  <button class="trigger-btn" id="btn-icon">3. Dual With Icon Layout</button>
+  <button class="trigger-btn" id="btn-preset">4. Preset Reutilizable</button>
+
+  <!-- Template to test selector cloning -->
+  <template id="tmpl-test-sheet">
+    <div class="test-content">
+      <h3>Contenido de Template</h3>
+      <p>Este contenido ha sido clonado de un elemento <code>&lt;template&gt;</code> en el DOM.</p>
+      <input type="text" placeholder="Escribe algo aquí..." style="width: 100%; padding: 8px; box-sizing: border-box; border: 1px solid #ccc; border-radius: 6px;">
+    </div>
+  </template>
+
+  <script type="module">
+    import { constructSheet, registerPreset, closeSheet } from './bottom-sheet.js';
+
+    // Definir funciones callback globales para probar llamadas tipo string
+    window.handleSort = (e, ctx) => {
+      alert(`Callback 'handleSort' invocado! Scope: ${ctx.scope}`);
+    };
+    window.showSearchBar = (e, ctx) => {
+      alert(`Callback 'showSearchBar' invocado!`);
+    };
+    window.deleteAll = (e, ctx) => {
+      if (confirm('¿Desea borrar todo?')) {
+        alert('Borrado con éxito');
+        closeSheet();
+      }
+    };
+
+    // 1. Single Layout
+    document.getElementById('btn-single').addEventListener('click', () => {
+      constructSheet({
+        title: "Ajustes de Perfil",
+        scope: "settings",
+        top_actions: [
+          {
+            name: "Buscar",
+            callback: "showSearchBar",
+            icon_type: "svg",
+            icon: "#search"
+          }
+        ],
+        content: `
+          <div class="test-content">
+            <p>Este es un modal simple de ajustes utilizando un string HTML.</p>
+            <label style="display: block; margin-top: 10px;">
+              <input type="checkbox"> Recibir notificaciones push
+            </label>
+          </div>
+        `,
+        bottom_actions: {
+          layout: "single",
+          primary: {
+            label: "Entendido",
+            callback: "close"
+          }
+        }
+      });
+    });
+
+    // 2. Dual Layout
+    document.getElementById('btn-dual').addEventListener('click', () => {
+      constructSheet({
+        title: "Editar Campos",
+        scope: "fields-editor",
+        top_actions: [
+          {
+            name: "Ordenar",
+            callback: "handleSort",
+            icon_type: "font",
+            icon: "ti ti-arrows-sort"
+          }
+        ],
+        content: "#tmpl-test-sheet",
+        bottom_actions: {
+          layout: "dual",
+          primary: {
+            label: "Guardar",
+            callback: () => {
+              alert('Guardado con éxito');
+              closeSheet();
+            },
+            icon: "ti ti-check"
+          },
+          secondary: {
+            label: "Cancelar",
+            callback: "close"
+          }
+        }
+      });
+    });
+
+    // 3. Dual With Icon Layout
+    document.getElementById('btn-icon').addEventListener('click', () => {
+      constructSheet({
+        title: "Administrar Enlaces",
+        scope: "links-admin",
+        content: `
+          <div class="test-content">
+            <p>Ejemplo con botón de acción lateral en el pie (icono de borrar peligroso).</p>
+          </div>
+        `,
+        bottom_actions: {
+          layout: "dual-with-icon",
+          primary: {
+            label: "Guardar",
+            callback: () => {
+              alert('Guardado!');
+              closeSheet();
+            }
+          },
+          secondary: {
+            label: "Cerrar",
+            callback: "close"
+          },
+          icon_action: {
+            callback: "deleteAll",
+            icon_type: "font",
+            icon: "ti ti-trash",
+            variant: "danger"
+          }
+        }
+      });
+    });
+
+    // 4. Registrar y probar Preset
+    registerPreset("preset-profile", (data) => {
+      return {
+        title: `Perfil de ${data.userName || 'Usuario'}`,
+        scope: "profile-preset",
+        top_actions: [
+          {
+            name: "Ver Avatar",
+            callback: () => alert(`Viendo avatar de ${data.userName}`),
+            icon_type: "svg",
+            icon: "#icon-avatar"
+          }
+        ],
+        content: `
+          <div class="test-content">
+            <p>ID de usuario: <strong>${data.userId}</strong></p>
+            <p>Nombre de usuario: <strong>${data.userName}</strong></p>
+          </div>
+        `,
+        bottom_actions: {
+          layout: "single",
+          primary: {
+            label: "Finalizar",
+            callback: "close"
+          }
+        }
+      };
+    });
+
+    document.getElementById('btn-preset').addEventListener('click', () => {
+      constructSheet("preset-profile", { userId: "459023", userName: "Ivan Gonzalez" });
+    });
+  </script>
+</body>
+</html>

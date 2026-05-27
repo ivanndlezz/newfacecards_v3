@@ -1,0 +1,391 @@
+/* ============================================================
+   BOTTOM SHEET — bottom-sheet.css — v1
+   Componente dinámico y exportable.
+   Selectores basados en .bsheet-* classes y data-state / data-layout.
+   ============================================================ */
+
+/* ============================================================
+   1. DESIGN TOKENS
+   ============================================================ */
+:root {
+  --bsheet-bg: #ffffff;
+  --bsheet-overlay: rgba(0, 0, 0, 0.05);
+  --bsheet-border: rgba(0, 0, 0, 0.08);
+  --bsheet-text: #111111;
+  --bsheet-text-muted: #6b7280;
+  --bsheet-accent: var(--island-accent, #0f876c);
+  --bsheet-accent-hover: var(--island-accent-hover, #0b6e58);
+  --bsheet-danger: #ef4444;
+  --bsheet-danger-hover: #dc2626;
+  --bsheet-radius: 28px;
+  --bsheet-max-w: 500px;
+  --bsheet-shadow:
+    0 -16px 48px rgba(0, 0, 0, 0.12), 0 -4px 16px rgba(0, 0, 0, 0.06);
+  --bsheet-spring: cubic-bezier(0.16, 1, 0.3, 1);
+  --bsheet-ease: cubic-bezier(0.25, 1, 0.5, 1);
+  --bsheet-font:
+    -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+
+/* ============================================================
+   2. OVERLAY
+   ============================================================ */
+.bottom-sheet-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9998;
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  background: var(--bsheet-overlay);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.35s var(--bsheet-ease);
+  font-family: var(--bsheet-font);
+}
+
+.bottom-sheet-overlay[data-state="open"] {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* ============================================================
+   3. CONTAINER
+   ============================================================ */
+.bottom-sheet-container {
+  position: relative;
+  width: 100%;
+  max-width: var(--bsheet-max-w);
+  max-height: 50vh;
+  background: var(--bsheet-bg);
+  border-radius: var(--bsheet-radius) var(--bsheet-radius) 0 0;
+  box-shadow: var(--bsheet-shadow);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  transform: translateY(100%);
+  transition: transform 0.45s var(--bsheet-spring);
+}
+
+.bottom-sheet-overlay[data-state="open"] .bottom-sheet-container {
+  transform: translateY(0);
+}
+
+/* ============================================================
+   4. HEADER
+   ============================================================ */
+.bsheet-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 20px 20px 16px;
+  border-bottom: 1px solid var(--bsheet-border);
+  flex-shrink: 0;
+  min-height: 56px;
+}
+
+.bsheet-title {
+  margin: 0;
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--bsheet-text);
+  flex: 1;
+  min-width: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.bsheet-top-actions {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  flex-shrink: 0;
+}
+
+/* ── Top action button ── */
+.bsheet-action-btn {
+  all: unset;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  cursor: pointer;
+  color: var(--bsheet-text-muted);
+  transition:
+    background 0.2s ease,
+    color 0.2s ease,
+    transform 0.25s var(--bsheet-spring);
+}
+
+.bsheet-action-btn:hover {
+  background: rgba(0, 0, 0, 0.06);
+  color: var(--bsheet-text);
+}
+
+.bsheet-action-btn:active {
+  transform: scale(0.9);
+}
+
+.bsheet-action-btn i {
+  font-size: 20px;
+  line-height: 1;
+}
+
+.bsheet-action-btn svg {
+  width: 20px;
+  height: 20px;
+}
+
+/* ── Close button ── */
+.bsheet-close-btn {
+  all: unset;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  cursor: pointer;
+  color: var(--bsheet-text-muted);
+  margin-left: 4px;
+  flex-shrink: 0;
+  transition:
+    background 0.2s ease,
+    color 0.2s ease,
+    transform 0.25s var(--bsheet-spring);
+}
+
+.bsheet-close-btn:hover {
+  background: rgba(0, 0, 0, 0.06);
+  color: var(--bsheet-text);
+}
+
+.bsheet-close-btn:active {
+  transform: scale(0.9);
+}
+
+.bsheet-close-btn i {
+  font-size: 20px;
+  line-height: 1;
+}
+
+/* ============================================================
+   5. CONTENT
+   ============================================================ */
+.bsheet-content {
+  flex: 1;
+  overflow-y: auto;
+  padding: 20px;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior: contain;
+}
+
+/* Thin scrollbar */
+.bsheet-content::-webkit-scrollbar {
+  width: 4px;
+}
+.bsheet-content::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.12);
+  border-radius: 4px;
+}
+
+/* ============================================================
+   6. FOOTER
+   ============================================================ */
+.bsheet-footer {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 16px 20px;
+  border-top: 1px solid var(--bsheet-border);
+  flex-shrink: 0;
+  background: var(--bsheet-bg);
+}
+
+/* Hide footer entirely when empty */
+.bsheet-footer:empty {
+  display: none;
+}
+
+/* ── Layout: single ── */
+.bsheet-footer[data-layout="single"] {
+  justify-content: stretch;
+}
+
+.bsheet-footer[data-layout="single"] .bsheet-btn {
+  flex: 1;
+}
+
+/* ── Layout: dual ── */
+.bsheet-footer[data-layout="dual"] {
+  justify-content: flex-end;
+}
+
+/* ── Layout: dual-with-icon ── */
+.bsheet-footer[data-layout="dual-with-icon"] {
+  justify-content: flex-start;
+}
+
+.bsheet-footer[data-layout="dual-with-icon"] .bsheet-btn--secondary {
+  margin-left: auto;
+}
+
+/* ============================================================
+   7. BUTTON BASE
+   ============================================================ */
+.bsheet-btn {
+  all: unset;
+  box-sizing: border-box;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 12px 24px;
+  border-radius: 14px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+  transition:
+    background 0.2s ease,
+    color 0.2s ease,
+    box-shadow 0.2s ease,
+    transform 0.25s var(--bsheet-spring);
+}
+
+.bsheet-btn:active {
+  transform: scale(0.96);
+}
+
+.bsheet-btn i {
+  font-size: 18px;
+  line-height: 1;
+}
+
+/* ── Primary ── */
+.bsheet-btn--primary {
+  background: var(--bsheet-accent);
+  color: #ffffff;
+  box-shadow: 0 4px 14px rgba(15, 135, 108, 0.25);
+}
+
+.bsheet-btn--primary:hover {
+  background: var(--bsheet-accent-hover);
+  box-shadow: 0 6px 20px rgba(15, 135, 108, 0.35);
+}
+
+/* ── Secondary ── */
+.bsheet-btn--secondary {
+  background: rgba(0, 0, 0, 0.05);
+  color: var(--bsheet-text);
+}
+
+.bsheet-btn--secondary:hover {
+  background: rgba(0, 0, 0, 0.1);
+}
+
+/* ============================================================
+   8. ICON ACTION (standalone icon button in footer)
+   ============================================================ */
+.bsheet-icon-action {
+  all: unset;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  cursor: pointer;
+  color: var(--bsheet-text-muted);
+  background: rgba(0, 0, 0, 0.04);
+  flex-shrink: 0;
+  transition:
+    background 0.2s ease,
+    color 0.2s ease,
+    transform 0.25s var(--bsheet-spring);
+}
+
+.bsheet-icon-action:hover {
+  background: rgba(0, 0, 0, 0.08);
+  color: var(--bsheet-text);
+}
+
+.bsheet-icon-action:active {
+  transform: scale(0.9);
+}
+
+.bsheet-icon-action i {
+  font-size: 20px;
+  line-height: 1;
+}
+
+.bsheet-icon-action svg {
+  width: 20px;
+  height: 20px;
+}
+
+/* ── Variant: danger ── */
+.bsheet-icon-action--danger {
+  color: var(--bsheet-danger);
+}
+
+.bsheet-icon-action--danger:hover {
+  background: rgba(239, 68, 68, 0.1);
+  color: var(--bsheet-danger-hover);
+}
+
+/* ── Variant: muted ── */
+.bsheet-icon-action--muted {
+  color: var(--bsheet-text-muted);
+  opacity: 0.6;
+}
+
+.bsheet-icon-action--muted:hover {
+  opacity: 1;
+}
+
+/* ============================================================
+   9. ISLAND MENU INTEGRATION
+   Hide island when sheet is open.
+   ============================================================ */
+#data-status-storage[data-bottom-sheet="showing"] ~ #root-island-menu #island {
+  transform: translateY(130px);
+  transition: transform 0.4s var(--bsheet-spring);
+}
+
+/* ============================================================
+   10. ANIMATIONS
+   ============================================================ */
+@keyframes bsheetFadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes bsheetSlideUp {
+  from {
+    transform: translateY(100%);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+
+/* ============================================================
+   11. RESPONSIVE
+   ============================================================ */
+@media (min-width: 600px) {
+  .bottom-sheet-container {
+    max-height: 50vh;
+    border-radius: 24px 24px 0 0;
+  }
+}

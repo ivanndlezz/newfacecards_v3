@@ -657,7 +657,7 @@
         background-color: var(--card-background);
       }
 
-      .main-content__user-card > div {
+      .main-content__user-card:not(:has([data-status="skel"])) > div {
         height: var(--w100);
       }
 
@@ -720,10 +720,28 @@
         border-radius: 19px;
         transform: translateY(var(--translate));
       }
+
+      #app:has(.edit-mode-active) header {
+        margin-bottom: -50px;
+        transform: translatey(-110px);
+        height: 85px;
+      }
+
+      #app:has(.edit-mode-active) .handler--drag {
+        transform: scale(0);
+      }
+
+      [data-bottom-sheet="showing"] + #app main {
+        transform: scale(0.9) translate(0px, -50px);
+      }
     </style>
   </head>
   <body>
-    <div id="data-status-storage" data-bind-attr="config.cover_active" data-bottom-sheet="hidden"></div>
+    <div
+      id="data-status-storage"
+      data-bind-attr="config.cover_active"
+      data-bottom-sheet="hidden"
+    ></div>
     <div id="app">
       <!-- Selector de Temas Carrusel 3D Overlay -->
       <div class="card-carousel" id="carousel-viewport">
@@ -825,287 +843,279 @@
         >
           <!-- Populated dynamically by card-carousel when island mode === 'apariencia' -->
         </div>
-
       </main>
 
       <!-- Cohort profile editor panel -->
-      <div id="profile-editor-panel" hidden class="profile-editor-overlay">
-        <div class="profile-editor-sheet">
-          <div class="profile-editor-header">
-            <span class="pe-title">Edición de Perfil</span>
+      <!-- Template for Dynamic Profile Editor -->
+      <template id="tmpl-profile-editor">
+        <!-- Navigation Mode Selector (Scroll vs Tab) -->
+        <div
+          class="nav-mode-selector-container"
+          id="nav-mode-selector-container"
+        >
+          <div class="segmented-control">
             <button
-              id="closeProfileEditorBtn"
-              class="close-btn"
-              aria-label="Listo"
-              style="
-                font-size: 0.95rem;
-                font-weight: 600;
-                color: #a855f7;
-                opacity: 1;
-              "
+              type="button"
+              class="segmented-btn active"
+              id="btn-nav-scroll"
+              data-nav-mode="scroll"
             >
-              Listo
+              <i class="ti ti-fold" aria-hidden="true"></i> Scroll
+            </button>
+            <button
+              type="button"
+              class="segmented-btn"
+              id="btn-nav-tabs"
+              data-nav-mode="tabs"
+            >
+              <i class="ti ti-layout-columns" aria-hidden="true"></i> Tab
             </button>
           </div>
+        </div>
 
-          <!-- Navigation Mode Selector (Scroll vs Tab) -->
-          <div
-            class="nav-mode-selector-container"
-            id="nav-mode-selector-container"
-          >
-            <div class="segmented-control">
-              <button
-                type="button"
-                class="segmented-btn active"
-                id="btn-nav-scroll"
-                data-nav-mode="scroll"
-              >
-                <i class="ti ti-fold" aria-hidden="true"></i> Scroll
-              </button>
-              <button
-                type="button"
-                class="segmented-btn"
-                id="btn-nav-tabs"
-                data-nav-mode="tabs"
-              >
-                <i class="ti ti-layout-columns" aria-hidden="true"></i> Tab
-              </button>
-            </div>
+        <!-- Cohort Tabs Selector (simplified for Contacto/Redes navigation) -->
+        <div class="cohort-tabs-container">
+          <div class="cohort-tabs">
+            <button class="cohort-tab active" data-cohort="3">
+              <i class="ti ti-phone" aria-hidden="true"></i> Contacto
+            </button>
+            <button class="cohort-tab" data-cohort="5">
+              <i class="ti ti-brand-instagram" aria-hidden="true"></i> Redes
+            </button>
           </div>
+        </div>
 
-          <!-- Cohort Tabs Selector (simplified for Contacto/Redes navigation) -->
-          <div class="cohort-tabs-container">
-            <div class="cohort-tabs">
-              <button class="cohort-tab active" data-cohort="3">
-                <i class="ti ti-phone" aria-hidden="true"></i> Contacto
-              </button>
-              <button class="cohort-tab" data-cohort="5">
-                <i class="ti ti-brand-instagram" aria-hidden="true"></i> Redes
-              </button>
+        <div class="profile-editor-content">
+          <!-- Cohort 1: Foto y Portada -->
+          <div class="cohort-pane active" id="pane-1">
+            <div class="editor-section">
+              <label class="editor-label">Foto de Perfil</label>
+              <div class="avatar-edit-container">
+                <img
+                  id="edit-avatar-preview"
+                  src=""
+                  class="avatar-edit-preview"
+                  alt="Avatar"
+                />
+                <input
+                  type="text"
+                  id="input-profile-photo"
+                  class="editor-input"
+                  placeholder="Pegar URL de imagen..."
+                  data-bind-field="profile.photo.src"
+                  data-bind-target=".blank__avatar, .aurora__avatar"
+                  data-bind-event="change"
+                />
+              </div>
             </div>
-          </div>
 
-          <div class="profile-editor-content">
-            <!-- Cohort 1: Foto y Portada -->
-            <div class="cohort-pane active" id="pane-1">
-              <div class="editor-section">
-                <label class="editor-label">Foto de Perfil</label>
-                <div class="avatar-edit-container">
-                  <img
-                    id="edit-avatar-preview"
-                    src=""
-                    class="avatar-edit-preview"
-                    alt="Avatar"
-                  />
-                  <input
-                    type="text"
-                    id="input-profile-photo"
-                    class="editor-input"
-                    placeholder="Pegar URL de imagen..."
-                  />
-                </div>
+            <div class="editor-section">
+              <label class="editor-label">Imagen de Portada (Cover)</label>
+              <div class="cover-edit-container">
+                <div id="edit-cover-preview" class="cover-edit-preview"></div>
+                <input
+                  type="text"
+                  id="input-profile-cover"
+                  class="editor-input"
+                  placeholder="Pegar URL de portada..."
+                  data-bind-field="profile.cover.src"
+                  data-bind-target="#background_cover"
+                  data-bind-event="change"
+                />
               </div>
+            </div>
 
-              <div class="editor-section">
-                <label class="editor-label">Imagen de Portada (Cover)</label>
-                <div class="cover-edit-container">
-                  <div
-                    id="edit-cover-preview"
-                    class="cover-edit-preview"
-                  ></div>
-                  <input
-                    type="text"
-                    id="input-profile-cover"
-                    class="editor-input"
-                    placeholder="Pegar URL de portada..."
-                  />
-                </div>
-              </div>
-
-              <div class="editor-section">
-                <div class="image-style-section">
-                  <form class="image-style-form" id="image-style-form">
-                    <fieldset class="image-style-fieldset">
-                      <legend><span>image style</span></legend>
-                      <div class="image-style-grid">
-                        <!-- Classic -->
-                        <input
-                          type="radio"
-                          name="image_style"
-                          id="style-classic"
-                          value="classic"
-                          checked
-                        />
-                        <label class="image-style-card" for="style-classic">
-                          <span
-                            class="preview preview--classic"
-                            aria-hidden="true"
-                          ></span>
-                          <span class="image-style-title">Clásico</span>
-                          <span class="checkmark" aria-hidden="true"></span>
-                        </label>
-                        <!-- Hero -->
-                        <input
-                          type="radio"
-                          name="image_style"
-                          id="style-hero"
-                          value="hero"
-                        />
-                        <label class="image-style-card" for="style-hero">
-                          <span
-                            class="preview preview--hero"
-                            aria-hidden="true"
-                          ></span>
-                          <span class="image-style-title">Hero</span>
-                          <span class="badge badge--pro" aria-hidden="true">
-                            Pro
-                            <svg
-                              style="width: 12px; height: 12px; color: white"
-                              viewBox="0 0 24 24"
-                              fill="currentColor"
-                            >
-                              <use href="#pro-spark"></use>
-                            </svg>
-                          </span>
-                          <span class="checkmark" aria-hidden="true"></span>
-                        </label>
-                        <!-- With Cover -->
-                        <input
-                          type="radio"
-                          name="image_style"
-                          id="style-cover"
-                          value="with-cover"
-                        />
-                        <label class="image-style-card" for="style-cover">
-                          <span
-                            class="preview preview--cover"
-                            aria-hidden="true"
+            <div class="editor-section">
+              <div class="image-style-section">
+                <form class="image-style-form" id="image-style-form">
+                  <fieldset class="image-style-fieldset">
+                    <legend><span>image style</span></legend>
+                    <div class="image-style-grid">
+                      <!-- Classic -->
+                      <input
+                        type="radio"
+                        name="image_style"
+                        id="style-classic"
+                        value="classic"
+                        checked
+                      />
+                      <label class="image-style-card" for="style-classic">
+                        <span
+                          class="preview preview--classic"
+                          aria-hidden="true"
+                        ></span>
+                        <span class="image-style-title">Clásico</span>
+                        <span class="checkmark" aria-hidden="true"></span>
+                      </label>
+                      <!-- Hero -->
+                      <input
+                        type="radio"
+                        name="image_style"
+                        id="style-hero"
+                        value="hero"
+                      />
+                      <label class="image-style-card" for="style-hero">
+                        <span
+                          class="preview preview--hero"
+                          aria-hidden="true"
+                        ></span>
+                        <span class="image-style-title">Hero</span>
+                        <span class="badge badge--pro" aria-hidden="true">
+                          Pro
+                          <svg
+                            style="width: 12px; height: 12px; color: white"
+                            viewBox="0 0 24 24"
+                            fill="currentColor"
                           >
-                            <span class="cover-bg"></span>
-                            <span class="avatar"></span>
-                          </span>
-                          <span class="image-style-title">Con portada</span>
-                          <span class="badge badge--pro" aria-hidden="true">
-                            Pro
-                            <svg
-                              style="width: 12px; height: 12px; color: white"
-                              viewBox="0 0 24 24"
-                              fill="currentColor"
-                            >
-                              <use href="#pro-spark"></use>
-                            </svg>
-                          </span>
-                          <span class="checkmark" aria-hidden="true"></span>
-                        </label>
-                      </div>
-                    </fieldset>
-                  </form>
-                </div>
+                            <use href="#pro-spark"></use>
+                          </svg>
+                        </span>
+                        <span class="checkmark" aria-hidden="true"></span>
+                      </label>
+                      <!-- With Cover -->
+                      <input
+                        type="radio"
+                        name="image_style"
+                        id="style-cover"
+                        value="with-cover"
+                      />
+                      <label class="image-style-card" for="style-cover">
+                        <span class="preview preview--cover" aria-hidden="true">
+                          <span class="cover-bg"></span>
+                          <span class="avatar"></span>
+                        </span>
+                        <span class="image-style-title">Con portada</span>
+                        <span class="badge badge--pro" aria-hidden="true">
+                          Pro
+                          <svg
+                            style="width: 12px; height: 12px; color: white"
+                            viewBox="0 0 24 24"
+                            fill="currentColor"
+                          >
+                            <use href="#pro-spark"></use>
+                          </svg>
+                        </span>
+                        <span class="checkmark" aria-hidden="true"></span>
+                      </label>
+                    </div>
+                  </fieldset>
+                </form>
               </div>
             </div>
+          </div>
 
-            <!-- Cohort 2: Datos principales -->
-            <div class="cohort-pane" id="pane-2">
-              <div class="editor-section">
-                <label class="editor-label">Nombre Completo</label>
-                <input
-                  type="text"
-                  id="input-profile-name"
-                  class="editor-input"
-                  placeholder="Nombre..."
-                />
-              </div>
-              <div class="editor-section">
-                <label class="editor-label">Puesto / Cargo</label>
-                <input
-                  type="text"
-                  id="input-profile-title"
-                  class="editor-input"
-                  placeholder="Cargo..."
-                />
-              </div>
-              <div class="editor-section">
-                <label class="editor-label">Agencia / Organización</label>
-                <input
-                  type="text"
-                  id="input-profile-org"
-                  class="editor-input"
-                  placeholder="Organización..."
-                />
-              </div>
-              <div class="editor-section">
-                <label class="editor-label">Biografía / Presentación</label>
-                <textarea
-                  id="input-profile-bio"
-                  class="editor-textarea"
-                  placeholder="Escribe tu bio..."
-                ></textarea>
-              </div>
-              <div class="editor-section">
-                <label class="editor-label">Ajustes de Iconos de Redes</label>
-                <div class="toggle-switch-container">
-                  <span>Mostrar iconos de redes justo debajo de la Bio</span>
-                  <label class="toggle-switch">
-                    <input
-                      type="checkbox"
-                      id="toggle-social-icons-under-bio"
-                    />
-                    <span class="toggle-slider"></span>
-                  </label>
-                </div>
+          <!-- Cohort 2: Datos principales -->
+          <div class="cohort-pane" id="pane-2">
+            <div class="editor-section">
+              <label class="editor-label">Nombre Completo</label>
+              <input
+                type="text"
+                id="input-profile-name"
+                class="editor-input"
+                placeholder="Nombre..."
+                data-bind-field="profile.name"
+                data-bind-target=".blank__name, .aurora__name"
+              />
+            </div>
+            <div class="editor-section">
+              <label class="editor-label">Puesto / Cargo</label>
+              <input
+                type="text"
+                id="input-profile-title"
+                class="editor-input"
+                placeholder="Cargo..."
+                data-bind-field="profile.title"
+                data-bind-target=".blank__title, .aurora__title"
+              />
+            </div>
+            <div class="editor-section">
+              <label class="editor-label">Agencia / Organización</label>
+              <input
+                type="text"
+                id="input-profile-org"
+                class="editor-input"
+                placeholder="Organización..."
+                data-bind-field="profile.org"
+                data-bind-target=".blank__org, .aurora__org"
+              />
+            </div>
+            <div class="editor-section">
+              <label class="editor-label">Biografía / Presentación</label>
+              <textarea
+                id="input-profile-bio"
+                class="editor-textarea"
+                placeholder="Escribe tu bio..."
+                data-bind-field="profile.bio"
+                data-bind-target=".blank__bio, .aurora__bio"
+              ></textarea>
+            </div>
+            <div class="editor-section">
+              <label class="editor-label">Ajustes de Iconos de Redes</label>
+              <div class="toggle-switch-container">
+                <span>Mostrar iconos de redes justo debajo de la Bio</span>
+                <label class="toggle-switch">
+                  <input type="checkbox" id="toggle-social-icons-under-bio" />
+                  <span class="toggle-slider"></span>
+                </label>
               </div>
             </div>
+          </div>
 
-            <!-- Cohort 3: Datos de Contacto -->
-            <div class="cohort-pane" id="pane-3">
-              <div class="editor-section">
-                <label class="editor-label">Correo Electrónico</label>
-                <input
-                  type="email"
-                  id="input-profile-email"
-                  class="editor-input"
-                  placeholder="email@ejemplo.com"
-                />
-              </div>
-              <div class="editor-section">
-                <label class="editor-label">Teléfono Móvil</label>
-                <input
-                  type="tel"
-                  id="input-profile-phone"
-                  class="editor-input"
-                  placeholder="+52..."
-                />
-              </div>
-              <div class="editor-section">
-                <label class="editor-label">Página Web</label>
-                <input
-                  type="url"
-                  id="input-profile-website"
-                  class="editor-input"
-                  placeholder="https://..."
-                />
-              </div>
+          <!-- Cohort 3: Datos de Contacto -->
+          <div class="cohort-pane" id="pane-3">
+            <div class="editor-section">
+              <label class="editor-label">Correo Electrónico</label>
+              <input
+                type="email"
+                id="input-profile-email"
+                class="editor-input"
+                placeholder="email@ejemplo.com"
+                data-bind-field="profile.email"
+                data-bind-target=".blank__email a, .aurora__email a"
+              />
             </div>
+            <div class="editor-section">
+              <label class="editor-label">Teléfono Móvil</label>
+              <input
+                type="tel"
+                id="input-profile-phone"
+                class="editor-input"
+                placeholder="+52..."
+                data-bind-field="profile.phone"
+                data-bind-target=".blank__phone a, .aurora__phone a"
+              />
+            </div>
+            <div class="editor-section">
+              <label class="editor-label">Página Web</label>
+              <input
+                type="url"
+                id="input-profile-website"
+                class="editor-input"
+                placeholder="https://..."
+                data-bind-field="profile.website"
+                data-bind-target=".blank__website a, .aurora__website a"
+              />
+            </div>
+          </div>
 
-            <!-- Cohort 5: Redes (Listas de redes ignoradas por ahora) -->
-            <div class="cohort-pane" id="pane-5">
-              <div class="editor-section">
-                <p
-                  style="
-                    color: rgba(0, 0, 0, 0.5);
-                    font-size: 0.9rem;
-                    text-align: center;
-                    margin: 32px 0;
-                  "
-                >
-                  La configuración de enlaces de redes sociales se habilitará
-                  en una futura versión.
-                </p>
-              </div>
+          <!-- Cohort 5: Redes -->
+          <div class="cohort-pane" id="pane-5">
+            <div class="editor-section">
+              <p
+                style="
+                  color: rgba(0, 0, 0, 0.5);
+                  font-size: 0.9rem;
+                  text-align: center;
+                  margin: 32px 0;
+                "
+              >
+                La configuración de enlaces de redes sociales se habilitará en
+                una futura versión.
+              </p>
             </div>
           </div>
         </div>
-      </div>
+      </template>
     </div>
     <!-- ======================== 
            ISLAND MENU
@@ -1124,6 +1134,15 @@
     <!-- 2. CONFIGURACIÓN E IMPORTACIÓN DEL BINDER UTILITY (ES MODULE) -->
     <script type="module">
       import { DataBinder } from "/shared/utilities/binder.js";
+      import {
+        constructSheet,
+        closeSheet,
+      } from "/shared/components/bottom-sheet/bottom-sheet.js";
+      import { DataFlowBinder } from "/shared/utilities/data-flow-binder.js";
+      import "/shared/utilities/api-middleware-mock.js"; // Activa window.__useMockApi automáticamente
+      window.constructSheet = constructSheet;
+      window.closeSheet = closeSheet;
+      window.DataFlowBinder = DataFlowBinder;
 
       // Configuración del sistema de bindeo e hidratación
       const binderConfig = {
@@ -1969,39 +1988,71 @@
 
       // Open the bottom sheet focused on one cohort (contextual mode)
       async function openContextualEditor(cohortNumber) {
-        // Load and populate all data first
-        await openProfileEditor();
+        profileEditorActive = true;
 
-        // Then configure contextual mode
-        const sheet = document.querySelector(".profile-editor-sheet");
-        const titleEl = document.querySelector(
-          ".profile-editor-sheet .pe-title",
-        );
+        // Construct sheet dynamically using the bottom-sheet component
+        constructSheet({
+          title: COHORT_TITLES[cohortNumber] || "Edición de Perfil",
+          scope: "profile",
+          content: "#tmpl-profile-editor",
+          bottom_actions: {
+            layout: "single",
+            primary: {
+              label: "Listo",
+              callback: () => closeProfileEditor(false),
+            },
+          },
+        });
 
+        // Set cohort attribute on the sheet container for conditional visibility styles
+        const sheet = document.querySelector('[data-scope="profile"]');
         if (sheet) {
-          sheet.classList.add("contextual-mode");
-          // Establecer el cohort activo como un atributo de datos
           sheet.setAttribute("data-active-cohort", cohortNumber);
         }
 
-        // Títulos dinámicos basados en el cohort
-        if (titleEl) {
-          if (cohortNumber === 1) {
-            titleEl.textContent = "Editar Foto y Portada";
-          } else if (cohortNumber === 2) {
-            titleEl.textContent = "Editar Datos Personales";
-          } else {
-            titleEl.textContent = "Navegación y Secciones";
-          }
+        // Get card data and populate inputs inside the fresh DOM
+        await openProfileEditor();
+
+        // Bind event listeners to these newly created input elements
+        bindCohortInputs();
+
+        // ── DataFlowBinder: Input → Mock API → DOM ────────────────────────
+        // Destroy any previous binder instance before creating a new one
+        if (window.__activeFlowBinder) {
+          window.__activeFlowBinder.destroy();
+        }
+        if (window.DataFlowBinder && sheet) {
+          const flowBinder = new window.DataFlowBinder({
+            container: sheet,
+            endpoint: "/wp-json/nfc/v1/update-field",
+            debounceMs: 300,
+            onSyncStart: (input) => {
+              input?.classList.add("is-syncing");
+            },
+            onSyncSuccess: (input, field, target, value) => {
+              input?.classList.remove("is-syncing");
+              input?.classList.add("is-synced");
+              setTimeout(() => input?.classList.remove("is-synced"), 1200);
+              console.log(`[FlowBinder] ✓ ${field} → "${value}" → ${target}`);
+            },
+            onSyncError: (input, field, err) => {
+              input?.classList.remove("is-syncing");
+              input?.classList.add("is-error");
+              setTimeout(() => input?.classList.remove("is-error"), 2000);
+              console.error(`[FlowBinder] ✗ ${field}:`, err);
+            },
+          });
+          flowBinder.bind();
+          window.__activeFlowBinder = flowBinder;
         }
 
-        // Si es cohort 3 o 5 (Navegación / Contacto y Redes)
+        // If it's cohort 3 or 5 (Navigation / Contact and Networks)
         if (cohortNumber === 3 || cohortNumber === 5) {
-          // Inicializar modo de navegación (Scroll vs Tab)
+          // Initialize navigation mode (Scroll vs Tab)
           const navType = cachedCardData?.config?.["nav-type"] || "scroll";
           setNavModeUI(navType);
 
-          // Activar pane y tab
+          // Activate pane and tab
           document
             .querySelectorAll(".cohort-tab")
             .forEach((t) => t.classList.remove("active"));
@@ -2016,28 +2067,34 @@
             `.cohort-tab[data-cohort="${cohortNumber}"]`,
           );
           if (targetTab) targetTab.classList.add("active");
+
+          // Bind tab click listener
+          setupTabListeners();
         } else {
-          // Cohorts 1 y 2
+          // Cohorts 1 and 2
           document
             .querySelectorAll(".cohort-pane")
             .forEach((p) => p.classList.remove("active"));
           const pane = document.getElementById(`pane-${cohortNumber}`);
           if (pane) pane.classList.add("active");
         }
+
+        // Bind segmented buttons and cover style change listeners
+        setupDesignModeListeners();
       }
 
       function setNavModeUI(mode) {
-        const sheet = document.querySelector(".profile-editor-sheet");
-        if (!sheet) return;
+        const container = document.querySelector('[data-scope="profile"]');
+        if (!container) return;
 
         if (mode === "scroll") {
-          sheet.classList.remove("mode-tabs");
-          sheet.classList.add("mode-scroll");
+          container.classList.remove("mode-tabs");
+          container.classList.add("mode-scroll");
           document.getElementById("btn-nav-scroll")?.classList.add("active");
           document.getElementById("btn-nav-tabs")?.classList.remove("active");
         } else {
-          sheet.classList.remove("mode-scroll");
-          sheet.classList.add("mode-tabs");
+          container.classList.remove("mode-scroll");
+          container.classList.add("mode-tabs");
           document.getElementById("btn-nav-tabs")?.classList.add("active");
           document.getElementById("btn-nav-scroll")?.classList.remove("active");
         }
@@ -2097,7 +2154,7 @@
         }
       }
 
-      // Open Profile Editor (mode === "cardbar")
+      // Open Profile Editor (mode === "cardbar"): loads and populates inputs
       async function openProfileEditor() {
         profileEditorActive = true;
         const data = await getCardData();
@@ -2155,46 +2212,20 @@
           "toggle-social-icons-under-bio",
         );
         if (toggleSocial) toggleSocial.checked = showUnderBio;
-
-        // Display panel
-        const panel = document.getElementById("profile-editor-panel");
-        if (panel) {
-          panel.style.display = "flex";
-          panel.offsetHeight; // force reflow
-          panel.classList.add("active");
-        }
-
-        const storage = document.getElementById("data-status-storage");
-        if (storage) {
-          storage.setAttribute("data-bottom-sheet", "showing");
-        }
       }
 
       // closeProfileEditor: if fullyExit=true, reset island; otherwise just close sheet and
       // keep the card in edit mode so the user can continue tapping other zones.
       function closeProfileEditor(fullyExit = false) {
         profileEditorActive = false;
-        const panel = document.getElementById("profile-editor-panel");
-        const sheet = document.querySelector(".profile-editor-sheet");
 
-        if (sheet) sheet.classList.remove("contextual-mode");
-        if (panel) {
-          panel.classList.remove("active");
-          setTimeout(() => {
-            if (!profileEditorActive) panel.style.display = "none";
-          }, 400);
+        // Destroy DataFlowBinder to cancel in-flight requests and remove listeners
+        if (window.__activeFlowBinder) {
+          window.__activeFlowBinder.destroy();
+          window.__activeFlowBinder = null;
         }
 
-        const storage = document.getElementById("data-status-storage");
-        if (storage) {
-          storage.setAttribute("data-bottom-sheet", "hidden");
-        }
-
-        // Reset sheet title back to generic
-        const titleEl = document.querySelector(
-          ".profile-editor-sheet .pe-title",
-        );
-        if (titleEl) titleEl.textContent = "Edición de Perfil";
+        closeSheet();
 
         if (fullyExit) {
           deactivateCardEditMode();
@@ -2203,47 +2234,65 @@
             island.setActiveMode(null);
           }
         }
-        // Otherwise: keep card in edit-mode-active so user can tap another zone
       }
 
       window.closeProfileEditor = closeProfileEditor;
 
       // Tabs switching mechanism
-      document.querySelectorAll(".cohort-tab").forEach((tab) => {
-        tab.addEventListener("click", (e) => {
-          const btn = e.target.closest(".cohort-tab");
-          const cohort = btn.dataset.cohort;
+      function setupTabListeners() {
+        document.querySelectorAll(".cohort-tab").forEach((tab) => {
+          tab.addEventListener("click", (e) => {
+            const btn = e.target.closest(".cohort-tab");
+            const cohort = btn.dataset.cohort;
 
-          document
-            .querySelectorAll(".cohort-tab")
-            .forEach((t) => t.classList.remove("active"));
-          btn.classList.add("active");
+            document
+              .querySelectorAll(".cohort-tab")
+              .forEach((t) => t.classList.remove("active"));
+            btn.classList.add("active");
 
-          document
-            .querySelectorAll(".cohort-pane")
-            .forEach((p) => p.classList.remove("active"));
-          document.getElementById(`pane-${cohort}`).classList.add("active");
+            document
+              .querySelectorAll(".cohort-pane")
+              .forEach((p) => p.classList.remove("active"));
+            const pane = document.getElementById(`pane-${cohort}`);
+            if (pane) pane.classList.add("active");
+          });
         });
-      });
+      }
 
-      // Segmented Control (Scroll vs Tab) Mode Listeners
-      document.querySelectorAll("[data-nav-mode]").forEach((btn) => {
-        btn.addEventListener("click", (e) => {
-          const targetMode = e.currentTarget.dataset.navMode;
-          if (!cachedCardData) return;
-          if (!cachedCardData.config) cachedCardData.config = {};
-          cachedCardData.config["nav-type"] = targetMode;
-          saveCardData(cachedCardData);
+      // Design controls switching mechanism
+      function setupDesignModeListeners() {
+        document.querySelectorAll("[data-nav-mode]").forEach((btn) => {
+          btn.addEventListener("click", (e) => {
+            const targetMode = e.currentTarget.dataset.navMode;
+            if (!cachedCardData) return;
+            if (!cachedCardData.config) cachedCardData.config = {};
+            cachedCardData.config["nav-type"] = targetMode;
+            saveCardData(cachedCardData);
 
-          // Update UI styles and active buttons
-          setNavModeUI(targetMode);
+            // Update UI styles and active buttons
+            setNavModeUI(targetMode);
+          });
         });
-      });
 
-      // Close button: just dismiss the sheet, NOT a full exit
-      document
-        .getElementById("closeProfileEditorBtn")
-        ?.addEventListener("click", () => closeProfileEditor(false));
+        // Radio buttons style change event
+        document
+          .querySelectorAll('input[name="image_style"]')
+          .forEach((radio) => {
+            radio.addEventListener("change", (e) => {
+              const val = e.target.value;
+              const mainEl = document.querySelector(".main-content");
+              if (mainEl) {
+                mainEl.setAttribute("data-style", val);
+                // Save to config
+                if (cachedCardData) {
+                  if (!cachedCardData.config) cachedCardData.config = {};
+                  cachedCardData.config.cover_active = val === "with-cover";
+                  saveCardData(cachedCardData);
+                }
+              }
+            });
+          });
+      }
 
       // Save sync with inputs
       function bindCohortInputs() {

@@ -1,72 +1,5 @@
 /* shared/components/profile-editor/profile-editor.css */
 
-/* Overlay */
-.profile-editor-overlay {
-  position: fixed;
-  inset: 0;
-  z-index: 9998; /* just behind carousel */
-  background: rgba(0, 0, 0, 0.05); /* dark backdrop */
-  display: none;
-  justify-content: center;
-  align-items: flex-end;
-  opacity: 0;
-  transition: opacity 0.4s ease;
-  pointer-events: none;
-}
-.profile-editor-overlay.active {
-  display: flex;
-  opacity: 1;
-  pointer-events: auto;
-}
-.profile-editor-overlay.active .profile-editor-sheet {
-  transform: translateY(0);
-}
-
-/* Sheet – light theme */
-.profile-editor-sheet {
-  width: 100%;
-  max-width: 500px;
-  height: 50vh;
-  background: #fff; /* light background */
-  color: #111; /* dark text */
-  border-radius: 32px 32px 0 0;
-  border: 1px solid rgba(0, 0, 0, 0.1);
-  box-shadow: 0 -20px 60px rgba(0, 0, 0, 0.1);
-  display: flex;
-  flex-direction: column;
-  overflow: hidden;
-  transform: translateY(100%);
-  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-.profile-editor-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 20px 24px 16px;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
-  flex-shrink: 0;
-}
-.profile-editor-header .pe-title {
-  font-size: 1.15rem;
-  font-weight: 700;
-  color: #111;
-}
-.profile-editor-header .close-btn {
-  background: none;
-  border: none;
-  color: #111;
-  font-size: 1.5rem;
-  cursor: pointer;
-  opacity: 0.6;
-  transition: opacity 0.2s;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-.profile-editor-header .close-btn:hover {
-  opacity: 1;
-}
 
 /* Tabs Bar */
 .cohort-tabs-container {
@@ -335,27 +268,27 @@
 
 /* Smart Cohort Visibility Rules */
 /* Cohort 1 & 2: Hide navigation tabs and navigation mode selector */
-.profile-editor-sheet[data-active-cohort="1"] .cohort-tabs-container,
-.profile-editor-sheet[data-active-cohort="1"] .nav-mode-selector-container,
-.profile-editor-sheet[data-active-cohort="2"] .cohort-tabs-container,
-.profile-editor-sheet[data-active-cohort="2"] .nav-mode-selector-container {
+[data-scope="profile"][data-active-cohort="1"] .cohort-tabs-container,
+[data-scope="profile"][data-active-cohort="1"] .nav-mode-selector-container,
+[data-scope="profile"][data-active-cohort="2"] .cohort-tabs-container,
+[data-scope="profile"][data-active-cohort="2"] .nav-mode-selector-container {
   display: none !important;
 }
 
 /* Hide all panes by default */
-.profile-editor-sheet .cohort-pane {
+[data-scope="profile"] .cohort-pane {
   display: none;
 }
 
 /* Show Cohort 1 pane when active */
-.profile-editor-sheet[data-active-cohort="1"] #pane-1 {
+[data-scope="profile"][data-active-cohort="1"] #pane-1 {
   display: flex;
   flex-direction: column;
   gap: 20px;
 }
 
 /* Show Cohort 2 pane when active */
-.profile-editor-sheet[data-active-cohort="2"] #pane-2 {
+[data-scope="profile"][data-active-cohort="2"] #pane-2 {
   display: flex;
   flex-direction: column;
   gap: 20px;
@@ -363,20 +296,51 @@
 
 /* Cohort 3 & 5 (Navigation): Visibility controlled by nav-mode */
 /* In Tab Mode: only show the active pane (with class .active) */
-.profile-editor-sheet.mode-tabs .cohort-pane.active {
+[data-scope="profile"].mode-tabs .cohort-pane.active {
   display: flex;
   flex-direction: column;
   gap: 20px;
 }
 
 /* In Scroll Mode: show both Contacto (pane-3) and Redes (pane-5) panes vertically */
-.profile-editor-sheet.mode-scroll .cohort-pane#pane-3,
-.profile-editor-sheet.mode-scroll .cohort-pane#pane-5 {
+[data-scope="profile"].mode-scroll .cohort-pane#pane-3,
+[data-scope="profile"].mode-scroll .cohort-pane#pane-5 {
   display: flex !important;
   flex-direction: column;
   gap: 20px;
   margin-bottom: 24px;
 }
-.profile-editor-sheet.mode-scroll .cohort-tabs-container {
+[data-scope="profile"].mode-scroll .cohort-tabs-container {
   display: none !important;
+}
+
+/* ── DataFlowBinder: Input sync feedback states ──────────────────────────── */
+
+/* Syncing: subtle pulsing ring while the API request is in flight */
+.editor-input.is-syncing,
+.editor-textarea.is-syncing {
+  outline: 2px solid rgba(99, 102, 241, 0.5);
+  outline-offset: 1px;
+  animation: input-pulse 0.8s ease-in-out infinite alternate;
+}
+
+@keyframes input-pulse {
+  from { outline-color: rgba(99, 102, 241, 0.3); }
+  to   { outline-color: rgba(99, 102, 241, 0.7); }
+}
+
+/* Synced: green confirmation flash */
+.editor-input.is-synced,
+.editor-textarea.is-synced {
+  outline: 2px solid rgba(34, 197, 94, 0.7);
+  outline-offset: 1px;
+  transition: outline-color 0.3s ease;
+}
+
+/* Error: red highlight for failed requests */
+.editor-input.is-error,
+.editor-textarea.is-error {
+  outline: 2px solid rgba(239, 68, 68, 0.7);
+  outline-offset: 1px;
+  transition: outline-color 0.3s ease;
 }
