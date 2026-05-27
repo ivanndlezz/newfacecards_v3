@@ -388,3 +388,101 @@ island-menu:hover {
   transform: translatey(130px);
   transform-origin: center;
 }
+
+/**/
+
+/*  content: "\eb55"; */
+#island {
+  transition: all 0.3s ease;
+}
+
+#island:has(.island-item[data-status="active"]) {
+  border-radius: 100px;
+  animation: circled 0.25s ease forwards;
+  padding: 0%;
+  overflow: hidden;
+  background: #c3e4dc;
+  border: solid 1px #06896c;
+}
+
+#island:has(.island-item[data-status="active"])
+  .island-item:not([data-status="active"]) {
+  transform: scale(0);
+  animation: position-absolute 0.1s ease forwards;
+  animation-delay: 0.1s;
+}
+
+.island-item__label {
+  transition: all 0.3s ease;
+}
+
+#island:has(.island-item[data-status="active"]) .island-item__label {
+  font-size: 0vw;
+  animation: position-absolute 0.1s ease forwards;
+}
+
+@keyframes position-absolute {
+  0% {
+    position: initial;
+  }
+  100% {
+    position: absolute;
+  }
+}
+
+@keyframes circled {
+  100% {
+    --wh: 61px;
+    max-width: var(--wh);
+    min-height: var(--wh);
+  }
+}
+
+@keyframes circled {
+  100% {
+    --wh: 61px;
+    max-width: var(--wh);
+    min-height: var(--wh);
+  }
+}
+
+@keyframes font-0vw {
+  100% {
+    font-size: 0vw;
+    transform: translateX(-10px);
+  }
+}
+
+@keyframes font-29px {
+  0% {
+    font-size: 0px;
+  }
+  100% {
+    font-size: 29px;
+  }
+}
+
+.island-item i {
+  transition: all 0.3s ease;
+}
+
+#island:has(.island-item[data-status="active"]) [data-status="active"] i:after {
+  content: "\ea5e";
+  color: #06896c;
+  animation: font-29px 0.1s ease forwards;
+}
+
+#island:has(.island-item[data-status="active"])
+  [data-status="active"]
+  i:before {
+  animation: font-0vw 0.1s ease forwards;
+}
+
+#island:has(.island-item[data-status="active"])
+  [data-action]:not([data-status="disabled"]):hover {
+  transform: translateY(0px);
+}
+
+main * {
+  transition: all 0.3s ease;
+}

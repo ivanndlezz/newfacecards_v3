@@ -1,0 +1,1965 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, viewport-fit=cover"
+    />
+    <title>Bio-Site Link Builder - Pro Accordion Edition</title>
+    <!-- Google Fonts -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,600;1,600&family=JetBrains+Mono:wght@500;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <style>
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+        -webkit-tap-highlight-color: transparent;
+      }
+
+      /* Premium Light Mode Grayscale & Zinc Palette */
+      :root {
+        --bg: #f4f4f5; /* Zinc 100 */
+        --sheet: #ffffff; /* Pure White */
+        --sheet2: #f4f4f5; /* Zinc 100 for interactive elements */
+        --sheet3: #e4e4e7; /* Zinc 200 */
+        --border: #e4e4e7; /* Zinc 200 border */
+        --text: #09090b; /* Zinc 950 */
+        --text2: #71717a; /* Zinc 500 */
+        --text3: #a1a1aa; /* Zinc 400 */
+        --accent: #18181b; /* Zinc 900 */
+        --accent-hover: #27272a;
+        --radius: 16px;
+        --radius-sm: 10px;
+        --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.04);
+        --shadow-md: 0 10px 30px -10px rgba(9, 9, 11, 0.08);
+      }
+
+      html,
+      body {
+        height: 100%;
+        background: var(--bg);
+        font-family:
+          "Inter",
+          -apple-system,
+          sans-serif;
+        color: var(--text);
+        overflow: hidden;
+      }
+
+      /* Standard SVG Icon */
+      .svg-icon {
+        width: 20px;
+        height: 20px;
+        stroke: currentColor;
+        fill: none;
+        stroke-width: 2;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+        display: inline-block;
+        vertical-align: middle;
+      }
+
+      /* ── Main App Shell ── */
+      #app {
+        max-width: 430px;
+        margin: 0 auto;
+        height: 100dvh;
+        display: flex;
+        flex-direction: column;
+        position: relative;
+        background: #fafafa;
+        border-left: 1px solid var(--border);
+        border-right: 1px solid var(--border);
+        overflow: hidden;
+      }
+
+      /* ── Main View Header ── */
+      .main-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 24px 20px 14px;
+        flex-shrink: 0;
+        background: #fafafa;
+      }
+      .main-title {
+        font-size: 24px;
+        font-weight: 700;
+        letter-spacing: -0.6px;
+        color: var(--text);
+      }
+      .btn-header-add {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        background: var(--text);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        border: none;
+        transition:
+          transform 0.1s,
+          background-color 0.15s;
+        color: #fff;
+      }
+      .btn-header-add:active {
+        transform: scale(0.95);
+        background: var(--text2);
+      }
+
+      /* ── List Container ── */
+      .buttons-list-container {
+        flex: 1;
+        overflow-y: auto;
+        padding: 10px 20px 120px;
+        -webkit-overflow-scrolling: touch;
+      }
+
+      /* Empty State */
+      .empty-state {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        height: 70%;
+        text-align: center;
+        gap: 20px;
+      }
+      .empty-icon-box {
+        width: 64px;
+        height: 64px;
+        border-radius: 20px;
+        background: var(--sheet);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border: 1px solid var(--border);
+        color: var(--text3);
+        box-shadow: var(--shadow-sm);
+      }
+      .empty-text {
+        font-size: 15px;
+        color: var(--text2);
+        font-weight: 500;
+      }
+      .cta-add {
+        background: var(--text);
+        color: #fff;
+        padding: 14px 28px;
+        border-radius: 24px;
+        font-size: 15px;
+        font-weight: 600;
+        border: none;
+        cursor: pointer;
+        transition: transform 0.1s;
+        box-shadow: var(--shadow-sm);
+      }
+      .cta-add:active {
+        transform: scale(0.96);
+      }
+
+      /* List Items Styling */
+      .buttons-list-container ul {
+        list-style: none;
+        display: flex;
+        flex-direction: column;
+        gap: 14px;
+      }
+      .buttons-list-container li {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        background: var(--sheet);
+        padding: 8px;
+        border-radius: 18px;
+        border: 1px solid var(--border);
+        box-shadow: var(--shadow-sm);
+      }
+      .buttons-list-container a {
+        text-decoration: none;
+        flex: 1;
+        min-width: 0;
+        display: block;
+      }
+
+      .list-del-btn {
+        width: 36px;
+        height: 36px;
+        border-radius: 50%;
+        background: #fef2f2;
+        border: none;
+        color: #ef4444;
+        display: none;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        flex-shrink: 0;
+        transition: background 0.15s;
+        margin-right: 4px;
+      }
+      .buttons-list-container[data-status="edit"] .list-del-btn {
+        display: flex;
+      }
+      .list-del-btn:active {
+        background: #fee2e2;
+      }
+
+      /* ── Bottom Sheet (Now Scrollable with Accordions) ── */
+      .sheet-overlay {
+        position: absolute;
+        inset: 0;
+        background: rgba(9, 9, 11, 0.3);
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.3s ease;
+        z-index: 100;
+        backdrop-filter: blur(2px);
+      }
+      .sheet-overlay.open {
+        opacity: 1;
+        pointer-events: auto;
+      }
+
+      .bottom-sheet {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        height: 94vh;
+        background: #ffffff;
+        border-top-left-radius: 24px;
+        border-top-right-radius: 24px;
+        transform: translateY(100%);
+        transition: transform 0.38s cubic-bezier(0.32, 0.94, 0.6, 1);
+        z-index: 101;
+        display: flex;
+        flex-direction: column;
+        box-shadow: 0 -10px 40px rgba(0, 0, 0, 0.06);
+      }
+      .bottom-sheet.open {
+        transform: translateY(0);
+      }
+
+      .sheet-handle-wrap {
+        display: flex;
+        justify-content: center;
+        padding: 14px 0 6px;
+        flex-shrink: 0;
+      }
+      .sheet-handle {
+        width: 40px;
+        height: 5px;
+        background: var(--sheet3);
+        border-radius: 3px;
+      }
+
+      .creator-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 10px 24px;
+        flex-shrink: 0;
+      }
+      .creator-title {
+        font-size: 18px;
+        font-weight: 700;
+        letter-spacing: -0.3px;
+      }
+      .btn-close-sheet {
+        background: var(--sheet2);
+        border: none;
+        color: var(--text2);
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      /* Sticky Preview Area in Creator */
+      .sticky-preview {
+        background: #fafafa;
+        padding: 14px 24px;
+        border-bottom: 1px solid var(--border);
+        flex-shrink: 0;
+      }
+      .preview-area {
+        background: #ffffff;
+        border-radius: var(--radius);
+        min-height: 100px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+        overflow: hidden;
+        padding: 16px;
+        border: 1px solid var(--border);
+        box-shadow: var(--shadow-sm);
+      }
+      .preview-label {
+        position: absolute;
+        top: 8px;
+        left: 12px;
+        font-size: 9px;
+        font-weight: 700;
+        color: var(--text3);
+        letter-spacing: 0.8px;
+        text-transform: uppercase;
+      }
+      .preview-content {
+        display: flex;
+        justify-content: center;
+        width: 100%;
+        margin-top: 8px;
+      }
+
+      /* Creator Content scroll area containing Accordions */
+      .creator-scroll-content {
+        flex: 1;
+        overflow-y: auto;
+        padding: 16px 24px 140px;
+        -webkit-overflow-scrolling: touch;
+      }
+
+      /* ── ACCORDION STYLING ── */
+      .accordion {
+        background: #ffffff;
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        margin-bottom: 12px;
+        overflow: hidden;
+        transition: box-shadow 0.2s;
+      }
+      .accordion.open {
+        box-shadow: var(--shadow-sm);
+        border-color: var(--text2);
+      }
+      .accordion-header {
+        padding: 16px;
+        background: #ffffff;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        cursor: pointer;
+        user-select: none;
+      }
+      .accordion-title-wrap {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+      .accordion-icon {
+        color: var(--text2);
+        display: flex;
+        align-items: center;
+      }
+      .accordion-title {
+        font-size: 14px;
+        font-weight: 600;
+        color: var(--text);
+      }
+      .accordion-arrow {
+        transition: transform 0.25s;
+        color: var(--text3);
+      }
+      .accordion.open .accordion-arrow {
+        transform: rotate(180deg);
+        color: var(--text);
+      }
+      .accordion-content {
+        max-height: 0;
+        overflow: hidden;
+        transition:
+          max-height 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+          padding 0.3s;
+        background: #fafafa;
+        border-top: 0 solid var(--border);
+      }
+      .accordion.open .accordion-content {
+        max-height: 1200px; /* high value to allow expansion */
+        padding: 20px 16px;
+        border-top-width: 1px;
+      }
+
+      /* ── GLIDERS / SEGMENTED CONTROLS ── */
+      .glider-container {
+        display: flex;
+        background: var(--sheet2);
+        padding: 4px;
+        border-radius: 10px;
+        border: 1px solid var(--border);
+        margin-bottom: 16px;
+        gap: 2px;
+      }
+      .glider-option {
+        flex: 1;
+        text-align: center;
+        padding: 8px 4px;
+        font-size: 12px;
+        font-weight: 600;
+        color: var(--text2);
+        cursor: pointer;
+        border-radius: 8px;
+        transition: all 0.15s ease;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 34px;
+      }
+      .glider-option.active {
+        background: #ffffff;
+        color: var(--text);
+        box-shadow: var(--shadow-sm);
+      }
+      .glider-option .svg-icon {
+        width: 18px;
+        height: 18px;
+      }
+
+      /* Control Rows & Ranges */
+      .control-row {
+        margin-bottom: 16px;
+      }
+      .control-row:last-child {
+        margin-bottom: 0;
+      }
+      .control-label-wrap {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 6px;
+      }
+      .control-label {
+        font-size: 12px;
+        font-weight: 600;
+        color: var(--text);
+      }
+      .control-value {
+        font-size: 11px;
+        font-weight: 700;
+        color: var(--text2);
+      }
+      .range-input {
+        width: 100%;
+        -webkit-appearance: none;
+        height: 6px;
+        border-radius: 3px;
+        background: var(--sheet3);
+        outline: none;
+      }
+      .range-input::-webkit-slider-thumb {
+        -webkit-appearance: none;
+        width: 18px;
+        height: 18px;
+        border-radius: 50%;
+        background: var(--text);
+        cursor: pointer;
+        box-shadow: var(--shadow-sm);
+      }
+
+      /* Inputs & Select Elements */
+      .input-wrapper {
+        position: relative;
+        margin-bottom: 12px;
+      }
+      .input-wrapper input,
+      .input-wrapper select {
+        width: 100%;
+        background: #ffffff;
+        border: 1px solid var(--border);
+        border-radius: 10px;
+        padding: 12px 14px;
+        font-size: 14px;
+        font-family: inherit;
+        color: var(--text);
+        outline: none;
+      }
+      .input-wrapper select {
+        appearance: none;
+        cursor: pointer;
+      }
+      .input-wrapper input::placeholder {
+        color: var(--text3);
+      }
+
+      /* Grids */
+      .icon-grid {
+        display: grid;
+        grid-template-columns: repeat(5, 1fr);
+        gap: 8px;
+        margin-bottom: 16px;
+      }
+      .icon-opt {
+        aspect-ratio: 1;
+        background: #ffffff;
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: var(--text2);
+        cursor: pointer;
+        border: 1px solid var(--border);
+        transition: all 0.15s;
+      }
+      .icon-opt.sel {
+        border-color: var(--text);
+        background: var(--sheet2);
+        color: var(--text);
+      }
+      .icon-opt .svg-icon {
+        width: 18px;
+        height: 18px;
+      }
+
+      /* Custom Color & Border Groupings */
+      .color-presets {
+        display: flex;
+        gap: 8px;
+        flex-wrap: wrap;
+        margin-bottom: 12px;
+      }
+      .color-swatch {
+        width: 28px;
+        height: 28px;
+        border-radius: 50%;
+        cursor: pointer;
+        border: 2px solid transparent;
+        box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.1);
+      }
+      .color-swatch.active {
+        border-color: var(--text);
+      }
+      .custom-color-picker-wrap {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        background: #ffffff;
+        border: 1px solid var(--border);
+        border-radius: 10px;
+        padding: 10px 14px;
+      }
+      .color-picker-label {
+        font-size: 12px;
+        font-weight: 600;
+        color: var(--text2);
+      }
+      .picker-input {
+        border: none;
+        background: none;
+        width: 30px;
+        height: 30px;
+        cursor: pointer;
+      }
+
+      /* Border Sides grid */
+      .border-sides-grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 8px;
+        margin-bottom: 12px;
+      }
+      .side-input-card {
+        background: #ffffff;
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        padding: 8px;
+        text-align: center;
+      }
+      .side-label {
+        font-size: 10px;
+        font-weight: 700;
+        color: var(--text3);
+        text-transform: uppercase;
+        display: block;
+        margin-bottom: 4px;
+      }
+      .side-num-input {
+        width: 100%;
+        border: none;
+        background: none;
+        font-size: 14px;
+        font-weight: 700;
+        text-align: center;
+        outline: none;
+      }
+
+      /* Save button at bottom of Sheet */
+      .sheet-bottom-bar {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        padding: 16px 24px calc(16px + env(safe-area-inset-bottom));
+        background: #ffffff;
+        border-top: 1px solid var(--border);
+        z-index: 102;
+      }
+      .btn-save-enlace {
+        width: 100%;
+        height: 52px;
+        border: none;
+        border-radius: 14px;
+        background: var(--text);
+        color: #ffffff;
+        font-size: 16px;
+        font-weight: 600;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        transition: background 0.2s;
+      }
+      .btn-save-enlace:active {
+        background: var(--accent-hover);
+      }
+
+      /* =============================================================================
+       ESTILOS DEL COMPONENTE UNIVERSAL MUTABLE (FLEXIBLE & GOBERNADO DESDE ACCORDION)
+       ============================================================================= */
+
+      .bio-btn {
+        display: flex;
+        align-items: center;
+        width: 100%;
+        min-height: 58px;
+        padding: 12px 18px;
+        background: var(--btn-bg, #ffffff);
+        border-radius: var(--btn-radius, 14px);
+
+        /* Fronteras independientes */
+        border-top: var(--btn-border-top, 0) solid
+          var(--btn-border-color, var(--border));
+        border-bottom: var(--btn-border-bottom, 0) solid
+          var(--btn-border-color, var(--border));
+        border-left: var(--btn-border-left, 0) solid
+          var(--btn-border-color, var(--border));
+        border-right: var(--btn-border-right, 0) solid
+          var(--btn-border-color, var(--border));
+
+        color: var(--btn-text-color, var(--text));
+        transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+        text-decoration: none;
+        position: relative;
+      }
+
+      .bio-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 16px rgba(0, 0, 0, 0.04);
+      }
+
+      .bio-btn__media {
+        display: none; /* Controlled by alignments */
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+      }
+
+      .bio-btn__content {
+        display: flex;
+        flex-direction: column;
+        flex: 1;
+        width: 100%;
+        justify-content: center;
+        text-align: var(--btn-text-align, left);
+        align-items: var(--btn-align-items, flex-start);
+      }
+
+      .bio-btn__title {
+        font-size: 14px;
+        font-weight: 600;
+        line-height: 1.2;
+      }
+
+      .bio-btn__desc {
+        display: none;
+        font-size: 11px;
+        margin-top: 3px;
+      }
+
+      /* State modifier */
+      .bio-btn--has-desc .bio-btn__desc {
+        display: block;
+      }
+
+      /* ── CONFIGURACIONES DE POSICIÓN & MEDIA (data-variant) ── */
+
+      /* Left */
+      .bio-btn[data-variant="left"] {
+        flex-direction: row;
+      }
+      .bio-btn[data-variant="left"] .bio-btn__media {
+        display: flex;
+        margin-right: var(--btn-media-margin, 14px);
+        padding: var(--btn-media-padding, 0);
+      }
+
+      /* Right */
+      .bio-btn[data-variant="right"] {
+        flex-direction: row-reverse;
+      }
+      .bio-btn[data-variant="right"] .bio-btn__media {
+        display: flex;
+        margin-left: var(--btn-media-margin, 14px);
+        padding: var(--btn-media-padding, 0);
+      }
+
+      /* Top [Squared / Stacked] */
+      .bio-btn[data-variant="top"] {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        padding: 16px;
+      }
+      .bio-btn[data-variant="top"] .bio-btn__media {
+        display: flex;
+        margin-bottom: var(--btn-media-margin, 10px);
+        padding: var(--btn-media-padding, 0);
+      }
+
+      /* Imagen */
+      .bio-btn[data-variant="image"] .bio-btn__media {
+        display: flex;
+        background: linear-gradient(
+          135deg,
+          var(--btn-color, var(--text)),
+          #cbd5e1
+        );
+        color: #ffffff;
+        margin-right: var(--btn-media-margin, 14px);
+        padding: var(--btn-media-padding, 4px);
+      }
+
+      /* Shapes for Image / Avatar */
+      .bio-btn[data-shape="circled"] .bio-btn__media {
+        border-radius: 50%;
+      }
+      .bio-btn[data-shape="squircle"] .bio-btn__media {
+        border-radius: 10px;
+      }
+      .bio-btn[data-shape="square"] .bio-btn__media {
+        border-radius: 0;
+      }
+
+      /* Sin Icono */
+      .bio-btn[data-variant="none"] .bio-btn__media {
+        display: none !important;
+      }
+      .bio-btn[data-variant="none"] .bio-btn__content {
+        /* Se adapta usando variables CSS para text-align */
+      }
+    </style>
+  </head>
+  <body>
+    <div id="app">
+      <!-- ── MAIN VIEW: List of Bio-Buttons ── -->
+      <div class="main-header">
+        <h1 class="main-title">Bio Links</h1>
+        <button
+          class="btn-header-add"
+          data-action="list:edit"
+          data-module="bio_buttons"
+          aria-label="Editar botones"
+        >
+          <span>Editar</span>
+        </button>
+        <button
+          class="btn-header-add"
+          data-action="sheet:open"
+          data-module="bio_buttons"
+          aria-label="Nuevo botón"
+        >
+          <svg class="svg-icon" viewBox="0 0 24 24">
+            <path d="M5 12h14" />
+            <path d="M12 5v14" />
+          </svg>
+        </button>
+      </div>
+
+      <div
+        class="buttons-list-container"
+        id="mainListContainer"
+        data-status="normal"
+      >
+        <!-- Rendered dynamically by Javascript -->
+      </div>
+
+      <!-- ── BOTTOM SHEET OVERLAY ── -->
+      <div class="sheet-overlay" id="sheetOverlay" onclick="closeSheet()"></div>
+
+      <!-- ── BOTTOM SHEET CONTENT (Bio Button Accordion Creator) ── -->
+      <div class="bottom-sheet" id="bottomSheet">
+        <div class="sheet-handle-wrap"><div class="sheet-handle"></div></div>
+
+        <div class="creator-header">
+          <span class="creator-title">Diseñar Link</span>
+          <button class="btn-close-sheet" onclick="closeSheet()">
+            <svg class="svg-icon" viewBox="0 0 24 24">
+              <path d="M18 6 6 18" />
+              <path d="m6 6 12 12" />
+            </svg>
+          </button>
+        </div>
+
+        <!-- Sticky Live Preview Area -->
+        <div class="sticky-preview">
+          <div class="preview-area" id="previewArea">
+            <div class="preview-label">Live Preview</div>
+            <div
+              class="preview-content"
+              id="previewContent"
+              style="width: 100%; max-width: 280px"
+            ></div>
+          </div>
+        </div>
+
+        <!-- Scrollable Accordion Wrapper -->
+        <div class="creator-scroll-content">
+          <!-- ── ACCORDION 1: Icono y Posición ── -->
+          <div class="accordion open" id="acc-0">
+            <div class="accordion-header" onclick="toggleAccordion(0)">
+              <div class="accordion-title-wrap">
+                <span class="accordion-icon"
+                  ><svg class="svg-icon" viewBox="0 0 24 24">
+                    <rect width="18" height="18" x="3" y="3" rx="2" ry="2" />
+                    <circle cx="9" cy="9" r="2" />
+                    <path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21" /></svg
+                ></span>
+                <span class="accordion-title">Medios (Icono e Imagen)</span>
+              </div>
+              <span class="accordion-arrow"
+                ><svg class="svg-icon" viewBox="0 0 24 24">
+                  <path d="m6 9 6 6 6-6" /></svg
+              ></span>
+            </div>
+            <div class="accordion-content">
+              <div class="control-row">
+                <span class="control-label">Alineación del medio</span>
+                <div class="glider-container" id="posGlider">
+                  <!-- Reemplazados los textos por iconos SVG -->
+                  <div
+                    class="glider-option active"
+                    data-val="left"
+                    onclick="setPosOption('left')"
+                    title="Izquierda"
+                  >
+                    <svg class="svg-icon" viewBox="0 0 24 24">
+                      <rect width="18" height="18" x="3" y="3" rx="2" ry="2" />
+                      <path d="M9 3v18" />
+                    </svg>
+                  </div>
+                  <div
+                    class="glider-option"
+                    data-val="right"
+                    onclick="setPosOption('right')"
+                    title="Derecha"
+                  >
+                    <svg class="svg-icon" viewBox="0 0 24 24">
+                      <rect width="18" height="18" x="3" y="3" rx="2" ry="2" />
+                      <path d="M15 3v18" />
+                    </svg>
+                  </div>
+                  <div
+                    class="glider-option"
+                    data-val="top"
+                    onclick="setPosOption('top')"
+                    title="Arriba"
+                  >
+                    <svg class="svg-icon" viewBox="0 0 24 24">
+                      <rect width="18" height="18" x="3" y="3" rx="2" ry="2" />
+                      <path d="M3 9h18" />
+                    </svg>
+                  </div>
+                  <div
+                    class="glider-option"
+                    data-val="image"
+                    onclick="setPosOption('image')"
+                    title="Imagen"
+                  >
+                    <svg class="svg-icon" viewBox="0 0 24 24">
+                      <rect width="18" height="18" x="3" y="3" rx="2" ry="2" />
+                      <circle cx="8.5" cy="8.5" r="1.5" />
+                      <polyline points="21 15 16 10 5 21" />
+                    </svg>
+                  </div>
+                  <div
+                    class="glider-option"
+                    data-val="none"
+                    onclick="setPosOption('none')"
+                    title="Sin Medio"
+                  >
+                    <svg class="svg-icon" viewBox="0 0 24 24">
+                      <circle cx="12" cy="12" r="10" />
+                      <path d="m4.9 4.9 14.2 14.2" />
+                    </svg>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Shape panel (Visible only if aligned to image) -->
+              <div class="control-row" id="imageShapeRow" style="display: none">
+                <span class="control-label">Forma de la imagen</span>
+                <div class="glider-container" id="shapeGlider">
+                  <div
+                    class="glider-option active"
+                    data-val="circled"
+                    onclick="setShapeOption('circled')"
+                  >
+                    Círculo
+                  </div>
+                  <div
+                    class="glider-option"
+                    data-val="squircle"
+                    onclick="setShapeOption('squircle')"
+                  >
+                    Squircle
+                  </div>
+                  <div
+                    class="glider-option"
+                    data-val="square"
+                    onclick="setShapeOption('square')"
+                  >
+                    Cuadrado
+                  </div>
+                </div>
+              </div>
+
+              <!-- Range Spacers -->
+              <div class="control-row">
+                <div class="control-label-wrap">
+                  <span class="control-label">Margen del Icono/Imagen</span>
+                  <span class="control-value" id="valMargin">14px</span>
+                </div>
+                <input
+                  type="range"
+                  class="range-input"
+                  id="rngMargin"
+                  min="4"
+                  max="32"
+                  value="14"
+                  oninput="updateRange('Margin', 'px')"
+                />
+              </div>
+
+              <div class="control-row">
+                <div class="control-label-wrap">
+                  <span class="control-label">Padding Interno del Medio</span>
+                  <span class="control-value" id="valPadding">0px</span>
+                </div>
+                <input
+                  type="range"
+                  class="range-input"
+                  id="rngPadding"
+                  min="0"
+                  max="16"
+                  value="0"
+                  oninput="updateRange('Padding', 'px')"
+                />
+              </div>
+
+              <!-- Icon Selector grid (Omitted if none selected) -->
+              <div class="control-row" id="iconGridSection">
+                <span
+                  class="control-label"
+                  style="display: block; margin-bottom: 8px"
+                  >Selecciona un Icono</span
+                >
+                <div class="icon-grid" id="iconGrid"></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- ── ACCORDION 2: Textos y Enlace ── -->
+          <div class="accordion" id="acc-1">
+            <div class="accordion-header" onclick="toggleAccordion(1)">
+              <div class="accordion-title-wrap">
+                <span class="accordion-icon"
+                  ><svg class="svg-icon" viewBox="0 0 24 24">
+                    <path d="M17 6.1H3" />
+                    <path d="M21 12.1H3" />
+                    <path d="M15.1 18H3" /></svg
+                ></span>
+                <span class="accordion-title">Estructura del Link</span>
+              </div>
+              <span class="accordion-arrow"
+                ><svg class="svg-icon" viewBox="0 0 24 24">
+                  <path d="m6 9 6 6 6-6" /></svg
+              ></span>
+            </div>
+            <div class="accordion-content">
+              <div class="control-row">
+                <span
+                  class="control-label"
+                  style="display: block; margin-bottom: 6px"
+                  >Título</span
+                >
+                <div class="input-wrapper">
+                  <input
+                    type="text"
+                    id="inLabel"
+                    placeholder="Ej: Sígueme en Instagram"
+                    value="Mi Enlace Bio"
+                    oninput="renderPreview()"
+                  />
+                </div>
+              </div>
+              <div class="control-row">
+                <span
+                  class="control-label"
+                  style="display: block; margin-bottom: 6px"
+                  >Subtítulo (opcional)</span
+                >
+                <div class="input-wrapper">
+                  <input
+                    type="text"
+                    id="inDesc"
+                    placeholder="Ej: Únete a mis historias diarias"
+                    value=""
+                    oninput="renderPreview()"
+                  />
+                </div>
+              </div>
+
+              <!-- NUEVO: Controlador de Alineación de Texto (Iconos) -->
+              <div class="control-row">
+                <span
+                  class="control-label"
+                  style="display: block; margin-bottom: 6px"
+                  >Alineación de Texto</span
+                >
+                <div class="glider-container" id="textAlignGlider">
+                  <div
+                    class="glider-option active"
+                    data-val="left"
+                    onclick="setTextAlignOption('left')"
+                    title="Izquierda"
+                  >
+                    <svg class="svg-icon" viewBox="0 0 24 24">
+                      <line x1="21" x2="3" y1="6" y2="6" />
+                      <line x1="15" x2="3" y1="12" y2="12" />
+                      <line x1="17" x2="3" y1="18" y2="18" />
+                    </svg>
+                  </div>
+                  <div
+                    class="glider-option"
+                    data-val="center"
+                    onclick="setTextAlignOption('center')"
+                    title="Centro"
+                  >
+                    <svg class="svg-icon" viewBox="0 0 24 24">
+                      <line x1="21" x2="3" y1="6" y2="6" />
+                      <line x1="19" x2="5" y1="12" y2="12" />
+                      <line x1="17" x2="7" y1="18" y2="18" />
+                    </svg>
+                  </div>
+                  <div
+                    class="glider-option"
+                    data-val="right"
+                    onclick="setTextAlignOption('right')"
+                    title="Derecha"
+                  >
+                    <svg class="svg-icon" viewBox="0 0 24 24">
+                      <line x1="21" x2="3" y1="6" y2="6" />
+                      <line x1="21" x2="9" y1="12" y2="12" />
+                      <line x1="21" x2="7" y1="18" y2="18" />
+                    </svg>
+                  </div>
+                </div>
+              </div>
+              <!-- /NUEVO -->
+
+              <div class="control-row">
+                <span
+                  class="control-label"
+                  style="display: block; margin-bottom: 6px"
+                  >Tipo de Enlace</span
+                >
+                <div class="glider-container" id="linkTypeGlider">
+                  <div
+                    class="glider-option active"
+                    data-val="url"
+                    onclick="setLinkType('url')"
+                  >
+                    URL
+                  </div>
+                  <div
+                    class="glider-option"
+                    data-val="tel"
+                    onclick="setLinkType('tel')"
+                  >
+                    Tel
+                  </div>
+                  <div
+                    class="glider-option"
+                    data-val="mail"
+                    onclick="setLinkType('mail')"
+                  >
+                    Mail
+                  </div>
+                  <div
+                    class="glider-option"
+                    data-val="vcf"
+                    onclick="setLinkType('vcf')"
+                  >
+                    VCard
+                  </div>
+                </div>
+                <div class="input-wrapper">
+                  <input
+                    type="text"
+                    id="inUrl"
+                    placeholder="https://"
+                    oninput="renderPreview()"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- ── ACCORDION 3: Tipografía y Colores ── -->
+          <div class="accordion" id="acc-2">
+            <div class="accordion-header" onclick="toggleAccordion(2)">
+              <div class="accordion-title-wrap">
+                <span class="accordion-icon"
+                  ><svg class="svg-icon" viewBox="0 0 24 24">
+                    <path
+                      d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275Z"
+                    /></svg
+                ></span>
+                <span class="accordion-title">Tipografía y Colores</span>
+              </div>
+              <span class="accordion-arrow"
+                ><svg class="svg-icon" viewBox="0 0 24 24">
+                  <path d="m6 9 6 6 6-6" /></svg
+              ></span>
+            </div>
+            <div class="accordion-content">
+              <!-- Title Font & Color -->
+              <div
+                class="control-row"
+                style="
+                  border-bottom: 1px dashed var(--border);
+                  padding-bottom: 14px;
+                "
+              >
+                <span
+                  class="control-label"
+                  style="display: block; margin-bottom: 6px"
+                  >Fuente y Color del Título</span
+                >
+                <div class="input-wrapper">
+                  <select id="selTitleFont" onchange="renderPreview()">
+                    <option value="'Inter', sans-serif">
+                      Sans-Serif (Inter)
+                    </option>
+                    <option value="'Playfair Display', serif">
+                      Serif (Playfair)
+                    </option>
+                    <option value="'JetBrains Mono', monospace">
+                      Monospace (JetBrains)
+                    </option>
+                  </select>
+                </div>
+                <div class="custom-color-picker-wrap">
+                  <span class="color-picker-label">Color del título</span>
+                  <input
+                    type="color"
+                    id="pickTitleColor"
+                    class="picker-input"
+                    value="#09090b"
+                    oninput="renderPreview()"
+                  />
+                </div>
+              </div>
+
+              <!-- Subtitle Font & Color -->
+              <div class="control-row" style="margin-top: 14px">
+                <span
+                  class="control-label"
+                  style="display: block; margin-bottom: 6px"
+                  >Fuente y Color del Subtítulo</span
+                >
+                <div class="input-wrapper">
+                  <select id="selSubFont" onchange="renderPreview()">
+                    <option value="'Inter', sans-serif">
+                      Sans-Serif (Inter)
+                    </option>
+                    <option value="'Playfair Display', serif">
+                      Serif (Playfair)
+                    </option>
+                    <option value="'JetBrains Mono', monospace">
+                      Monospace (JetBrains)
+                    </option>
+                  </select>
+                </div>
+                <div class="custom-color-picker-wrap">
+                  <span class="color-picker-label">Color del subtítulo</span>
+                  <input
+                    type="color"
+                    id="pickSubColor"
+                    class="picker-input"
+                    value="#71717a"
+                    oninput="renderPreview()"
+                  />
+                </div>
+              </div>
+
+              <!-- Element primary custom color -->
+              <div
+                class="control-row"
+                style="
+                  margin-top: 14px;
+                  border-top: 1px dashed var(--border);
+                  padding-top: 14px;
+                "
+              >
+                <span class="control-label"
+                  >Color Primario del Icono/Medio</span
+                >
+                <div class="color-presets" id="colorPresets">
+                  <!-- Rendered by JS -->
+                </div>
+                <div class="custom-color-picker-wrap">
+                  <span class="color-picker-label">Paleta personalizada</span>
+                  <input
+                    type="color"
+                    id="pickElementColor"
+                    class="picker-input"
+                    value="#18181b"
+                    oninput="setPrimaryCustomColor(this.value)"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- ── ACCORDION 4: Otros (Bordes y Fondos) ── -->
+          <div class="accordion" id="acc-3">
+            <div class="accordion-header" onclick="toggleAccordion(3)">
+              <div class="accordion-title-wrap">
+                <span class="accordion-icon"
+                  ><svg class="svg-icon" viewBox="0 0 24 24">
+                    <circle cx="12" cy="12" r="10" />
+                    <path
+                      d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"
+                    />
+                    <path d="M2 12h20" /></svg
+                ></span>
+                <span class="accordion-title">Fondo, Bordes y Estructura</span>
+              </div>
+              <span class="accordion-arrow"
+                ><svg class="svg-icon" viewBox="0 0 24 24">
+                  <path d="m6 9 6 6 6-6" /></svg
+              ></span>
+            </div>
+            <div class="accordion-content">
+              <!-- Background Type & Picker -->
+              <div class="control-row">
+                <span
+                  class="control-label"
+                  style="display: block; margin-bottom: 6px"
+                  >Fondo del Botón</span
+                >
+                <div class="glider-container" id="bgTypeGlider">
+                  <div
+                    class="glider-option active"
+                    data-val="solid"
+                    onclick="setBgType('solid')"
+                  >
+                    Sólido
+                  </div>
+                  <div
+                    class="glider-option"
+                    data-val="gradient"
+                    onclick="setBgType('gradient')"
+                  >
+                    Gradiente
+                  </div>
+                </div>
+                <div class="custom-color-picker-wrap" id="solidBgRow">
+                  <span class="color-picker-label">Color de Fondo</span>
+                  <input
+                    type="color"
+                    id="pickBgColor"
+                    class="picker-input"
+                    value="#ffffff"
+                    oninput="renderPreview()"
+                  />
+                </div>
+                <div
+                  class="custom-color-picker-wrap"
+                  id="gradientBgRow"
+                  style="display: none; flex-direction: column; gap: 8px"
+                >
+                  <div
+                    style="
+                      display: flex;
+                      gap: 10px;
+                      width: 100%;
+                      justify-content: space-between;
+                      align-items: center;
+                    "
+                  >
+                    <span class="color-picker-label">Color Inicial</span>
+                    <input
+                      type="color"
+                      id="pickGrad1"
+                      class="picker-input"
+                      value="#ffffff"
+                      oninput="renderPreview()"
+                    />
+                  </div>
+                  <div
+                    style="
+                      display: flex;
+                      gap: 10px;
+                      width: 100%;
+                      justify-content: space-between;
+                      align-items: center;
+                    "
+                  >
+                    <span class="color-picker-label">Color Final</span>
+                    <input
+                      type="color"
+                      id="pickGrad2"
+                      class="picker-input"
+                      value="#e4e4e7"
+                      oninput="renderPreview()"
+                    />
+                  </div>
+                </div>
+              </div>
+
+              <!-- Custom Borders Panel -->
+              <div class="control-row">
+                <span
+                  class="control-label"
+                  style="display: block; margin-bottom: 6px"
+                  >Espesores de Borde (px)</span
+                >
+                <div class="border-sides-grid">
+                  <div class="side-input-card">
+                    <span class="side-label">Top</span>
+                    <input
+                      type="number"
+                      id="borderTop"
+                      class="side-num-input"
+                      min="0"
+                      max="8"
+                      value="1"
+                      oninput="renderPreview()"
+                    />
+                  </div>
+                  <div class="side-input-card">
+                    <span class="side-label">Bottom</span>
+                    <input
+                      type="number"
+                      id="borderBottom"
+                      class="side-num-input"
+                      min="0"
+                      max="8"
+                      value="1"
+                      oninput="renderPreview()"
+                    />
+                  </div>
+                  <div class="side-input-card">
+                    <span class="side-label">Left</span>
+                    <input
+                      type="number"
+                      id="borderLeft"
+                      class="side-num-input"
+                      min="0"
+                      max="8"
+                      value="1"
+                      oninput="renderPreview()"
+                    />
+                  </div>
+                  <div class="side-input-card">
+                    <span class="side-label">Right</span>
+                    <input
+                      type="number"
+                      id="borderRight"
+                      class="side-num-input"
+                      min="0"
+                      max="8"
+                      value="1"
+                      oninput="renderPreview()"
+                    />
+                  </div>
+                </div>
+              </div>
+
+              <div class="control-row">
+                <div class="custom-color-picker-wrap">
+                  <span class="color-picker-label">Color de Bordes</span>
+                  <input
+                    type="color"
+                    id="pickBorderColor"
+                    class="picker-input"
+                    value="#e4e4e7"
+                    oninput="renderPreview()"
+                  />
+                </div>
+              </div>
+
+              <!-- Border Radius -->
+              <div class="control-row">
+                <div class="control-label-wrap">
+                  <span class="control-label"
+                    >Radio de Bordes (Corner Radius)</span
+                  >
+                  <span class="control-value" id="valRadius">14px</span>
+                </div>
+                <input
+                  type="range"
+                  class="range-input"
+                  id="rngRadius"
+                  min="0"
+                  max="30"
+                  value="14"
+                  oninput="updateRange('Radius', 'px')"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- /creator-scroll-content -->
+
+        <!-- Save Bio Link -->
+        <div class="sheet-bottom-bar">
+          <button class="btn-save-enlace" onclick="addButton()">
+            <svg class="svg-icon" viewBox="0 0 24 24">
+              <path d="M20 6 9 17l-5-5" />
+            </svg>
+            Confirmar y Guardar Link
+          </button>
+        </div>
+      </div>
+      <!-- /bottom-sheet -->
+    </div>
+    <!-- /app -->
+
+    <script>
+      const DOM = {
+        HTML: {
+          buttons_list_container: document.querySelector(
+            ".buttons-list-container",
+          ),
+        },
+        INPUTS: {
+          media: document.getElementById("selectMedia"),
+          mediaUrl: document.getElementById("mediaUrl"),
+          link: document.getElementById("link"),
+          linkText: document.getElementById("linkText"),
+          subtext: document.getElementById("subtext"),
+        },
+      };
+
+      // ── INLINE SVG ICONS DICTIONARY (ZERO DEPENDENCIES) ──
+      const SVG_ICONS = {
+        instagram: `<svg class="svg-icon" viewBox="0 0 24 24"><rect width="20" height="20" x="2" y="2" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" x2="17.51" y1="6.5" y2="6.5"/></svg>`,
+        twitter: `<svg class="svg-icon" viewBox="0 0 24 24"><path d="M22 4s-.7 2.1-2 3.4c1.6 10-9.4 17.3-18 11.6 2.2.1 4.4-.6 6-2C3 15.5.5 9.6 3 5c2.2 2.6 5.6 4.1 9 4-.9-4.2 4-6.6 7-3.8 1.1 0 3-1.2 3-1.2z"/></svg>`,
+        linkedin: `<svg class="svg-icon" viewBox="0 0 24 24"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect width="4" height="12" x="2" y="9"/><circle cx="4" cy="4" r="2"/></svg>`,
+        youtube: `<svg class="svg-icon" viewBox="0 0 24 24"><path d="M2.5 17a24.12 24.12 0 0 1 0-10 2 2 0 0 1 1.4-1.4 49.56 49.56 0 0 1 16.2 0A2 2 0 0 1 21.5 7a24.12 24.12 0 0 1 0 10 2 2 0 0 1-1.4 1.4 49.55 49.55 0 0 1-16.2 0A2 2 0 0 1 2.5 17z"/><polygon points="10 15 15 12 10 9 10 15"/></svg>`,
+        music: `<svg class="svg-icon" viewBox="0 0 24 24"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>`,
+        mail: `<svg class="svg-icon" viewBox="0 0 24 24"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>`,
+        phone: `<svg class="svg-icon" viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>`,
+        globe: `<svg class="svg-icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></svg>`,
+        star: `<svg class="svg-icon" viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>`,
+        heart: `<svg class="svg-icon" viewBox="0 0 24 24"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg>`,
+        zap: `<svg class="svg-icon" viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>`,
+        home: `<svg class="svg-icon" viewBox="0 0 24 24"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>`,
+        "link-2": `<svg class="svg-icon" viewBox="0 0 24 24"><path d="M9 17H7A5 5 0 0 1 7 7h2"/><path d="M15 7h2a5 5 0 0 1 0 10h-2"/><line x1="8" x2="16" y1="12" y2="12"/></svg>`,
+        "map-pin": `<svg class="svg-icon" viewBox="0 0 24 24"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>`,
+        user: `<svg class="svg-icon" viewBox="0 0 24 24"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>`,
+        link: `<svg class="svg-icon" viewBox="0 0 24 24"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>`,
+      };
+
+      const PRESET_COLORS = [
+        "#18181b",
+        "#71717a",
+        "#2563eb",
+        "#059669",
+        "#d97706",
+        "#e11d48",
+        "#7c3aed",
+        "#ffffff",
+      ];
+
+      function getIconSvg(name) {
+        return SVG_ICONS[name] || SVG_ICONS["link"];
+      }
+
+      // ── STATE ──
+      const STORAGE_KEY = "bio_site_link_builder_accordion";
+      const S = {
+        variant: "left", // left, right, top, image, none
+        shape: "circled", // circled, squircle, square
+        icon: "instagram",
+        color: "#18181b", // Element primary
+        colorBg: "rgba(24,24,27,0.05)",
+
+        // Accordion values
+        textAlign: "left", // left, center, right
+        marginMedia: 14,
+        paddingMedia: 0,
+        linkType: "url", // url, tel, mail, vcf
+
+        // Typographies
+        titleFont: "'Inter', sans-serif",
+        titleColor: "#09090b",
+        subFont: "'Inter', sans-serif",
+        subColor: "#71717a",
+
+        // Struct / Bg / Borders
+        bgType: "solid", // solid, gradient
+        bgColor: "#ffffff",
+        bgGrad1: "#ffffff",
+        bgGrad2: "#e4e4e7",
+        borderT: 1,
+        borderB: 1,
+        borderL: 1,
+        borderR: 1,
+        borderColor: "#e4e4e7",
+        borderRadius: 14,
+
+        buttons: [],
+      };
+
+      // ── INIT ──
+      function init() {
+        const saved = localStorage.getItem(STORAGE_KEY);
+        if (saved) {
+          try {
+            S.buttons = JSON.parse(saved);
+          } catch (e) {
+            S.buttons = [];
+          }
+        }
+        initPresets();
+        initIconsGrid();
+        renderMainList();
+        renderPreview();
+      }
+
+      function saveToStorage() {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(S.buttons));
+      }
+
+      // Presets initialization
+      function initPresets() {
+        const presetsContainer = document.getElementById("colorPresets");
+        presetsContainer.innerHTML = PRESET_COLORS.map(
+          (c) => `
+      <div class="color-swatch ${c === S.color ? "active" : ""}" style="background: ${c};" onclick="selectPresetColor('${c}')"></div>
+    `,
+        ).join("");
+      }
+
+      function initIconsGrid() {
+        const grid = document.getElementById("iconGrid");
+        const icons = Object.keys(SVG_ICONS);
+        grid.innerHTML = icons
+          .map((ico) => {
+            const selClass = ico === S.icon ? "sel" : "";
+            return `
+        <div class="icon-opt ${selClass}" data-icon="${ico}" onclick="selectIcon(this,'${ico}')">
+          ${getIconSvg(ico)}
+        </div>
+      `;
+          })
+          .join("");
+      }
+
+      // ── ACCORDIONS LOGIC ──
+      function toggleAccordion(index) {
+        const target = document.getElementById("acc-" + index);
+        const isOpen = target.classList.contains("open");
+
+        // Close all accordions first
+        for (let i = 0; i < 4; i++) {
+          document.getElementById("acc-" + i).classList.remove("open");
+        }
+
+        if (!isOpen) {
+          target.classList.add("open");
+        }
+      }
+
+      // ── CREATOR OPTION SETTERS ──
+      function setPosOption(val) {
+        S.variant = val;
+        document
+          .querySelectorAll("#posGlider .glider-option")
+          .forEach((opt) => {
+            opt.classList.toggle("active", opt.dataset.val === val);
+          });
+
+        // Toggle image shape controls visibility
+        document.getElementById("imageShapeRow").style.display =
+          val === "image" ? "block" : "none";
+
+        // Toggle icon list visibility
+        document.getElementById("iconGridSection").style.display =
+          val === "none" ? "none" : "block";
+
+        renderPreview();
+      }
+
+      function setShapeOption(val) {
+        S.shape = val;
+        document
+          .querySelectorAll("#shapeGlider .glider-option")
+          .forEach((opt) => {
+            opt.classList.toggle("active", opt.dataset.val === val);
+          });
+        renderPreview();
+      }
+
+      function setTextAlignOption(val) {
+        S.textAlign = val;
+        document
+          .querySelectorAll("#textAlignGlider .glider-option")
+          .forEach((opt) => {
+            opt.classList.toggle("active", opt.dataset.val === val);
+          });
+        renderPreview();
+      }
+
+      function setLinkType(val) {
+        S.linkType = val;
+        document
+          .querySelectorAll("#linkTypeGlider .glider-option")
+          .forEach((opt) => {
+            opt.classList.toggle("active", opt.dataset.val === val);
+          });
+
+        // Adjust URL input placeholders automatically based on choice
+        const urlInput = document.getElementById("inUrl");
+        if (val === "url") {
+          urlInput.placeholder = "https://ejemplo.com";
+        } else if (val === "tel") {
+          urlInput.placeholder = "+34 600 000 000";
+        } else if (val === "mail") {
+          urlInput.placeholder = "hola@ejemplo.com";
+        } else if (val === "vcf") {
+          urlInput.placeholder = "Enlace a archivo de contacto .vcf";
+        }
+
+        renderPreview();
+      }
+
+      function setBgType(val) {
+        S.bgType = val;
+        document
+          .querySelectorAll("#bgTypeGlider .glider-option")
+          .forEach((opt) => {
+            opt.classList.toggle("active", opt.dataset.val === val);
+          });
+
+        document.getElementById("solidBgRow").style.display =
+          val === "solid" ? "flex" : "none";
+        document.getElementById("gradientBgRow").style.display =
+          val === "gradient" ? "flex" : "none";
+
+        renderPreview();
+      }
+
+      function selectPresetColor(color) {
+        S.color = color;
+        document.getElementById("pickElementColor").value = color;
+
+        // Update active UI status
+        document.querySelectorAll(".color-swatch").forEach((sw) => {
+          sw.classList.toggle(
+            "active",
+            sw.style.backgroundColor === color ||
+              sw.style.backgroundColor === hexToRgb(color),
+          );
+        });
+
+        renderPreview();
+      }
+
+      function setPrimaryCustomColor(color) {
+        S.color = color;
+        document
+          .querySelectorAll(".color-swatch")
+          .forEach((sw) => sw.classList.remove("active"));
+        renderPreview();
+      }
+
+      function selectIcon(el, iconName) {
+        document
+          .querySelectorAll(".icon-opt")
+          .forEach((opt) => opt.classList.remove("sel"));
+        el.classList.add("sel");
+        S.icon = iconName;
+        renderPreview();
+      }
+
+      function updateRange(type, unit) {
+        const value = document.getElementById("rng" + type).value;
+        document.getElementById("val" + type).textContent = value + unit;
+
+        if (type === "Margin") S.marginMedia = value;
+        else if (type === "Padding") S.paddingMedia = value;
+        else if (type === "Radius") S.borderRadius = value;
+
+        renderPreview();
+      }
+
+      // Securely converts Hex to RGB for swatch active match checks
+      function hexToRgb(hex) {
+        const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+        return result
+          ? `rgb(${parseInt(result[1], 16)}, ${parseInt(result[2], 16)}, ${parseInt(result[3], 16)})`
+          : null;
+      }
+
+      // ── BIO BUTTON HTML COMPILATOR ──
+      // Conforms strictly to: <ul><li><a><span data-role="button" data-aspect="button">...
+      function compileBioButton(options) {
+        const label = options.label || "Mi Enlace Bio";
+        const desc = options.desc || "";
+        const descClass = desc ? "bio-btn--has-desc" : "";
+
+        // Background computing
+        let bgStyle = "";
+        if (options.bgType === "gradient") {
+          bgStyle = `linear-gradient(135deg, ${options.bgGrad1}, ${options.bgGrad2})`;
+        } else {
+          bgStyle = options.bgColor;
+        }
+
+        // Determinar cómo se alinean los items dentro del bloque de texto
+        let alignItems = "flex-start";
+        if (options.textAlign === "center") alignItems = "center";
+        if (options.textAlign === "right") alignItems = "flex-end";
+
+        return `
+      <div class="bio-btn ${descClass}" 
+           data-variant="${options.variant}" 
+           data-shape="${options.shape}"
+           style="
+             --btn-bg: ${bgStyle};
+             --btn-radius: ${options.borderRadius}px;
+             --btn-text-color: ${options.titleColor};
+             --btn-color: ${options.color};
+             
+             --btn-border-top: ${options.borderT}px;
+             --btn-border-bottom: ${options.borderB}px;
+             --btn-border-left: ${options.borderL}px;
+             --btn-border-right: ${options.borderR}px;
+             --btn-border-color: ${options.borderColor};
+             
+             --btn-media-margin: ${options.marginMedia}px;
+             --btn-media-padding: ${options.paddingMedia}px;
+
+             --btn-text-align: ${options.textAlign};
+             --btn-align-items: ${alignItems};
+           "
+      >
+        <!-- Medio: Icono o Avatar -->
+        <div class="bio-btn__media" style="background: ${options.variant === "image" ? `linear-gradient(135deg, ${options.color}, #cbd5e1)` : "transparent"}">
+          ${getIconSvg(options.icon)}
+        </div>
+        
+        <!-- Textos -->
+        <div class="bio-btn__content">
+          <span class="bio-btn__title" style="font-family: ${options.titleFont}; color: ${options.titleColor};">${label}</span>
+          <span class="bio-btn__desc" style="font-family: ${options.subFont}; color: ${options.subColor};">${desc}</span>
+        </div>
+      </div>
+    `;
+      }
+
+      function getBuilderOptions() {
+        return {
+          variant: S.variant,
+          shape: S.shape,
+          icon: S.icon,
+          color: S.color,
+          marginMedia: S.marginMedia,
+          paddingMedia: S.paddingMedia,
+
+          label: document.getElementById("inLabel").value,
+          desc: document.getElementById("inDesc").value,
+          textAlign: S.textAlign,
+
+          titleFont: document.getElementById("selTitleFont").value,
+          titleColor: document.getElementById("pickTitleColor").value,
+          subFont: document.getElementById("selSubFont").value,
+          subColor: document.getElementById("pickSubColor").value,
+
+          bgType: S.bgType,
+          bgColor: document.getElementById("pickBgColor").value,
+          bgGrad1: document.getElementById("pickGrad1").value,
+          bgGrad2: document.getElementById("pickGrad2").value,
+
+          borderT: parseInt(document.getElementById("borderTop").value) || 0,
+          borderB: parseInt(document.getElementById("borderBottom").value) || 0,
+          borderL: parseInt(document.getElementById("borderLeft").value) || 0,
+          borderR: parseInt(document.getElementById("borderRight").value) || 0,
+          borderColor: document.getElementById("pickBorderColor").value,
+          borderRadius: S.borderRadius,
+        };
+      }
+
+      function renderPreview() {
+        document.getElementById("previewContent").innerHTML =
+          compileBioButton(getBuilderOptions());
+      }
+
+      // ── MAIN LIST RENDER ──
+      function renderMainList() {
+        const container = document.getElementById("mainListContainer");
+
+        if (S.buttons.length === 0) {
+          container.innerHTML = `
+        <div class="empty-state">
+          <div class="empty-icon-box">
+            ${getIconSvg("link")}
+          </div>
+          <div class="empty-text">Diseña tu primer botón bio modular.</div>
+          <button class="cta-add" onclick="openSheet()">Crear enlace</button>
+        </div>
+      `;
+          return;
+        }
+
+        let listHTML = "<ul>";
+        S.buttons.forEach((b) => {
+          // Recompile with saved settings
+          const buttonContent = compileBioButton(b);
+          let href = b.url || "#";
+          if (b.linkType === "tel") href = `tel:${b.url}`;
+          if (b.linkType === "mail") href = `mailto:${b.url}`;
+
+          listHTML += `
+        <li>
+          <a href="${href}" target="${b.linkType === "url" ? "_blank" : "_self"}">
+            <span data-role="button" data-aspect="button">
+              ${buttonContent}
+            </span>
+          </a>
+          <button class="list-del-btn" onclick="removeButton(${b.id})" aria-label="Eliminar enlace">
+            <svg class="svg-icon" viewBox="0 0 24 24"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/><line x1="10" x2="10" y1="11" y2="17"/><line x1="14" x2="14" y1="11" y2="17"/></svg>
+          </button>
+        </li>
+      `;
+        });
+        listHTML += "</ul>";
+
+        container.innerHTML = listHTML;
+      }
+
+      // ── SAVE AND DISCARD ──
+      function addButton() {
+        const options = getBuilderOptions();
+        const newButton = {
+          id: Date.now(),
+          linkType: S.linkType,
+          url: document.getElementById("inUrl").value,
+          ...options,
+        };
+
+        S.buttons.push(newButton);
+        saveToStorage();
+        renderMainList();
+        closeSheet();
+      }
+
+      function removeButton(id) {
+        S.buttons = S.buttons.filter((b) => b.id !== id);
+        saveToStorage();
+        renderMainList();
+      }
+
+      function openSheet() {
+        document.getElementById("sheetOverlay").classList.add("open");
+        document.getElementById("bottomSheet").classList.add("open");
+        renderPreview();
+      }
+
+      function closeSheet() {
+        document.getElementById("sheetOverlay").classList.remove("open");
+        document.getElementById("bottomSheet").classList.remove("open");
+        resetBuilder();
+      }
+
+      function resetBuilder() {
+        // Reset inputs
+        document.getElementById("inLabel").value = "Mi Enlace Bio";
+        document.getElementById("inDesc").value = "";
+        document.getElementById("inUrl").value = "";
+
+        // Reset state & gliders
+        setPosOption("left");
+        setShapeOption("circled");
+        setTextAlignOption("left");
+        setLinkType("url");
+        setBgType("solid");
+
+        document.getElementById("rngMargin").value = 14;
+        document.getElementById("valMargin").textContent = "14px";
+        S.marginMedia = 14;
+
+        document.getElementById("rngPadding").value = 0;
+        document.getElementById("valPadding").textContent = "0px";
+        S.paddingMedia = 0;
+
+        document.getElementById("rngRadius").value = 14;
+        document.getElementById("valRadius").textContent = "14px";
+        S.borderRadius = 14;
+
+        // Reset Custom Pickers
+        document.getElementById("pickBgColor").value = "#ffffff";
+        document.getElementById("pickGrad1").value = "#ffffff";
+        document.getElementById("pickGrad2").value = "#e4e4e7";
+        document.getElementById("pickTitleColor").value = "#09090b";
+        document.getElementById("pickSubColor").value = "#71717a";
+        document.getElementById("pickBorderColor").value = "#e4e4e7";
+        document.getElementById("borderTop").value = 1;
+        document.getElementById("borderBottom").value = 1;
+        document.getElementById("borderLeft").value = 1;
+        document.getElementById("borderRight").value = 1;
+
+        selectPresetColor("#18181b");
+        toggleAccordion(0); // Open first accordion
+      }
+
+      // Boot Application
+      init();
+
+      // Listen to header action buttons
+      document.querySelectorAll('.btn-header-add').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const action = btn.getAttribute('data-action');
+          if (action === 'sheet:open') {
+            openSheet();
+          } else if (action === 'list:edit') {
+            const listContainer = document.getElementById('mainListContainer');
+            const isEdit = listContainer.getAttribute('data-status') === 'edit';
+            if (isEdit) {
+              listContainer.setAttribute('data-status', 'normal');
+              btn.querySelector('span').textContent = 'Editar';
+            } else {
+              listContainer.setAttribute('data-status', 'edit');
+              btn.querySelector('span').textContent = 'Listo';
+            }
+          }
+        });
+      });
+    </script>
+  </body>
+</html>

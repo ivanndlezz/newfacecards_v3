@@ -131,7 +131,8 @@
 
     <!-- 2. IMPORTACIÓN Y CONFIGURACIÓN DEL BINDER UTILITY (ES MODULE) -->
     <script type="module">
-      import { DataBinder } from "/shared/utilities/binder.js";
+    import { DataBinder } from "/shared/utilities/binder.js";
+      import { EmptyStateManager } from "/shared/utilities/empty-state.js";
 
       const binderConfig = {
         container: document.querySelector(".main-content"), // Montar e hidratar sobre el card actual
@@ -142,9 +143,13 @@
         
         onSuccess: (data) => {
           console.log("[Perfil Público] Hidratación completada con éxito:", data);
+          // Inyectar placeholders en loaders vacíos
+          EmptyStateManager.scan();
         },
         onError: (err) => {
           console.error("[Perfil Público] Error de hidratación:", err);
+          // Mostrar placeholders incluso si falla la carga de datos
+          EmptyStateManager.scan();
         }
       };
 

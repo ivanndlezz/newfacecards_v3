@@ -1139,6 +1139,7 @@
         closeSheet,
       } from "/shared/components/bottom-sheet/bottom-sheet.js";
       import { DataFlowBinder } from "/shared/utilities/data-flow-binder.js";
+      import { EmptyStateManager } from "/shared/utilities/empty-state.js";
       import "/shared/utilities/api-middleware-mock.js"; // Activa window.__useMockApi automáticamente
       window.constructSheet = constructSheet;
       window.closeSheet = closeSheet;
@@ -1183,6 +1184,8 @@
         .then(() => {
           if (initialOverrides && Object.keys(initialOverrides).length)
             applyLiveOverrides(initialOverrides);
+          // Inyectar placeholders en loaders vacíos tras la hidratación
+          EmptyStateManager.scan(document.getElementById('card'));
         });
 
       window.__adminBinder = binder;
@@ -1210,6 +1213,7 @@
 
       window.__setCardTheme = (themeId) => {
         if (!themeId) return;
+        EmptyStateManager.destroy(); // Limpiar observers del tema anterior
         binder
           .loadTemplateAndRun(`/templates/cards/${themeId}.html`)
           .then(() => {
@@ -1221,6 +1225,7 @@
               }
             })();
             applyLiveOverrides(saved);
+            EmptyStateManager.scan(document.getElementById('card'));
           });
         localStorage.setItem(THEME_STORAGE_KEY, themeId);
       };
@@ -1230,10 +1235,12 @@
         const merged = { ...(overrides || {}) };
         localStorage.setItem(THEME_STORAGE_KEY, themeId);
         localStorage.setItem(OVERRIDES_KEY, JSON.stringify(merged));
+        EmptyStateManager.destroy(); // Limpiar observers del tema anterior
         binder
           .loadTemplateAndRun(`/templates/cards/${themeId}.html`)
           .then(() => {
             applyLiveOverrides(merged);
+            EmptyStateManager.scan(document.getElementById('card'));
           });
       };
     </script>
@@ -1973,8 +1980,9 @@
           const cohort = parseInt(zone.dataset.editableCohort || "1", 10);
           if (cohort === 4) {
             console.log(
-              "[Perfil Editor] Click ignored: Cohort 4 (Empresa) is ignored in this update.",
+              "[Perfil Editor] Redirecting Cohort 4 (Empresa) click to Cohort 2 (Datos / Empresa)",
             );
+            openContextualEditor(2);
             return;
           }
           console.log(
