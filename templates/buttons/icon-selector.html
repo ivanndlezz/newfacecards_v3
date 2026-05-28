@@ -1,0 +1,870 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Estación de Iconos</title>
+
+    <!-- CDN de FontAwesome para el Set de Iconos de Redes e Interfaces -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+
+    <!-- CDN de Phosphor Icons para un diseño redondo y limpio -->
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/css/phosphor.css"
+    />
+
+    <!-- Tailwind CSS para diseño y utilidades rápidas premium -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <style>
+      /* Variables de diseño del entorno visual */
+      :root {
+        --bg-main: #f4f4f5;
+        --surface: #ffffff;
+        --border: #e4e4e7;
+        --text-main: #09090b;
+        --text-muted: #71717a;
+        --primary: #18181b;
+        --primary-hover: #27272a;
+        --ring: rgba(24, 24, 27, 0.2);
+      }
+
+      body {
+        background-color: var(--bg-main);
+        font-family:
+          ui-sans-serif,
+          system-ui,
+          -apple-system,
+          BlinkMacSystemFont,
+          "Segoe UI",
+          Roboto,
+          "Helvetica Neue",
+          Arial,
+          sans-serif;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+        margin: 0;
+      }
+
+      /* Ocultar barra de scroll en los chips de categorías pero permitir deslizamiento táctil/rueda */
+      .hide-scrollbar::-webkit-scrollbar {
+        display: none;
+      }
+      .hide-scrollbar {
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+      }
+
+      /* Estilos de scrollbar elegante para el contenedor vertical de iconos */
+      .custom-scroll::-webkit-scrollbar {
+        width: 6px;
+      }
+      .custom-scroll::-webkit-scrollbar-track {
+        background: transparent;
+      }
+      .custom-scroll::-webkit-scrollbar-thumb {
+        background-color: #d4d4d8;
+        border-radius: 10px;
+      }
+
+      /* Estilos globales para los iconos nativos SVG */
+      .svg-icon {
+        width: 22px;
+        height: 22px;
+        fill: none;
+        stroke: currentColor;
+        stroke-width: 2;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+      }
+
+      /* Animaciones interactivas */
+      .icon-btn {
+        transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+      .icon-btn:active {
+        transform: scale(0.92);
+      }
+    </style>
+  </head>
+  <body class="p-4">
+    <!-- Símbolos SVG nativos reutilizables en caché HTML -->
+    <svg xmlns="http://www.w3.org/2000/svg" style="display: none">
+      <symbol id="icon-instagram" viewBox="0 0 24 24">
+        <rect width="20" height="20" x="2" y="2" rx="5" ry="5" />
+        <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" />
+        <line x1="17.5" x2="17.51" y1="6.5" y2="6.5" />
+      </symbol>
+      <symbol id="icon-twitter" viewBox="0 0 24 24">
+        <path
+          d="M22 4s-.7 2.1-2 3.4c1.6 10-9.4 17.3-18 11.6 2.2.1 4.4-.6 6-2C3 15.5.5 9.6 3 5c2.2 2.6 5.6 4.1 9 4-.9-4.2 4-6.6 7-3.8 1.1 0 3-1.2 3-1.2z"
+        />
+      </symbol>
+      <symbol id="icon-linkedin" viewBox="0 0 24 24">
+        <path
+          d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"
+        />
+        <rect width="4" height="12" x="2" y="9" />
+        <circle cx="4" cy="4" r="2" />
+      </symbol>
+      <symbol id="icon-youtube" viewBox="0 0 24 24">
+        <path
+          d="M2.5 17a24.12 24.12 0 0 1 0-10 2 2 0 0 1 1.4-1.4 49.56 49.56 0 0 1 16.2 0A2 2 0 0 1 21.5 7a24.12 24.12 0 0 1 0 10 2 2 0 0 1-1.4 1.4 49.55 49.55 0 0 1-16.2 0A2 2 0 0 1 2.5 17z"
+        />
+        <polygon points="10 15 15 12 10 9 10 15" />
+      </symbol>
+      <symbol id="icon-mail" viewBox="0 0 24 24">
+        <rect width="20" height="16" x="2" y="4" rx="2" />
+        <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" />
+      </symbol>
+      <symbol id="icon-globe" viewBox="0 0 24 24">
+        <circle cx="12" cy="12" r="10" />
+        <path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20" />
+        <path d="M2 12h20" />
+      </symbol>
+      <symbol id="icon-user" viewBox="0 0 24 24">
+        <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2" />
+        <circle cx="12" cy="7" r="4" />
+      </symbol>
+      <symbol id="icon-link" viewBox="0 0 24 24">
+        <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" />
+        <path
+          d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"
+        />
+      </symbol>
+    </svg>
+
+    <!-- Tarjeta Contenedora Principal -->
+    <div
+      class="bg-white rounded-2xl shadow-sm border border-gray-200 w-full max-w-sm overflow-hidden flex flex-col"
+    >
+      <!-- 1. NAVEGACIÓN DE SETS (CHIPS) con SVGs limpios en lugar de Emojis -->
+      <div
+        class="px-4 pt-4 pb-3 bg-white border-b border-gray-100 flex gap-2 overflow-x-auto hide-scrollbar"
+        id="tabContainer"
+      >
+        <!-- Nativos -->
+        <button
+          class="tab-chip px-3.5 py-1.5 rounded-full text-xs font-semibold whitespace-nowrap transition-all flex items-center bg-gray-900 text-white shadow-sm"
+          data-set="native"
+        >
+          <svg class="w-3.5 h-3.5 mr-1.5 fill-current" viewBox="0 0 24 24">
+            <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" />
+          </svg>
+          Nativos
+        </button>
+        <!-- Phosphor -->
+        <button
+          class="tab-chip px-3.5 py-1.5 rounded-full text-xs font-semibold whitespace-nowrap transition-all flex items-center bg-gray-100 text-gray-600 hover:bg-gray-200"
+          data-set="phosphor"
+        >
+          <svg
+            class="w-3.5 h-3.5 mr-1.5 fill-none stroke-current"
+            stroke-width="2.5"
+            viewBox="0 0 24 24"
+          >
+            <circle cx="12" cy="12" r="9" />
+            <circle cx="12" cy="12" r="1" fill="currentColor" />
+          </svg>
+          Phosphor
+        </button>
+        <!-- Heroicons -->
+        <button
+          class="tab-chip px-3.5 py-1.5 rounded-full text-xs font-semibold whitespace-nowrap transition-all flex items-center bg-gray-100 text-gray-600 hover:bg-gray-200"
+          data-set="heroicons"
+        >
+          <svg
+            class="w-3.5 h-3.5 mr-1.5 fill-none stroke-current"
+            stroke-width="2.5"
+            viewBox="0 0 24 24"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M9 12.75L11.25 15 15 9.75M21 12c0 1.268-.63 2.39-1.593 3.068a3.745 3.745 0 01-1.043 3.296 3.745 3.745 0 01-3.296 1.043A3.745 3.745 0 0112 21c-1.268 0-2.39-.63-3.068-1.593a3.746 3.746 0 01-3.296-1.043 3.745 3.745 0 01-1.043-3.296A3.745 3.745 0 013 12c0-1.268.63-2.39 1.593-3.068a3.745 3.745 0 011.043-3.296 3.746 3.746 0 013.296-1.043A3.746 3.746 0 0112 3c1.268 0 2.39.63 3.068 1.593a3.746 3.746 0 013.296 1.043 3.746 3.746 0 011.043 3.296A3.745 3.745 0 0121 12z"
+            />
+          </svg>
+          Heroicons
+        </button>
+        <!-- Huge Icons -->
+        <button
+          class="tab-chip px-3.5 py-1.5 rounded-full text-xs font-semibold whitespace-nowrap transition-all flex items-center bg-gray-100 text-gray-600 hover:bg-gray-200"
+          data-set="hugeicons"
+        >
+          <svg
+            class="w-3.5 h-3.5 mr-1.5 fill-none stroke-current"
+            stroke-width="2.5"
+            viewBox="0 0 24 24"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M12 21a9.004 9.004 0 008.716-6.747M12 21a9.004 9.004 0 01-8.716-6.747M12 21c2.485 0 4.5-4.03 4.5-9S14.485 3 12 3m0 18c-2.485 0-4.5-4.03-4.5-9S9.515 3 12 3m0 0a8.997 8.997 0 017.843 4.582M12 3a8.997 8.997 0 00-7.843 4.582"
+            />
+          </svg>
+          Huge Icons
+        </button>
+        <!-- FontAwesome -->
+        <button
+          class="tab-chip px-3.5 py-1.5 rounded-full text-xs font-semibold whitespace-nowrap transition-all flex items-center bg-gray-100 text-gray-600 hover:bg-gray-200"
+          data-set="fa"
+        >
+          <svg
+            class="w-3.5 h-3.5 mr-1.5 fill-none stroke-current"
+            stroke-width="2.5"
+            viewBox="0 0 24 24"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M3 3v1.5M3 21v-6m0 0l2.77-.693a9 9 0 016.205.362l1.525.611a9 9 0 006.905-.127l.338-.135a2.25 2.25 0 001.258-2.044v-7.07a2.25 2.25 0 00-1.579-2.148l-.337-.111a9 9 0 00-6.9.127l-1.525-.611a9 9 0 01-6.205-.362L3 4.5M3 15V4.5"
+            />
+          </svg>
+          FontAwesome
+        </button>
+        <!-- Emojis (Nuevo) -->
+        <button
+          class="tab-chip px-3.5 py-1.5 rounded-full text-xs font-semibold whitespace-nowrap transition-all flex items-center bg-gray-100 text-gray-600 hover:bg-gray-200"
+          data-set="emojis"
+        >
+          <svg
+            class="w-3.5 h-3.5 mr-1.5 fill-none stroke-current"
+            stroke-width="2.5"
+            viewBox="0 0 24 24"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M15.182 15.182a4.5 4.5 0 01-6.364 0M21 12a9 9 0 11-18 0 9 9 0 0118 0zM9.75 9.75c0 .414-.168.75-.375.75S9 10.164 9 9.75s.168-.75.375-.75.375.336.375.75zm5.625 0c0 .414-.168.75-.375.75s-.375-.336-.375-.75.168-.75.375-.75.375.336.375.75z"
+            />
+          </svg>
+          Emojis
+        </button>
+      </div>
+
+      <!-- 2. CABECERA Y BUSCADOR -->
+      <div class="p-4 border-b border-gray-100 bg-gray-50/50">
+        <div class="flex justify-between items-center mb-2.5">
+          <h3 class="text-xs font-bold uppercase tracking-wider text-gray-400">
+            Motor de Búsqueda
+          </h3>
+          <span
+            id="iconCounter"
+            class="text-xs font-semibold text-gray-600 bg-white border border-gray-100 px-2 py-0.5 rounded-md"
+            >0 de 0</span
+          >
+        </div>
+
+        <!-- Input de búsqueda -->
+        <div class="relative">
+          <div
+            class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none"
+          >
+            <svg
+              class="w-4 h-4 text-gray-400"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+              ></path>
+            </svg>
+          </div>
+          <input
+            type="text"
+            id="iconSearchInput"
+            class="w-full pl-9 pr-3 py-2 bg-white border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-gray-900 focus:border-transparent transition-all placeholder:text-gray-400"
+            placeholder="Filtrar en el set actual (ej: correo, feliz)..."
+          />
+        </div>
+      </div>
+
+      <!-- 3. CONTENEDOR DEL GRID (SCROLL VERTICAL) -->
+      <div class="p-4 h-[250px] overflow-y-auto custom-scroll bg-white">
+        <div id="iconGrid" class="grid grid-cols-5 gap-2">
+          <!-- Generación dinámica de iconos o emojis -->
+        </div>
+      </div>
+
+      <!-- 4. ÁREA DE PREVIEW INFERIOR -->
+      <div
+        class="p-3 bg-gray-50 border-t border-gray-100 text-center flex items-center justify-between px-5"
+      >
+        <div class="text-left">
+          <p class="text-xs text-gray-400 font-medium">Icono activo</p>
+          <span
+            id="activeIconName"
+            class="text-xs font-bold text-gray-800 font-mono"
+            >link</span
+          >
+        </div>
+        <div
+          id="previewBox"
+          class="inline-flex items-center justify-center w-11 h-11 bg-white rounded-xl shadow-sm border border-gray-200 text-gray-800 text-xl"
+        >
+          <svg class="svg-icon"><use href="#icon-link"></use></svg>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      /**
+       * DICCIONARIO SEMÁNTICO DE ICONOS Y EMOJIS AMPLIADO
+       */
+      const getSvgUse = (id) =>
+        `<svg class="svg-icon" viewBox="0 0 24 24"><use href="#icon-${id}"></use></svg>`;
+
+      const ICON_SETS = {
+        // SET NATIVOS (SVGs ultralivianos incrustados)
+        native: [
+          {
+            id: "instagram",
+            html: getSvgUse("instagram"),
+            tags: ["social", "redes", "foto", "ig", "instagram"],
+          },
+          {
+            id: "twitter",
+            html: getSvgUse("twitter"),
+            tags: ["social", "redes", "noticias", "x", "twitter"],
+          },
+          {
+            id: "linkedin",
+            html: getSvgUse("linkedin"),
+            tags: ["social", "profesional", "curriculum", "trabajo", "empleo"],
+          },
+          {
+            id: "youtube",
+            html: getSvgUse("youtube"),
+            tags: ["social", "video", "stream", "reproducir", "youtube"],
+          },
+          {
+            id: "mail",
+            html: getSvgUse("mail"),
+            tags: ["correo", "contacto", "mensaje", "email", "escribir"],
+          },
+          {
+            id: "globe",
+            html: getSvgUse("globe"),
+            tags: ["web", "internet", "mundo", "pagina", "global"],
+          },
+          {
+            id: "user",
+            html: getSvgUse("user"),
+            tags: ["perfil", "usuario", "cuenta", "avatar", "persona"],
+          },
+          {
+            id: "link",
+            html: getSvgUse("link"),
+            tags: ["enlace", "url", "vinculo", "ancla"],
+          },
+        ],
+
+        // SET PHOSPHOR (Estilo amigable, trazos amables)
+        phosphor: [
+          {
+            id: "ph ph-house",
+            html: '<i class="ph ph-house text-2xl"></i>',
+            tags: ["casa", "inicio", "home", "principal"],
+          },
+          {
+            id: "ph ph-user",
+            html: '<i class="ph ph-user text-2xl"></i>',
+            tags: ["usuario", "perfil", "avatar", "cuenta", "persona"],
+          },
+          {
+            id: "ph ph-envelope",
+            html: '<i class="ph ph-envelope text-2xl"></i>',
+            tags: ["correo", "mail", "email", "mensaje"],
+          },
+          {
+            id: "ph ph-phone",
+            html: '<i class="ph ph-phone text-2xl"></i>',
+            tags: ["telefono", "llamar", "llamada", "celular"],
+          },
+          {
+            id: "ph ph-heart",
+            html: '<i class="ph ph-heart text-2xl"></i>',
+            tags: ["corazon", "favorito", "amor", "like"],
+          },
+          {
+            id: "ph ph-star",
+            html: '<i class="ph ph-star text-2xl"></i>',
+            tags: ["estrella", "favorito", "rating", "destacado"],
+          },
+          {
+            id: "ph ph-calendar",
+            html: '<i class="ph ph-calendar text-2xl"></i>',
+            tags: ["calendario", "fecha", "agenda", "evento"],
+          },
+          {
+            id: "ph ph-bell",
+            html: '<i class="ph ph-bell text-2xl"></i>',
+            tags: ["campana", "notificacion", "alerta"],
+          },
+          {
+            id: "ph ph-camera",
+            html: '<i class="ph ph-camera text-2xl"></i>',
+            tags: ["camara", "foto", "imagen", "lente"],
+          },
+          {
+            id: "ph ph-gear",
+            html: '<i class="ph ph-gear text-2xl"></i>',
+            tags: ["ajustes", "configuracion", "setup", "engrane"],
+          },
+        ],
+
+        // SET HEROICONS (Línea de contorno estricta 24x24 de Tailwind)
+        heroicons: [
+          {
+            id: "hero-home",
+            html: `<svg class="w-6 h-6 stroke-current" fill="none" viewBox="0 0 24 24" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 12l8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25" /></svg>`,
+            tags: ["casa", "inicio", "home", "principal"],
+          },
+          {
+            id: "hero-user",
+            html: `<svg class="w-6 h-6 stroke-current" fill="none" viewBox="0 0 24 24" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z" /></svg>`,
+            tags: ["usuario", "perfil", "user", "cuenta"],
+          },
+          {
+            id: "hero-mail",
+            html: `<svg class="w-6 h-6 stroke-current" fill="none" viewBox="0 0 24 24" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75" /></svg>`,
+            tags: ["correo", "mail", "email", "mensaje"],
+          },
+          {
+            id: "hero-bell",
+            html: `<svg class="w-6 h-6 stroke-current" fill="none" viewBox="0 0 24 24" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M14.857 17.082a23.848 23.848 0 005.454-1.31A8.967 8.967 0 0118 9.75v-.7V9A6 6 0 006 9v.75a8.967 8.967 0 01-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 01-5.714 0m5.714 0a3 3 0 11-5.714 0" /></svg>`,
+            tags: ["notificaciones", "campana", "alerta"],
+          },
+          {
+            id: "hero-sparkles",
+            html: `<svg class="w-6 h-6 stroke-current" fill="none" viewBox="0 0 24 24" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M9.813 15.904L9 21l-.813-5.096L3 15l5.096-.813L9 9l.813 5.096L15 15l-5.096.813zM19.071 4.929l-.445 2.786-2.786.445 2.786.445.445 2.786.445-2.786 2.786-.445-2.786-.445-.445-2.786z" /></svg>`,
+            tags: ["ia", "brillos", "destacar", "magia", "generar"],
+          },
+          {
+            id: "hero-magnifier",
+            html: `<svg class="w-6 h-6 stroke-current" fill="none" viewBox="0 0 24 24" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" /></svg>`,
+            tags: ["buscar", "lupa", "explorar", "filtrar"],
+          },
+        ],
+
+        // SET HUGE ICONS (Diseño técnico, esquinas finas, minimalismo estético)
+        hugeicons: [
+          {
+            id: "huge-grid",
+            html: `<svg class="w-6 h-6 stroke-current" fill="none" viewBox="0 0 24 24" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6A2.25 2.25 0 016 3.75h2.25A2.25 2.25 0 0110.5 6v2.25a2.25 2.25 0 01-2.25 2.25H6a2.25 2.25 0 01-2.25-2.25V6zM3.75 15.75A2.25 2.25 0 016 13.5h2.25a2.25 2.25 0 012.25 2.25V18a2.25 2.25 0 01-2.25 2.25H6A2.25 2.25 0 013.75 18v-2.25zM13.5 6a2.25 2.25 0 012.25-2.25H18A2.25 2.25 0 0120.25 6v2.25A2.25 2.25 0 0118 10.5h-2.25a2.25 2.25 0 01-2.25-2.25V6zM13.5 15.75a2.25 2.25 0 012.25-2.25H18a2.25 2.25 0 012.25 2.25V18A2.25 2.25 0 0118 20.25h-2.25A2.25 2.25 0 0113.5 18v-2.25z" /></svg>`,
+            tags: ["grid", "dashboard", "panel", "diseno", "cuadrícula"],
+          },
+          {
+            id: "huge-layers",
+            html: `<svg class="w-6 h-6 stroke-current" fill="none" viewBox="0 0 24 24" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M6.429 9.75L2.25 12l4.179 2.25m11.142 0L21.75 12l-4.179-2.25M12 5.25L6.429 8.25 12 11.25l5.571-3L12 5.25zm0 13.5L6.429 15.75 12 18.75l5.571-3L12 18.75z" /></svg>`,
+            tags: ["capas", "diseno", "layers", "pila", "apilar"],
+          },
+          {
+            id: "huge-cloud",
+            html: `<svg class="w-6 h-6 stroke-current" fill="none" viewBox="0 0 24 24" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 15a4.5 4.5 0 004.5 4.5H18a3.75 3.75 0 00.332-7.482 3 3 0 00-5.58-3.111A4.5 4.5 0 003.33 11.23A4.5 4.5 0 002.25 15z" /></svg>`,
+            tags: ["nube", "almacenamiento", "cloud", "clima", "descarga"],
+          },
+          {
+            id: "huge-heart-pulse",
+            html: `<svg class="w-6 h-6 stroke-current" fill="none" viewBox="0 0 24 24" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z" /></svg>`,
+            tags: ["corazon", "salud", "pulso", "amor", "vida", "latido"],
+          },
+        ],
+
+        // SET FONTAWESOME (El gran estandarte de las marcas y redes)
+        fa: [
+          {
+            id: "fa-solid fa-house",
+            html: '<i class="fa-solid fa-house"></i>',
+            tags: ["casa", "inicio", "home", "principal"],
+          },
+          {
+            id: "fa-solid fa-phone",
+            html: '<i class="fa-solid fa-phone"></i>',
+            tags: ["telefono", "llamada", "celular", "contacto"],
+          },
+          {
+            id: "fa-solid fa-location-dot",
+            html: '<i class="fa-solid fa-location-dot"></i>',
+            tags: ["mapa", "ubicacion", "gps", "pin"],
+          },
+          {
+            id: "fa-solid fa-music",
+            html: '<i class="fa-solid fa-music"></i>',
+            tags: ["musica", "audio", "nota", "cancion"],
+          },
+          {
+            id: "fa-solid fa-camera",
+            html: '<i class="fa-solid fa-camera"></i>',
+            tags: ["foto", "fotografia", "imagen", "lente"],
+          },
+          {
+            id: "fa-solid fa-heart",
+            html: '<i class="fa-solid fa-heart"></i>',
+            tags: ["corazon", "amor", "favorito", "salud"],
+          },
+          {
+            id: "fa-solid fa-star",
+            html: '<i class="fa-solid fa-star"></i>',
+            tags: ["estrella", "favorito", "destacado", "review"],
+          },
+          {
+            id: "fa-solid fa-bolt",
+            html: '<i class="fa-solid fa-bolt"></i>',
+            tags: ["rayo", "energia", "rapido", "flash"],
+          },
+          {
+            id: "fa-solid fa-calendar",
+            html: '<i class="fa-solid fa-calendar"></i>',
+            tags: ["fecha", "agenda", "evento", "reserva"],
+          },
+          {
+            id: "fa-solid fa-shop",
+            html: '<i class="fa-solid fa-shop"></i>',
+            tags: ["tienda", "comprar", "store", "carrito"],
+          },
+          {
+            id: "fa-solid fa-briefcase",
+            html: '<i class="fa-solid fa-briefcase"></i>',
+            tags: ["trabajo", "negocios", "maletin", "empresa"],
+          },
+          {
+            id: "fa-solid fa-gamepad",
+            html: '<i class="fa-solid fa-gamepad"></i>',
+            tags: ["juegos", "gaming", "consola", "jugar"],
+          },
+        ],
+
+        // SET EMOJIS (Motor de selección amigable)
+        emojis: [
+          {
+            id: "emoji-smile",
+            html: '<span class="text-2xl select-none">😀</span>',
+            tags: [
+              "smile",
+              "feliz",
+              "cara",
+              "alegre",
+              "happy",
+              "bien",
+              "emoticono",
+            ],
+          },
+          {
+            id: "emoji-heart",
+            html: '<span class="text-2xl select-none">❤️</span>',
+            tags: [
+              "love",
+              "amor",
+              "corazon",
+              "heart",
+              "like",
+              "gustar",
+              "salud",
+            ],
+          },
+          {
+            id: "emoji-fire",
+            html: '<span class="text-2xl select-none">🔥</span>',
+            tags: [
+              "fire",
+              "fuego",
+              "hot",
+              "popular",
+              "zap",
+              "rapido",
+              "flama",
+              "calor",
+            ],
+          },
+          {
+            id: "emoji-rocket",
+            html: '<span class="text-2xl select-none">🚀</span>',
+            tags: [
+              "rocket",
+              "cohete",
+              "espacio",
+              "lanzar",
+              "rapido",
+              "despegue",
+            ],
+          },
+          {
+            id: "emoji-star",
+            html: '<span class="text-2xl select-none">⭐</span>',
+            tags: [
+              "star",
+              "estrella",
+              "favorito",
+              "brillo",
+              "destacado",
+              "calificar",
+            ],
+          },
+          {
+            id: "emoji-sparkles",
+            html: '<span class="text-2xl select-none">✨</span>',
+            tags: [
+              "sparkles",
+              "brillos",
+              "magia",
+              "ia",
+              "magic",
+              "nuevo",
+              "destello",
+            ],
+          },
+          {
+            id: "emoji-party",
+            html: '<span class="text-2xl select-none">🎉</span>',
+            tags: [
+              "party",
+              "fiesta",
+              "celebracion",
+              "congrats",
+              "evento",
+              "divertido",
+            ],
+          },
+          {
+            id: "emoji-target",
+            html: '<span class="text-2xl select-none">🎯</span>',
+            tags: [
+              "target",
+              "blanco",
+              "meta",
+              "objetivo",
+              "focus",
+              "dardo",
+              "juego",
+            ],
+          },
+          {
+            id: "emoji-bulb",
+            html: '<span class="text-2xl select-none">💡</span>',
+            tags: [
+              "idea",
+              "foco",
+              "luz",
+              "bulb",
+              "creativo",
+              "pensar",
+              "brillante",
+            ],
+          },
+          {
+            id: "emoji-phone",
+            html: '<span class="text-2xl select-none">📱</span>',
+            tags: [
+              "phone",
+              "movil",
+              "celular",
+              "smartphone",
+              "contacto",
+              "llamar",
+            ],
+          },
+          {
+            id: "emoji-coffee",
+            html: '<span class="text-2xl select-none">☕</span>',
+            tags: ["coffee", "cafe", "taza", "bebida", "mañana", "desayuno"],
+          },
+          {
+            id: "emoji-money",
+            html: '<span class="text-2xl select-none">💵</span>',
+            tags: [
+              "money",
+              "dinero",
+              "cash",
+              "dolar",
+              "pagos",
+              "comprar",
+              "riqueza",
+            ],
+          },
+          {
+            id: "emoji-crown",
+            html: '<span class="text-2xl select-none">👑</span>',
+            tags: [
+              "crown",
+              "corona",
+              "vip",
+              "rey",
+              "reina",
+              "lider",
+              "premium",
+            ],
+          },
+          {
+            id: "emoji-check",
+            html: '<span class="text-2xl select-none">✅</span>',
+            tags: [
+              "check",
+              "ok",
+              "hecho",
+              "correcto",
+              "verificado",
+              "si",
+              "exito",
+            ],
+          },
+          {
+            id: "emoji-warning",
+            html: '<span class="text-2xl select-none">⚠️</span>',
+            tags: [
+              "warning",
+              "alerta",
+              "atencion",
+              "peligro",
+              "cuidado",
+              "notificacion",
+            ],
+          },
+        ],
+      };
+
+      /**
+       * MOTOR Y CONTROLADOR PRINCIPAL DEL COMPONENTE
+       */
+      const IconStation = {
+        activeSet: "native",
+        searchQuery: "",
+        selectedIconId: "link", // Icono seleccionado por defecto
+
+        nodes: {
+          grid: document.getElementById("iconGrid"),
+          search: document.getElementById("iconSearchInput"),
+          counter: document.getElementById("iconCounter"),
+          activeName: document.getElementById("activeIconName"),
+          tabs: document.querySelectorAll(".tab-chip"),
+          preview: document.getElementById("previewBox"),
+        },
+
+        init() {
+          this.renderGrid();
+          this.bindEvents();
+        },
+
+        bindEvents() {
+          // Motor de búsqueda: Filtrado en tiempo real al escribir
+          this.nodes.search.addEventListener("input", (e) => {
+            this.searchQuery = e.target.value.toLowerCase().trim();
+            this.renderGrid();
+          });
+
+          // Cambio de set de iconos dinámico mediante Tabs/Chips
+          this.nodes.tabs.forEach((tab) => {
+            tab.addEventListener("click", (e) => {
+              const targetSet = e.currentTarget.getAttribute("data-set");
+              this.switchSet(targetSet);
+            });
+          });
+        },
+
+        switchSet(setId) {
+          this.activeSet = setId;
+
+          // Mantener la caja de búsqueda limpia al cambiar de set
+          this.searchQuery = "";
+          this.nodes.search.value = "";
+
+          // Actualizar la interfaz visual de las pestañas sin romper los SVGs internos
+          this.nodes.tabs.forEach((tab) => {
+            const currentSet = tab.getAttribute("data-set");
+            if (currentSet === setId) {
+              tab.className =
+                "tab-chip px-3.5 py-1.5 rounded-full text-xs font-semibold whitespace-nowrap transition-all flex items-center bg-gray-900 text-white shadow-sm";
+            } else {
+              tab.className =
+                "tab-chip px-3.5 py-1.5 rounded-full text-xs font-semibold whitespace-nowrap transition-all flex items-center bg-gray-100 text-gray-600 hover:bg-gray-200";
+            }
+          });
+
+          this.renderGrid();
+        },
+
+        renderGrid() {
+          const currentData = ICON_SETS[this.activeSet];
+          let htmlOutput = "";
+          let visibleCount = 0;
+
+          currentData.forEach((iconObj) => {
+            // Motor de búsqueda multidimensional (coincidencias por ID o tags del array)
+            const matches =
+              !this.searchQuery ||
+              iconObj.id.toLowerCase().includes(this.searchQuery) ||
+              iconObj.tags.some((tag) =>
+                tag.toLowerCase().includes(this.searchQuery),
+              );
+
+            if (matches) {
+              visibleCount++;
+              const isSelected = this.selectedIconId === iconObj.id;
+
+              // Render del botón con estilos de selección activa
+              const btnClasses = isSelected
+                ? "icon-btn aspect-square rounded-xl flex items-center justify-center text-xl cursor-pointer border-2 border-gray-900 bg-gray-100 text-gray-900"
+                : "icon-btn aspect-square rounded-xl flex items-center justify-center text-xl cursor-pointer border border-gray-200 bg-white text-gray-600 hover:border-gray-400 hover:bg-gray-50";
+
+              htmlOutput += `
+              <div class="${btnClasses}" 
+                   title="Etiquetas: ${iconObj.tags.join(", ")}"
+                   onclick="IconStation.selectIcon('${iconObj.id}', '${this.activeSet}')">
+                ${iconObj.html}
+              </div>
+            `;
+            }
+          });
+
+          // Estado de búsqueda vacía o sin resultados
+          if (visibleCount === 0) {
+            htmlOutput = `
+            <div class="col-span-5 flex flex-col items-center justify-center py-10 text-gray-400">
+              <svg class="w-8 h-8 mb-2 opacity-40 animate-pulse" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+              </svg>
+              <p class="text-[11px] font-medium">Sin resultados para esta búsqueda</p>
+            </div>`;
+          }
+
+          this.nodes.grid.innerHTML = htmlOutput;
+          this.nodes.counter.textContent = `${visibleCount} de ${currentData.length}`;
+        },
+
+        selectIcon(id, setOrigin) {
+          this.selectedIconId = id;
+
+          // Re-render del grid para repintar el marco del icono seleccionado
+          this.renderGrid();
+
+          // Obtener el HTML del icono o emoji y pintar la previsualización inferior
+          const iconData = ICON_SETS[setOrigin].find((i) => i.id === id);
+          if (iconData) {
+            this.nodes.preview.innerHTML = iconData.html;
+            this.nodes.activeName.textContent = id;
+
+            // Punto de conexión para tu estado global:
+            // S.icon = id;
+            // S.iconType = setOrigin;
+            // renderPreview();
+          }
+        },
+      };
+
+      // Inicializar el gestor de iconos al cargar el documento
+      document.addEventListener("DOMContentLoaded", () => {
+        IconStation.init();
+      });
+    </script>
+  </body>
+</html>
