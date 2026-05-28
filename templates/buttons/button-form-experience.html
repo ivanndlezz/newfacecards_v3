@@ -115,6 +115,37 @@
         background: var(--text2);
       }
 
+      .btn-header-edit {
+        font-size: 14px;
+        font-weight: 600;
+        color: var(--text2);
+        background: none;
+        border: none;
+        cursor: pointer;
+        padding: 8px 12px;
+        border-radius: 8px;
+        transition:
+          background-color 0.2s,
+          color 0.2s;
+      }
+      .btn-header-edit:hover {
+        background-color: var(--sheet3);
+        color: var(--text);
+      }
+      .btn-header-edit:active {
+        transform: scale(0.97);
+      }
+      .btn-header-edit .btn-text-edit {
+        display: none;
+      }
+      .btn-header-edit[data-status="edit"] .btn-text-normal {
+        display: none;
+      }
+      .btn-header-edit[data-status="edit"] .btn-text-edit {
+        display: inline;
+        color: var(--text);
+      }
+
       /* ── List Container ── */
       .buttons-list-container {
         flex: 1;
@@ -177,11 +208,6 @@
         display: flex;
         align-items: center;
         gap: 12px;
-        background: var(--sheet);
-        padding: 8px;
-        border-radius: 18px;
-        border: 1px solid var(--border);
-        box-shadow: var(--shadow-sm);
       }
       .buttons-list-container a {
         text-decoration: none;
@@ -765,12 +791,14 @@
       <div class="main-header">
         <h1 class="main-title">Bio Links</h1>
         <button
-          class="btn-header-add"
+          class="btn-header-edit"
           data-action="list:edit"
           data-module="bio_buttons"
+          data-status="normal"
           aria-label="Editar botones"
         >
-          <span>Editar</span>
+          <span class="btn-text-normal">Editar</span>
+          <span class="btn-text-edit">Listo</span>
         </button>
         <button
           class="btn-header-add"
@@ -1449,6 +1477,17 @@
     <!-- /app -->
 
     <script>
+      // ── CONSTANTS (Avoid Magic Strings) ──
+      const ACTIONS = {
+        OPEN_SHEET: "sheet:open",
+        EDIT_LIST: "list:edit",
+      };
+
+      const STATUS = {
+        NORMAL: "normal",
+        EDIT: "edit",
+      };
+
       const DOM = {
         HTML: {
           buttons_list_container: document.querySelector(
@@ -1727,7 +1766,7 @@
       }
 
       // ── BIO BUTTON HTML COMPILATOR ──
-      // Conforms strictly to: <ul><li><a><span data-role="button" data-aspect="button">...
+      // Conforms strictly to: <ul><li><div class="edit-overlay" data-action="edit-button" data-id="${id}"><span class="edit-text"></span></div><a><span data-role="button" data-aspect="button">...
       function compileBioButton(options) {
         const label = options.label || "Mi Enlace Bio";
         const desc = options.desc || "";
@@ -1941,24 +1980,24 @@
       // Boot Application
       init();
 
-      // Listen to header action buttons
-      document.querySelectorAll('.btn-header-add').forEach(btn => {
-        btn.addEventListener('click', () => {
-          const action = btn.getAttribute('data-action');
-          if (action === 'sheet:open') {
-            openSheet();
-          } else if (action === 'list:edit') {
-            const listContainer = document.getElementById('mainListContainer');
-            const isEdit = listContainer.getAttribute('data-status') === 'edit';
-            if (isEdit) {
-              listContainer.setAttribute('data-status', 'normal');
-              btn.querySelector('span').textContent = 'Editar';
-            } else {
-              listContainer.setAttribute('data-status', 'edit');
-              btn.querySelector('span').textContent = 'Listo';
-            }
-          }
-        });
+      // ── ACTION DISPATCHER (Decoupled & Event Delegation) ──
+      document.addEventListener("click", (e) => {
+        const actionEl = e.target.closest("[data-action]");
+        if (!actionEl) return;
+
+        const action = actionEl.getAttribute("data-action");
+
+        if (action === ACTIONS.OPEN_SHEET) {
+          openSheet();
+        } else if (action === ACTIONS.EDIT_LIST) {
+          const listContainer = document.getElementById("mainListContainer");
+          const isEdit =
+            listContainer.getAttribute("data-status") === STATUS.EDIT;
+
+          const newStatus = isEdit ? STATUS.NORMAL : STATUS.EDIT;
+          listContainer.setAttribute("data-status", newStatus);
+          actionEl.setAttribute("data-status", newStatus);
+        }
       });
     </script>
   </body>
