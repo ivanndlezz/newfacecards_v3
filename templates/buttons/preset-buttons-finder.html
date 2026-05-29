@@ -1,0 +1,1771 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, viewport-fit=cover"
+    />
+    <title>Buscador de Botones Pre-diseñados - Bio Link Builder</title>
+    <meta
+      name="description"
+      content="Encuentra, busca y copia diseños premium de botones para tu Bio Link. Copia el HTML o el esquema JSON directamente en tu constructor."
+    />
+
+    <!-- Google Fonts -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,600;1,600&family=JetBrains+Mono:wght@500;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- SVG Icon Symbols (Same as main builder for zero dependencies and exact matching) -->
+    <svg xmlns="http://www.w3.org/2000/svg" style="display: none">
+      <symbol id="icon-instagram" viewBox="0 0 24 24">
+        <rect width="20" height="20" x="2" y="2" rx="5" ry="5" />
+        <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" />
+        <line x1="17.5" x2="17.51" y1="6.5" y2="6.5" />
+      </symbol>
+      <symbol id="icon-twitter" viewBox="0 0 24 24">
+        <path
+          d="M22 4s-.7 2.1-2 3.4c1.6 10-9.4 17.3-18 11.6 2.2.1 4.4-.6 6-2C3 15.5.5 9.6 3 5c2.2 2.6 5.6 4.1 9 4-.9-4.2 4-6.6 7-3.8 1.1 0 3-1.2 3-1.2z"
+        />
+      </symbol>
+      <symbol id="icon-linkedin" viewBox="0 0 24 24">
+        <path
+          d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"
+        />
+        <rect width="4" height="12" x="2" y="9" />
+        <circle cx="4" cy="4" r="2" />
+      </symbol>
+      <symbol id="icon-youtube" viewBox="0 0 24 24">
+        <path
+          d="M2.5 17a24.12 24.12 0 0 1 0-10 2 2 0 0 1 1.4-1.4 49.56 49.56 0 0 1 16.2 0A2 2 0 0 1 21.5 7a24.12 24.12 0 0 1 0 10 2 2 0 0 1-1.4 1.4 49.55 49.55 0 0 1-16.2 0A2 2 0 0 1 2.5 17z"
+        />
+        <polygon points="10 15 15 12 10 9 10 15" />
+      </symbol>
+      <symbol id="icon-music" viewBox="0 0 24 24">
+        <path d="M9 18V5l12-2v13" />
+        <circle cx="6" cy="18" r="3" />
+        <circle cx="18" cy="16" r="3" />
+      </symbol>
+      <symbol id="icon-mail" viewBox="0 0 24 24">
+        <rect width="20" height="16" x="2" y="4" rx="2" />
+        <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" />
+      </symbol>
+      <symbol id="icon-phone" viewBox="0 0 24 24">
+        <path
+          d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"
+        />
+      </symbol>
+      <symbol id="icon-globe" viewBox="0 0 24 24">
+        <circle cx="12" cy="12" r="10" />
+        <path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20" />
+        <path d="M2 12h20" />
+      </symbol>
+      <symbol id="icon-star" viewBox="0 0 24 24">
+        <polygon
+          points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"
+        />
+      </symbol>
+      <symbol id="icon-heart" viewBox="0 0 24 24">
+        <path
+          d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"
+        />
+      </symbol>
+      <symbol id="icon-zap" viewBox="0 0 24 24">
+        <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2" />
+      </symbol>
+      <symbol id="icon-home" viewBox="0 0 24 24">
+        <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
+        <polyline points="9 22 9 12 15 12 15 22" />
+      </symbol>
+      <symbol id="icon-link-2" viewBox="0 0 24 24">
+        <path d="M9 17H7A5 5 0 0 1 7 7h2" />
+        <path d="M15 7h2a5 5 0 0 1 0 10h-2" />
+        <line x1="8" x2="16" y1="12" y2="12" />
+      </symbol>
+      <symbol id="icon-map-pin" viewBox="0 0 24 24">
+        <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z" />
+        <circle cx="12" cy="10" r="3" />
+      </symbol>
+      <symbol id="icon-user" viewBox="0 0 24 24">
+        <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2" />
+        <circle cx="12" cy="7" r="4" />
+      </symbol>
+      <symbol id="icon-link" viewBox="0 0 24 24">
+        <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" />
+        <path
+          d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"
+        />
+      </symbol>
+    </svg>
+
+    <style>
+      /* ── DESIGN SYSTEM & VARIABLES (Premium Dark Zinc Palette) ── */
+      :root {
+        --bg: #09090b; /* Zinc 950 */
+        --canvas: #09090b;
+        --card: #18181b; /* Zinc 900 */
+        --card-hover: #27272a; /* Zinc 800 */
+        --border: #27272a; /* Zinc 800 */
+        --border-hover: #3f3f46; /* Zinc 700 */
+        --text: #fafafa; /* Zinc 50 */
+        --text-secondary: #a1a1aa; /* Zinc 400 */
+        --text-muted: #71717a; /* Zinc 500 */
+        --accent: #ffffff; /* White */
+        --accent-hover: #e4e4e7; /* Zinc 200 */
+        
+        --radius-lg: 20px;
+        --radius-md: 14px;
+        --radius-sm: 8px;
+        
+        --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+        --transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+        
+        --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.2);
+        --shadow-md: 0 10px 30px -10px rgba(0, 0, 0, 0.5);
+        --shadow-glow: 0 0 24px -4px rgba(255, 255, 255, 0.05);
+      }
+
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+        -webkit-tap-highlight-color: transparent;
+      }
+
+      body {
+        background-color: var(--bg);
+        color: var(--text);
+        font-family: var(--font-sans);
+        min-height: 100vh;
+        overflow-x: hidden;
+        line-height: 1.5;
+        padding-bottom: 80px;
+      }
+
+      /* Background Grid Pattern */
+      .bg-grid {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-image: 
+          radial-gradient(circle at 1px 1px, rgba(255, 255, 255, 0.03) 1px, transparent 0),
+          radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.02) 0%, transparent 100%);
+        background-size: 24px 24px, 100% 100%;
+        background-position: 0 0, center;
+        z-index: -1;
+        pointer-events: none;
+      }
+
+      /* SVG Icon styling */
+      .svg-icon {
+        width: 20px;
+        height: 20px;
+        stroke: currentColor;
+        fill: none;
+        stroke-width: 2;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+        display: inline-block;
+        vertical-align: middle;
+      }
+
+      /* ── CONTAINER & LAYOUT ── */
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 40px 24px;
+      }
+
+      /* Header section */
+      .header-section {
+        margin-bottom: 40px;
+        text-align: center;
+        position: relative;
+      }
+      
+      .header-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        background: rgba(255, 255, 255, 0.04);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        padding: 6px 14px;
+        border-radius: 99px;
+        font-size: 12px;
+        font-weight: 500;
+        color: var(--text-secondary);
+        margin-bottom: 16px;
+      }
+
+      .header-badge .badge-dot {
+        width: 6px;
+        height: 6px;
+        background: #10b981;
+        border-radius: 50%;
+        box-shadow: 0 0 8px #10b981;
+      }
+
+      .header-title {
+        font-size: 38px;
+        font-weight: 800;
+        letter-spacing: -1px;
+        margin-bottom: 12px;
+        background: linear-gradient(135deg, #ffffff 50%, #a1a1aa 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
+
+      .header-desc {
+        color: var(--text-secondary);
+        font-size: 16px;
+        max-width: 600px;
+        margin: 0 auto;
+        font-weight: 400;
+      }
+
+      /* ── SEARCH & FILTER PANEL ── */
+      .search-filter-panel {
+        max-width: 720px;
+        margin: 0 auto 48px auto;
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+      }
+
+      .search-wrapper {
+        position: relative;
+        width: 100%;
+      }
+
+      .search-input {
+        width: 100%;
+        background: rgba(24, 24, 27, 0.8);
+        border: 1px solid var(--border);
+        border-radius: var(--radius-md);
+        padding: 16px 18px 16px 52px;
+        color: var(--text);
+        font-size: 15px;
+        font-family: var(--font-sans);
+        outline: none;
+        transition: var(--transition);
+        backdrop-filter: blur(12px);
+      }
+
+      .search-input:focus {
+        border-color: var(--border-hover);
+        box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.05), var(--shadow-glow);
+        background: rgba(39, 39, 42, 0.8);
+      }
+
+      .search-icon-left {
+        position: absolute;
+        left: 18px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: var(--text-muted);
+        pointer-events: none;
+        transition: var(--transition);
+      }
+
+      .search-input:focus + .search-icon-left {
+        color: var(--text);
+      }
+
+      .search-clear-btn {
+        position: absolute;
+        right: 16px;
+        top: 50%;
+        transform: translateY(-50%);
+        background: transparent;
+        border: none;
+        color: var(--text-muted);
+        cursor: pointer;
+        padding: 4px;
+        border-radius: 50%;
+        display: none;
+        align-items: center;
+        justify-content: center;
+        transition: var(--transition);
+      }
+
+      .search-clear-btn:hover {
+        color: var(--text);
+        background: rgba(255, 255, 255, 0.05);
+      }
+
+      /* Category Pills */
+      .categories-wrapper {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        flex-wrap: wrap;
+        padding: 4px;
+      }
+
+      .category-pill {
+        background: rgba(24, 24, 27, 0.6);
+        border: 1px solid var(--border);
+        color: var(--text-secondary);
+        padding: 8px 16px;
+        border-radius: 99px;
+        font-size: 13px;
+        font-weight: 500;
+        cursor: pointer;
+        transition: var(--transition);
+        font-family: var(--font-sans);
+      }
+
+      .category-pill:hover {
+        background: var(--card-hover);
+        color: var(--text);
+        border-color: var(--border-hover);
+      }
+
+      .category-pill.active {
+        background: var(--text);
+        color: var(--bg);
+        border-color: var(--text);
+        font-weight: 600;
+      }
+
+      /* ── GRID OF PRESETS ── */
+      .presets-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+        gap: 24px;
+      }
+
+      .preset-card {
+        background: var(--card);
+        border: 1px solid var(--border);
+        border-radius: var(--radius-lg);
+        padding: 24px;
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+        transition: var(--transition);
+        position: relative;
+        overflow: hidden;
+      }
+
+      .preset-card:hover {
+        transform: translateY(-4px);
+        border-color: var(--border-hover);
+        box-shadow: var(--shadow-md), var(--shadow-glow);
+      }
+
+      .preset-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(180deg, rgba(255, 255, 255, 0.02) 0%, transparent 100%);
+        pointer-events: none;
+      }
+
+      /* Card Header */
+      .card-header {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+      }
+
+      .card-meta {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+
+      .card-category {
+        font-size: 11px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        color: var(--text-muted);
+      }
+
+      .card-tags {
+        display: flex;
+        gap: 4px;
+        flex-wrap: wrap;
+      }
+
+      .tag-badge {
+        font-size: 10px;
+        background: rgba(255, 255, 255, 0.03);
+        border: 1px solid rgba(255, 255, 255, 0.05);
+        color: var(--text-secondary);
+        padding: 2px 6px;
+        border-radius: 4px;
+        font-family: var(--font-sans);
+      }
+
+      .card-title {
+        font-size: 18px;
+        font-weight: 700;
+        color: var(--text);
+        letter-spacing: -0.4px;
+      }
+
+      /* Live Render Preview Canvas */
+      .live-canvas {
+        background: #0f0f11;
+        background-image: 
+          linear-gradient(rgba(255, 255, 255, 0.015) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(255, 255, 255, 0.015) 1px, transparent 1px);
+        background-size: 16px 16px;
+        background-position: center;
+        border: 1px solid rgba(255, 255, 255, 0.04);
+        border-radius: var(--radius-md);
+        padding: 20px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 110px;
+        position: relative;
+        overflow: hidden;
+      }
+
+      /* Card Actions */
+      .card-actions {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 8px;
+        margin-top: auto;
+      }
+
+      .btn-primary {
+        grid-column: span 2;
+        background: var(--text);
+        color: var(--bg);
+        border: none;
+        border-radius: var(--radius-sm);
+        padding: 12px;
+        font-size: 14px;
+        font-weight: 600;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        transition: var(--transition);
+        font-family: var(--font-sans);
+      }
+
+      .btn-primary:hover {
+        background: var(--accent-hover);
+        transform: translateY(-1px);
+      }
+
+      .btn-secondary {
+        background: rgba(255, 255, 255, 0.04);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        color: var(--text);
+        border-radius: var(--radius-sm);
+        padding: 10px;
+        font-size: 13px;
+        font-weight: 500;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 6px;
+        transition: var(--transition);
+        font-family: var(--font-sans);
+      }
+
+      .btn-secondary:hover {
+        background: rgba(255, 255, 255, 0.08);
+        border-color: rgba(255, 255, 255, 0.15);
+      }
+
+      /* Empty State */
+      .empty-state {
+        grid-column: 1 / -1;
+        text-align: center;
+        padding: 60px 24px;
+        background: var(--card);
+        border: 1px dashed var(--border);
+        border-radius: var(--radius-lg);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 16px;
+      }
+
+      .empty-state-icon {
+        width: 48px;
+        height: 48px;
+        color: var(--text-muted);
+      }
+
+      .empty-state-text {
+        font-size: 15px;
+        color: var(--text-secondary);
+      }
+
+      .empty-state-btn {
+        background: transparent;
+        border: 1px solid var(--border);
+        color: var(--text);
+        padding: 8px 16px;
+        border-radius: 8px;
+        cursor: pointer;
+        font-weight: 500;
+        transition: var(--transition);
+      }
+
+      .empty-state-btn:hover {
+        background: var(--card-hover);
+      }
+
+
+      /* ── BIO BUTTON RENDERING SYSTEM (Copied from builder for absolute fidelity) ── */
+      .bio-btn {
+        display: flex;
+        align-items: center;
+        width: 100%;
+        min-height: 58px;
+        padding: 12px 18px;
+        background: var(--btn-bg, #ffffff);
+        border-radius: var(--btn-radius, 14px);
+
+        /* Borders */
+        border-top: var(--btn-border-top, 0) solid var(--btn-border-color, #e4e4e7);
+        border-bottom: var(--btn-border-bottom, 0) solid var(--btn-border-color, #e4e4e7);
+        border-left: var(--btn-border-left, 0) solid var(--btn-border-color, #e4e4e7);
+        border-right: var(--btn-border-right, 0) solid var(--btn-border-color, #e4e4e7);
+
+        color: var(--btn-text-color, #09090b);
+        transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+        text-decoration: none;
+        position: relative;
+      }
+
+      .bio-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 16px rgba(0, 0, 0, 0.06);
+      }
+
+      .bio-btn__media {
+        display: none;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+        width: 32px;
+        height: 32px;
+      }
+
+      .bio-btn__media svg {
+        width: 18px;
+        height: 18px;
+      }
+
+      .bio-btn__content {
+        display: flex;
+        flex-direction: column;
+        flex: 1;
+        width: 100%;
+        justify-content: center;
+        text-align: var(--btn-text-align, left);
+        align-items: var(--btn-align-items, flex-start);
+      }
+
+      .bio-btn__title {
+        font-size: 14px;
+        font-weight: 600;
+        line-height: 1.25;
+      }
+
+      .bio-btn__desc {
+        display: none;
+        font-size: 11px;
+        margin-top: 3px;
+        opacity: 0.85;
+      }
+
+      .bio-btn--has-desc .bio-btn__desc {
+        display: block;
+      }
+
+      /* Variant: Left */
+      .bio-btn[data-variant="left"] {
+        flex-direction: row;
+      }
+      .bio-btn[data-variant="left"] .bio-btn__media {
+        display: flex;
+        margin-right: var(--btn-media-margin, 14px);
+        padding: var(--btn-media-padding, 0);
+      }
+
+      /* Variant: Right */
+      .bio-btn[data-variant="right"] {
+        flex-direction: row-reverse;
+      }
+      .bio-btn[data-variant="right"] .bio-btn__media {
+        display: flex;
+        margin-left: var(--btn-media-margin, 14px);
+        padding: var(--btn-media-padding, 0);
+      }
+
+      /* Variant: Top (Squared or stacked) */
+      .bio-btn[data-variant="top"] {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        padding: 16px;
+      }
+      .bio-btn[data-variant="top"] .bio-btn__media {
+        display: flex;
+        margin-bottom: var(--btn-media-margin, 10px);
+        padding: var(--btn-media-padding, 0);
+      }
+
+      /* Variant: Image */
+      .bio-btn[data-variant="image"] .bio-btn__media {
+        display: flex;
+        color: #ffffff;
+        margin-right: var(--btn-media-margin, 14px);
+        padding: var(--btn-media-padding, 4px);
+      }
+
+      /* Shapes */
+      .bio-btn[data-shape="circled"] .bio-btn__media {
+        border-radius: 50%;
+      }
+      .bio-btn[data-shape="squircle"] .bio-btn__media {
+        border-radius: 10px;
+      }
+      .bio-btn[data-shape="square"] .bio-btn__media {
+        border-radius: 0;
+      }
+
+      /* None (No media) */
+      .bio-btn[data-variant="none"] .bio-btn__media {
+        display: none !important;
+      }
+
+
+      /* ── DETAILS DRAWER / SHEET OVERLAY ── */
+      .drawer-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(9, 9, 11, 0.8);
+        backdrop-filter: blur(8px);
+        z-index: 1000;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .drawer-overlay.active {
+        opacity: 1;
+        pointer-events: auto;
+      }
+
+      .drawer-sheet {
+        background: var(--card);
+        border: 1px solid var(--border);
+        border-radius: var(--radius-lg);
+        width: 90%;
+        max-width: 800px;
+        max-height: 90vh;
+        overflow-y: auto;
+        box-shadow: 0 30px 60px rgba(0, 0, 0, 0.8);
+        transform: translateY(30px) scale(0.98);
+        transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        display: flex;
+        flex-direction: column;
+      }
+
+      .drawer-overlay.active .drawer-sheet {
+        transform: translateY(0) scale(1);
+      }
+
+      /* Drawer Header */
+      .drawer-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 24px;
+        border-bottom: 1px solid var(--border);
+      }
+
+      .drawer-title-group {
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+      }
+
+      .drawer-title {
+        font-size: 20px;
+        font-weight: 700;
+        letter-spacing: -0.4px;
+      }
+
+      .drawer-subtitle {
+        font-size: 13px;
+        color: var(--text-secondary);
+      }
+
+      .btn-close-drawer {
+        background: rgba(255, 255, 255, 0.04);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        width: 36px;
+        height: 36px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: var(--text-secondary);
+        cursor: pointer;
+        transition: var(--transition);
+      }
+
+      .btn-close-drawer:hover {
+        background: rgba(255, 255, 255, 0.08);
+        color: var(--text);
+      }
+
+      /* Drawer Content Grid */
+      .drawer-body {
+        padding: 24px;
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 24px;
+      }
+
+      @media (min-width: 768px) {
+        .drawer-body {
+          grid-template-columns: 320px 1fr;
+        }
+      }
+
+      /* Sandbox Preview */
+      .sandbox-pane {
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+      }
+
+      .sandbox-label {
+        font-size: 13px;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        color: var(--text-muted);
+      }
+
+      .sandbox-container {
+        flex: 1;
+        background: #0f0f11;
+        border: 1px solid rgba(255, 255, 255, 0.04);
+        border-radius: var(--radius-md);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 30px;
+        min-height: 160px;
+        background-image: 
+          radial-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+        background-size: 16px 16px;
+      }
+
+      /* Code Pane and Tabs */
+      .code-pane {
+        display: flex;
+        flex-direction: column;
+        gap: 14px;
+      }
+
+      .tabs-header {
+        display: flex;
+        border-bottom: 1px solid var(--border);
+        gap: 16px;
+      }
+
+      .tab-btn {
+        background: transparent;
+        border: none;
+        border-bottom: 2px solid transparent;
+        color: var(--text-secondary);
+        padding: 8px 4px 12px 4px;
+        font-size: 14px;
+        font-weight: 500;
+        cursor: pointer;
+        transition: var(--transition);
+        font-family: var(--font-sans);
+      }
+
+      .tab-btn:hover {
+        color: var(--text);
+      }
+
+      .tab-btn.active {
+        color: var(--text);
+        border-bottom-color: var(--text);
+        font-weight: 600;
+      }
+
+      .tab-content {
+        display: none;
+      }
+
+      .tab-content.active {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+      }
+
+      .code-block-wrapper {
+        position: relative;
+        background: #09090b;
+        border: 1px solid var(--border);
+        border-radius: var(--radius-sm);
+        overflow: hidden;
+      }
+
+      .code-block {
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 12px;
+        padding: 16px;
+        color: #e4e4e7;
+        white-space: pre-wrap;
+        word-break: break-all;
+        max-height: 220px;
+        overflow-y: auto;
+      }
+
+      .btn-copy-code {
+        position: absolute;
+        top: 8px;
+        right: 8px;
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        color: var(--text-secondary);
+        font-size: 11px;
+        font-weight: 500;
+        padding: 6px 12px;
+        border-radius: 6px;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        transition: var(--transition);
+        backdrop-filter: blur(4px);
+      }
+
+      .btn-copy-code:hover {
+        background: rgba(255, 255, 255, 0.1);
+        color: var(--text);
+        border-color: rgba(255, 255, 255, 0.15);
+      }
+
+      .instruction-box {
+        background: rgba(255, 255, 255, 0.02);
+        border: 1px solid rgba(255, 255, 255, 0.04);
+        padding: 12px 16px;
+        border-radius: var(--radius-sm);
+        font-size: 12px;
+        color: var(--text-secondary);
+        display: flex;
+        gap: 10px;
+        line-height: 1.4;
+      }
+
+      .instruction-box svg {
+        flex-shrink: 0;
+        color: #3b82f6;
+        width: 16px;
+        height: 16px;
+        margin-top: 2px;
+      }
+
+
+      /* ── TOAST NOTIFICATION ── */
+      .toast {
+        position: fixed;
+        bottom: 24px;
+        left: 50%;
+        transform: translate(-50%, 20px);
+        background: rgba(24, 24, 27, 0.9);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(12px);
+        color: var(--text);
+        padding: 12px 24px;
+        border-radius: 99px;
+        font-size: 13px;
+        font-weight: 500;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        z-index: 2000;
+        opacity: 0;
+        pointer-events: none;
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
+        transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.2s ease;
+      }
+
+      .toast.active {
+        opacity: 1;
+        transform: translate(-50%, 0);
+      }
+
+      .toast-success-icon {
+        color: #10b981;
+        width: 16px;
+        height: 16px;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Background Grid -->
+    <div class="bg-grid"></div>
+
+    <main class="container">
+      <!-- Premium Hero Header -->
+      <header class="header-section">
+        <div class="header-badge">
+          <span class="badge-dot"></span>
+          <span id="presetsCount">11 Diseños Premium Listos</span>
+        </div>
+        <h1 class="header-title">Buscador de Botones Pre-diseñados</h1>
+        <p class="header-desc">
+          Encuentra, busca y copia diseños de botones premium listos para usar. Ahorra tiempo copiando el HTML limpio o el esquema JSON directamente en tu constructor de enlaces.
+        </p>
+      </header>
+
+      <!-- Search & Category Filters Panel -->
+      <section class="search-filter-panel">
+        <div class="search-wrapper">
+          <input
+            type="text"
+            id="searchInput"
+            class="search-input"
+            placeholder="Buscar por red social, plataforma, color o estilo..."
+            autocomplete="off"
+            aria-label="Buscar presets"
+          />
+          <svg class="svg-icon search-icon-left" viewBox="0 0 24 24">
+            <circle cx="11" cy="11" r="8"></circle>
+            <line x1="21" x2="16.65" y1="21" y2="16.65"></line>
+          </svg>
+          <button
+            type="button"
+            id="clearSearchBtn"
+            class="search-clear-btn"
+            aria-label="Limpiar búsqueda"
+          >
+            <svg class="svg-icon" viewBox="0 0 24 24">
+              <line x1="18" x2="6" y1="6" y2="18"></line>
+              <line x1="6" x2="18" y1="6" y2="18"></line>
+            </svg>
+          </button>
+        </div>
+
+        <nav class="categories-wrapper" aria-label="Filtrar por categoría">
+          <button class="category-pill active" onclick="filterByCategory('todos')">Todos</button>
+          <button class="category-pill" onclick="filterByCategory('social')">Social</button>
+          <button class="category-pill" onclick="filterByCategory('profesional')">Profesional</button>
+          <button class="category-pill" onclick="filterByCategory('minimalista')">Minimalista</button>
+          <button class="category-pill" onclick="filterByCategory('creativos')">Creativos</button>
+          <button class="category-pill" onclick="filterByCategory('gradientes')">Gradientes</button>
+        </nav>
+      </section>
+
+      <!-- Presets Card Grid -->
+      <section class="presets-grid" id="presetsGrid" aria-label="Diseños disponibles">
+        <!-- Dynamic content injected here by JS -->
+      </section>
+    </main>
+
+    <!-- Details Inspector Drawer / Bottom Sheet -->
+    <div class="drawer-overlay" id="detailDrawer" onclick="closeDetailOnOverlay(event)">
+      <div class="drawer-sheet" role="dialog" aria-modal="true" aria-labelledby="drawerTitle">
+        <!-- Drawer Header -->
+        <header class="drawer-header">
+          <div class="drawer-title-group">
+            <h2 class="drawer-title" id="drawerTitle">WhatsApp Directo</h2>
+            <span class="drawer-subtitle" id="drawerSubtitle">Botón premium listo para cargar</span>
+          </div>
+          <button class="btn-close-drawer" onclick="closeDrawer()" aria-label="Cerrar panel">
+            <svg class="svg-icon" viewBox="0 0 24 24">
+              <line x1="18" x2="6" y1="6" y2="18"></line>
+              <line x1="6" x2="18" y1="6" y2="18"></line>
+            </svg>
+          </button>
+        </header>
+
+        <!-- Drawer Content Body -->
+        <div class="drawer-body">
+          <!-- Live Sandbox Canvas -->
+          <div class="sandbox-pane">
+            <h3 class="sandbox-label">Vista Previa Interactiva</h3>
+            <div class="sandbox-container" id="sandboxContainer">
+              <!-- Recompiled button loaded dynamically here -->
+            </div>
+            <div class="instruction-box">
+              <svg class="svg-icon" viewBox="0 0 24 24">
+                <circle cx="12" cy="12" r="10"></circle>
+                <line x1="12" x2="12" y1="16" y2="12"></line>
+                <line x1="12" x2="12.01" y1="8" y2="8"></line>
+              </svg>
+              <span>Prueba a pasar el mouse por encima para ver la animación premium.</span>
+            </div>
+          </div>
+
+          <!-- Code Inspector Tabs -->
+          <div class="code-pane">
+            <nav class="tabs-header" aria-label="Formatos de código">
+              <button class="tab-btn active" onclick="switchTab(event, 'tabHtml')">HTML & CSS</button>
+              <button class="tab-btn" onclick="switchTab(event, 'tabJson')">JSON Schema</button>
+            </nav>
+
+            <!-- HTML Tab Content -->
+            <div class="tab-content active" id="tabHtml">
+              <div class="code-block-wrapper">
+                <button class="btn-copy-code" onclick="copyTabCode('tabHtml')">
+                  <svg class="svg-icon" viewBox="0 0 24 24" style="width: 14px; height: 14px;">
+                    <rect width="13" height="13" x="9" y="9" rx="2" ry="2"></rect>
+                    <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                  </svg>
+                  Copiar HTML
+                </button>
+                <pre class="code-block"><code id="codeHtml">Cargando...</code></pre>
+              </div>
+              <div class="instruction-box">
+                <svg class="svg-icon" viewBox="0 0 24 24">
+                  <circle cx="12" cy="12" r="10"></circle>
+                  <polygon points="12 8 8 12 12 16 12 8"></polygon>
+                  <line x1="16" x2="12" y1="12" y2="12"></line>
+                </svg>
+                <span>Inserta este código directamente en tu archivo HTML o editor web. Incluye todas las variables en línea necesarias.</span>
+              </div>
+            </div>
+
+            <!-- JSON Tab Content -->
+            <div class="tab-content" id="tabJson">
+              <div class="code-block-wrapper">
+                <button class="btn-copy-code" onclick="copyTabCode('tabJson')">
+                  <svg class="svg-icon" viewBox="0 0 24 24" style="width: 14px; height: 14px;">
+                    <rect width="13" height="13" x="9" y="9" rx="2" ry="2"></rect>
+                    <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                  </svg>
+                  Copiar JSON
+                </button>
+                <pre class="code-block"><code id="codeJson">Cargando...</code></pre>
+              </div>
+              <div class="instruction-box">
+                <svg class="svg-icon" viewBox="0 0 24 24">
+                  <path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1-2.5-2.5Z"></path>
+                  <path d="M6 6h10M6 10h10"></path>
+                </svg>
+                <span>Perfecto para cargar este preset programáticamente en la lista del constructor <code>S.buttons</code>.</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Feedback Toast -->
+    <div class="toast" id="copyToast" role="status" aria-live="polite">
+      <svg class="svg-icon toast-success-icon" viewBox="0 0 24 24">
+        <polyline points="20 6 9 17 4 12"></polyline>
+      </svg>
+      <span id="toastMsg">Copiado al portapapeles</span>
+    </div>
+
+    <script>
+      /* ── INLINE SVG ICONS ENGINE (Zero dependencies, same as button-form-experience.html) ── */
+      const HTMLels = {
+        sv: {
+          o1: '<svg class="svg-icon" viewBox="0 0 24 24">',
+          c0: "</svg>",
+        },
+        getIcon: function (name) {
+          return `${this.sv.o1}<use href="#icon-${name}"></use>${this.sv.c0}`;
+        },
+      };
+
+      const SVG_ICONS = {
+        instagram: HTMLels.getIcon("instagram"),
+        twitter: HTMLels.getIcon("twitter"),
+        linkedin: HTMLels.getIcon("linkedin"),
+        youtube: HTMLels.getIcon("youtube"),
+        music: HTMLels.getIcon("music"),
+        mail: HTMLels.getIcon("mail"),
+        phone: HTMLels.getIcon("phone"),
+        globe: HTMLels.getIcon("globe"),
+        star: HTMLels.getIcon("star"),
+        heart: HTMLels.getIcon("heart"),
+        zap: HTMLels.getIcon("zap"),
+        home: HTMLels.getIcon("home"),
+        "link-2": HTMLels.getIcon("link-2"),
+        "map-pin": HTMLels.getIcon("map-pin"),
+        user: HTMLels.getIcon("user"),
+        link: HTMLels.getIcon("link"),
+      };
+
+      function getIconSvg(name) {
+        return SVG_ICONS[name] || SVG_ICONS["link"];
+      }
+
+      /* ── DYNAMIC PRESETS DATABANK (11 Exquisite Pre-designed buttons conforming to builder state schema) ── */
+      const PRESETS = [
+        {
+          id: 100001,
+          name: "WhatsApp Directo",
+          category: "social",
+          tags: ["whatsapp", "soporte", "chat", "contacto"],
+          linkType: "url",
+          url: "https://wa.me/1234567890",
+          variant: "left",
+          shape: "circled",
+          icon: "phone",
+          color: "#ffffff",
+          marginMedia: 14,
+          paddingMedia: 6,
+          label: "Hablemos por WhatsApp",
+          desc: "Soporte inmediato y consultas rápidas",
+          textAlign: "left",
+          titleFont: "'Inter', sans-serif",
+          titleColor: "#ffffff",
+          subFont: "'Inter', sans-serif",
+          subColor: "#a7f3d0",
+          bgType: "gradient",
+          bgColor: "#10b981",
+          bgGrad1: "#059669",
+          bgGrad2: "#10b981",
+          borderT: 0, borderB: 0, borderL: 0, borderR: 0,
+          borderColor: "#ffffff",
+          borderRadius: 16
+        },
+        {
+          id: 100002,
+          name: "Instagram Sunset",
+          category: "social",
+          tags: ["instagram", "creador", "social", "sunset"],
+          linkType: "url",
+          url: "https://instagram.com/tu_usuario",
+          variant: "left",
+          shape: "squircle",
+          icon: "instagram",
+          color: "#ffffff",
+          marginMedia: 14,
+          paddingMedia: 4,
+          label: "Sígueme en Instagram",
+          desc: "Novedades y contenido diario",
+          textAlign: "left",
+          titleFont: "'Inter', sans-serif",
+          titleColor: "#ffffff",
+          subFont: "'Inter', sans-serif",
+          subColor: "#fecdd3",
+          bgType: "gradient",
+          bgColor: "#db2777",
+          bgGrad1: "#4f46e5",
+          bgGrad2: "#db2777",
+          borderT: 0, borderB: 0, borderL: 0, borderR: 0,
+          borderColor: "#ffffff",
+          borderRadius: 18
+        },
+        {
+          id: 100003,
+          name: "Llamada Directa",
+          category: "profesional",
+          tags: ["telefono", "urgente", "soporte", "llamada"],
+          linkType: "tel",
+          url: "+34600000000",
+          variant: "left",
+          shape: "circled",
+          icon: "phone",
+          color: "#047857",
+          marginMedia: 16,
+          paddingMedia: 6,
+          label: "Soporte Telefónico",
+          desc: "Lunes a Viernes de 9:00 a 18:00",
+          textAlign: "left",
+          titleFont: "'Inter', sans-serif",
+          titleColor: "#065f46",
+          subFont: "'Inter', sans-serif",
+          subColor: "#047857",
+          bgType: "solid",
+          bgColor: "#d1fae5",
+          bgGrad1: "#ffffff",
+          bgGrad2: "#ffffff",
+          borderT: 1, borderB: 1, borderL: 1, borderR: 1,
+          borderColor: "#a7f3d0",
+          borderRadius: 14
+        },
+        {
+          id: 100004,
+          name: "Apple Neo-Noir",
+          category: "minimalista",
+          tags: ["minimal", "negro", "apple", "elegante"],
+          linkType: "url",
+          url: "https://ejemplo.com",
+          variant: "left",
+          shape: "squircle",
+          icon: "globe",
+          color: "#ffffff",
+          marginMedia: 12,
+          paddingMedia: 0,
+          label: "Visitar Sitio Web Oficial",
+          desc: "Explora la nueva colección 2026",
+          textAlign: "left",
+          titleFont: "'Inter', sans-serif",
+          titleColor: "#ffffff",
+          subFont: "'Inter', sans-serif",
+          subColor: "#a1a1aa",
+          bgType: "solid",
+          bgColor: "#09090b",
+          bgGrad1: "#ffffff",
+          bgGrad2: "#ffffff",
+          borderT: 1, borderB: 1, borderL: 1, borderR: 1,
+          borderColor: "#27272a",
+          borderRadius: 16
+        },
+        {
+          id: 100005,
+          name: "Cristal Translúcido",
+          category: "minimalista",
+          tags: ["glassmorphism", "transparente", "cristal", "vip"],
+          linkType: "url",
+          url: "https://ejemplo.com",
+          variant: "left",
+          shape: "circled",
+          icon: "zap",
+          color: "#18181b",
+          marginMedia: 14,
+          paddingMedia: 4,
+          label: "Acceso VIP Exclusivo",
+          desc: "Entra a la comunidad privada",
+          textAlign: "left",
+          titleFont: "'Inter', sans-serif",
+          titleColor: "#18181b",
+          subFont: "'Inter', sans-serif",
+          subColor: "#52525b",
+          bgType: "solid",
+          bgColor: "rgba(255, 255, 255, 0.4)",
+          bgGrad1: "#ffffff",
+          bgGrad2: "#ffffff",
+          borderT: 1, borderB: 1, borderL: 1, borderR: 1,
+          borderColor: "rgba(255, 255, 255, 0.65)",
+          borderRadius: 20
+        },
+        {
+          id: 100006,
+          name: "Spotify Player",
+          category: "creativos",
+          tags: ["spotify", "musica", "neon", "playlist"],
+          linkType: "url",
+          url: "https://open.spotify.com",
+          variant: "right",
+          shape: "circled",
+          icon: "music",
+          color: "#1db954",
+          marginMedia: 14,
+          paddingMedia: 4,
+          label: "Escuchar Mi Último Lanzamiento",
+          desc: "Disponible ahora en todas las plataformas",
+          textAlign: "left",
+          titleFont: "'JetBrains Mono', monospace",
+          titleColor: "#ffffff",
+          subFont: "'JetBrains Mono', monospace",
+          subColor: "#1db954",
+          bgType: "solid",
+          bgColor: "#121212",
+          bgGrad1: "#ffffff",
+          bgGrad2: "#ffffff",
+          borderT: 1, borderB: 1, borderL: 1, borderR: 1,
+          borderColor: "#1db954",
+          borderRadius: 12
+        },
+        {
+          id: 100007,
+          name: "Editorial Serif",
+          category: "creativos",
+          tags: ["playfair", "peach", "editorial", "retro"],
+          linkType: "url",
+          url: "https://ejemplo.com",
+          variant: "top",
+          shape: "square",
+          icon: "star",
+          color: "#ea580c",
+          marginMedia: 12,
+          paddingMedia: 6,
+          label: "Diseño Editorial & Conceptos",
+          desc: "Mira los proyectos más aclamados del año",
+          textAlign: "center",
+          titleFont: "'Playfair Display', serif",
+          titleColor: "#431407",
+          subFont: "'Playfair Display', serif",
+          subColor: "#7c2d12",
+          bgType: "gradient",
+          bgColor: "#ffedd5",
+          bgGrad1: "#ffedd5",
+          bgGrad2: "#fed7aa",
+          borderT: 2, borderB: 2, borderL: 2, borderR: 2,
+          borderColor: "#fdba74",
+          borderRadius: 0
+        },
+        {
+          id: 100008,
+          name: "LinkedIn Conexión",
+          category: "profesional",
+          tags: ["linkedin", "cv", "empleo", "azul"],
+          linkType: "url",
+          url: "https://linkedin.com",
+          variant: "left",
+          shape: "squircle",
+          icon: "linkedin",
+          color: "#ffffff",
+          marginMedia: 12,
+          paddingMedia: 4,
+          label: "Conecta Conmigo en LinkedIn",
+          desc: "Perfil profesional, proyectos y experiencia",
+          textAlign: "left",
+          titleFont: "'Inter', sans-serif",
+          titleColor: "#ffffff",
+          subFont: "'Inter', sans-serif",
+          subColor: "#bfdbfe",
+          bgType: "solid",
+          bgColor: "#0a66c2",
+          bgGrad1: "#ffffff",
+          bgGrad2: "#ffffff",
+          borderT: 0, borderB: 0, borderL: 0, borderR: 0,
+          borderColor: "#ffffff",
+          borderRadius: 14
+        },
+        {
+          id: 100009,
+          name: "Contacto Ejecutivo",
+          category: "profesional",
+          tags: ["correo", "vcard", "celeste", "negocios"],
+          linkType: "mail",
+          url: "hola@empresa.com",
+          variant: "left",
+          shape: "circled",
+          icon: "mail",
+          color: "#ffffff",
+          marginMedia: 14,
+          paddingMedia: 4,
+          label: "Hablemos de Negocios",
+          desc: "Envíame un correo con tu propuesta comercial",
+          textAlign: "left",
+          titleFont: "'Inter', sans-serif",
+          titleColor: "#0f172a",
+          subFont: "'Inter', sans-serif",
+          subColor: "#475569",
+          bgType: "gradient",
+          bgColor: "#e0f2fe",
+          bgGrad1: "#e0f2fe",
+          bgGrad2: "#bae6fd",
+          borderT: 1, borderB: 1, borderL: 1, borderR: 1,
+          borderColor: "#93c5fd",
+          borderRadius: 18
+        },
+        {
+          id: 100010,
+          name: "Developer Monospace",
+          category: "minimalista",
+          tags: ["github", "consola", "codigo", "dark"],
+          linkType: "url",
+          url: "https://github.com",
+          variant: "left",
+          shape: "squircle",
+          icon: "globe",
+          color: "#ffffff",
+          marginMedia: 12,
+          paddingMedia: 4,
+          label: "Ver Repositorios de Código",
+          desc: "Proyectos abiertos, scripts y herramientas",
+          textAlign: "left",
+          titleFont: "'JetBrains Mono', monospace",
+          titleColor: "#fafafa",
+          subFont: "'JetBrains Mono', monospace",
+          subColor: "#a1a1aa",
+          bgType: "gradient",
+          bgColor: "#1f2937",
+          bgGrad1: "#111827",
+          bgGrad2: "#1f2937",
+          borderT: 1, borderB: 1, borderL: 1, borderR: 1,
+          borderColor: "#374151",
+          borderRadius: 10
+        },
+        {
+          id: 100011,
+          name: "Cyberpunk Glow",
+          category: "creativos",
+          tags: ["cyberpunk", "zap", "glow", "fucsia"],
+          linkType: "url",
+          url: "https://ejemplo.com",
+          variant: "left",
+          shape: "circled",
+          icon: "zap",
+          color: "#f59e0b",
+          marginMedia: 14,
+          paddingMedia: 4,
+          label: "¡Entrar al Metaverso Digital!",
+          desc: "Experiencia 3D inmersiva y galería interactiva",
+          textAlign: "left",
+          titleFont: "'JetBrains Mono', monospace",
+          titleColor: "#00ffff",
+          subFont: "'JetBrains Mono', monospace",
+          subColor: "#ff007f",
+          bgType: "gradient",
+          bgColor: "#000000",
+          bgGrad1: "#000000",
+          bgGrad2: "#180026",
+          borderT: 2, borderB: 2, borderL: 2, borderR: 2,
+          borderColor: "#00ffff",
+          borderRadius: 30
+        }
+      ];
+
+      /* ── CORE COMPILER FUNCTION ── */
+      function compileBioButton(options) {
+        const label = options.label || "Mi Enlace Bio";
+        const desc = options.desc || "";
+        const descClass = desc ? "bio-btn--has-desc" : "";
+
+        // Background computing
+        let bgStyle = "";
+        if (options.bgType === "gradient") {
+          bgStyle = `linear-gradient(135deg, ${options.bgGrad1}, ${options.bgGrad2})`;
+        } else {
+          bgStyle = options.bgColor;
+        }
+
+        // Text Alignment & Flex items mapping
+        let alignItems = "flex-start";
+        if (options.textAlign === "center") alignItems = "center";
+        if (options.textAlign === "right") alignItems = "flex-end";
+
+        return `
+      <div class="bio-btn ${descClass}" 
+           data-variant="${options.variant}" 
+           data-shape="${options.shape}"
+           style="
+             --btn-bg: ${bgStyle};
+             --btn-radius: ${options.borderRadius}px;
+             --btn-text-color: ${options.titleColor};
+             --btn-color: ${options.color};
+             
+             --btn-border-top: ${options.borderT}px;
+             --btn-border-bottom: ${options.borderB}px;
+             --btn-border-left: ${options.borderL}px;
+             --btn-border-right: ${options.borderR}px;
+             --btn-border-color: ${options.borderColor};
+             
+             --btn-media-margin: ${options.marginMedia}px;
+             --btn-media-padding: ${options.paddingMedia}px;
+
+             --btn-text-align: ${options.textAlign};
+             --btn-align-items: ${alignItems};
+           "
+      >
+        <!-- Medio: Icono o Avatar -->
+        <div class="bio-btn__media" style="background: ${options.variant === "image" ? `linear-gradient(135deg, ${options.color}, #cbd5e1)` : "transparent"}">
+          ${getIconSvg(options.icon)}
+        </div>
+        
+        <!-- Textos -->
+        <div class="bio-btn__content">
+          <span class="bio-btn__title" style="font-family: ${options.titleFont}; color: ${options.titleColor};">${label}</span>
+          <span class="bio-btn__desc" style="font-family: ${options.subFont}; color: ${options.subColor};">${desc}</span>
+        </div>
+      </div>
+    `;
+      }
+
+      /* ── STATE MANAGEMENT ── */
+      let currentCategory = "todos";
+      let searchQuery = "";
+      let selectedPresetIndex = null;
+
+      /* ── DOM ELEMENTS ── */
+      const searchInput = document.getElementById("searchInput");
+      const clearSearchBtn = document.getElementById("clearSearchBtn");
+      const presetsGrid = document.getElementById("presetsGrid");
+      const presetsCount = document.getElementById("presetsCount");
+      
+      const detailDrawer = document.getElementById("detailDrawer");
+      const drawerTitle = document.getElementById("drawerTitle");
+      const drawerSubtitle = document.getElementById("drawerSubtitle");
+      const sandboxContainer = document.getElementById("sandboxContainer");
+      const codeHtml = document.getElementById("codeHtml");
+      const codeJson = document.getElementById("codeJson");
+
+      /* ── EVENT LISTENERS ── */
+      searchInput.addEventListener("input", (e) => {
+        searchQuery = e.target.value.toLowerCase().trim();
+        if (searchQuery.length > 0) {
+          clearSearchBtn.style.display = "flex";
+        } else {
+          clearSearchBtn.style.display = "none";
+        }
+        renderGrid();
+      });
+
+      clearSearchBtn.addEventListener("click", () => {
+        searchInput.value = "";
+        searchQuery = "";
+        clearSearchBtn.style.display = "none";
+        searchInput.focus();
+        renderGrid();
+      });
+
+      /* ── CONTROLLERS ── */
+      
+      // Filter by Category
+      window.filterByCategory = function(category) {
+        currentCategory = category;
+        
+        // Update active class in UI pills
+        document.querySelectorAll(".category-pill").forEach(pill => {
+          const pillText = pill.innerText.toLowerCase();
+          if (category === "todos" && pillText === "todos") {
+            pill.classList.add("active");
+          } else if (pillText === category) {
+            pill.classList.add("active");
+          } else {
+            pill.classList.remove("active");
+          }
+        });
+
+        renderGrid();
+      };
+
+      // Render the Grid Cards dynamically
+      function renderGrid() {
+        // Filter presets based on category and search query
+        const filtered = PRESETS.filter(preset => {
+          // Category filter
+          let matchesCategory = true;
+          if (currentCategory !== "todos") {
+            if (currentCategory === "gradientes") {
+              matchesCategory = (preset.bgType === "gradient");
+            } else {
+              matchesCategory = (preset.category === currentCategory);
+            }
+          }
+
+          // Search query filter (matches title, tags, or category)
+          let matchesSearch = true;
+          if (searchQuery) {
+            const inTitle = preset.name.toLowerCase().includes(searchQuery);
+            const inCategory = preset.category.toLowerCase().includes(searchQuery);
+            const inLabel = preset.label.toLowerCase().includes(searchQuery);
+            const inTags = preset.tags.some(tag => tag.toLowerCase().includes(searchQuery));
+            matchesSearch = (inTitle || inCategory || inLabel || inTags);
+          }
+
+          return matchesCategory && matchesSearch;
+        });
+
+        // Update count badge
+        const countText = filtered.length === 1 ? "1 Diseño Encontrado" : `${filtered.length} Diseños Encontrados`;
+        presetsCount.innerText = countText;
+
+        // Render HTML
+        if (filtered.length === 0) {
+          presetsGrid.innerHTML = `
+            <div class="empty-state">
+              <svg class="svg-icon empty-state-icon" viewBox="0 0 24 24">
+                <circle cx="12" cy="12" r="10"></circle>
+                <line x1="8" x2="16" y1="12" y2="12"></line>
+              </svg>
+              <div class="empty-state-text">No se encontraron diseños que coincidan con la búsqueda.</div>
+              <button class="empty-state-btn" onclick="resetFilters()">Mostrar todos los diseños</button>
+            </div>
+          `;
+          return;
+        }
+
+        presetsGrid.innerHTML = filtered.map((preset, listIndex) => {
+          // Find absolute index in master PRESETS array
+          const absoluteIndex = PRESETS.findIndex(p => p.id === preset.id);
+          const compiledButton = compileBioButton(preset);
+          
+          return `
+            <article class="preset-card">
+              <div class="card-header">
+                <div class="card-meta">
+                  <span class="card-category">${preset.category}</span>
+                  <div class="card-tags">
+                    ${preset.tags.slice(0, 3).map(t => `<span class="tag-badge">#${t}</span>`).join("")}
+                  </div>
+                </div>
+                <h3 class="card-title">${preset.name}</h3>
+              </div>
+              
+              <div class="live-canvas">
+                ${compiledButton}
+              </div>
+              
+              <div class="card-actions">
+                <button class="btn-primary" onclick="openDetail(${absoluteIndex})">
+                  <svg class="svg-icon" viewBox="0 0 24 24" style="width: 16px; height: 16px;">
+                    <circle cx="12" cy="12" r="1"></circle>
+                    <circle cx="19" cy="12" r="1"></circle>
+                    <circle cx="5" cy="12" r="1"></circle>
+                  </svg>
+                  Ver Detalles y Códigos
+                </button>
+                <button class="btn-secondary" onclick="quickCopy('${preset.id}', 'json')">
+                  Copiar JSON
+                </button>
+                <button class="btn-secondary" onclick="quickCopy('${preset.id}', 'html')">
+                  Copiar HTML
+                </button>
+              </div>
+            </article>
+          `;
+        }).join("");
+      }
+
+      window.resetFilters = function() {
+        searchInput.value = "";
+        searchQuery = "";
+        clearSearchBtn.style.display = "none";
+        filterByCategory("todos");
+      };
+
+      /* ── DETAILS DRAWER CONTROLLERS ── */
+      window.openDetail = function(index) {
+        selectedPresetIndex = index;
+        const preset = PRESETS[index];
+
+        drawerTitle.innerText = preset.name;
+        drawerSubtitle.innerText = `Creado bajo categoría: ${preset.category.toUpperCase()}`;
+
+        // Live sandbox loading
+        sandboxContainer.innerHTML = compileBioButton(preset);
+
+        // Load formats into tabs
+        codeHtml.innerText = compileBioButton(preset).trim();
+        
+        // Remove ID for clean compatible import if desired, but keep full schema clean
+        const cleanSchema = { ...preset };
+        delete cleanSchema.name;
+        delete cleanSchema.category;
+        delete cleanSchema.tags;
+        
+        codeJson.innerText = JSON.stringify(cleanSchema, null, 2);
+
+        // Open Overlay
+        detailDrawer.classList.add("active");
+        document.body.style.overflow = "hidden"; // Lock page scroll
+      };
+
+      window.closeDrawer = function() {
+        detailDrawer.classList.remove("active");
+        document.body.style.overflow = ""; // Restore page scroll
+      };
+
+      window.closeDetailOnOverlay = function(event) {
+        if (event.target === detailDrawer) {
+          closeDrawer();
+        }
+      };
+
+      // Switch Tab (HTML vs JSON) inside Drawer
+      window.switchTab = function(event, tabId) {
+        // Toggle tab button active state
+        const drawer = event.target.closest(".drawer-sheet");
+        drawer.querySelectorAll(".tab-btn").forEach(btn => btn.classList.remove("active"));
+        event.target.classList.add("active");
+
+        // Toggle tab content panels
+        drawer.querySelectorAll(".tab-content").forEach(content => content.classList.remove("active"));
+        drawer.querySelector(`#${tabId}`).classList.add("active");
+      };
+
+      /* ── CLIPBOARD ENGINE & FEEDBACK TOAST ── */
+      const copyToast = document.getElementById("copyToast");
+      const toastMsg = document.getElementById("toastMsg");
+      let toastTimeout = null;
+
+      function showToast(message) {
+        toastMsg.innerText = message;
+        copyToast.classList.add("active");
+        
+        if (toastTimeout) clearTimeout(toastTimeout);
+        toastTimeout = setTimeout(() => {
+          copyToast.classList.remove("active");
+        }, 2200);
+      }
+
+      // Quick actions directly from the Grid card
+      window.quickCopy = function(presetId, format) {
+        const preset = PRESETS.find(p => p.id === parseInt(presetId));
+        if (!preset) return;
+
+        let contentToCopy = "";
+        let message = "";
+
+        if (format === "html") {
+          contentToCopy = compileBioButton(preset).trim();
+          message = "¡HTML copiado con éxito!";
+        } else {
+          const cleanSchema = { ...preset };
+          delete cleanSchema.name;
+          delete cleanSchema.category;
+          delete cleanSchema.tags;
+          contentToCopy = JSON.stringify(cleanSchema, null, 2);
+          message = "¡Esquema JSON listo para el constructor!";
+        }
+
+        navigator.clipboard.writeText(contentToCopy)
+          .then(() => showToast(message))
+          .catch(err => {
+            console.error("Fallo al copiar: ", err);
+            showToast("Error al copiar. Inténtalo de nuevo.");
+          });
+      };
+
+      // Drawer copy action
+      window.copyTabCode = function(tabId) {
+        let contentToCopy = "";
+        let message = "";
+
+        if (tabId === "tabHtml") {
+          contentToCopy = codeHtml.innerText;
+          message = "¡Código HTML del botón copiado!";
+        } else {
+          contentToCopy = codeJson.innerText;
+          message = "¡JSON Schema copiado para importación!";
+        }
+
+        navigator.clipboard.writeText(contentToCopy)
+          .then(() => showToast(message))
+          .catch(err => {
+            console.error("Fallo al copiar: ", err);
+            showToast("Fallo al copiar al portapapeles.");
+          });
+      };
+
+      /* ── INITIALIZATION ── */
+      document.addEventListener("DOMContentLoaded", () => {
+        renderGrid();
+      });
+    </script>
+  </body>
+</html>

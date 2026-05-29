@@ -429,6 +429,104 @@
         display: flex;
         align-items: center;
         justify-content: center;
+        transition: background-color 0.2s, color 0.2s, transform 0.1s;
+      }
+      .btn-close-sheet:hover {
+        background: var(--sheet3);
+        color: var(--text);
+      }
+      .btn-close-sheet:active {
+        transform: scale(0.95);
+      }
+
+      .btn-more-actions {
+        background: var(--sheet2);
+        border: none;
+        color: var(--text2);
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: background-color 0.2s, color 0.2s, transform 0.1s;
+      }
+      .btn-more-actions:hover {
+        background: var(--sheet3);
+        color: var(--text);
+      }
+      .btn-more-actions:active {
+        transform: scale(0.95);
+      }
+
+      /* Premium Dropdown */
+      .header-dropdown {
+        position: absolute;
+        top: 40px;
+        right: 0;
+        background: rgba(255, 255, 255, 0.85);
+        backdrop-filter: blur(12px) saturate(190%);
+        -webkit-backdrop-filter: blur(12px) saturate(190%);
+        border: 1px solid rgba(228, 228, 231, 0.7);
+        border-radius: 12px;
+        box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.08), 0 8px 16px -6px rgba(0, 0, 0, 0.03);
+        display: none;
+        flex-direction: column;
+        width: 170px;
+        padding: 6px;
+        z-index: 110;
+        transform: scale(0.95);
+        transform-origin: top right;
+        opacity: 0;
+        transition: transform 0.15s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.15s ease;
+      }
+      .header-dropdown.open {
+        display: flex;
+        transform: scale(1);
+        opacity: 1;
+      }
+      .dropdown-item {
+        background: none;
+        border: none;
+        outline: none;
+        padding: 10px 12px;
+        text-align: left;
+        font-size: 13px;
+        font-weight: 500;
+        font-family: inherit;
+        color: var(--text);
+        border-radius: 8px;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        transition: background-color 0.15s, color 0.15s;
+      }
+      .dropdown-item:hover {
+        background: var(--sheet2);
+      }
+      .dropdown-item .svg-icon {
+        width: 16px;
+        height: 16px;
+        color: var(--text2);
+        transition: color 0.15s;
+      }
+      .dropdown-item:hover .svg-icon {
+        color: var(--text);
+      }
+      .dropdown-item.text-danger {
+        color: #ef4444;
+      }
+      .dropdown-item.text-danger:hover {
+        background: #fef2f2;
+        color: #dc2626;
+      }
+      .dropdown-item.text-danger .svg-icon {
+        color: #ef4444;
+      }
+      .dropdown-item.text-danger:hover .svg-icon {
+        color: #dc2626;
       }
 
       /* Sticky Preview Area in Creator */
@@ -974,12 +1072,40 @@
 
         <div class="creator-header">
           <span class="creator-title">Diseñar Link</span>
-          <button class="btn-close-sheet" onclick="closeSheet()">
-            <svg class="svg-icon" viewBox="0 0 24 24">
-              <path d="M18 6 6 18" />
-              <path d="m6 6 12 12" />
-            </svg>
-          </button>
+          <div style="display: flex; gap: 8px; align-items: center; position: relative;">
+            <button class="btn-more-actions" id="btnMoreActions" onclick="toggleDropdown(event)" aria-label="Acciones secundarias">
+              <svg class="svg-icon" viewBox="0 0 24 24" style="width: 18px; height: 18px;">
+                <circle cx="12" cy="12" r="1.5" fill="currentColor" stroke="none" />
+                <circle cx="12" cy="5" r="1.5" fill="currentColor" stroke="none" />
+                <circle cx="12" cy="19" r="1.5" fill="currentColor" stroke="none" />
+              </svg>
+            </button>
+            <button class="btn-close-sheet" onclick="closeSheet()">
+              <svg class="svg-icon" viewBox="0 0 24 24">
+                <path d="M18 6 6 18" />
+                <path d="m6 6 12 12" />
+              </svg>
+            </button>
+
+            <!-- Premium Floating Dropdown Menu -->
+            <div class="header-dropdown" id="headerDropdown">
+              <button class="dropdown-item" onclick="triggerResetAction(event)">
+                <svg class="svg-icon" viewBox="0 0 24 24">
+                  <path d="M21.5 2v6h-6" />
+                  <path d="M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67" />
+                </svg>
+                <span>Reiniciar diseño</span>
+              </button>
+              <button class="dropdown-item text-danger" id="dropdownDeleteOption" onclick="triggerDeleteAction(event)">
+                <svg class="svg-icon" viewBox="0 0 24 24">
+                  <path d="M3 6h18" />
+                  <path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6" />
+                  <path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2" />
+                </svg>
+                <span>Borrar enlace</span>
+              </button>
+            </div>
+          </div>
         </div>
 
         <!-- Sticky Live Preview Area -->
@@ -1632,6 +1758,7 @@
       const ACTIONS = {
         OPEN_SHEET: "sheet:open",
         EDIT_LIST: "list:edit",
+        EDIT_BUTTON: "edit-button",
       };
 
       const STATUS = {
@@ -1705,6 +1832,7 @@
       // ── STATE ──
       const STORAGE_KEY = "bio_site_link_builder_accordion";
       const S = {
+        editingId: null, // Track button being edited
         variant: "left", // left, right, top, image, none
         shape: "circled", // circled, squircle, square
         icon: "instagram",
@@ -2068,16 +2196,124 @@
       }
 
       // ── SAVE AND DISCARD ──
+      function loadButtonIntoBuilder(btn) {
+        // Set basic input values
+        document.getElementById("inLabel").value = btn.label || "";
+        document.getElementById("inDesc").value = btn.desc || "";
+        document.getElementById("inUrl").value = btn.url || "";
+
+        // Set State values
+        S.variant = btn.variant || "left";
+        S.shape = btn.shape || "circled";
+        S.textAlign = btn.textAlign || "left";
+        S.linkType = btn.linkType || "url";
+        S.bgType = btn.bgType || "solid";
+        S.icon = btn.icon || "instagram";
+        S.color = btn.color || "#18181b";
+        S.marginMedia = btn.marginMedia !== undefined ? btn.marginMedia : 14;
+        S.paddingMedia = btn.paddingMedia !== undefined ? btn.paddingMedia : 0;
+        S.borderRadius = btn.borderRadius !== undefined ? btn.borderRadius : 14;
+        
+        // Update ranges
+        document.getElementById("rngMargin").value = S.marginMedia;
+        document.getElementById("valMargin").textContent = S.marginMedia + "px";
+        
+        document.getElementById("rngPadding").value = S.paddingMedia;
+        document.getElementById("valPadding").textContent = S.paddingMedia + "px";
+        
+        document.getElementById("rngRadius").value = S.borderRadius;
+        document.getElementById("valRadius").textContent = S.borderRadius + "px";
+
+        // Update State & Gliders
+        setPosOption(S.variant);
+        setShapeOption(S.shape);
+        setTextAlignOption(S.textAlign);
+        setLinkType(S.linkType);
+        setBgType(S.bgType);
+
+        // Update Icon Grid selection
+        document.querySelectorAll(".icon-opt").forEach((opt) => {
+          opt.classList.toggle("sel", opt.dataset.icon === S.icon);
+        });
+
+        // Set Pickers & Selects
+        document.getElementById("selTitleFont").value = btn.titleFont || "'Inter', sans-serif";
+        document.getElementById("pickTitleColor").value = btn.titleColor || "#09090b";
+        
+        document.getElementById("selSubFont").value = btn.subFont || "'Inter', sans-serif";
+        document.getElementById("pickSubColor").value = btn.subColor || "#71717a";
+
+        document.getElementById("pickBgColor").value = btn.bgColor || "#ffffff";
+        document.getElementById("pickGrad1").value = btn.bgGrad1 || "#ffffff";
+        document.getElementById("pickGrad2").value = btn.bgGrad2 || "#e4e4e7";
+
+        document.getElementById("borderTop").value = btn.borderT !== undefined ? btn.borderT : 1;
+        document.getElementById("borderBottom").value = btn.borderB !== undefined ? btn.borderB : 1;
+        document.getElementById("borderLeft").value = btn.borderL !== undefined ? btn.borderL : 1;
+        document.getElementById("borderRight").value = btn.borderR !== undefined ? btn.borderR : 1;
+        document.getElementById("pickBorderColor").value = btn.borderColor || "#e4e4e7";
+
+        // Update presets active color
+        selectPresetColor(S.color);
+        
+        // Make sure preview is rendered correctly
+        renderPreview();
+      }
+
+      function openEditSheet(id) {
+        const btn = S.buttons.find((b) => b.id === Number(id));
+        if (!btn) return;
+
+        S.editingId = Number(id);
+
+        // Load the values into the form fields
+        loadButtonIntoBuilder(btn);
+
+        // Change title and button text for premium feel
+        const titleEl = document.querySelector(".creator-title");
+        if (titleEl) titleEl.textContent = "Editar Link";
+
+        const saveBtnTextEl = document.querySelector(".btn-save-enlace");
+        if (saveBtnTextEl) {
+          saveBtnTextEl.innerHTML = `
+            <svg class="svg-icon" viewBox="0 0 24 24">
+              <path d="M20 6 9 17l-5-5" />
+            </svg>
+            Confirmar y Actualizar Link
+          `;
+        }
+
+        // Open bottom sheet
+        document.getElementById("sheetOverlay").classList.add("open");
+        document.getElementById("bottomSheet").classList.add("open");
+      }
+
       function addButton() {
         const options = getBuilderOptions();
-        const newButton = {
-          id: Date.now(),
-          linkType: S.linkType,
-          url: document.getElementById("inUrl").value,
-          ...options,
-        };
+        
+        if (S.editingId) {
+          // Editing mode
+          const index = S.buttons.findIndex((b) => b.id === S.editingId);
+          if (index !== -1) {
+            S.buttons[index] = {
+              ...S.buttons[index],
+              linkType: S.linkType,
+              url: document.getElementById("inUrl").value,
+              ...options,
+            };
+          }
+          S.editingId = null; // Clear edit mode
+        } else {
+          // Adding mode
+          const newButton = {
+            id: Date.now(),
+            linkType: S.linkType,
+            url: document.getElementById("inUrl").value,
+            ...options,
+          };
+          S.buttons.push(newButton);
+        }
 
-        S.buttons.push(newButton);
         saveToStorage();
         renderMainList();
         closeSheet();
@@ -2090,6 +2326,20 @@
       }
 
       function openSheet() {
+        // Restore title and button text for add mode
+        const titleEl = document.querySelector(".creator-title");
+        if (titleEl) titleEl.textContent = "Diseñar Link";
+
+        const saveBtnTextEl = document.querySelector(".btn-save-enlace");
+        if (saveBtnTextEl) {
+          saveBtnTextEl.innerHTML = `
+            <svg class="svg-icon" viewBox="0 0 24 24">
+              <path d="M20 6 9 17l-5-5" />
+            </svg>
+            Confirmar y Guardar Link
+          `;
+        }
+
         document.getElementById("sheetOverlay").classList.add("open");
         document.getElementById("bottomSheet").classList.add("open");
         renderPreview();
@@ -2101,7 +2351,7 @@
         resetBuilder();
       }
 
-      function resetBuilder() {
+      function resetBuilderDesign() {
         // Reset inputs
         document.getElementById("inLabel").value = "Mi Enlace Bio";
         document.getElementById("inDesc").value = "";
@@ -2140,7 +2390,78 @@
 
         selectPresetColor("#18181b");
         toggleAccordion(0); // Open first accordion
+        renderPreview();
       }
+
+      function resetBuilder() {
+        S.editingId = null;
+        resetBuilderDesign();
+      }
+
+      // ── ACCIONES SECUNDARIAS (Menu Dropdown) ──
+      function toggleDropdown(event) {
+        event.stopPropagation();
+        const dropdown = document.getElementById("headerDropdown");
+        
+        // Show/hide "Delete link" depending on editing mode
+        const deleteOption = document.getElementById("dropdownDeleteOption");
+        if (deleteOption) {
+          deleteOption.style.display = S.editingId ? "flex" : "none";
+        }
+        
+        const isOpen = dropdown.classList.contains("open");
+        if (isOpen) {
+          dropdown.classList.remove("open");
+          setTimeout(() => {
+            if (!dropdown.classList.contains("open")) {
+              dropdown.style.display = "none";
+            }
+          }, 150);
+        } else {
+          dropdown.style.display = "flex";
+          // Force layout reflow for animation
+          dropdown.offsetHeight;
+          dropdown.classList.add("open");
+        }
+      }
+
+      function closeDropdown() {
+        const dropdown = document.getElementById("headerDropdown");
+        if (dropdown && dropdown.classList.contains("open")) {
+          dropdown.classList.remove("open");
+          setTimeout(() => {
+            if (!dropdown.classList.contains("open")) {
+              dropdown.style.display = "none";
+            }
+          }, 150);
+        }
+      }
+
+      function triggerResetAction(event) {
+        event.stopPropagation();
+        closeDropdown();
+        
+        if (confirm("¿Estás seguro de que quieres reiniciar el diseño de este enlace a los valores por defecto?")) {
+          resetBuilderDesign();
+        }
+      }
+
+      function triggerDeleteAction(event) {
+        event.stopPropagation();
+        closeDropdown();
+        
+        if (S.editingId) {
+          if (confirm("¿Estás seguro de que quieres eliminar este enlace de forma permanente?")) {
+            removeButton(S.editingId);
+            closeSheet();
+          }
+        }
+      }
+
+      // Close dropdown on click outside
+      document.addEventListener("click", () => {
+        closeDropdown();
+      });
 
       // Boot Application
       init();
@@ -2154,6 +2475,9 @@
 
         if (action === ACTIONS.OPEN_SHEET) {
           openSheet();
+        } else if (action === ACTIONS.EDIT_BUTTON) {
+          const id = actionEl.getAttribute("data-id");
+          openEditSheet(id);
         } else if (action === ACTIONS.EDIT_LIST) {
           const listContainer = document.getElementById("mainListContainer");
           const isEdit =

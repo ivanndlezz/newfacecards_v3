@@ -1,0 +1,3093 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width,initial-scale=1.0,viewport-fit=cover"
+    />
+    <title>Mis Links</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,600;1,600&family=JetBrains+Mono:wght@500;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="links-experience.css" />
+    <style>
+      body {
+        padding: 0 !important;
+        margin: 0 !important;
+      }
+
+      /* ── MAIN HEADER ── */
+      .main-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 24px 20px 14px;
+        flex-shrink: 0;
+        background: #fafafa;
+      }
+      .main-title-block {
+        display: flex;
+        flex-direction: column;
+        gap: 1px;
+      }
+      .header-actions {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+      .btn-edit-mode {
+        font-size: 14px;
+        font-weight: 600;
+        color: var(--text2);
+        background: none;
+        border: none;
+        cursor: pointer;
+        padding: 8px 12px;
+        border-radius: 8px;
+        transition:
+          background 0.2s,
+          color 0.2s;
+        font-family: inherit;
+      }
+      .btn-edit-mode:hover {
+        background: var(--sheet3);
+        color: var(--text);
+      }
+      .btn-edit-mode.is-active {
+        color: var(--text);
+        font-weight: 700;
+      }
+      .btn-add-main {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        background: var(--text);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        border: none;
+        color: #fff;
+        transition:
+          transform 0.1s,
+          background 0.15s;
+      }
+      .btn-add-main:active {
+        transform: scale(0.93);
+        background: var(--text2);
+      }
+
+      /* ── LINKS AREA ── */
+      .links-area {
+        flex: 1;
+        overflow-y: auto;
+        padding: 8px 20px 100px;
+        -webkit-overflow-scrolling: touch;
+      }
+      .links-list {
+        list-style: none;
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+      }
+      .link-item {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        position: relative;
+      }
+      .link-item .bio-btn {
+        flex: 1;
+        min-width: 0;
+        cursor: pointer;
+      }
+      .del-btn {
+        width: 36px;
+        height: 36px;
+        border-radius: 50%;
+        background: #fef2f2;
+        border: none;
+        color: #ef4444;
+        display: none;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        flex-shrink: 0;
+        transition: background 0.15s;
+      }
+      .del-btn:active {
+        background: #fee2e2;
+      }
+      .links-area[data-status="edit"] .del-btn {
+        display: flex;
+      }
+      .edit-tap-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 46px;
+        bottom: 0;
+        display: none;
+        align-items: center;
+        justify-content: center;
+        background: rgba(255, 255, 255, 0.88);
+        border-radius: var(--radius);
+        cursor: pointer;
+        z-index: 2;
+        backdrop-filter: blur(1px);
+      }
+      .edit-tap-label {
+        font-size: 13px;
+        font-weight: 600;
+        color: var(--text);
+        display: flex;
+        align-items: center;
+        gap: 6px;
+      }
+      .links-area[data-status="edit"] .edit-tap-overlay {
+        display: flex;
+      }
+
+      /* ── EMPTY STATE ── */
+      .empty-wrap {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        height: 65%;
+        text-align: center;
+        gap: 16px;
+      }
+      .empty-icon-box {
+        width: 64px;
+        height: 64px;
+        border-radius: 20px;
+        background: var(--sheet);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border: 1px solid var(--border);
+        color: var(--text3);
+        box-shadow: var(--shadow-sm);
+      }
+      .empty-text {
+        font-size: 15px;
+        color: var(--text2);
+        font-weight: 500;
+      }
+      .cta-add {
+        background: var(--text);
+        color: #fff;
+        padding: 14px 28px;
+        border-radius: 24px;
+        font-size: 15px;
+        font-weight: 600;
+        border: none;
+        cursor: pointer;
+        transition: transform 0.1s;
+        box-shadow: var(--shadow-sm);
+        font-family: inherit;
+      }
+      .cta-add:active {
+        transform: scale(0.96);
+      }
+
+      /* ── SHEET SYSTEM ── */
+      .bs-overlay {
+        position: absolute;
+        inset: 0;
+        background: rgba(9, 9, 11, 0.35);
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.3s;
+        z-index: 100;
+        backdrop-filter: blur(2px);
+      }
+      .bs-overlay.open {
+        opacity: 1;
+        pointer-events: auto;
+      }
+      .bs-sheet {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background: #fff;
+        border-top-left-radius: 24px;
+        border-top-right-radius: 24px;
+        transform: translateY(102%);
+        transition: transform 0.38s cubic-bezier(0.32, 0.94, 0.6, 1);
+        display: flex;
+        flex-direction: column;
+        box-shadow: 0 -10px 40px rgba(0, 0, 0, 0.07);
+        overflow: hidden;
+      }
+      .bs-sheet.open {
+        transform: translateY(0);
+      }
+      #bsPresets {
+        height: 86vh;
+        z-index: 101;
+      }
+      #bsEditor {
+        height: 94vh;
+        z-index: 102;
+      }
+      .bs-handle-wrap {
+        display: flex;
+        justify-content: center;
+        padding: 12px 0 2px;
+        flex-shrink: 0;
+      }
+      .bs-handle {
+        width: 36px;
+        height: 4px;
+        background: var(--sheet3);
+        border-radius: 2px;
+      }
+      .bs-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 8px 20px 12px;
+        flex-shrink: 0;
+        position: relative;
+      }
+      .bs-header-left {
+        display: flex;
+        flex-direction: column;
+        gap: 1px;
+        flex: 1;
+        min-width: 0;
+      }
+      .bs-header-actions {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+      }
+      .btn-bsx {
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+        background: var(--sheet2);
+        border: none;
+        color: var(--text2);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        flex-shrink: 0;
+        transition:
+          background 0.15s,
+          transform 0.1s;
+      }
+      .btn-bsx:active {
+        transform: scale(0.93);
+      }
+      .btn-bsx:hover {
+        background: var(--sheet3);
+      }
+
+      /* ── PRESET SHEET INNER VIEWS ── */
+      .views-wrapper {
+        flex: 1;
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+        position: relative;
+      }
+      .views-wrapper .view {
+        display: none;
+        flex-direction: column;
+        overflow: hidden;
+        height: 100%;
+      }
+      .views-wrapper .view.active {
+        display: flex;
+      }
+
+      /* ── EDITOR SHEET ── */
+      .editor-bottom-bar {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        padding: 14px 20px calc(14px + env(safe-area-inset-bottom));
+        background: #fff;
+        border-top: 1px solid var(--border);
+        z-index: 10;
+        flex-shrink: 0;
+      }
+      .btn-save-link {
+        width: 100%;
+        height: 52px;
+        border: none;
+        border-radius: 14px;
+        background: var(--text);
+        color: #fff;
+        font-size: 15px;
+        font-weight: 600;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        transition:
+          background 0.2s,
+          transform 0.1s;
+        font-family: inherit;
+      }
+      .btn-save-link:active {
+        background: #27272a;
+        transform: scale(0.98);
+      }
+
+      /* ── DROPDOWN MENU ── */
+      .hdr-dropdown {
+        position: absolute;
+        top: 50px;
+        right: 16px;
+        background: rgba(255, 255, 255, 0.92);
+        backdrop-filter: blur(14px) saturate(180%);
+        border: 1px solid rgba(228, 228, 231, 0.8);
+        border-radius: 12px;
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+        flex-direction: column;
+        width: 170px;
+        padding: 6px;
+        z-index: 20;
+        transform: scale(0.93) translateY(-6px);
+        opacity: 0;
+        transition:
+          transform 0.15s cubic-bezier(0.16, 1, 0.3, 1),
+          opacity 0.12s;
+        display: none;
+        pointer-events: none;
+      }
+      .hdr-dropdown.open {
+        display: flex;
+        transform: scale(1) translateY(0);
+        opacity: 1;
+        pointer-events: auto;
+      }
+      .dd-item {
+        background: none;
+        border: none;
+        padding: 10px 12px;
+        text-align: left;
+        font-size: 13px;
+        font-weight: 500;
+        font-family: inherit;
+        color: var(--text);
+        border-radius: 8px;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        transition: background 0.12s;
+      }
+      .dd-item:hover {
+        background: var(--sheet2);
+      }
+      .dd-item .svg-icon {
+        width: 16px;
+        height: 16px;
+        color: var(--text2);
+      }
+      .dd-item.danger {
+        color: #ef4444;
+      }
+      .dd-item.danger:hover {
+        background: #fef2f2;
+      }
+      .dd-item.danger .svg-icon {
+        color: #ef4444;
+      }
+
+      /* ── TOAST ── */
+      #toast {
+        position: absolute;
+        top: 20px;
+        left: 50%;
+        transform: translateX(-50%) translateY(-80px);
+        background: var(--text);
+        color: #fff;
+        padding: 10px 18px;
+        border-radius: 24px;
+        font-size: 13px;
+        font-weight: 600;
+        white-space: nowrap;
+        z-index: 300;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        transition:
+          transform 0.3s cubic-bezier(0.32, 0.94, 0.6, 1),
+          opacity 0.3s;
+        opacity: 0;
+        box-shadow: var(--shadow-md);
+        pointer-events: none;
+      }
+      #toast.show {
+        transform: translateX(-50%) translateY(0);
+        opacity: 1;
+      }
+
+      /* ── DETAIL bottom bar ── */
+      #psViewDetail {
+        position: relative;
+      }
+      .preset-use-bar {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        padding: 14px 20px calc(14px + env(safe-area-inset-bottom));
+        background: #fff;
+        border-top: 1px solid var(--border);
+        z-index: 5;
+      }
+
+      /* misc fixes */
+      .custom-color-picker-wrap {
+        justify-content: space-between;
+      }
+      .creator-scroll-content {
+        overflow-x: hidden;
+      }
+      .editor-sep {
+        display: block;
+        border: none;
+        border-top: 1px solid var(--border);
+        margin: 20px 0;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- ══ SVG SPRITE ══════════════════════════════════════════════ -->
+    <svg xmlns="http://www.w3.org/2000/svg" style="display: none">
+      <symbol id="icon-instagram" viewBox="0 0 24 24">
+        <rect width="20" height="20" x="2" y="2" rx="5" ry="5" />
+        <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" />
+        <line x1="17.5" x2="17.51" y1="6.5" y2="6.5" />
+      </symbol>
+      <symbol id="icon-twitter" viewBox="0 0 24 24">
+        <path
+          d="M22 4s-.7 2.1-2 3.4c1.6 10-9.4 17.3-18 11.6 2.2.1 4.4-.6 6-2C3 15.5.5 9.6 3 5c2.2 2.6 5.6 4.1 9 4-.9-4.2 4-6.6 7-3.8 1.1 0 3-1.2 3-1.2z"
+        />
+      </symbol>
+      <symbol id="icon-linkedin" viewBox="0 0 24 24">
+        <path
+          d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"
+        />
+        <rect width="4" height="12" x="2" y="9" />
+        <circle cx="4" cy="4" r="2" />
+      </symbol>
+      <symbol id="icon-youtube" viewBox="0 0 24 24">
+        <path
+          d="M2.5 17a24.12 24.12 0 0 1 0-10 2 2 0 0 1 1.4-1.4 49.56 49.56 0 0 1 16.2 0A2 2 0 0 1 21.5 7a24.12 24.12 0 0 1 0 10 2 2 0 0 1-1.4 1.4 49.55 49.55 0 0 1-16.2 0A2 2 0 0 1 2.5 17z"
+        />
+        <polygon points="10 15 15 12 10 9 10 15" />
+      </symbol>
+      <symbol id="icon-music" viewBox="0 0 24 24">
+        <path d="M9 18V5l12-2v13" />
+        <circle cx="6" cy="18" r="3" />
+        <circle cx="18" cy="16" r="3" />
+      </symbol>
+      <symbol id="icon-mail" viewBox="0 0 24 24">
+        <rect width="20" height="16" x="2" y="4" rx="2" />
+        <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" />
+      </symbol>
+      <symbol id="icon-phone" viewBox="0 0 24 24">
+        <path
+          d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"
+        />
+      </symbol>
+      <symbol id="icon-globe" viewBox="0 0 24 24">
+        <circle cx="12" cy="12" r="10" />
+        <path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20" />
+        <path d="M2 12h20" />
+      </symbol>
+      <symbol id="icon-star" viewBox="0 0 24 24">
+        <polygon
+          points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"
+        />
+      </symbol>
+      <symbol id="icon-heart" viewBox="0 0 24 24">
+        <path
+          d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"
+        />
+      </symbol>
+      <symbol id="icon-zap" viewBox="0 0 24 24">
+        <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2" />
+      </symbol>
+      <symbol id="icon-home" viewBox="0 0 24 24">
+        <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
+        <polyline points="9 22 9 12 15 12 15 22" />
+      </symbol>
+      <symbol id="icon-link-2" viewBox="0 0 24 24">
+        <path d="M9 17H7A5 5 0 0 1 7 7h2" />
+        <path d="M15 7h2a5 5 0 0 1 0 10h-2" />
+        <line x1="8" x2="16" y1="12" y2="12" />
+      </symbol>
+      <symbol id="icon-map-pin" viewBox="0 0 24 24">
+        <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z" />
+        <circle cx="12" cy="10" r="3" />
+      </symbol>
+      <symbol id="icon-user" viewBox="0 0 24 24">
+        <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2" />
+        <circle cx="12" cy="7" r="4" />
+      </symbol>
+      <symbol id="icon-link" viewBox="0 0 24 24">
+        <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" />
+        <path
+          d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"
+        />
+      </symbol>
+      <symbol id="icon-whatsapp" viewBox="0 0 24 24">
+        <path
+          d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"
+        />
+      </symbol>
+      <symbol id="icon-calendar" viewBox="0 0 24 24">
+        <rect width="18" height="18" x="3" y="4" rx="2" ry="2" />
+        <line x1="16" x2="16" y1="2" y2="6" />
+        <line x1="8" x2="8" y1="2" y2="6" />
+        <line x1="3" x2="21" y1="10" y2="10" />
+      </symbol>
+      <symbol id="icon-download" viewBox="0 0 24 24">
+        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+        <polyline points="7 10 12 15 17 10" />
+        <line x1="12" x2="12" y1="15" y2="3" />
+      </symbol>
+      <symbol id="icon-search" viewBox="0 0 24 24">
+        <circle cx="11" cy="11" r="8" />
+        <path d="m21 21-4.35-4.35" />
+      </symbol>
+      <symbol id="icon-x" viewBox="0 0 24 24">
+        <path d="M18 6 6 18" />
+        <path d="m6 6 12 12" />
+      </symbol>
+      <symbol id="icon-check" viewBox="0 0 24 24">
+        <path d="M20 6 9 17l-5-5" />
+      </symbol>
+      <symbol id="icon-chevron-right" viewBox="0 0 24 24">
+        <path d="m9 18 6-6-6-6" />
+      </symbol>
+      <symbol id="icon-chevron-down" viewBox="0 0 24 24">
+        <path d="m6 9 6 6 6-6" />
+      </symbol>
+      <symbol id="icon-arrow-left" viewBox="0 0 24 24">
+        <path d="m12 19-7-7 7-7" />
+        <path d="M19 12H5" />
+      </symbol>
+      <symbol id="icon-sparkle" viewBox="0 0 24 24">
+        <path
+          d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275Z"
+        />
+      </symbol>
+      <symbol id="icon-more" viewBox="0 0 24 24">
+        <circle cx="12" cy="5" r="1" fill="currentColor" stroke="none" />
+        <circle cx="12" cy="12" r="1" fill="currentColor" stroke="none" />
+        <circle cx="12" cy="19" r="1" fill="currentColor" stroke="none" />
+      </symbol>
+      <symbol id="icon-reset" viewBox="0 0 24 24">
+        <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8" />
+        <path d="M3 3v5h5" />
+      </symbol>
+      <symbol id="icon-trash" viewBox="0 0 24 24">
+        <path d="M3 6h18" />
+        <path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6" />
+        <path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2" />
+      </symbol>
+      <symbol id="icon-pencil" viewBox="0 0 24 24">
+        <path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z" />
+      </symbol>
+      <symbol id="icon-image" viewBox="0 0 24 24">
+        <rect width="18" height="18" x="3" y="3" rx="2" ry="2" />
+        <circle cx="9" cy="9" r="2" />
+        <path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21" />
+      </symbol>
+      <symbol id="icon-plus" viewBox="0 0 24 24">
+        <path d="M12 5v14M5 12h14" />
+      </symbol>
+    </svg>
+
+    <!-- ══ APP SHELL ══════════════════════════════════════════════ -->
+    <div id="app">
+      <!-- ─── MAIN HEADER ─────────────────────────────────────── -->
+      <div class="main-header">
+        <div class="main-title-block">
+          <div class="main-title">Mis Links</div>
+          <div class="main-subtitle" id="linkCount">0 enlaces</div>
+        </div>
+        <div class="header-actions">
+          <button
+            class="btn-edit-mode"
+            id="btnEditMode"
+            onclick="toggleEditMode()"
+          >
+            Editar
+          </button>
+          <button
+            class="btn-add-main"
+            onclick="openPresetsSheet()"
+            aria-label="Agregar link"
+          >
+            <svg
+              class="svg-icon"
+              viewBox="0 0 24 24"
+              style="width: 18px; height: 18px; stroke-width: 2.5"
+            >
+              <use href="#icon-plus" />
+            </svg>
+          </button>
+        </div>
+      </div>
+
+      <!-- ─── LINKS AREA ──────────────────────────────────────── -->
+      <div class="links-area" id="linksArea" data-status="normal">
+        <!-- rendered by renderMainList() -->
+      </div>
+
+      <!-- ─── TOAST ───────────────────────────────────────────── -->
+      <div id="toast">
+        <svg
+          class="svg-icon"
+          viewBox="0 0 24 24"
+          style="width: 15px; height: 15px"
+        >
+          <use href="#icon-check" />
+        </svg>
+        <span id="toastMsg">Link guardado</span>
+      </div>
+
+      <!-- ─── OVERLAY ─────────────────────────────────────────── -->
+      <div
+        class="bs-overlay"
+        id="bsOverlay"
+        onclick="handleOverlayClick()"
+      ></div>
+
+      <!-- ═══════════════════════════════════════════════════════
+       SHEET 1 · PRESET PICKER (85 vh)
+       ═══════════════════════════════════════════════════════ -->
+      <div class="bs-sheet" id="bsPresets">
+        <div class="bs-handle-wrap"><div class="bs-handle"></div></div>
+
+        <div class="views-wrapper">
+          <!-- VIEW A · SEARCH + LIST ─────────────────────────── -->
+          <div class="view active" id="psViewList">
+            <div class="search-header">
+              <div class="search-header-top">
+                <div>
+                  <div class="main-title">Agregar Link</div>
+                  <div class="main-subtitle">Busca o elige un preset</div>
+                </div>
+                <button class="btn-close btn-bsx" onclick="closePresetsSheet()">
+                  <svg class="svg-icon" viewBox="0 0 24 24">
+                    <use href="#icon-x" />
+                  </svg>
+                </button>
+              </div>
+              <div class="search-box">
+                <span class="search-ico">
+                  <svg
+                    class="svg-icon"
+                    viewBox="0 0 24 24"
+                    style="width: 17px; height: 17px"
+                  >
+                    <use href="#icon-search" />
+                  </svg>
+                </span>
+                <input
+                  class="search-input"
+                  id="searchInput"
+                  type="text"
+                  placeholder="Buscar preset…"
+                  oninput="handleSearch(this.value)"
+                />
+                <button
+                  class="search-clear"
+                  id="searchClear"
+                  onclick="clearSearch()"
+                >
+                  <svg
+                    class="svg-icon"
+                    viewBox="0 0 24 24"
+                    style="width: 14px; height: 14px"
+                  >
+                    <use href="#icon-x" />
+                  </svg>
+                </button>
+              </div>
+            </div>
+
+            <div class="pills-row">
+              <div class="pills-inner" id="pillsInner"></div>
+            </div>
+
+            <div class="section-label" id="sectionLabel">Presets sugeridos</div>
+
+            <div class="list-scroll">
+              <ul class="preset-list" id="presetList"></ul>
+            </div>
+          </div>
+          <!-- /psViewList -->
+
+          <!-- VIEW B · DETAIL ────────────────────────────────── -->
+          <div class="view" id="psViewDetail">
+            <div class="detail-header">
+              <button class="btn-back btn-bsx" onclick="psGoBack()">
+                <svg class="svg-icon" style="width: 18px; height: 18px">
+                  <use href="#icon-arrow-left" />
+                </svg>
+              </button>
+              <span class="detail-title" id="detailTitle">—</span>
+              <span class="detail-cat" id="detailCat">—</span>
+            </div>
+
+            <div
+              class="detail-scroll"
+              id="detailScroll"
+              style="padding-bottom: 90px"
+            ></div>
+
+            <div class="preset-use-bar">
+              <button class="btn-use" onclick="usePreset()">
+                <svg class="svg-icon" style="width: 16px; height: 16px">
+                  <use href="#icon-check" />
+                </svg>
+                Usar este preset
+              </button>
+            </div>
+          </div>
+          <!-- /psViewDetail -->
+        </div>
+        <!-- /views-wrapper -->
+      </div>
+      <!-- /bsPresets -->
+
+      <!-- ═══════════════════════════════════════════════════════
+       SHEET 2 · LINK EDITOR (94 vh)
+       ═══════════════════════════════════════════════════════ -->
+      <div class="bs-sheet" id="bsEditor">
+        <div class="bs-handle-wrap"><div class="bs-handle"></div></div>
+
+        <!-- Editor header -->
+        <div class="bs-header">
+          <div class="bs-header-left">
+            <div class="main-title" id="editorTitle">Diseñar Link</div>
+            <div class="main-subtitle" id="editorSubtitle">
+              Personaliza tu enlace
+            </div>
+          </div>
+          <div class="bs-header-actions">
+            <button
+              class="btn-bsx"
+              id="btnEditorBack"
+              onclick="editorBack()"
+              title="Volver a presets"
+              style="display: none"
+            >
+              <svg class="svg-icon" style="width: 16px; height: 16px">
+                <use href="#icon-arrow-left" />
+              </svg>
+            </button>
+            <div style="position: relative">
+              <button
+                class="btn-bsx btn-more-bs"
+                onclick="toggleEditorDropdown(event)"
+              >
+                <svg class="svg-icon" style="width: 18px; height: 18px">
+                  <use href="#icon-more" />
+                </svg>
+              </button>
+              <div class="hdr-dropdown" id="editorDropdown">
+                <button class="dd-item" onclick="resetEditorDesign()">
+                  <svg class="svg-icon"><use href="#icon-reset" /></svg>
+                  Reiniciar diseño
+                </button>
+                <button
+                  class="dd-item danger"
+                  id="ddDeleteBtn"
+                  onclick="deleteCurrentLink()"
+                  style="display: none"
+                >
+                  <svg class="svg-icon"><use href="#icon-trash" /></svg> Borrar
+                  enlace
+                </button>
+              </div>
+            </div>
+            <button class="btn-bsx" onclick="closeEditorSheet()">
+              <svg class="svg-icon"><use href="#icon-x" /></svg>
+            </button>
+          </div>
+        </div>
+
+        <!-- Scrollable editor content -->
+        <div
+          style="
+            flex: 1;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+          "
+        >
+          <!-- Live preview (sticky) -->
+          <div class="sticky-preview" style="flex-shrink: 0">
+            <div class="preview-area" id="previewArea">
+              <div class="preview-label">Live Preview</div>
+              <div
+                class="preview-content"
+                id="previewContent"
+                style="width: 100%; max-width: 280px"
+              ></div>
+            </div>
+          </div>
+
+          <!-- Accordions scroll area -->
+          <div
+            class="creator-scroll-content"
+            id="creatorScrollContent"
+            style="padding-bottom: 90px"
+          >
+            <!-- Tipo de Enlace + URL -->
+            <div class="control-row">
+              <span
+                class="control-label"
+                style="display: block; margin-bottom: 6px"
+                >Tipo de Enlace</span
+              >
+              <div class="glider-container" id="linkTypeGlider">
+                <div
+                  class="glider-option active"
+                  data-val="url"
+                  onclick="setLinkType('url')"
+                >
+                  URL
+                </div>
+                <div
+                  class="glider-option"
+                  data-val="tel"
+                  onclick="setLinkType('tel')"
+                >
+                  Tel
+                </div>
+                <div
+                  class="glider-option"
+                  data-val="mail"
+                  onclick="setLinkType('mail')"
+                >
+                  Mail
+                </div>
+                <div
+                  class="glider-option"
+                  data-val="vcf"
+                  onclick="setLinkType('vcf')"
+                >
+                  VCard
+                </div>
+              </div>
+              <div class="input-wrapper">
+                <input
+                  type="text"
+                  id="inUrl"
+                  placeholder="https://"
+                  oninput="renderPreview()"
+                />
+              </div>
+            </div>
+
+            <!-- Título -->
+            <div class="control-row">
+              <span
+                class="control-label"
+                style="display: block; margin-bottom: 6px"
+                >Título</span
+              >
+              <div class="input-wrapper">
+                <input
+                  type="text"
+                  id="inLabel"
+                  placeholder="Ej: Sígueme en Instagram"
+                  value="Mi Enlace Bio"
+                  oninput="renderPreview()"
+                />
+              </div>
+            </div>
+
+            <!-- Subtítulo -->
+            <div class="control-row">
+              <span
+                class="control-label"
+                style="display: block; margin-bottom: 6px"
+                >Subtítulo (opcional)</span
+              >
+              <div class="input-wrapper">
+                <input
+                  type="text"
+                  id="inDesc"
+                  placeholder="Ej: @miusuario"
+                  oninput="renderPreview()"
+                />
+              </div>
+            </div>
+
+            <!-- Alineación de texto -->
+            <div class="control-row">
+              <span
+                class="control-label"
+                style="display: block; margin-bottom: 6px"
+                >Alineación de Texto</span
+              >
+              <div class="glider-container" id="textAlignGlider">
+                <div
+                  class="glider-option active"
+                  data-val="left"
+                  onclick="setTextAlign('left')"
+                  title="Izquierda"
+                >
+                  <svg class="svg-icon" viewBox="0 0 24 24">
+                    <line x1="21" x2="3" y1="6" y2="6" />
+                    <line x1="15" x2="3" y1="12" y2="12" />
+                    <line x1="17" x2="3" y1="18" y2="18" />
+                  </svg>
+                </div>
+                <div
+                  class="glider-option"
+                  data-val="center"
+                  onclick="setTextAlign('center')"
+                  title="Centro"
+                >
+                  <svg class="svg-icon" viewBox="0 0 24 24">
+                    <line x1="21" x2="3" y1="6" y2="6" />
+                    <line x1="19" x2="5" y1="12" y2="12" />
+                    <line x1="17" x2="7" y1="18" y2="18" />
+                  </svg>
+                </div>
+                <div
+                  class="glider-option"
+                  data-val="right"
+                  onclick="setTextAlign('right')"
+                  title="Derecha"
+                >
+                  <svg class="svg-icon" viewBox="0 0 24 24">
+                    <line x1="21" x2="3" y1="6" y2="6" />
+                    <line x1="21" x2="9" y1="12" y2="12" />
+                    <line x1="21" x2="7" y1="18" y2="18" />
+                  </svg>
+                </div>
+              </div>
+            </div>
+
+            <span class="editor-sep"></span>
+
+            <!-- ACCORDION 0 · Medios ──────────────────────────── -->
+            <div class="accordion open" id="acc-0">
+              <div class="accordion-header" onclick="toggleAcc(0)">
+                <div class="accordion-title-wrap">
+                  <span class="accordion-icon">
+                    <svg class="svg-icon" viewBox="0 0 24 24">
+                      <use href="#icon-image" />
+                    </svg>
+                  </span>
+                  <span class="accordion-title">Medios (Icono e Imagen)</span>
+                </div>
+                <span class="accordion-arrow">
+                  <svg class="svg-icon" viewBox="0 0 24 24">
+                    <use href="#icon-chevron-down" />
+                  </svg>
+                </span>
+              </div>
+              <div class="accordion-content">
+                <div class="control-row">
+                  <span class="control-label">Posición del medio</span>
+                  <div class="glider-container" id="posGlider">
+                    <div
+                      class="glider-option active"
+                      data-val="left"
+                      onclick="setPosOption('left')"
+                      title="Izquierda"
+                    >
+                      <svg class="svg-icon" viewBox="0 0 24 24">
+                        <rect
+                          width="18"
+                          height="18"
+                          x="3"
+                          y="3"
+                          rx="2"
+                          ry="2"
+                        />
+                        <path d="M9 3v18" />
+                      </svg>
+                    </div>
+                    <div
+                      class="glider-option"
+                      data-val="right"
+                      onclick="setPosOption('right')"
+                      title="Derecha"
+                    >
+                      <svg class="svg-icon" viewBox="0 0 24 24">
+                        <rect
+                          width="18"
+                          height="18"
+                          x="3"
+                          y="3"
+                          rx="2"
+                          ry="2"
+                        />
+                        <path d="M15 3v18" />
+                      </svg>
+                    </div>
+                    <div
+                      class="glider-option"
+                      data-val="top"
+                      onclick="setPosOption('top')"
+                      title="Arriba"
+                    >
+                      <svg class="svg-icon" viewBox="0 0 24 24">
+                        <rect
+                          width="18"
+                          height="18"
+                          x="3"
+                          y="3"
+                          rx="2"
+                          ry="2"
+                        />
+                        <path d="M3 9h18" />
+                      </svg>
+                    </div>
+                    <div
+                      class="glider-option"
+                      data-val="image"
+                      onclick="setPosOption('image')"
+                      title="Imagen"
+                    >
+                      <svg class="svg-icon" viewBox="0 0 24 24">
+                        <use href="#icon-image" />
+                      </svg>
+                    </div>
+                    <div
+                      class="glider-option"
+                      data-val="none"
+                      onclick="setPosOption('none')"
+                      title="Sin medio"
+                    >
+                      <svg class="svg-icon" viewBox="0 0 24 24">
+                        <circle cx="12" cy="12" r="10" />
+                        <path d="m4.9 4.9 14.2 14.2" />
+                      </svg>
+                    </div>
+                  </div>
+                </div>
+                <div
+                  class="control-row"
+                  id="imageShapeRow"
+                  style="display: none"
+                >
+                  <span class="control-label">Forma del contenedor</span>
+                  <div class="glider-container" id="shapeGlider">
+                    <div
+                      class="glider-option active"
+                      data-val="circled"
+                      onclick="setShape('circled')"
+                    >
+                      Círculo
+                    </div>
+                    <div
+                      class="glider-option"
+                      data-val="squircle"
+                      onclick="setShape('squircle')"
+                    >
+                      Squircle
+                    </div>
+                    <div
+                      class="glider-option"
+                      data-val="square"
+                      onclick="setShape('square')"
+                    >
+                      Cuadrado
+                    </div>
+                  </div>
+                </div>
+                <div class="control-row">
+                  <div class="control-label-wrap">
+                    <span class="control-label">Margen del icono</span>
+                    <span class="control-value" id="valMargin">14px</span>
+                  </div>
+                  <input
+                    type="range"
+                    class="range-input"
+                    id="rngMargin"
+                    min="4"
+                    max="32"
+                    value="14"
+                    oninput="updateRange('Margin', 'px')"
+                  />
+                </div>
+                <div class="control-row">
+                  <div class="control-label-wrap">
+                    <span class="control-label">Padding interno</span>
+                    <span class="control-value" id="valPadding">0px</span>
+                  </div>
+                  <input
+                    type="range"
+                    class="range-input"
+                    id="rngPadding"
+                    min="0"
+                    max="16"
+                    value="0"
+                    oninput="updateRange('Padding', 'px')"
+                  />
+                </div>
+                <div class="control-row" id="iconGridSection">
+                  <span
+                    class="control-label"
+                    style="display: block; margin-bottom: 8px"
+                    >Selecciona un Icono</span
+                  >
+                  <div class="icon-grid" id="iconGrid"></div>
+                </div>
+              </div>
+            </div>
+
+            <!-- ACCORDION 1 · Tipografía ─────────────────────── -->
+            <div class="accordion" id="acc-1">
+              <div class="accordion-header" onclick="toggleAcc(1)">
+                <div class="accordion-title-wrap">
+                  <span class="accordion-icon">
+                    <svg class="svg-icon" viewBox="0 0 24 24">
+                      <use href="#icon-sparkle" />
+                    </svg>
+                  </span>
+                  <span class="accordion-title">Tipografía y Colores</span>
+                </div>
+                <span class="accordion-arrow">
+                  <svg class="svg-icon" viewBox="0 0 24 24">
+                    <use href="#icon-chevron-down" />
+                  </svg>
+                </span>
+              </div>
+              <div class="accordion-content">
+                <div
+                  class="control-row"
+                  style="
+                    border-bottom: 1px dashed var(--border);
+                    padding-bottom: 14px;
+                  "
+                >
+                  <span
+                    class="control-label"
+                    style="display: block; margin-bottom: 6px"
+                    >Fuente del Título</span
+                  >
+                  <div class="input-wrapper">
+                    <select id="selTitleFont" onchange="renderPreview()">
+                      <option value="'Inter', sans-serif">
+                        Sans-Serif (Inter)
+                      </option>
+                      <option value="'Playfair Display', serif">
+                        Serif (Playfair)
+                      </option>
+                      <option value="'JetBrains Mono', monospace">
+                        Monospace (JetBrains)
+                      </option>
+                    </select>
+                  </div>
+                  <div class="custom-color-picker-wrap">
+                    <span class="color-picker-label">Color del título</span>
+                    <input
+                      type="color"
+                      id="pickTitleColor"
+                      class="picker-input"
+                      value="#09090b"
+                      oninput="renderPreview()"
+                    />
+                  </div>
+                </div>
+                <div class="control-row" style="margin-top: 14px">
+                  <span
+                    class="control-label"
+                    style="display: block; margin-bottom: 6px"
+                    >Fuente del Subtítulo</span
+                  >
+                  <div class="input-wrapper">
+                    <select id="selSubFont" onchange="renderPreview()">
+                      <option value="'Inter', sans-serif">
+                        Sans-Serif (Inter)
+                      </option>
+                      <option value="'Playfair Display', serif">
+                        Serif (Playfair)
+                      </option>
+                      <option value="'JetBrains Mono', monospace">
+                        Monospace (JetBrains)
+                      </option>
+                    </select>
+                  </div>
+                  <div class="custom-color-picker-wrap">
+                    <span class="color-picker-label">Color del subtítulo</span>
+                    <input
+                      type="color"
+                      id="pickSubColor"
+                      class="picker-input"
+                      value="#71717a"
+                      oninput="renderPreview()"
+                    />
+                  </div>
+                </div>
+                <div
+                  class="control-row"
+                  style="
+                    margin-top: 14px;
+                    border-top: 1px dashed var(--border);
+                    padding-top: 14px;
+                  "
+                >
+                  <span class="control-label">Color Primario del Icono</span>
+                  <div class="color-presets" id="colorPresets"></div>
+                  <div class="custom-color-picker-wrap">
+                    <span class="color-picker-label">Paleta personalizada</span>
+                    <input
+                      type="color"
+                      id="pickElementColor"
+                      class="picker-input"
+                      value="#18181b"
+                      oninput="setCustomColor(this.value)"
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- ACCORDION 2 · Fondo y Bordes ───────────────────── -->
+            <div class="accordion" id="acc-2">
+              <div class="accordion-header" onclick="toggleAcc(2)">
+                <div class="accordion-title-wrap">
+                  <span class="accordion-icon">
+                    <svg class="svg-icon" viewBox="0 0 24 24">
+                      <circle cx="12" cy="12" r="10" />
+                      <path
+                        d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"
+                      />
+                      <path d="M2 12h20" />
+                    </svg>
+                  </span>
+                  <span class="accordion-title"
+                    >Fondo, Bordes y Estructura</span
+                  >
+                </div>
+                <span class="accordion-arrow">
+                  <svg class="svg-icon" viewBox="0 0 24 24">
+                    <use href="#icon-chevron-down" />
+                  </svg>
+                </span>
+              </div>
+              <div class="accordion-content">
+                <div class="control-row">
+                  <span
+                    class="control-label"
+                    style="display: block; margin-bottom: 6px"
+                    >Fondo del Botón</span
+                  >
+                  <div class="glider-container" id="bgTypeGlider">
+                    <div
+                      class="glider-option active"
+                      data-val="solid"
+                      onclick="setBgType('solid')"
+                    >
+                      Sólido
+                    </div>
+                    <div
+                      class="glider-option"
+                      data-val="gradient"
+                      onclick="setBgType('gradient')"
+                    >
+                      Gradiente
+                    </div>
+                  </div>
+                  <div class="custom-color-picker-wrap" id="solidBgRow">
+                    <span class="color-picker-label">Color de Fondo</span>
+                    <input
+                      type="color"
+                      id="pickBgColor"
+                      class="picker-input"
+                      value="#ffffff"
+                      oninput="renderPreview()"
+                    />
+                  </div>
+                  <div
+                    class="custom-color-picker-wrap"
+                    id="gradientBgRow"
+                    style="display: none; flex-direction: column; gap: 8px"
+                  >
+                    <div
+                      style="
+                        display: flex;
+                        gap: 10px;
+                        width: 100%;
+                        justify-content: space-between;
+                        align-items: center;
+                      "
+                    >
+                      <span class="color-picker-label">Color Inicial</span>
+                      <input
+                        type="color"
+                        id="pickGrad1"
+                        class="picker-input"
+                        value="#ffffff"
+                        oninput="renderPreview()"
+                      />
+                    </div>
+                    <div
+                      style="
+                        display: flex;
+                        gap: 10px;
+                        width: 100%;
+                        justify-content: space-between;
+                        align-items: center;
+                      "
+                    >
+                      <span class="color-picker-label">Color Final</span>
+                      <input
+                        type="color"
+                        id="pickGrad2"
+                        class="picker-input"
+                        value="#e4e4e7"
+                        oninput="renderPreview()"
+                      />
+                    </div>
+                  </div>
+                </div>
+                <div class="control-row">
+                  <span
+                    class="control-label"
+                    style="display: block; margin-bottom: 6px"
+                    >Radio de esquinas</span
+                  >
+                  <div class="control-label-wrap">
+                    <span></span>
+                    <span class="control-value" id="valRadius">14px</span>
+                  </div>
+                  <input
+                    type="range"
+                    class="range-input"
+                    id="rngRadius"
+                    min="0"
+                    max="32"
+                    value="14"
+                    oninput="updateRange('Radius', 'px')"
+                  />
+                </div>
+                <div class="control-row">
+                  <span
+                    class="control-label"
+                    style="display: block; margin-bottom: 6px"
+                    >Espesores de Borde (px)</span
+                  >
+                  <div class="border-sides-grid">
+                    <div class="side-input-card">
+                      <span class="side-label">Top</span
+                      ><input
+                        type="number"
+                        id="borderTop"
+                        class="side-num-input"
+                        min="0"
+                        max="8"
+                        value="1"
+                        oninput="renderPreview()"
+                      />
+                    </div>
+                    <div class="side-input-card">
+                      <span class="side-label">Bottom</span
+                      ><input
+                        type="number"
+                        id="borderBottom"
+                        class="side-num-input"
+                        min="0"
+                        max="8"
+                        value="1"
+                        oninput="renderPreview()"
+                      />
+                    </div>
+                    <div class="side-input-card">
+                      <span class="side-label">Left</span
+                      ><input
+                        type="number"
+                        id="borderLeft"
+                        class="side-num-input"
+                        min="0"
+                        max="8"
+                        value="1"
+                        oninput="renderPreview()"
+                      />
+                    </div>
+                    <div class="side-input-card">
+                      <span class="side-label">Right</span
+                      ><input
+                        type="number"
+                        id="borderRight"
+                        class="side-num-input"
+                        min="0"
+                        max="8"
+                        value="1"
+                        oninput="renderPreview()"
+                      />
+                    </div>
+                  </div>
+                  <div class="custom-color-picker-wrap" style="margin-top: 4px">
+                    <span class="color-picker-label">Color del Borde</span>
+                    <input
+                      type="color"
+                      id="pickBorderColor"
+                      class="picker-input"
+                      value="#e4e4e7"
+                      oninput="renderPreview()"
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- /creatorScrollContent -->
+        </div>
+
+        <!-- Editor bottom bar -->
+        <div class="editor-bottom-bar">
+          <button class="btn-save-link" id="btnSaveLink" onclick="saveLink()">
+            <svg class="svg-icon" style="width: 16px; height: 16px">
+              <use href="#icon-check" />
+            </svg>
+            <span id="saveBtnLabel">Confirmar y Guardar Link</span>
+          </button>
+        </div>
+      </div>
+      <!-- /bsEditor -->
+    </div>
+    <!-- /app -->
+
+    <!-- ══ JAVASCRIPT ═══════════════════════════════════════════ -->
+    <script>
+      "use strict";
+
+      // ─── PRESET DATABASE ─────────────────────────────────────────
+      const PRESETS = [
+        // SOCIAL
+        {
+          id: "ig-minimal",
+          name: "Instagram Minimal",
+          category: "social",
+          tags: ["instagram", "foto", "social", "ig"],
+          badgeBg: "#fdf2f8",
+          badgeColor: "#E1306C",
+          shortDesc: "Borde izquierdo rosa, icono a la izquierda",
+          specs: {
+            Posición: "Izquierda",
+            Fondo: "Blanco",
+            Bordes: "Izq 4px",
+            Radio: "12px",
+          },
+          variants: ["ig-minimal", "ig-dark"],
+          label: "Sígueme en Instagram",
+          desc: "",
+          url: "https://instagram.com/",
+          linkType: "url",
+          variant: "left",
+          shape: "circled",
+          icon: "instagram",
+          color: "#E1306C",
+          textAlign: "left",
+          marginMedia: 14,
+          paddingMedia: 0,
+          titleFont: "'Inter', sans-serif",
+          titleColor: "#09090b",
+          subFont: "'Inter', sans-serif",
+          subColor: "#71717a",
+          bgType: "solid",
+          bgColor: "#ffffff",
+          bgGrad1: "#ffffff",
+          bgGrad2: "#e4e4e7",
+          borderT: 0,
+          borderB: 0,
+          borderL: 4,
+          borderR: 0,
+          borderColor: "#E1306C",
+          borderRadius: 12,
+        },
+        {
+          id: "ig-dark",
+          name: "Instagram Dark",
+          category: "social",
+          tags: ["instagram", "social", "dark", "ig"],
+          badgeBg: "#09090b",
+          badgeColor: "#E1306C",
+          shortDesc: "Fondo negro, subtítulo con handle",
+          specs: {
+            Posición: "Izquierda",
+            Fondo: "Negro",
+            Bordes: "Ninguno",
+            Radio: "16px",
+          },
+          variants: ["ig-minimal", "ig-dark"],
+          label: "Instagram",
+          desc: "@miusuario",
+          url: "https://instagram.com/",
+          linkType: "url",
+          variant: "left",
+          shape: "circled",
+          icon: "instagram",
+          color: "#ffffff",
+          textAlign: "left",
+          marginMedia: 14,
+          paddingMedia: 0,
+          titleFont: "'Inter', sans-serif",
+          titleColor: "#ffffff",
+          subFont: "'Inter', sans-serif",
+          subColor: "#a1a1aa",
+          bgType: "solid",
+          bgColor: "#09090b",
+          bgGrad1: "#09090b",
+          bgGrad2: "#18181b",
+          borderT: 0,
+          borderB: 0,
+          borderL: 0,
+          borderR: 0,
+          borderColor: "#27272a",
+          borderRadius: 16,
+        },
+        {
+          id: "twitter-x",
+          name: "Twitter / X",
+          category: "social",
+          tags: ["twitter", "x", "social", "tweet"],
+          badgeBg: "#000000",
+          badgeColor: "#ffffff",
+          shortDesc: "Fondo negro, estilo X oficial",
+          specs: {
+            Posición: "Izquierda",
+            Fondo: "Negro",
+            Bordes: "Ninguno",
+            Radio: "14px",
+          },
+          variants: ["twitter-x"],
+          label: "Twitter / X",
+          desc: "",
+          url: "https://twitter.com/",
+          linkType: "url",
+          variant: "left",
+          shape: "circled",
+          icon: "twitter",
+          color: "#ffffff",
+          textAlign: "left",
+          marginMedia: 14,
+          paddingMedia: 0,
+          titleFont: "'Inter', sans-serif",
+          titleColor: "#ffffff",
+          subFont: "'Inter', sans-serif",
+          subColor: "#a1a1aa",
+          bgType: "solid",
+          bgColor: "#000000",
+          bgGrad1: "#000000",
+          bgGrad2: "#18181b",
+          borderT: 0,
+          borderB: 0,
+          borderL: 0,
+          borderR: 0,
+          borderColor: "#27272a",
+          borderRadius: 14,
+        },
+        {
+          id: "linkedin-pro",
+          name: "LinkedIn Pro",
+          category: "social",
+          tags: ["linkedin", "trabajo", "profesional", "social"],
+          badgeBg: "#0A66C2",
+          badgeColor: "#ffffff",
+          shortDesc: "Azul LinkedIn, con descripción",
+          specs: {
+            Posición: "Izquierda",
+            Fondo: "Azul LinkedIn",
+            Bordes: "Ninguno",
+            Radio: "14px",
+          },
+          variants: ["linkedin-pro"],
+          label: "LinkedIn",
+          desc: "Conéctemos profesionalmente",
+          url: "https://linkedin.com/in/",
+          linkType: "url",
+          variant: "left",
+          shape: "squircle",
+          icon: "linkedin",
+          color: "#ffffff",
+          textAlign: "left",
+          marginMedia: 14,
+          paddingMedia: 6,
+          titleFont: "'Inter', sans-serif",
+          titleColor: "#ffffff",
+          subFont: "'Inter', sans-serif",
+          subColor: "#bfdbfe",
+          bgType: "solid",
+          bgColor: "#0A66C2",
+          bgGrad1: "#0A66C2",
+          bgGrad2: "#1d4ed8",
+          borderT: 0,
+          borderB: 0,
+          borderL: 0,
+          borderR: 0,
+          borderColor: "#1d4ed8",
+          borderRadius: 14,
+        },
+        {
+          id: "youtube-red",
+          name: "YouTube",
+          category: "social",
+          tags: ["youtube", "video", "canal", "social"],
+          badgeBg: "#dc2626",
+          badgeColor: "#ffffff",
+          shortDesc: "Rojo YouTube, CTA suscripción",
+          specs: {
+            Posición: "Izquierda",
+            Fondo: "Rojo YouTube",
+            Bordes: "Ninguno",
+            Radio: "14px",
+          },
+          variants: ["youtube-red"],
+          label: "Mi Canal de YouTube",
+          desc: "Suscríbete gratis",
+          url: "https://youtube.com/",
+          linkType: "url",
+          variant: "left",
+          shape: "squircle",
+          icon: "youtube",
+          color: "#ffffff",
+          textAlign: "left",
+          marginMedia: 14,
+          paddingMedia: 0,
+          titleFont: "'Inter', sans-serif",
+          titleColor: "#ffffff",
+          subFont: "'Inter', sans-serif",
+          subColor: "#fecaca",
+          bgType: "solid",
+          bgColor: "#dc2626",
+          bgGrad1: "#dc2626",
+          bgGrad2: "#b91c1c",
+          borderT: 0,
+          borderB: 0,
+          borderL: 0,
+          borderR: 0,
+          borderColor: "#b91c1c",
+          borderRadius: 14,
+        },
+        {
+          id: "music-stacked",
+          name: "Spotify / Música",
+          category: "social",
+          tags: ["música", "spotify", "social", "stacked"],
+          badgeBg: "#f0fdf4",
+          badgeColor: "#1DB954",
+          shortDesc: "Icono arriba, estilo stacked verde",
+          specs: {
+            Posición: "Arriba (stacked)",
+            Fondo: "Verde suave",
+            Bordes: "1px completo",
+            Radio: "16px",
+          },
+          variants: ["music-stacked"],
+          label: "Escucha mi música",
+          desc: "Disponible en Spotify",
+          url: "https://",
+          linkType: "url",
+          variant: "top",
+          shape: "circled",
+          icon: "music",
+          color: "#1DB954",
+          textAlign: "center",
+          marginMedia: 10,
+          paddingMedia: 0,
+          titleFont: "'Inter', sans-serif",
+          titleColor: "#09090b",
+          subFont: "'Inter', sans-serif",
+          subColor: "#71717a",
+          bgType: "solid",
+          bgColor: "#f0fdf4",
+          bgGrad1: "#f0fdf4",
+          bgGrad2: "#dcfce7",
+          borderT: 1,
+          borderB: 1,
+          borderL: 1,
+          borderR: 1,
+          borderColor: "#bbf7d0",
+          borderRadius: 16,
+        },
+        // CONTACT
+        {
+          id: "whatsapp-cta",
+          name: "WhatsApp",
+          category: "contact",
+          tags: ["whatsapp", "mensaje", "contacto", "chat", "wa"],
+          badgeBg: "#25D366",
+          badgeColor: "#ffffff",
+          shortDesc: "Verde WhatsApp, pill redondeado",
+          specs: {
+            Posición: "Izquierda",
+            Fondo: "Verde WhatsApp",
+            Bordes: "Ninguno",
+            Radio: "28px",
+          },
+          variants: ["whatsapp-cta"],
+          label: "Escríbeme por WhatsApp",
+          desc: "",
+          url: "https://wa.me/",
+          linkType: "url",
+          variant: "left",
+          shape: "circled",
+          icon: "whatsapp",
+          color: "#ffffff",
+          textAlign: "left",
+          marginMedia: 14,
+          paddingMedia: 0,
+          titleFont: "'Inter', sans-serif",
+          titleColor: "#ffffff",
+          subFont: "'Inter', sans-serif",
+          subColor: "#a1a1aa",
+          bgType: "solid",
+          bgColor: "#25D366",
+          bgGrad1: "#25D366",
+          bgGrad2: "#16a34a",
+          borderT: 0,
+          borderB: 0,
+          borderL: 0,
+          borderR: 0,
+          borderColor: "#16a34a",
+          borderRadius: 28,
+        },
+        {
+          id: "email-clean",
+          name: "Email",
+          category: "contact",
+          tags: ["email", "correo", "contacto", "mail"],
+          badgeBg: "#f4f4f5",
+          badgeColor: "#09090b",
+          shortDesc: "Serif, respuesta en 24h",
+          specs: {
+            Posición: "Izquierda",
+            Fondo: "Blanco",
+            Bordes: "1px completo",
+            Radio: "12px",
+          },
+          variants: ["email-clean"],
+          label: "Contáctame por email",
+          desc: "Respondo en 24 horas",
+          url: "",
+          linkType: "mail",
+          variant: "left",
+          shape: "circled",
+          icon: "mail",
+          color: "#09090b",
+          textAlign: "left",
+          marginMedia: 14,
+          paddingMedia: 0,
+          titleFont: "'Playfair Display', serif",
+          titleColor: "#09090b",
+          subFont: "'Inter', sans-serif",
+          subColor: "#71717a",
+          bgType: "solid",
+          bgColor: "#ffffff",
+          bgGrad1: "#ffffff",
+          bgGrad2: "#f4f4f5",
+          borderT: 1,
+          borderB: 1,
+          borderL: 1,
+          borderR: 1,
+          borderColor: "#e4e4e7",
+          borderRadius: 12,
+        },
+        {
+          id: "phone-pill",
+          name: "Teléfono",
+          category: "contact",
+          tags: ["telefono", "llamada", "call", "contacto"],
+          badgeBg: "#f4f4f5",
+          badgeColor: "#09090b",
+          shortDesc: "Pill redondeado, borde negro",
+          specs: {
+            Posición: "Izquierda",
+            Fondo: "Blanco",
+            Bordes: "1px negro",
+            Radio: "30px",
+          },
+          variants: ["phone-pill"],
+          label: "Llámame",
+          desc: "",
+          url: "",
+          linkType: "tel",
+          variant: "left",
+          shape: "circled",
+          icon: "phone",
+          color: "#09090b",
+          textAlign: "left",
+          marginMedia: 14,
+          paddingMedia: 0,
+          titleFont: "'Inter', sans-serif",
+          titleColor: "#09090b",
+          subFont: "'Inter', sans-serif",
+          subColor: "#71717a",
+          bgType: "solid",
+          bgColor: "#ffffff",
+          bgGrad1: "#ffffff",
+          bgGrad2: "#e4e4e7",
+          borderT: 1,
+          borderB: 1,
+          borderL: 1,
+          borderR: 1,
+          borderColor: "#09090b",
+          borderRadius: 30,
+        },
+        {
+          id: "location-pin",
+          name: "Ubicación / Maps",
+          category: "contact",
+          tags: ["mapa", "ubicacion", "maps", "google"],
+          badgeBg: "#fef2f2",
+          badgeColor: "#dc2626",
+          shortDesc: "Pin rojo, muestra ciudad",
+          specs: {
+            Posición: "Izquierda",
+            Fondo: "Rosa suave",
+            Bordes: "1px rojo suave",
+            Radio: "14px",
+          },
+          variants: ["location-pin"],
+          label: "Ver ubicación",
+          desc: "Los Cabos, BCS, México",
+          url: "https://maps.google.com",
+          linkType: "url",
+          variant: "left",
+          shape: "circled",
+          icon: "map-pin",
+          color: "#dc2626",
+          textAlign: "left",
+          marginMedia: 14,
+          paddingMedia: 0,
+          titleFont: "'Inter', sans-serif",
+          titleColor: "#09090b",
+          subFont: "'Inter', sans-serif",
+          subColor: "#71717a",
+          bgType: "solid",
+          bgColor: "#ffffff",
+          bgGrad1: "#ffffff",
+          bgGrad2: "#fef2f2",
+          borderT: 1,
+          borderB: 1,
+          borderL: 1,
+          borderR: 1,
+          borderColor: "#fecaca",
+          borderRadius: 14,
+        },
+        // CTA
+        {
+          id: "portfolio-hero",
+          name: "Portfolio / Sitio Web",
+          category: "cta",
+          tags: ["portfolio", "web", "sitio", "proyectos"],
+          badgeBg: "#f4f4f5",
+          badgeColor: "#09090b",
+          shortDesc: "Serif, gradiente gris, sin icono centrado",
+          specs: {
+            Posición: "Sin icono",
+            Fondo: "Gradiente gris",
+            Bordes: "1px suave",
+            Radio: "20px",
+          },
+          variants: ["portfolio-hero", "website-cta"],
+          label: "Ver mi Portfolio",
+          desc: "Proyectos seleccionados 2024",
+          url: "https://",
+          linkType: "url",
+          variant: "none",
+          shape: "circled",
+          icon: "globe",
+          color: "#09090b",
+          textAlign: "center",
+          marginMedia: 14,
+          paddingMedia: 0,
+          titleFont: "'Playfair Display', serif",
+          titleColor: "#09090b",
+          subFont: "'Inter', sans-serif",
+          subColor: "#71717a",
+          bgType: "gradient",
+          bgColor: "#ffffff",
+          bgGrad1: "#f4f4f5",
+          bgGrad2: "#e4e4e7",
+          borderT: 1,
+          borderB: 1,
+          borderL: 1,
+          borderR: 1,
+          borderColor: "#e4e4e7",
+          borderRadius: 20,
+        },
+        {
+          id: "website-cta",
+          name: "Visitar Sitio Web",
+          category: "cta",
+          tags: ["web", "sitio", "url", "visitar", "cta"],
+          badgeBg: "#eff6ff",
+          badgeColor: "#2563eb",
+          shortDesc: "Azul suave, icono globo izquierda",
+          specs: {
+            Posición: "Izquierda",
+            Fondo: "Azul suave",
+            Bordes: "1px azul",
+            Radio: "14px",
+          },
+          variants: ["portfolio-hero", "website-cta"],
+          label: "Visita mi sitio web",
+          desc: "",
+          url: "https://",
+          linkType: "url",
+          variant: "left",
+          shape: "circled",
+          icon: "globe",
+          color: "#2563eb",
+          textAlign: "left",
+          marginMedia: 14,
+          paddingMedia: 0,
+          titleFont: "'Inter', sans-serif",
+          titleColor: "#1e3a8a",
+          subFont: "'Inter', sans-serif",
+          subColor: "#71717a",
+          bgType: "solid",
+          bgColor: "#eff6ff",
+          bgGrad1: "#eff6ff",
+          bgGrad2: "#dbeafe",
+          borderT: 1,
+          borderB: 1,
+          borderL: 1,
+          borderR: 1,
+          borderColor: "#bfdbfe",
+          borderRadius: 14,
+        },
+        {
+          id: "calendar-cta",
+          name: "Agendar Llamada",
+          category: "cta",
+          tags: ["agenda", "llamada", "calendly", "reserva", "cita"],
+          badgeBg: "#09090b",
+          badgeColor: "#ffffff",
+          shortDesc: "Fondo negro, mono font, duración visible",
+          specs: {
+            Posición: "Izquierda",
+            Fondo: "Negro",
+            Bordes: "Ninguno",
+            Radio: "14px",
+          },
+          variants: ["calendar-cta"],
+          label: "Agenda una llamada",
+          desc: "30 min · Gratis",
+          url: "https://calendly.com/",
+          linkType: "url",
+          variant: "left",
+          shape: "squircle",
+          icon: "calendar",
+          color: "#ffffff",
+          textAlign: "left",
+          marginMedia: 14,
+          paddingMedia: 4,
+          titleFont: "'JetBrains Mono', monospace",
+          titleColor: "#ffffff",
+          subFont: "'JetBrains Mono', monospace",
+          subColor: "#a1a1aa",
+          bgType: "solid",
+          bgColor: "#09090b",
+          bgGrad1: "#09090b",
+          bgGrad2: "#18181b",
+          borderT: 0,
+          borderB: 0,
+          borderL: 0,
+          borderR: 0,
+          borderColor: "#27272a",
+          borderRadius: 14,
+        },
+        {
+          id: "cv-download",
+          name: "Descargar CV",
+          category: "cta",
+          tags: ["cv", "curriculum", "descargar", "pdf", "resume"],
+          badgeBg: "#f4f4f5",
+          badgeColor: "#09090b",
+          shortDesc: "Flecha derecha, borde doble negro",
+          specs: {
+            Posición: "Derecha",
+            Fondo: "Blanco",
+            Bordes: "2px negro",
+            Radio: "8px",
+          },
+          variants: ["cv-download"],
+          label: "Descargar mi CV",
+          desc: "PDF · Actualizado 2024",
+          url: "https://",
+          linkType: "url",
+          variant: "right",
+          shape: "circled",
+          icon: "download",
+          color: "#09090b",
+          textAlign: "left",
+          marginMedia: 14,
+          paddingMedia: 0,
+          titleFont: "'Inter', sans-serif",
+          titleColor: "#09090b",
+          subFont: "'Inter', sans-serif",
+          subColor: "#71717a",
+          bgType: "solid",
+          bgColor: "#ffffff",
+          bgGrad1: "#ffffff",
+          bgGrad2: "#e4e4e7",
+          borderT: 2,
+          borderB: 2,
+          borderL: 2,
+          borderR: 2,
+          borderColor: "#09090b",
+          borderRadius: 8,
+        },
+        // EDITORIAL
+        {
+          id: "serif-elegant",
+          name: "Editorial / Blog",
+          category: "editorial",
+          tags: ["editorial", "blog", "substack", "newsletter", "serif"],
+          badgeBg: "#fffbeb",
+          badgeColor: "#92400e",
+          shortDesc: "Serif Playfair, fondo ámbar suave",
+          specs: {
+            Posición: "Izquierda",
+            Fondo: "Ámbar suave",
+            Bordes: "1px dorado",
+            Radio: "12px",
+          },
+          variants: ["serif-elegant", "gradient-hero"],
+          label: "Leer mi artículo",
+          desc: "Publicado en Substack",
+          url: "https://",
+          linkType: "url",
+          variant: "left",
+          shape: "circled",
+          icon: "star",
+          color: "#92400e",
+          textAlign: "left",
+          marginMedia: 14,
+          paddingMedia: 0,
+          titleFont: "'Playfair Display', serif",
+          titleColor: "#09090b",
+          subFont: "'Inter', sans-serif",
+          subColor: "#78716c",
+          bgType: "solid",
+          bgColor: "#fffbeb",
+          bgGrad1: "#fffbeb",
+          bgGrad2: "#fef3c7",
+          borderT: 1,
+          borderB: 1,
+          borderL: 1,
+          borderR: 1,
+          borderColor: "#fde68a",
+          borderRadius: 12,
+        },
+        {
+          id: "gradient-hero",
+          name: "Gradient Hero",
+          category: "editorial",
+          tags: ["gradiente", "editorial", "hero", "stacked"],
+          badgeBg: "#eef2ff",
+          badgeColor: "#4f46e5",
+          shortDesc: "Icono arriba, gradiente índigo, serif",
+          specs: {
+            Posición: "Arriba (stacked)",
+            Fondo: "Gradiente índigo",
+            Bordes: "1px morado",
+            Radio: "20px",
+          },
+          variants: ["serif-elegant", "gradient-hero"],
+          label: "Mi contenido destacado",
+          desc: "Explora todo mi trabajo",
+          url: "https://",
+          linkType: "url",
+          variant: "top",
+          shape: "circled",
+          icon: "zap",
+          color: "#4f46e5",
+          textAlign: "center",
+          marginMedia: 10,
+          paddingMedia: 0,
+          titleFont: "'Playfair Display', serif",
+          titleColor: "#1e1b4b",
+          subFont: "'Inter', sans-serif",
+          subColor: "#4338ca",
+          bgType: "gradient",
+          bgColor: "#eef2ff",
+          bgGrad1: "#eef2ff",
+          bgGrad2: "#c7d2fe",
+          borderT: 1,
+          borderB: 1,
+          borderL: 1,
+          borderR: 1,
+          borderColor: "#a5b4fc",
+          borderRadius: 20,
+        },
+        {
+          id: "mono-stark",
+          name: "Mono / GitHub",
+          category: "editorial",
+          tags: ["mono", "github", "codigo", "tech", "developer"],
+          badgeBg: "#f4f4f5",
+          badgeColor: "#09090b",
+          shortDesc: "Monospace, subrayado inferior, sin radio",
+          specs: {
+            Posición: "Izquierda",
+            Fondo: "Zinc 100",
+            Bordes: "2px inferior",
+            Radio: "0px",
+          },
+          variants: ["mono-stark"],
+          label: "Ver en GitHub",
+          desc: "",
+          url: "https://github.com/",
+          linkType: "url",
+          variant: "left",
+          shape: "square",
+          icon: "link-2",
+          color: "#09090b",
+          textAlign: "left",
+          marginMedia: 14,
+          paddingMedia: 0,
+          titleFont: "'JetBrains Mono', monospace",
+          titleColor: "#09090b",
+          subFont: "'JetBrains Mono', monospace",
+          subColor: "#71717a",
+          bgType: "solid",
+          bgColor: "#f4f4f5",
+          bgGrad1: "#f4f4f5",
+          bgGrad2: "#e4e4e7",
+          borderT: 0,
+          borderB: 2,
+          borderL: 0,
+          borderR: 0,
+          borderColor: "#09090b",
+          borderRadius: 0,
+        },
+        // MINIMAL
+        {
+          id: "ghost-border",
+          name: "Ghost Border",
+          category: "minimal",
+          tags: ["ghost", "minimal", "limpio", "borde", "neutro"],
+          badgeBg: "#f4f4f5",
+          badgeColor: "#71717a",
+          shortDesc: "Borde gris 1px, totalmente neutro",
+          specs: {
+            Posición: "Izquierda",
+            Fondo: "Blanco",
+            Bordes: "1px gris",
+            Radio: "14px",
+          },
+          variants: ["ghost-border", "text-only"],
+          label: "Enlace limpio",
+          desc: "",
+          url: "https://",
+          linkType: "url",
+          variant: "left",
+          shape: "circled",
+          icon: "link",
+          color: "#71717a",
+          textAlign: "left",
+          marginMedia: 14,
+          paddingMedia: 0,
+          titleFont: "'Inter', sans-serif",
+          titleColor: "#09090b",
+          subFont: "'Inter', sans-serif",
+          subColor: "#71717a",
+          bgType: "solid",
+          bgColor: "#ffffff",
+          bgGrad1: "#ffffff",
+          bgGrad2: "#f4f4f5",
+          borderT: 1,
+          borderB: 1,
+          borderL: 1,
+          borderR: 1,
+          borderColor: "#e4e4e7",
+          borderRadius: 14,
+        },
+        {
+          id: "text-only",
+          name: "Solo Texto",
+          category: "minimal",
+          tags: ["texto", "minimal", "sin icono", "centrado", "simple"],
+          badgeBg: "#f4f4f5",
+          badgeColor: "#09090b",
+          shortDesc: "Sin icono, texto centrado, máximo limpio",
+          specs: {
+            Posición: "Sin icono",
+            Fondo: "Blanco",
+            Bordes: "1px gris",
+            Radio: "14px",
+          },
+          variants: ["ghost-border", "text-only"],
+          label: "Ver más información",
+          desc: "",
+          url: "https://",
+          linkType: "url",
+          variant: "none",
+          shape: "circled",
+          icon: "link",
+          color: "#09090b",
+          textAlign: "center",
+          marginMedia: 14,
+          paddingMedia: 0,
+          titleFont: "'Inter', sans-serif",
+          titleColor: "#09090b",
+          subFont: "'Inter', sans-serif",
+          subColor: "#71717a",
+          bgType: "solid",
+          bgColor: "#ffffff",
+          bgGrad1: "#ffffff",
+          bgGrad2: "#f4f4f5",
+          borderT: 1,
+          borderB: 1,
+          borderL: 1,
+          borderR: 1,
+          borderColor: "#e4e4e7",
+          borderRadius: 14,
+        },
+        {
+          id: "heart-warm",
+          name: "Apoyo / Donación",
+          category: "minimal",
+          tags: ["corazon", "apoyo", "donacion", "calido", "fans"],
+          badgeBg: "#fff1f2",
+          badgeColor: "#f43f5e",
+          shortDesc: "Rosa suave, corazón, sensación cálida",
+          specs: {
+            Posición: "Izquierda",
+            Fondo: "Rosa suave",
+            Bordes: "1px rosa",
+            Radio: "16px",
+          },
+          variants: ["heart-warm"],
+          label: "Apóyame",
+          desc: "Comparte o dona",
+          url: "https://",
+          linkType: "url",
+          variant: "left",
+          shape: "circled",
+          icon: "heart",
+          color: "#f43f5e",
+          textAlign: "left",
+          marginMedia: 14,
+          paddingMedia: 0,
+          titleFont: "'Inter', sans-serif",
+          titleColor: "#09090b",
+          subFont: "'Inter', sans-serif",
+          subColor: "#71717a",
+          bgType: "solid",
+          bgColor: "#fff1f2",
+          bgGrad1: "#fff1f2",
+          bgGrad2: "#ffe4e6",
+          borderT: 1,
+          borderB: 1,
+          borderL: 1,
+          borderR: 1,
+          borderColor: "#fecdd3",
+          borderRadius: 16,
+        },
+      ];
+
+      const CATS = [
+        { id: "all", label: "Todos", color: "#09090b" },
+        { id: "social", label: "Social", color: "#e1306c" },
+        { id: "contact", label: "Contacto", color: "#25d366" },
+        { id: "cta", label: "CTA", color: "#2563eb" },
+        { id: "editorial", label: "Editorial", color: "#92400e" },
+        { id: "minimal", label: "Minimal", color: "#71717a" },
+      ];
+
+      const ICONS_LIST = [
+        "instagram",
+        "twitter",
+        "linkedin",
+        "youtube",
+        "music",
+        "mail",
+        "phone",
+        "globe",
+        "star",
+        "heart",
+        "zap",
+        "home",
+        "link-2",
+        "map-pin",
+        "user",
+        "link",
+        "whatsapp",
+        "calendar",
+        "download",
+      ];
+      const PRESET_COLORS = [
+        "#18181b",
+        "#71717a",
+        "#2563eb",
+        "#059669",
+        "#d97706",
+        "#e11d48",
+        "#7c3aed",
+        "#ffffff",
+      ];
+
+      // ─── APP STATE ───────────────────────────────────────────────
+      const APP = {
+        links: [],
+        editMode: false,
+        editingId: null,
+        cameFromPresets: false,
+      };
+
+      // ─── PRESETS SHEET STATE ─────────────────────────────────────
+      const PS = {
+        cat: "all",
+        q: "",
+        activePresetId: null,
+        selectedVariantId: null,
+      };
+
+      // ─── BUILDER STATE ───────────────────────────────────────────
+      const BS = {
+        variant: "left",
+        shape: "circled",
+        icon: "instagram",
+        color: "#18181b",
+        textAlign: "left",
+        marginMedia: 14,
+        paddingMedia: 0,
+        linkType: "url",
+        bgType: "solid",
+        borderRadius: 14,
+      };
+
+      // ─── HELPERS ─────────────────────────────────────────────────
+      const ico = (n) =>
+        `<svg class="svg-icon" viewBox="0 0 24 24"><use href="#icon-${n}"/></svg>`;
+
+      function hexToRgb(hex) {
+        const r = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+        return r
+          ? `rgb(${parseInt(r[1], 16)}, ${parseInt(r[2], 16)}, ${parseInt(r[3], 16)})`
+          : null;
+      }
+
+      function gliderActivate(containerId, val) {
+        document
+          .querySelectorAll(`#${containerId} .glider-option`)
+          .forEach((o) => {
+            o.classList.toggle("active", o.dataset.val === val);
+          });
+      }
+
+      // ─── COMPILE BIO BUTTON HTML ─────────────────────────────────
+      function compileBioBtn(p, extraStyle = "") {
+        const descClass = p.desc ? "bio-btn--has-desc" : "";
+        const bg =
+          p.bgType === "gradient"
+            ? `linear-gradient(135deg,${p.bgGrad1},${p.bgGrad2})`
+            : p.bgColor;
+        const alignItems =
+          p.textAlign === "center"
+            ? "center"
+            : p.textAlign === "right"
+              ? "flex-end"
+              : "flex-start";
+        const mediaBg =
+          p.variant === "image"
+            ? `linear-gradient(135deg,${p.color},#cbd5e1)`
+            : "transparent";
+        return `
+    <div class="bio-btn ${descClass}" data-variant="${p.variant}" data-shape="${p.shape}"
+      style="--btn-bg:${bg};--btn-radius:${p.borderRadius}px;--btn-text-color:${p.titleColor};--btn-color:${p.color};
+             --btn-border-top:${p.borderT}px;--btn-border-bottom:${p.borderB}px;
+             --btn-border-left:${p.borderL}px;--btn-border-right:${p.borderR}px;
+             --btn-border-color:${p.borderColor};
+             --btn-media-margin:${p.marginMedia}px;--btn-media-padding:${p.paddingMedia}px;
+             --btn-text-align:${p.textAlign};--btn-align-items:${alignItems};${extraStyle}">
+      <div class="bio-btn__media" style="padding:${p.paddingMedia}px;background:${mediaBg}">${ico(p.icon)}</div>
+      <div class="bio-btn__content">
+        <span class="bio-btn__title" style="font-family:${p.titleFont};color:${p.titleColor}">${p.label}</span>
+        ${p.desc ? `<span class="bio-btn__desc" style="font-family:${p.subFont};color:${p.subColor}">${p.desc}</span>` : ""}
+      </div>
+    </div>`;
+      }
+
+      // ─── MAIN LIST ───────────────────────────────────────────────
+      function renderMainList() {
+        const area = document.getElementById("linksArea");
+        const count = APP.links.length;
+        document.getElementById("linkCount").textContent =
+          count === 0
+            ? "0 enlaces"
+            : `${count} enlace${count !== 1 ? "s" : ""}`;
+
+        if (count === 0) {
+          area.innerHTML = `
+      <div class="empty-wrap">
+        <div class="empty-icon-box">${ico("link")}</div>
+        <div class="empty-text">Diseña tu primer botón bio modular.</div>
+        <button class="cta-add" onclick="openPresetsSheet()">Crear enlace</button>
+      </div>`;
+          return;
+        }
+
+        const items = APP.links
+          .map(
+            (link) => `
+    <li class="link-item" data-id="${link.id}">
+      <div class="edit-tap-overlay" onclick="openEditorForLink(${link.id})">
+        <span class="edit-tap-label">${ico("pencil")} Editar</span>
+      </div>
+      ${compileBioBtn(link)}
+      <button class="del-btn" onclick="deleteLink(${link.id})">${ico("trash")}</button>
+    </li>`,
+          )
+          .join("");
+
+        area.innerHTML = `<ul class="links-list">${items}</ul>`;
+      }
+
+      function toggleEditMode() {
+        APP.editMode = !APP.editMode;
+        const btn = document.getElementById("btnEditMode");
+        const area = document.getElementById("linksArea");
+        btn.textContent = APP.editMode ? "Listo" : "Editar";
+        btn.classList.toggle("is-active", APP.editMode);
+        area.setAttribute("data-status", APP.editMode ? "edit" : "normal");
+      }
+
+      function deleteLink(id) {
+        APP.links = APP.links.filter((l) => l.id !== id);
+        saveToStorage();
+        if (APP.links.length === 0 && APP.editMode) toggleEditMode();
+        renderMainList();
+      }
+
+      // ─── PRESET SHEET ────────────────────────────────────────────
+      function openPresetsSheet() {
+        PS.cat = "all";
+        PS.q = "";
+        PS.activePresetId = null;
+        PS.selectedVariantId = null;
+        document.getElementById("searchInput").value = "";
+        document.getElementById("searchClear").classList.remove("vis");
+        renderPills();
+        renderPresetList();
+        psShowView("psViewList", "right");
+        document.getElementById("bsOverlay").classList.add("open");
+        document.getElementById("bsPresets").classList.add("open");
+      }
+
+      function closePresetsSheet() {
+        document.getElementById("bsPresets").classList.remove("open");
+        document.getElementById("bsOverlay").classList.remove("open");
+      }
+
+      function handleOverlayClick() {
+        closePresetsSheet();
+        closeEditorSheet();
+      }
+
+      function renderPills() {
+        document.getElementById("pillsInner").innerHTML = CATS.map(
+          (c) =>
+            `<div class="pill ${PS.cat === c.id ? "active" : ""}" onclick="setCat('${c.id}')">
+       <span class="pill-dot" style="background:${c.color}"></span>${c.label}
+     </div>`,
+        ).join("");
+      }
+
+      function renderPresetList() {
+        const q = PS.q.toLowerCase().trim();
+        const list = PRESETS.filter((p) => {
+          const mCat = PS.cat === "all" || p.category === PS.cat;
+          const mQ =
+            !q ||
+            p.name.toLowerCase().includes(q) ||
+            p.tags.some((t) => t.includes(q));
+          return mCat && mQ;
+        });
+
+        const lbl = document.getElementById("sectionLabel");
+        if (PS.q)
+          lbl.textContent = `${list.length} resultado${list.length !== 1 ? "s" : ""} para "${PS.q}"`;
+        else
+          lbl.textContent =
+            PS.cat === "all"
+              ? "Presets sugeridos"
+              : `Presets · ${CATS.find((c) => c.id === PS.cat)?.label}`;
+
+        const ul = document.getElementById("presetList");
+        if (list.length === 0 && PS.q) {
+          ul.innerHTML = `<li><div class="empty-state"><div class="empty-ico">${ico("search")}</div><div class="empty-txt">Sin resultados</div><div class="empty-hint">Intenta con otro término</div></div></li>`;
+          return;
+        }
+
+        const defaultRow =
+          !PS.q && PS.cat === "all"
+            ? `
+    <li>
+      <div class="preset-row" onclick="openDetail('default')">
+        <div class="row-badge" style="background:#f4f4f5">${ico("link")}</div>
+        <div class="row-text">
+          <div class="row-name">Empezar desde cero</div>
+          <div class="row-desc">Crear un enlace personalizado desde cero</div>
+        </div>
+        <span class="row-arrow">${ico("chevron-right")}</span>
+      </div>
+    </li>`
+            : "";
+
+        ul.innerHTML =
+          defaultRow +
+          list
+            .map(
+              (p) => `
+    <li>
+      <div class="preset-row" onclick="openDetail('${p.id}')">
+        <div class="row-badge" style="background:${p.badgeBg}">
+          <svg class="svg-icon" style="color:${p.badgeColor}"><use href="#icon-${p.icon}"/></svg>
+        </div>
+        <div class="row-text">
+          <div class="row-name">${p.name}</div>
+          <div class="row-desc">${p.shortDesc}</div>
+        </div>
+        <span class="row-arrow">${ico("chevron-right")}</span>
+      </div>
+    </li>`,
+            )
+            .join("");
+      }
+
+      function setCat(id) {
+        PS.cat = id;
+        renderPills();
+        renderPresetList();
+      }
+      function handleSearch(val) {
+        PS.q = val;
+        document
+          .getElementById("searchClear")
+          .classList.toggle("vis", val.length > 0);
+        renderPresetList();
+      }
+      function clearSearch() {
+        PS.q = "";
+        document.getElementById("searchInput").value = "";
+        document.getElementById("searchClear").classList.remove("vis");
+        renderPresetList();
+      }
+
+      function openDetail(id) {
+        if (id === "default") {
+          // Go straight to editor with defaults
+          closePresetsSheet();
+          APP.cameFromPresets = false;
+          initEditorDefaults();
+          openEditorSheet(false);
+          return;
+        }
+        const preset = PRESETS.find((p) => p.id === id);
+        if (!preset) return;
+        PS.activePresetId = id;
+        PS.selectedVariantId = id;
+        document.getElementById("detailTitle").textContent = preset.name;
+        document.getElementById("detailCat").textContent =
+          CATS.find((c) => c.id === preset.category)?.label || preset.category;
+        renderDetailContent(preset);
+        psShowView("psViewDetail", "right");
+      }
+
+      function renderDetailContent(preset) {
+        const variantIds = preset.variants || [preset.id];
+        const variantPresets = variantIds
+          .map((vid) => PRESETS.find((p) => p.id === vid))
+          .filter(Boolean);
+        const active =
+          PRESETS.find((p) => p.id === PS.selectedVariantId) || preset;
+
+        const specsHtml = Object.entries(active.specs)
+          .map(
+            ([k, v]) =>
+              `<div class="spec-chip"><span class="spec-label">${k}</span><span class="spec-val">${v}</span></div>`,
+          )
+          .join("");
+
+        let variantsHtml = "";
+        if (variantPresets.length > 1) {
+          variantsHtml = `
+      <div class="variants-section">
+        <div class="variants-title">Variantes del estilo</div>
+        <div class="variants-row">
+          ${variantPresets
+            .map(
+              (vp) => `
+            <div class="variant-option ${PS.selectedVariantId === vp.id ? "sel" : ""}" onclick="selectVariant('${vp.id}')">
+              ${compileBioBtn(vp, "pointer-events:none;")}
+            </div>`,
+            )
+            .join("")}
+        </div>
+      </div>`;
+        }
+
+        document.getElementById("detailScroll").innerHTML = `
+    <div class="hero-preview">
+      <div class="hero-preview-label">${ico("sparkle")} Vista previa real</div>
+      <div class="hero-preview-content">${compileBioBtn(active, "pointer-events:none;")}</div>
+    </div>
+    <div class="specs-section">
+      <div class="specs-title">Configuración del preset</div>
+      <div class="specs-grid">${specsHtml}</div>
+    </div>
+    ${variantsHtml}`;
+      }
+
+      function selectVariant(id) {
+        PS.selectedVariantId = id;
+        const main = PRESETS.find((p) => p.id === PS.activePresetId);
+        if (main) renderDetailContent(main);
+      }
+
+      function usePreset() {
+        const id = PS.selectedVariantId || PS.activePresetId;
+        const preset = PRESETS.find((p) => p.id === id);
+        if (!preset) return;
+        closePresetsSheet();
+        loadPresetIntoEditor(preset);
+        APP.cameFromPresets = true;
+        APP.editingId = null;
+        openEditorSheet(true);
+      }
+
+      function psGoBack() {
+        psShowView("psViewList", "left");
+      }
+
+      function psShowView(id, dir) {
+        document.querySelectorAll(".views-wrapper .view").forEach((v) => {
+          v.classList.remove("active", "view-enter-right", "view-enter-left");
+        });
+        const el = document.getElementById(id);
+        el.classList.add("active");
+        el.classList.add(
+          dir === "right" ? "view-enter-right" : "view-enter-left",
+        );
+      }
+
+      // ─── EDITOR SHEET ────────────────────────────────────────────
+      function openEditorSheet(showBack) {
+        document.getElementById("btnEditorBack").style.display = showBack
+          ? "flex"
+          : "none";
+        document.getElementById("bsOverlay").classList.add("open");
+        document.getElementById("bsEditor").classList.add("open");
+        renderPreview();
+      }
+
+      function closeEditorSheet() {
+        document.getElementById("bsEditor").classList.remove("open");
+        if (!document.getElementById("bsPresets").classList.contains("open")) {
+          document.getElementById("bsOverlay").classList.remove("open");
+        }
+        APP.editingId = null;
+        APP.cameFromPresets = false;
+        closeEditorDropdown();
+      }
+
+      function editorBack() {
+        closeEditorSheet();
+        openPresetsSheet();
+      }
+
+      function openEditorForLink(id) {
+        const link = APP.links.find((l) => l.id === id);
+        if (!link) return;
+        APP.editingId = id;
+        APP.cameFromPresets = false;
+        loadPresetIntoEditor(link);
+        document.getElementById("editorTitle").textContent = "Editar Link";
+        document.getElementById("editorSubtitle").textContent =
+          "Modifica tu enlace";
+        document.getElementById("saveBtnLabel").textContent =
+          "Confirmar y Actualizar";
+        document.getElementById("ddDeleteBtn").style.display = "flex";
+        openEditorSheet(false);
+      }
+
+      function initEditorDefaults() {
+        loadPresetIntoEditor({
+          variant: "left",
+          shape: "circled",
+          icon: "instagram",
+          color: "#18181b",
+          textAlign: "left",
+          marginMedia: 14,
+          paddingMedia: 0,
+          linkType: "url",
+          label: "Mi Enlace Bio",
+          desc: "",
+          url: "",
+          titleFont: "'Inter', sans-serif",
+          titleColor: "#09090b",
+          subFont: "'Inter', sans-serif",
+          subColor: "#71717a",
+          bgType: "solid",
+          bgColor: "#ffffff",
+          bgGrad1: "#ffffff",
+          bgGrad2: "#e4e4e7",
+          borderT: 1,
+          borderB: 1,
+          borderL: 1,
+          borderR: 1,
+          borderColor: "#e4e4e7",
+          borderRadius: 14,
+        });
+        document.getElementById("editorTitle").textContent = "Diseñar Link";
+        document.getElementById("editorSubtitle").textContent =
+          "Personaliza tu enlace";
+        document.getElementById("saveBtnLabel").textContent =
+          "Confirmar y Guardar Link";
+        document.getElementById("ddDeleteBtn").style.display = "none";
+      }
+
+      function loadPresetIntoEditor(p) {
+        // BS state
+        BS.variant = p.variant;
+        BS.shape = p.shape;
+        BS.icon = p.icon;
+        BS.color = p.color;
+        BS.textAlign = p.textAlign;
+        BS.marginMedia = p.marginMedia;
+        BS.paddingMedia = p.paddingMedia;
+        BS.linkType = p.linkType;
+        BS.bgType = p.bgType;
+        BS.borderRadius = p.borderRadius;
+
+        // DOM fields
+        const set = (id, val) => {
+          const el = document.getElementById(id);
+          if (el) el.value = val;
+        };
+        set("inLabel", p.label);
+        set("inDesc", p.desc);
+        set("inUrl", p.url || "");
+        set("selTitleFont", p.titleFont);
+        set("pickTitleColor", p.titleColor);
+        set("selSubFont", p.subFont);
+        set("pickSubColor", p.subColor);
+        set("pickBgColor", p.bgColor);
+        set("pickGrad1", p.bgGrad1);
+        set("pickGrad2", p.bgGrad2);
+        set("pickBorderColor", p.borderColor);
+        set("pickElementColor", p.color);
+        set("borderTop", p.borderT);
+        set("borderBottom", p.borderB);
+        set("borderLeft", p.borderL);
+        set("borderRight", p.borderR);
+        set("rngMargin", p.marginMedia);
+        set("rngPadding", p.paddingMedia);
+        set("rngRadius", p.borderRadius);
+        const vM = document.getElementById("valMargin");
+        if (vM) vM.textContent = p.marginMedia + "px";
+        const vP = document.getElementById("valPadding");
+        if (vP) vP.textContent = p.paddingMedia + "px";
+        const vR = document.getElementById("valRadius");
+        if (vR) vR.textContent = p.borderRadius + "px";
+
+        // Gliders
+        gliderActivate("linkTypeGlider", p.linkType);
+        gliderActivate("posGlider", p.variant);
+        gliderActivate("shapeGlider", p.shape);
+        gliderActivate("textAlignGlider", p.textAlign);
+        gliderActivate("bgTypeGlider", p.bgType);
+
+        // Show/hide dependent rows
+        const shapeRow = document.getElementById("imageShapeRow");
+        if (shapeRow)
+          shapeRow.style.display = p.variant === "image" ? "block" : "none";
+        const iconGrid = document.getElementById("iconGridSection");
+        if (iconGrid)
+          iconGrid.style.display = p.variant === "none" ? "none" : "block";
+        const solidRow = document.getElementById("solidBgRow");
+        if (solidRow)
+          solidRow.style.display = p.bgType === "solid" ? "flex" : "none";
+        const gradRow = document.getElementById("gradientBgRow");
+        if (gradRow)
+          gradRow.style.display = p.bgType === "gradient" ? "flex" : "none";
+
+        // URL placeholder
+        setUrlPlaceholder(p.linkType);
+
+        // Rebuild icon grid & color swatches
+        buildIconGrid(p.icon);
+        buildColorSwatches(p.color);
+
+        // Reset accordion — open first
+        toggleAcc(0, true);
+
+        // Editor label
+        if (!APP.editingId) {
+          document.getElementById("editorTitle").textContent = "Diseñar Link";
+          document.getElementById("editorSubtitle").textContent =
+            "Personaliza tu enlace";
+          document.getElementById("saveBtnLabel").textContent =
+            "Confirmar y Guardar Link";
+          document.getElementById("ddDeleteBtn").style.display = "none";
+        }
+      }
+
+      function buildIconGrid(activeIcon) {
+        const grid = document.getElementById("iconGrid");
+        if (!grid) return;
+        grid.innerHTML = ICONS_LIST.map(
+          (n) =>
+            `<div class="icon-opt ${n === activeIcon ? "sel" : ""}" onclick="selectIcon(this,'${n}')">${ico(n)}</div>`,
+        ).join("");
+      }
+
+      function buildColorSwatches(activeColor) {
+        const container = document.getElementById("colorPresets");
+        if (!container) return;
+        container.innerHTML = PRESET_COLORS.map((c) => {
+          const isActive = c === activeColor || hexToRgb(c) === activeColor;
+          return `<div class="color-swatch ${isActive ? "active" : ""}" style="background:${c}" onclick="selectPresetColor('${c}')"></div>`;
+        }).join("");
+      }
+
+      function setUrlPlaceholder(type) {
+        const el = document.getElementById("inUrl");
+        if (!el) return;
+        const map = {
+          url: "https://ejemplo.com",
+          tel: "+34 600 000 000",
+          mail: "hola@ejemplo.com",
+          vcf: "Enlace a archivo .vcf",
+        };
+        el.placeholder = map[type] || "https://";
+      }
+
+      // ─── EDITOR CONTROLS ─────────────────────────────────────────
+      function setLinkType(val) {
+        BS.linkType = val;
+        gliderActivate("linkTypeGlider", val);
+        setUrlPlaceholder(val);
+        renderPreview();
+      }
+
+      function setPosOption(val) {
+        BS.variant = val;
+        gliderActivate("posGlider", val);
+        const shapeRow = document.getElementById("imageShapeRow");
+        if (shapeRow)
+          shapeRow.style.display = val === "image" ? "block" : "none";
+        const iconGrid = document.getElementById("iconGridSection");
+        if (iconGrid)
+          iconGrid.style.display = val === "none" ? "none" : "block";
+        renderPreview();
+      }
+
+      function setShape(val) {
+        BS.shape = val;
+        gliderActivate("shapeGlider", val);
+        renderPreview();
+      }
+
+      function setTextAlign(val) {
+        BS.textAlign = val;
+        gliderActivate("textAlignGlider", val);
+        renderPreview();
+      }
+
+      function setBgType(val) {
+        BS.bgType = val;
+        gliderActivate("bgTypeGlider", val);
+        const solidRow = document.getElementById("solidBgRow");
+        if (solidRow)
+          solidRow.style.display = val === "solid" ? "flex" : "none";
+        const gradRow = document.getElementById("gradientBgRow");
+        if (gradRow)
+          gradRow.style.display = val === "gradient" ? "flex" : "none";
+        renderPreview();
+      }
+
+      function updateRange(type, unit) {
+        const val = document.getElementById("rng" + type).value;
+        const display = document.getElementById("val" + type);
+        if (display) display.textContent = val + unit;
+        if (type === "Margin") BS.marginMedia = parseInt(val, 10);
+        if (type === "Padding") BS.paddingMedia = parseInt(val, 10);
+        if (type === "Radius") BS.borderRadius = parseInt(val, 10);
+        renderPreview();
+      }
+
+      function selectIcon(el, name) {
+        document
+          .querySelectorAll(".icon-opt")
+          .forEach((o) => o.classList.remove("sel"));
+        el.classList.add("sel");
+        BS.icon = name;
+        renderPreview();
+      }
+
+      function selectPresetColor(color) {
+        BS.color = color;
+        const picker = document.getElementById("pickElementColor");
+        if (picker) picker.value = color;
+        document.querySelectorAll(".color-swatch").forEach((sw) => {
+          sw.classList.toggle(
+            "active",
+            sw.style.backgroundColor === color ||
+              sw.style.backgroundColor === hexToRgb(color),
+          );
+        });
+        renderPreview();
+      }
+
+      function setCustomColor(color) {
+        BS.color = color;
+        document
+          .querySelectorAll(".color-swatch")
+          .forEach((sw) => sw.classList.remove("active"));
+        renderPreview();
+      }
+
+      function toggleAcc(index, forceOpen = false) {
+        for (let i = 0; i < 4; i++) {
+          const acc = document.getElementById("acc-" + i);
+          if (acc) acc.classList.remove("open");
+        }
+        const target = document.getElementById("acc-" + index);
+        if (target && (forceOpen || !target.classList.contains("open"))) {
+          target.classList.add("open");
+        }
+      }
+
+      function getEditorOptions() {
+        const g = (id) => {
+          const el = document.getElementById(id);
+          return el ? el.value : "";
+        };
+        return {
+          variant: BS.variant,
+          shape: BS.shape,
+          icon: BS.icon,
+          color: BS.color,
+          marginMedia: BS.marginMedia,
+          paddingMedia: BS.paddingMedia,
+          textAlign: BS.textAlign,
+          bgType: BS.bgType,
+          borderRadius: BS.borderRadius,
+          linkType: BS.linkType,
+          label: g("inLabel") || "Mi Enlace Bio",
+          desc: g("inDesc"),
+          url: g("inUrl"),
+          titleFont: g("selTitleFont") || "'Inter', sans-serif",
+          titleColor: g("pickTitleColor") || "#09090b",
+          subFont: g("selSubFont") || "'Inter', sans-serif",
+          subColor: g("pickSubColor") || "#71717a",
+          bgColor: g("pickBgColor") || "#ffffff",
+          bgGrad1: g("pickGrad1") || "#ffffff",
+          bgGrad2: g("pickGrad2") || "#e4e4e7",
+          borderT: parseInt(g("borderTop"), 10) || 0,
+          borderB: parseInt(g("borderBottom"), 10) || 0,
+          borderL: parseInt(g("borderLeft"), 10) || 0,
+          borderR: parseInt(g("borderRight"), 10) || 0,
+          borderColor: g("pickBorderColor") || "#e4e4e7",
+        };
+      }
+
+      function renderPreview() {
+        const preview = document.getElementById("previewContent");
+        if (!preview) return;
+        preview.innerHTML = compileBioBtn(getEditorOptions());
+      }
+
+      // ─── SAVE / UPDATE LINK ──────────────────────────────────────
+      function saveLink() {
+        const opts = getEditorOptions();
+        if (APP.editingId) {
+          const idx = APP.links.findIndex((l) => l.id === APP.editingId);
+          if (idx !== -1) APP.links[idx] = { ...APP.links[idx], ...opts };
+        } else {
+          APP.links.push({ id: Date.now(), ...opts });
+        }
+        saveToStorage();
+        renderMainList();
+        closeEditorSheet();
+        showToast(APP.editingId ? "Link actualizado" : "Link guardado");
+      }
+
+      function resetEditorDesign() {
+        closeEditorDropdown();
+        if (
+          confirm(
+            "¿Reiniciar el diseño de este enlace a los valores por defecto?",
+          )
+        ) {
+          initEditorDefaults();
+          renderPreview();
+        }
+      }
+
+      function deleteCurrentLink() {
+        closeEditorDropdown();
+        if (
+          APP.editingId &&
+          confirm("¿Eliminar este enlace permanentemente?")
+        ) {
+          deleteLink(APP.editingId);
+          closeEditorSheet();
+        }
+      }
+
+      // ─── DROPDOWN ────────────────────────────────────────────────
+      function toggleEditorDropdown(e) {
+        e.stopPropagation();
+        document.getElementById("editorDropdown").classList.toggle("open");
+      }
+      function closeEditorDropdown() {
+        document.getElementById("editorDropdown").classList.remove("open");
+      }
+      document.addEventListener("click", () => closeEditorDropdown());
+
+      // ─── TOAST ───────────────────────────────────────────────────
+      function showToast(msg) {
+        const t = document.getElementById("toast");
+        document.getElementById("toastMsg").textContent = msg;
+        t.classList.add("show");
+        setTimeout(() => t.classList.remove("show"), 1800);
+      }
+
+      // ─── STORAGE ─────────────────────────────────────────────────
+      function saveToStorage() {
+        try {
+          localStorage.setItem("bio-links-v1", JSON.stringify(APP.links));
+        } catch (e) {}
+      }
+      function loadFromStorage() {
+        try {
+          const raw = localStorage.getItem("bio-links-v1");
+          if (raw) APP.links = JSON.parse(raw);
+        } catch (e) {}
+      }
+
+      // ─── BOOT ────────────────────────────────────────────────────
+      loadFromStorage();
+      renderMainList();
+      initEditorDefaults();
+    </script>
+  </body>
+</html>

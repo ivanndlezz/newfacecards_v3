@@ -99,8 +99,8 @@
   /* ─── Card dimensions ─── */
   --card-w: 320px;
   --card-h: 480px;
-  --card-w-lg: 400px;
-  --card-h-lg: 750px;
+  --card-w-lg: 385px;
+  --card-h-lg: 665px;
 
   /* ─── Avatar ─── */
   --avatar-size: 6rem;

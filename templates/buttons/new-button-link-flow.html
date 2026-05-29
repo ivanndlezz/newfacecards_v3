@@ -1,0 +1,2095 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, viewport-fit=cover"
+    />
+    <title>Preset Buttons Finder</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,600;1,600&family=JetBrains+Mono:wght@500;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <svg xmlns="http://www.w3.org/2000/svg" style="display: none">
+      <symbol id="icon-instagram" viewBox="0 0 24 24">
+        <rect width="20" height="20" x="2" y="2" rx="5" ry="5" />
+        <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" />
+        <line x1="17.5" x2="17.51" y1="6.5" y2="6.5" />
+      </symbol>
+      <symbol id="icon-twitter" viewBox="0 0 24 24">
+        <path
+          d="M22 4s-.7 2.1-2 3.4c1.6 10-9.4 17.3-18 11.6 2.2.1 4.4-.6 6-2C3 15.5.5 9.6 3 5c2.2 2.6 5.6 4.1 9 4-.9-4.2 4-6.6 7-3.8 1.1 0 3-1.2 3-1.2z"
+        />
+      </symbol>
+      <symbol id="icon-linkedin" viewBox="0 0 24 24">
+        <path
+          d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"
+        />
+        <rect width="4" height="12" x="2" y="9" />
+        <circle cx="4" cy="4" r="2" />
+      </symbol>
+      <symbol id="icon-youtube" viewBox="0 0 24 24">
+        <path
+          d="M2.5 17a24.12 24.12 0 0 1 0-10 2 2 0 0 1 1.4-1.4 49.56 49.56 0 0 1 16.2 0A2 2 0 0 1 21.5 7a24.12 24.12 0 0 1 0 10 2 2 0 0 1-1.4 1.4 49.55 49.55 0 0 1-16.2 0A2 2 0 0 1 2.5 17z"
+        />
+        <polygon points="10 15 15 12 10 9 10 15" />
+      </symbol>
+      <symbol id="icon-music" viewBox="0 0 24 24">
+        <path d="M9 18V5l12-2v13" />
+        <circle cx="6" cy="18" r="3" />
+        <circle cx="18" cy="16" r="3" />
+      </symbol>
+      <symbol id="icon-mail" viewBox="0 0 24 24">
+        <rect width="20" height="16" x="2" y="4" rx="2" />
+        <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" />
+      </symbol>
+      <symbol id="icon-phone" viewBox="0 0 24 24">
+        <path
+          d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"
+        />
+      </symbol>
+      <symbol id="icon-globe" viewBox="0 0 24 24">
+        <circle cx="12" cy="12" r="10" />
+        <path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20" />
+        <path d="M2 12h20" />
+      </symbol>
+      <symbol id="icon-star" viewBox="0 0 24 24">
+        <polygon
+          points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"
+        />
+      </symbol>
+      <symbol id="icon-heart" viewBox="0 0 24 24">
+        <path
+          d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"
+        />
+      </symbol>
+      <symbol id="icon-zap" viewBox="0 0 24 24">
+        <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2" />
+      </symbol>
+      <symbol id="icon-home" viewBox="0 0 24 24">
+        <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
+        <polyline points="9 22 9 12 15 12 15 22" />
+      </symbol>
+      <symbol id="icon-link-2" viewBox="0 0 24 24">
+        <path d="M9 17H7A5 5 0 0 1 7 7h2" />
+        <path d="M15 7h2a5 5 0 0 1 0 10h-2" />
+        <line x1="8" x2="16" y1="12" y2="12" />
+      </symbol>
+      <symbol id="icon-map-pin" viewBox="0 0 24 24">
+        <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z" />
+        <circle cx="12" cy="10" r="3" />
+      </symbol>
+      <symbol id="icon-user" viewBox="0 0 24 24">
+        <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2" />
+        <circle cx="12" cy="7" r="4" />
+      </symbol>
+      <symbol id="icon-link" viewBox="0 0 24 24">
+        <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" />
+        <path
+          d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"
+        />
+      </symbol>
+      <symbol id="icon-whatsapp" viewBox="0 0 24 24">
+        <path
+          d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"
+        />
+      </symbol>
+      <symbol id="icon-calendar" viewBox="0 0 24 24">
+        <rect width="18" height="18" x="3" y="4" rx="2" ry="2" />
+        <line x1="16" x2="16" y1="2" y2="6" />
+        <line x1="8" x2="8" y1="2" y2="6" />
+        <line x1="3" x2="21" y1="10" y2="10" />
+      </symbol>
+      <symbol id="icon-download" viewBox="0 0 24 24">
+        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+        <polyline points="7 10 12 15 17 10" />
+        <line x1="12" x2="12" y1="15" y2="3" />
+      </symbol>
+      <symbol id="icon-search" viewBox="0 0 24 24">
+        <circle cx="11" cy="11" r="8" />
+        <path d="m21 21-4.35-4.35" />
+      </symbol>
+      <symbol id="icon-x" viewBox="0 0 24 24">
+        <path d="M18 6 6 18" />
+        <path d="m6 6 12 12" />
+      </symbol>
+      <symbol id="icon-check" viewBox="0 0 24 24">
+        <path d="M20 6 9 17l-5-5" />
+      </symbol>
+      <symbol id="icon-chevron-right" viewBox="0 0 24 24">
+        <path d="m9 18 6-6-6-6" />
+      </symbol>
+      <symbol id="icon-arrow-left" viewBox="0 0 24 24">
+        <path d="m12 19-7-7 7-7" />
+        <path d="M19 12H5" />
+      </symbol>
+      <symbol id="icon-sparkle" viewBox="0 0 24 24">
+        <path
+          d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275Z"
+        />
+      </symbol>
+    </svg>
+
+    <style>
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+        -webkit-tap-highlight-color: transparent;
+      }
+
+      :root {
+        --bg: #f4f4f5;
+        --sheet: #ffffff;
+        --sheet2: #f4f4f5;
+        --sheet3: #e4e4e7;
+        --border: #e4e4e7;
+        --text: #09090b;
+        --text2: #71717a;
+        --text3: #a1a1aa;
+        --accent: #18181b;
+        --radius: 16px;
+        --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.04);
+        --shadow-md: 0 10px 30px -10px rgba(9, 9, 11, 0.08);
+      }
+
+      html,
+      body {
+        height: 100%;
+        background: var(--bg);
+        font-family:
+          "Inter",
+          -apple-system,
+          sans-serif;
+        color: var(--text);
+        overflow: hidden;
+      }
+
+      .svg-icon {
+        width: 20px;
+        height: 20px;
+        stroke: currentColor;
+        fill: none;
+        stroke-width: 2;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+        display: inline-block;
+        vertical-align: middle;
+        flex-shrink: 0;
+      }
+
+      #app {
+        max-width: 430px;
+        margin: 0 auto;
+        height: 100dvh;
+        display: flex;
+        flex-direction: column;
+        background: #fafafa;
+        border-left: 1px solid var(--border);
+        border-right: 1px solid var(--border);
+        overflow: hidden;
+        position: relative;
+      }
+
+      /* ── VIEWS ── */
+      .view {
+        display: none;
+        flex-direction: column;
+        flex: 1;
+        overflow: hidden;
+      }
+      .view.active {
+        display: flex;
+      }
+
+      /* ══════════════════════════
+         VIEW A: SEARCH + LIST
+         ══════════════════════════ */
+
+      .search-header {
+        padding: 24px 20px 16px;
+        flex-shrink: 0;
+        background: #fafafa;
+      }
+      .search-header-top {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 16px;
+      }
+      .main-title {
+        font-size: 24px;
+        font-weight: 700;
+        letter-spacing: -0.6px;
+      }
+      .main-subtitle {
+        font-size: 12px;
+        color: var(--text3);
+        font-weight: 500;
+        margin-top: 2px;
+      }
+
+      .btn-close {
+        width: 36px;
+        height: 36px;
+        border-radius: 50%;
+        background: var(--sheet3);
+        border: none;
+        color: var(--text2);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        text-decoration: none;
+        transition:
+          background 0.15s,
+          transform 0.1s;
+        flex-shrink: 0;
+      }
+      .btn-close:active {
+        transform: scale(0.95);
+      }
+
+      /* Search Input */
+      .search-box {
+        position: relative;
+        display: flex;
+        align-items: center;
+      }
+      .search-ico {
+        position: absolute;
+        left: 14px;
+        color: var(--text3);
+        pointer-events: none;
+      }
+      .search-input {
+        width: 100%;
+        height: 48px;
+        background: #ffffff;
+        border: 1.5px solid var(--border);
+        border-radius: 14px;
+        padding: 0 44px 0 44px;
+        font-size: 15px;
+        font-family: inherit;
+        color: var(--text);
+        outline: none;
+        transition:
+          border-color 0.15s,
+          box-shadow 0.15s;
+      }
+      .search-input::placeholder {
+        color: var(--text3);
+      }
+      .search-input:focus {
+        border-color: var(--text);
+        box-shadow: 0 0 0 3px rgba(9, 9, 11, 0.05);
+      }
+      .search-clear {
+        position: absolute;
+        right: 10px;
+        width: 28px;
+        height: 28px;
+        border-radius: 50%;
+        background: var(--sheet3);
+        border: none;
+        color: var(--text2);
+        display: none;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+      }
+      .search-clear.vis {
+        display: flex;
+      }
+
+      /* Category pills */
+      .pills-row {
+        padding: 0 20px 4px;
+        flex-shrink: 0;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none;
+      }
+      .pills-row::-webkit-scrollbar {
+        display: none;
+      }
+      .pills-inner {
+        display: flex;
+        gap: 6px;
+        width: max-content;
+        padding-bottom: 8px;
+      }
+      .pill {
+        height: 30px;
+        padding: 0 12px;
+        border-radius: 15px;
+        font-size: 12px;
+        font-weight: 600;
+        border: 1px solid var(--border);
+        background: #fff;
+        color: var(--text2);
+        cursor: pointer;
+        white-space: nowrap;
+        display: flex;
+        align-items: center;
+        gap: 5px;
+        transition: all 0.15s;
+      }
+      .pill-dot {
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+        background: currentColor;
+        opacity: 0.4;
+        flex-shrink: 0;
+      }
+      .pill.active {
+        background: var(--text);
+        color: #fff;
+        border-color: var(--text);
+      }
+      .pill.active .pill-dot {
+        opacity: 1;
+      }
+
+      /* Section label */
+      .section-label {
+        padding: 8px 20px 6px;
+        font-size: 11px;
+        font-weight: 700;
+        color: var(--text3);
+        letter-spacing: 0.5px;
+        text-transform: uppercase;
+        flex-shrink: 0;
+      }
+
+      /* ── PRESET LIST ITEMS ── */
+      .list-scroll {
+        flex: 1;
+        overflow-y: auto;
+        padding: 4px 20px 32px;
+        -webkit-overflow-scrolling: touch;
+      }
+      .preset-list {
+        list-style: none;
+        display: flex;
+        flex-direction: column;
+        gap: 2px;
+      }
+
+      .preset-row {
+        display: flex;
+        align-items: center;
+        padding: 12px 14px;
+        background: #ffffff;
+        border-radius: 14px;
+        cursor: pointer;
+        gap: 14px;
+        border: 1.5px solid transparent;
+        transition:
+          background 0.12s,
+          border-color 0.12s,
+          transform 0.1s;
+        position: relative;
+      }
+      .preset-row:active {
+        transform: scale(0.985);
+        background: #f8f8f8;
+      }
+      .preset-row:hover {
+        background: #f8f8f8;
+      }
+
+      /* Icon badge */
+      .row-badge {
+        width: 44px;
+        height: 44px;
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+        font-size: 0;
+      }
+      .row-badge .svg-icon {
+        width: 20px;
+        height: 20px;
+      }
+
+      /* Row text */
+      .row-text {
+        flex: 1;
+        min-width: 0;
+      }
+      .row-name {
+        font-size: 14px;
+        font-weight: 600;
+        color: var(--text);
+        line-height: 1.2;
+      }
+      .row-desc {
+        font-size: 12px;
+        color: var(--text3);
+        margin-top: 1px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
+      /* Arrow */
+      .row-arrow {
+        color: var(--text3);
+        flex-shrink: 0;
+      }
+
+      /* Empty state */
+      .empty-state {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 60px 20px;
+        gap: 12px;
+        text-align: center;
+      }
+      .empty-ico {
+        width: 52px;
+        height: 52px;
+        border-radius: 16px;
+        background: var(--sheet);
+        border: 1px solid var(--border);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: var(--text3);
+      }
+      .empty-txt {
+        font-size: 14px;
+        color: var(--text2);
+        font-weight: 500;
+      }
+      .empty-hint {
+        font-size: 12px;
+        color: var(--text3);
+      }
+
+      /* ══════════════════════════════
+         VIEW B: DETAIL / PREVIEW
+         ══════════════════════════════ */
+
+      .detail-header {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 18px 20px 14px;
+        flex-shrink: 0;
+        background: #fafafa;
+      }
+      .btn-back {
+        width: 36px;
+        height: 36px;
+        border-radius: 50%;
+        background: var(--sheet3);
+        border: none;
+        color: var(--text2);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        flex-shrink: 0;
+        transition:
+          background 0.15s,
+          transform 0.1s;
+      }
+      .btn-back:active {
+        transform: scale(0.95);
+      }
+      .detail-title {
+        font-size: 18px;
+        font-weight: 700;
+        letter-spacing: -0.3px;
+        flex: 1;
+      }
+      .detail-cat {
+        font-size: 11px;
+        font-weight: 600;
+        color: var(--text3);
+        text-transform: uppercase;
+        letter-spacing: 0.4px;
+        padding: 4px 10px;
+        border-radius: 20px;
+        background: var(--sheet3);
+      }
+
+      .detail-scroll {
+        flex: 1;
+        overflow-y: auto;
+        padding: 0 20px 140px;
+        -webkit-overflow-scrolling: touch;
+      }
+
+      /* Hero preview */
+      .hero-preview {
+        background: #f0f0f1;
+        border-radius: 20px;
+        padding: 20px;
+        margin-bottom: 20px;
+        border: 1px solid var(--border);
+      }
+      .hero-preview-label {
+        font-size: 10px;
+        font-weight: 700;
+        color: var(--text3);
+        letter-spacing: 0.8px;
+        text-transform: uppercase;
+        margin-bottom: 14px;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+      }
+      .hero-preview-label .svg-icon {
+        width: 12px;
+        height: 12px;
+      }
+      .hero-preview-content {
+        width: 100%;
+      }
+
+      /* Specs list */
+      .specs-section {
+        margin-bottom: 20px;
+      }
+      .specs-title {
+        font-size: 11px;
+        font-weight: 700;
+        color: var(--text3);
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        margin-bottom: 10px;
+      }
+      .specs-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 8px;
+      }
+      .spec-chip {
+        background: #ffffff;
+        border: 1px solid var(--border);
+        border-radius: 10px;
+        padding: 10px 12px;
+      }
+      .spec-label {
+        font-size: 10px;
+        font-weight: 700;
+        color: var(--text3);
+        text-transform: uppercase;
+        letter-spacing: 0.3px;
+        display: block;
+        margin-bottom: 2px;
+      }
+      .spec-val {
+        font-size: 13px;
+        font-weight: 600;
+        color: var(--text);
+      }
+
+      /* Variants strip — same preset, other style variants */
+      .variants-section {
+        margin-bottom: 20px;
+      }
+      .variants-title {
+        font-size: 11px;
+        font-weight: 700;
+        color: var(--text3);
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        margin-bottom: 10px;
+      }
+      .variants-row {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+      }
+      .variant-option {
+        background: #f8f8f8;
+        border-radius: 12px;
+        padding: 12px;
+        border: 1.5px solid transparent;
+        cursor: pointer;
+        transition:
+          border-color 0.15s,
+          background 0.15s;
+      }
+      .variant-option.sel {
+        border-color: var(--text);
+        background: #ffffff;
+      }
+      .variant-option:active {
+        transform: scale(0.99);
+      }
+
+      /* ── BIO-BTN (exact copy from builder) ── */
+      .bio-btn {
+        display: flex;
+        align-items: center;
+        width: 100%;
+        min-height: 58px;
+        padding: 12px 18px;
+        background: var(--btn-bg, #ffffff);
+        border-radius: var(--btn-radius, 14px);
+        border-top: var(--btn-border-top, 0) solid
+          var(--btn-border-color, var(--border));
+        border-bottom: var(--btn-border-bottom, 0) solid
+          var(--btn-border-color, var(--border));
+        border-left: var(--btn-border-left, 0) solid
+          var(--btn-border-color, var(--border));
+        border-right: var(--btn-border-right, 0) solid
+          var(--btn-border-color, var(--border));
+        color: var(--btn-text-color, var(--text));
+        text-decoration: none;
+        position: relative;
+      }
+      .bio-btn__media {
+        display: none;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+      }
+      .bio-btn__content {
+        display: flex;
+        flex-direction: column;
+        flex: 1;
+        width: 100%;
+        justify-content: center;
+        text-align: var(--btn-text-align, left);
+        align-items: var(--btn-align-items, flex-start);
+      }
+      .bio-btn__title {
+        font-size: 14px;
+        font-weight: 600;
+        line-height: 1.2;
+      }
+      .bio-btn__desc {
+        display: none;
+        font-size: 11px;
+        margin-top: 3px;
+      }
+      .bio-btn--has-desc .bio-btn__desc {
+        display: block;
+      }
+      .bio-btn[data-variant="left"] {
+        flex-direction: row;
+      }
+      .bio-btn[data-variant="left"] .bio-btn__media {
+        display: flex;
+        margin-right: var(--btn-media-margin, 14px);
+      }
+      .bio-btn[data-variant="right"] {
+        flex-direction: row-reverse;
+      }
+      .bio-btn[data-variant="right"] .bio-btn__media {
+        display: flex;
+        margin-left: var(--btn-media-margin, 14px);
+      }
+      .bio-btn[data-variant="top"] {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        padding: 16px;
+      }
+      .bio-btn[data-variant="top"] .bio-btn__media {
+        display: flex;
+        margin-bottom: var(--btn-media-margin, 10px);
+      }
+      .bio-btn[data-variant="image"] .bio-btn__media {
+        display: flex;
+        background: linear-gradient(
+          135deg,
+          var(--btn-color, var(--text)),
+          #cbd5e1
+        );
+        color: #fff;
+        margin-right: var(--btn-media-margin, 14px);
+      }
+      .bio-btn[data-shape="circled"] .bio-btn__media {
+        border-radius: 50%;
+      }
+      .bio-btn[data-shape="squircle"] .bio-btn__media {
+        border-radius: 10px;
+      }
+      .bio-btn[data-shape="square"] .bio-btn__media {
+        border-radius: 0;
+      }
+      .bio-btn[data-variant="none"] .bio-btn__media {
+        display: none !important;
+      }
+
+      /* ── STICKY BOTTOM BAR ── */
+      .detail-bottom {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        padding: 14px 20px calc(14px + env(safe-area-inset-bottom));
+        background: #ffffff;
+        border-top: 1px solid var(--border);
+        z-index: 50;
+        display: none;
+      }
+      .detail-bottom.vis {
+        display: block;
+      }
+      .btn-use {
+        width: 100%;
+        height: 52px;
+        border: none;
+        border-radius: 14px;
+        background: var(--text);
+        color: #fff;
+        font-size: 15px;
+        font-weight: 600;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        transition:
+          background 0.2s,
+          transform 0.1s;
+        font-family: inherit;
+      }
+      .btn-use:active {
+        background: #27272a;
+        transform: scale(0.98);
+      }
+
+      /* ── TOAST ── */
+      .toast {
+        position: absolute;
+        top: 20px;
+        left: 50%;
+        transform: translateX(-50%) translateY(-80px);
+        background: var(--text);
+        color: #fff;
+        padding: 10px 18px;
+        border-radius: 24px;
+        font-size: 13px;
+        font-weight: 600;
+        white-space: nowrap;
+        z-index: 200;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        transition:
+          transform 0.3s cubic-bezier(0.32, 0.94, 0.6, 1),
+          opacity 0.3s;
+        opacity: 0;
+        box-shadow: var(--shadow-md);
+      }
+      .toast.show {
+        transform: translateX(-50%) translateY(0);
+        opacity: 1;
+      }
+
+      /* ── TRANSITION ANIMATIONS ── */
+      @keyframes slideInRight {
+        from {
+          transform: translateX(24px);
+          opacity: 0;
+        }
+        to {
+          transform: translateX(0);
+          opacity: 1;
+        }
+      }
+      @keyframes slideInLeft {
+        from {
+          transform: translateX(-24px);
+          opacity: 0;
+        }
+        to {
+          transform: translateX(0);
+          opacity: 1;
+        }
+      }
+      .view-enter-right {
+        animation: slideInRight 0.24s cubic-bezier(0.16, 1, 0.3, 1) both;
+      }
+      .view-enter-left {
+        animation: slideInLeft 0.24s cubic-bezier(0.16, 1, 0.3, 1) both;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="app">
+      <!-- TOAST -->
+      <div class="toast" id="toast">
+        <svg class="svg-icon" style="width: 15px; height: 15px">
+          <use href="#icon-check" />
+        </svg>
+        Preset listo en el builder
+      </div>
+
+      <!-- ══════════════════════════
+           VIEW A: SEARCH
+           ══════════════════════════ -->
+      <div class="view active" id="viewSearch">
+        <div class="search-header">
+          <div class="search-header-top">
+            <div>
+              <div class="main-title">Agregar Link</div>
+              <div class="main-subtitle">Busca o elige un preset listo</div>
+            </div>
+            <a
+              href="bio-site-link-builder.html"
+              class="btn-close"
+              aria-label="Cerrar"
+            >
+              <svg class="svg-icon"><use href="#icon-x" /></svg>
+            </a>
+          </div>
+          <div class="search-box">
+            <span class="search-ico">
+              <svg class="svg-icon" style="width: 16px; height: 16px">
+                <use href="#icon-search" />
+              </svg>
+            </span>
+            <input
+              type="text"
+              id="searchInput"
+              class="search-input"
+              placeholder="Buscar app o enlace…"
+              oninput="handleSearch(this.value)"
+              autocomplete="off"
+              spellcheck="false"
+            />
+            <button
+              class="search-clear"
+              id="searchClear"
+              onclick="clearSearch()"
+            >
+              <svg class="svg-icon" style="width: 13px; height: 13px">
+                <use href="#icon-x" />
+              </svg>
+            </button>
+          </div>
+        </div>
+
+        <div class="pills-row">
+          <div class="pills-inner" id="pillsInner"></div>
+        </div>
+
+        <div class="section-label" id="sectionLabel">Presets sugeridos</div>
+
+        <div class="list-scroll">
+          <ul class="preset-list" id="presetList"></ul>
+        </div>
+      </div>
+      <!-- /viewSearch -->
+
+      <!-- ══════════════════════════
+           VIEW B: DETAIL
+           ══════════════════════════ -->
+      <div class="view" id="viewDetail">
+        <div class="detail-header">
+          <button class="btn-back" onclick="goBack()" aria-label="Volver">
+            <svg class="svg-icon" style="width: 18px; height: 18px">
+              <use href="#icon-arrow-left" />
+            </svg>
+          </button>
+          <span class="detail-title" id="detailTitle">—</span>
+          <span class="detail-cat" id="detailCat">—</span>
+        </div>
+
+        <div class="detail-scroll" id="detailScroll">
+          <!-- rendered dynamically -->
+        </div>
+
+        <div class="detail-bottom vis" id="detailBottom">
+          <button class="btn-use" onclick="usePreset()">
+            <svg class="svg-icon" style="width: 16px; height: 16px">
+              <use href="#icon-check" />
+            </svg>
+            Usar este preset
+          </button>
+        </div>
+      </div>
+      <!-- /viewDetail -->
+    </div>
+    <!-- /app -->
+
+    <script>
+      // ═══════════════════════════════════════════
+      // SVG HELPER
+      // ═══════════════════════════════════════════
+      const ico = (name) =>
+        `<svg class="svg-icon" viewBox="0 0 24 24"><use href="#icon-${name}"></use></svg>`;
+
+      // ═══════════════════════════════════════════
+      // PRESET DATABASE
+      // ═══════════════════════════════════════════
+      const PRESETS = [
+        /* SOCIAL */
+        {
+          id: "ig-minimal",
+          name: "Instagram Minimal",
+          category: "social",
+          tags: ["instagram", "foto", "social", "red social", "ig"],
+          badgeBg: "#fdf2f8",
+          badgeColor: "#E1306C",
+          shortDesc: "Borde izquierdo rosa, icono a la izquierda",
+          specs: {
+            Posición: "Izquierda",
+            Fondo: "Blanco",
+            Bordes: "Izq 4px",
+            Radio: "12px",
+          },
+          variants: ["ig-minimal", "ig-dark"],
+          label: "Sígueme en Instagram",
+          desc: "",
+          url: "https://instagram.com/",
+          linkType: "url",
+          variant: "left",
+          shape: "circled",
+          icon: "instagram",
+          color: "#E1306C",
+          textAlign: "left",
+          marginMedia: 14,
+          paddingMedia: 0,
+          titleFont: "'Inter', sans-serif",
+          titleColor: "#09090b",
+          subFont: "'Inter', sans-serif",
+          subColor: "#71717a",
+          bgType: "solid",
+          bgColor: "#ffffff",
+          bgGrad1: "#ffffff",
+          bgGrad2: "#e4e4e7",
+          borderT: 0,
+          borderB: 0,
+          borderL: 4,
+          borderR: 0,
+          borderColor: "#E1306C",
+          borderRadius: 12,
+        },
+        {
+          id: "ig-dark",
+          name: "Instagram Dark",
+          category: "social",
+          tags: ["instagram", "foto", "social", "dark", "oscuro", "ig"],
+          badgeBg: "#09090b",
+          badgeColor: "#E1306C",
+          shortDesc: "Fondo negro, subtítulo con handle",
+          specs: {
+            Posición: "Izquierda",
+            Fondo: "Negro",
+            Bordes: "Ninguno",
+            Radio: "16px",
+          },
+          variants: ["ig-minimal", "ig-dark"],
+          label: "Instagram",
+          desc: "@miusuario",
+          url: "https://instagram.com/",
+          linkType: "url",
+          variant: "left",
+          shape: "circled",
+          icon: "instagram",
+          color: "#ffffff",
+          textAlign: "left",
+          marginMedia: 14,
+          paddingMedia: 0,
+          titleFont: "'Inter', sans-serif",
+          titleColor: "#ffffff",
+          subFont: "'Inter', sans-serif",
+          subColor: "#a1a1aa",
+          bgType: "solid",
+          bgColor: "#09090b",
+          bgGrad1: "#09090b",
+          bgGrad2: "#18181b",
+          borderT: 0,
+          borderB: 0,
+          borderL: 0,
+          borderR: 0,
+          borderColor: "#27272a",
+          borderRadius: 16,
+        },
+        {
+          id: "twitter-x",
+          name: "Twitter / X",
+          category: "social",
+          tags: ["twitter", "x", "social", "dark", "tweet"],
+          badgeBg: "#000000",
+          badgeColor: "#ffffff",
+          shortDesc: "Fondo negro, estilo X oficial",
+          specs: {
+            Posición: "Izquierda",
+            Fondo: "Negro",
+            Bordes: "Ninguno",
+            Radio: "14px",
+          },
+          variants: ["twitter-x"],
+          label: "Twitter / X",
+          desc: "",
+          url: "https://twitter.com/",
+          linkType: "url",
+          variant: "left",
+          shape: "circled",
+          icon: "twitter",
+          color: "#ffffff",
+          textAlign: "left",
+          marginMedia: 14,
+          paddingMedia: 0,
+          titleFont: "'Inter', sans-serif",
+          titleColor: "#ffffff",
+          subFont: "'Inter', sans-serif",
+          subColor: "#a1a1aa",
+          bgType: "solid",
+          bgColor: "#000000",
+          bgGrad1: "#000000",
+          bgGrad2: "#18181b",
+          borderT: 0,
+          borderB: 0,
+          borderL: 0,
+          borderR: 0,
+          borderColor: "#27272a",
+          borderRadius: 14,
+        },
+        {
+          id: "linkedin-pro",
+          name: "LinkedIn Pro",
+          category: "social",
+          tags: ["linkedin", "trabajo", "profesional", "social", "empleo"],
+          badgeBg: "#0A66C2",
+          badgeColor: "#ffffff",
+          shortDesc: "Azul LinkedIn, con descripción",
+          specs: {
+            Posición: "Izquierda",
+            Fondo: "Azul LinkedIn",
+            Bordes: "Ninguno",
+            Radio: "14px",
+          },
+          variants: ["linkedin-pro"],
+          label: "LinkedIn",
+          desc: "Conéctemos profesionalmente",
+          url: "https://linkedin.com/in/",
+          linkType: "url",
+          variant: "left",
+          shape: "squircle",
+          icon: "linkedin",
+          color: "#ffffff",
+          textAlign: "left",
+          marginMedia: 14,
+          paddingMedia: 6,
+          titleFont: "'Inter', sans-serif",
+          titleColor: "#ffffff",
+          subFont: "'Inter', sans-serif",
+          subColor: "#bfdbfe",
+          bgType: "solid",
+          bgColor: "#0A66C2",
+          bgGrad1: "#0A66C2",
+          bgGrad2: "#1d4ed8",
+          borderT: 0,
+          borderB: 0,
+          borderL: 0,
+          borderR: 0,
+          borderColor: "#1d4ed8",
+          borderRadius: 14,
+        },
+        {
+          id: "youtube-red",
+          name: "YouTube",
+          category: "social",
+          tags: ["youtube", "video", "canal", "social", "suscribir"],
+          badgeBg: "#dc2626",
+          badgeColor: "#ffffff",
+          shortDesc: "Rojo YouTube, con CTA de suscripción",
+          specs: {
+            Posición: "Izquierda",
+            Fondo: "Rojo YouTube",
+            Bordes: "Ninguno",
+            Radio: "14px",
+          },
+          variants: ["youtube-red"],
+          label: "Mi Canal de YouTube",
+          desc: "Suscríbete gratis",
+          url: "https://youtube.com/",
+          linkType: "url",
+          variant: "left",
+          shape: "squircle",
+          icon: "youtube",
+          color: "#ffffff",
+          textAlign: "left",
+          marginMedia: 14,
+          paddingMedia: 0,
+          titleFont: "'Inter', sans-serif",
+          titleColor: "#ffffff",
+          subFont: "'Inter', sans-serif",
+          subColor: "#fecaca",
+          bgType: "solid",
+          bgColor: "#dc2626",
+          bgGrad1: "#dc2626",
+          bgGrad2: "#b91c1c",
+          borderT: 0,
+          borderB: 0,
+          borderL: 0,
+          borderR: 0,
+          borderColor: "#b91c1c",
+          borderRadius: 14,
+        },
+        {
+          id: "music-stacked",
+          name: "Spotify / Música",
+          category: "social",
+          tags: ["música", "spotify", "social", "stacked", "cancion", "audio"],
+          badgeBg: "#f0fdf4",
+          badgeColor: "#1DB954",
+          shortDesc: "Icono arriba, estilo stacked verde",
+          specs: {
+            Posición: "Arriba (stacked)",
+            Fondo: "Verde suave",
+            Bordes: "1px completo",
+            Radio: "16px",
+          },
+          variants: ["music-stacked"],
+          label: "Escucha mi música",
+          desc: "Disponible en Spotify",
+          url: "https://",
+          linkType: "url",
+          variant: "top",
+          shape: "circled",
+          icon: "music",
+          color: "#1DB954",
+          textAlign: "center",
+          marginMedia: 10,
+          paddingMedia: 0,
+          titleFont: "'Inter', sans-serif",
+          titleColor: "#09090b",
+          subFont: "'Inter', sans-serif",
+          subColor: "#71717a",
+          bgType: "solid",
+          bgColor: "#f0fdf4",
+          bgGrad1: "#f0fdf4",
+          bgGrad2: "#dcfce7",
+          borderT: 1,
+          borderB: 1,
+          borderL: 1,
+          borderR: 1,
+          borderColor: "#bbf7d0",
+          borderRadius: 16,
+        },
+
+        /* CONTACT */
+        {
+          id: "whatsapp-cta",
+          name: "WhatsApp",
+          category: "contact",
+          tags: ["whatsapp", "mensaje", "contacto", "chat", "wa", "escribir"],
+          badgeBg: "#25D366",
+          badgeColor: "#ffffff",
+          shortDesc: "Verde WhatsApp, pill redondeado",
+          specs: {
+            Posición: "Izquierda",
+            Fondo: "Verde WhatsApp",
+            Bordes: "Ninguno",
+            Radio: "28px",
+          },
+          variants: ["whatsapp-cta"],
+          label: "Escríbeme por WhatsApp",
+          desc: "",
+          url: "https://wa.me/",
+          linkType: "url",
+          variant: "left",
+          shape: "circled",
+          icon: "whatsapp",
+          color: "#ffffff",
+          textAlign: "left",
+          marginMedia: 14,
+          paddingMedia: 0,
+          titleFont: "'Inter', sans-serif",
+          titleColor: "#ffffff",
+          subFont: "'Inter', sans-serif",
+          subColor: "#a1a1aa",
+          bgType: "solid",
+          bgColor: "#25D366",
+          bgGrad1: "#25D366",
+          bgGrad2: "#16a34a",
+          borderT: 0,
+          borderB: 0,
+          borderL: 0,
+          borderR: 0,
+          borderColor: "#16a34a",
+          borderRadius: 28,
+        },
+        {
+          id: "email-clean",
+          name: "Email",
+          category: "contact",
+          tags: ["email", "correo", "contacto", "mail", "mensaje", "escribir"],
+          badgeBg: "#f4f4f5",
+          badgeColor: "#09090b",
+          shortDesc: "Tipografía serif, respuesta en 24h",
+          specs: {
+            Posición: "Izquierda",
+            Fondo: "Blanco",
+            Bordes: "1px completo",
+            Radio: "12px",
+          },
+          variants: ["email-clean"],
+          label: "Contáctame por email",
+          desc: "Respondo en 24 horas",
+          url: "",
+          linkType: "mail",
+          variant: "left",
+          shape: "circled",
+          icon: "mail",
+          color: "#09090b",
+          textAlign: "left",
+          marginMedia: 14,
+          paddingMedia: 0,
+          titleFont: "'Playfair Display', serif",
+          titleColor: "#09090b",
+          subFont: "'Inter', sans-serif",
+          subColor: "#71717a",
+          bgType: "solid",
+          bgColor: "#ffffff",
+          bgGrad1: "#ffffff",
+          bgGrad2: "#f4f4f5",
+          borderT: 1,
+          borderB: 1,
+          borderL: 1,
+          borderR: 1,
+          borderColor: "#e4e4e7",
+          borderRadius: 12,
+        },
+        {
+          id: "phone-pill",
+          name: "Teléfono",
+          category: "contact",
+          tags: ["telefono", "llamada", "call", "contacto", "pill"],
+          badgeBg: "#f4f4f5",
+          badgeColor: "#09090b",
+          shortDesc: "Pill redondeado, borde negro",
+          specs: {
+            Posición: "Izquierda",
+            Fondo: "Blanco",
+            Bordes: "1px negro",
+            Radio: "30px",
+          },
+          variants: ["phone-pill"],
+          label: "Llámame",
+          desc: "",
+          url: "",
+          linkType: "tel",
+          variant: "left",
+          shape: "circled",
+          icon: "phone",
+          color: "#09090b",
+          textAlign: "left",
+          marginMedia: 14,
+          paddingMedia: 0,
+          titleFont: "'Inter', sans-serif",
+          titleColor: "#09090b",
+          subFont: "'Inter', sans-serif",
+          subColor: "#71717a",
+          bgType: "solid",
+          bgColor: "#ffffff",
+          bgGrad1: "#ffffff",
+          bgGrad2: "#e4e4e7",
+          borderT: 1,
+          borderB: 1,
+          borderL: 1,
+          borderR: 1,
+          borderColor: "#09090b",
+          borderRadius: 30,
+        },
+        {
+          id: "location-pin",
+          name: "Ubicación / Maps",
+          category: "contact",
+          tags: ["mapa", "ubicacion", "maps", "google", "direccion", "donde"],
+          badgeBg: "#fef2f2",
+          badgeColor: "#dc2626",
+          shortDesc: "Pin rojo, muestra ciudad/dirección",
+          specs: {
+            Posición: "Izquierda",
+            Fondo: "Rosa suave",
+            Bordes: "1px rojo suave",
+            Radio: "14px",
+          },
+          variants: ["location-pin"],
+          label: "Ver ubicación",
+          desc: "Los Cabos, BCS, México",
+          url: "https://maps.google.com",
+          linkType: "url",
+          variant: "left",
+          shape: "circled",
+          icon: "map-pin",
+          color: "#dc2626",
+          textAlign: "left",
+          marginMedia: 14,
+          paddingMedia: 0,
+          titleFont: "'Inter', sans-serif",
+          titleColor: "#09090b",
+          subFont: "'Inter', sans-serif",
+          subColor: "#71717a",
+          bgType: "solid",
+          bgColor: "#ffffff",
+          bgGrad1: "#ffffff",
+          bgGrad2: "#fef2f2",
+          borderT: 1,
+          borderB: 1,
+          borderL: 1,
+          borderR: 1,
+          borderColor: "#fecaca",
+          borderRadius: 14,
+        },
+
+        /* CTA */
+        {
+          id: "portfolio-hero",
+          name: "Portfolio / Sitio Web",
+          category: "cta",
+          tags: ["portfolio", "web", "sitio", "proyectos", "trabajo", "cta"],
+          badgeBg: "#f4f4f5",
+          badgeColor: "#09090b",
+          shortDesc: "Serif, gradiente gris, sin icono centrado",
+          specs: {
+            Posición: "Sin icono",
+            Fondo: "Gradiente gris",
+            Bordes: "1px suave",
+            Radio: "20px",
+          },
+          variants: ["portfolio-hero", "website-cta"],
+          label: "Ver mi Portfolio",
+          desc: "Proyectos seleccionados 2024",
+          url: "https://",
+          linkType: "url",
+          variant: "none",
+          shape: "circled",
+          icon: "globe",
+          color: "#09090b",
+          textAlign: "center",
+          marginMedia: 14,
+          paddingMedia: 0,
+          titleFont: "'Playfair Display', serif",
+          titleColor: "#09090b",
+          subFont: "'Inter', sans-serif",
+          subColor: "#71717a",
+          bgType: "gradient",
+          bgColor: "#ffffff",
+          bgGrad1: "#f4f4f5",
+          bgGrad2: "#e4e4e7",
+          borderT: 1,
+          borderB: 1,
+          borderL: 1,
+          borderR: 1,
+          borderColor: "#e4e4e7",
+          borderRadius: 20,
+        },
+        {
+          id: "website-cta",
+          name: "Visitar Sitio Web",
+          category: "cta",
+          tags: ["web", "sitio", "url", "visitar", "cta", "link"],
+          badgeBg: "#eff6ff",
+          badgeColor: "#2563eb",
+          shortDesc: "Azul suave, icono globo izquierda",
+          specs: {
+            Posición: "Izquierda",
+            Fondo: "Azul suave",
+            Bordes: "1px azul",
+            Radio: "14px",
+          },
+          variants: ["portfolio-hero", "website-cta"],
+          label: "Visita mi sitio web",
+          desc: "",
+          url: "https://",
+          linkType: "url",
+          variant: "left",
+          shape: "circled",
+          icon: "globe",
+          color: "#2563eb",
+          textAlign: "left",
+          marginMedia: 14,
+          paddingMedia: 0,
+          titleFont: "'Inter', sans-serif",
+          titleColor: "#1e3a8a",
+          subFont: "'Inter', sans-serif",
+          subColor: "#71717a",
+          bgType: "solid",
+          bgColor: "#eff6ff",
+          bgGrad1: "#eff6ff",
+          bgGrad2: "#dbeafe",
+          borderT: 1,
+          borderB: 1,
+          borderL: 1,
+          borderR: 1,
+          borderColor: "#bfdbfe",
+          borderRadius: 14,
+        },
+        {
+          id: "calendar-cta",
+          name: "Agendar Llamada",
+          category: "cta",
+          tags: [
+            "agenda",
+            "llamada",
+            "calendario",
+            "calendly",
+            "reserva",
+            "cita",
+            "meeting",
+          ],
+          badgeBg: "#09090b",
+          badgeColor: "#ffffff",
+          shortDesc: "Fondo negro, mono font, duración visible",
+          specs: {
+            Posición: "Izquierda",
+            Fondo: "Negro",
+            Bordes: "Ninguno",
+            Radio: "14px",
+          },
+          variants: ["calendar-cta"],
+          label: "Agenda una llamada",
+          desc: "30 min · Gratis",
+          url: "https://calendly.com/",
+          linkType: "url",
+          variant: "left",
+          shape: "squircle",
+          icon: "calendar",
+          color: "#ffffff",
+          textAlign: "left",
+          marginMedia: 14,
+          paddingMedia: 4,
+          titleFont: "'JetBrains Mono', monospace",
+          titleColor: "#ffffff",
+          subFont: "'JetBrains Mono', monospace",
+          subColor: "#a1a1aa",
+          bgType: "solid",
+          bgColor: "#09090b",
+          bgGrad1: "#09090b",
+          bgGrad2: "#18181b",
+          borderT: 0,
+          borderB: 0,
+          borderL: 0,
+          borderR: 0,
+          borderColor: "#27272a",
+          borderRadius: 14,
+        },
+        {
+          id: "cv-download",
+          name: "Descargar CV",
+          category: "cta",
+          tags: ["cv", "curriculum", "descargar", "pdf", "trabajo", "resume"],
+          badgeBg: "#f4f4f5",
+          badgeColor: "#09090b",
+          shortDesc: "Flecha derecha, borde doble negro",
+          specs: {
+            Posición: "Derecha",
+            Fondo: "Blanco",
+            Bordes: "2px negro",
+            Radio: "8px",
+          },
+          variants: ["cv-download"],
+          label: "Descargar mi CV",
+          desc: "PDF · Actualizado 2024",
+          url: "https://",
+          linkType: "url",
+          variant: "right",
+          shape: "circled",
+          icon: "download",
+          color: "#09090b",
+          textAlign: "left",
+          marginMedia: 14,
+          paddingMedia: 0,
+          titleFont: "'Inter', sans-serif",
+          titleColor: "#09090b",
+          subFont: "'Inter', sans-serif",
+          subColor: "#71717a",
+          bgType: "solid",
+          bgColor: "#ffffff",
+          bgGrad1: "#ffffff",
+          bgGrad2: "#e4e4e7",
+          borderT: 2,
+          borderB: 2,
+          borderL: 2,
+          borderR: 2,
+          borderColor: "#09090b",
+          borderRadius: 8,
+        },
+
+        /* EDITORIAL */
+        {
+          id: "serif-elegant",
+          name: "Editorial / Blog",
+          category: "editorial",
+          tags: [
+            "editorial",
+            "blog",
+            "articulo",
+            "leer",
+            "substack",
+            "newsletter",
+            "serif",
+          ],
+          badgeBg: "#fffbeb",
+          badgeColor: "#92400e",
+          shortDesc: "Serif Playfair, fondo ámbar suave",
+          specs: {
+            Posición: "Izquierda",
+            Fondo: "Ámbar suave",
+            Bordes: "1px dorado",
+            Radio: "12px",
+          },
+          variants: ["serif-elegant", "gradient-hero"],
+          label: "Leer mi artículo",
+          desc: "Publicado en Substack",
+          url: "https://",
+          linkType: "url",
+          variant: "left",
+          shape: "circled",
+          icon: "star",
+          color: "#92400e",
+          textAlign: "left",
+          marginMedia: 14,
+          paddingMedia: 0,
+          titleFont: "'Playfair Display', serif",
+          titleColor: "#09090b",
+          subFont: "'Inter', sans-serif",
+          subColor: "#78716c",
+          bgType: "solid",
+          bgColor: "#fffbeb",
+          bgGrad1: "#fffbeb",
+          bgGrad2: "#fef3c7",
+          borderT: 1,
+          borderB: 1,
+          borderL: 1,
+          borderR: 1,
+          borderColor: "#fde68a",
+          borderRadius: 12,
+        },
+        {
+          id: "gradient-hero",
+          name: "Gradient Hero",
+          category: "editorial",
+          tags: [
+            "gradiente",
+            "editorial",
+            "hero",
+            "impacto",
+            "stacked",
+            "destacado",
+          ],
+          badgeBg: "#eef2ff",
+          badgeColor: "#4f46e5",
+          shortDesc: "Icono arriba, gradiente índigo, serif",
+          specs: {
+            Posición: "Arriba (stacked)",
+            Fondo: "Gradiente índigo",
+            Bordes: "1px morado",
+            Radio: "20px",
+          },
+          variants: ["serif-elegant", "gradient-hero"],
+          label: "Mi contenido destacado",
+          desc: "Explora todo mi trabajo",
+          url: "https://",
+          linkType: "url",
+          variant: "top",
+          shape: "circled",
+          icon: "zap",
+          color: "#4f46e5",
+          textAlign: "center",
+          marginMedia: 10,
+          paddingMedia: 0,
+          titleFont: "'Playfair Display', serif",
+          titleColor: "#1e1b4b",
+          subFont: "'Inter', sans-serif",
+          subColor: "#4338ca",
+          bgType: "gradient",
+          bgColor: "#eef2ff",
+          bgGrad1: "#eef2ff",
+          bgGrad2: "#c7d2fe",
+          borderT: 1,
+          borderB: 1,
+          borderL: 1,
+          borderR: 1,
+          borderColor: "#a5b4fc",
+          borderRadius: 20,
+        },
+        {
+          id: "mono-stark",
+          name: "Mono / GitHub",
+          category: "editorial",
+          tags: ["mono", "github", "codigo", "tech", "developer", "stark"],
+          badgeBg: "#f4f4f5",
+          badgeColor: "#09090b",
+          shortDesc: "Monospace, subrayado inferior, sin radio",
+          specs: {
+            Posición: "Izquierda",
+            Fondo: "Zinc 100",
+            Bordes: "2px inferior",
+            Radio: "0px",
+          },
+          variants: ["mono-stark"],
+          label: "Ver en GitHub",
+          desc: "",
+          url: "https://github.com/",
+          linkType: "url",
+          variant: "left",
+          shape: "square",
+          icon: "link-2",
+          color: "#09090b",
+          textAlign: "left",
+          marginMedia: 14,
+          paddingMedia: 0,
+          titleFont: "'JetBrains Mono', monospace",
+          titleColor: "#09090b",
+          subFont: "'JetBrains Mono', monospace",
+          subColor: "#71717a",
+          bgType: "solid",
+          bgColor: "#f4f4f5",
+          bgGrad1: "#f4f4f5",
+          bgGrad2: "#e4e4e7",
+          borderT: 0,
+          borderB: 2,
+          borderL: 0,
+          borderR: 0,
+          borderColor: "#09090b",
+          borderRadius: 0,
+        },
+
+        /* MINIMAL */
+        {
+          id: "ghost-border",
+          name: "Ghost Border",
+          category: "minimal",
+          tags: ["ghost", "minimal", "limpio", "borde", "neutro", "generico"],
+          badgeBg: "#f4f4f5",
+          badgeColor: "#71717a",
+          shortDesc: "Borde gris 1px, totalmente neutro",
+          specs: {
+            Posición: "Izquierda",
+            Fondo: "Blanco",
+            Bordes: "1px gris",
+            Radio: "14px",
+          },
+          variants: ["ghost-border", "text-only"],
+          label: "Enlace limpio",
+          desc: "",
+          url: "https://",
+          linkType: "url",
+          variant: "left",
+          shape: "circled",
+          icon: "link",
+          color: "#71717a",
+          textAlign: "left",
+          marginMedia: 14,
+          paddingMedia: 0,
+          titleFont: "'Inter', sans-serif",
+          titleColor: "#09090b",
+          subFont: "'Inter', sans-serif",
+          subColor: "#71717a",
+          bgType: "solid",
+          bgColor: "#ffffff",
+          bgGrad1: "#ffffff",
+          bgGrad2: "#f4f4f5",
+          borderT: 1,
+          borderB: 1,
+          borderL: 1,
+          borderR: 1,
+          borderColor: "#e4e4e7",
+          borderRadius: 14,
+        },
+        {
+          id: "text-only",
+          name: "Solo Texto",
+          category: "minimal",
+          tags: ["texto", "minimal", "sin icono", "centrado", "simple"],
+          badgeBg: "#f4f4f5",
+          badgeColor: "#09090b",
+          shortDesc: "Sin icono, texto centrado, máximo limpio",
+          specs: {
+            Posición: "Sin icono",
+            Fondo: "Blanco",
+            Bordes: "1px gris",
+            Radio: "14px",
+          },
+          variants: ["ghost-border", "text-only"],
+          label: "Ver más información",
+          desc: "",
+          url: "https://",
+          linkType: "url",
+          variant: "none",
+          shape: "circled",
+          icon: "link",
+          color: "#09090b",
+          textAlign: "center",
+          marginMedia: 14,
+          paddingMedia: 0,
+          titleFont: "'Inter', sans-serif",
+          titleColor: "#09090b",
+          subFont: "'Inter', sans-serif",
+          subColor: "#71717a",
+          bgType: "solid",
+          bgColor: "#ffffff",
+          bgGrad1: "#ffffff",
+          bgGrad2: "#f4f4f5",
+          borderT: 1,
+          borderB: 1,
+          borderL: 1,
+          borderR: 1,
+          borderColor: "#e4e4e7",
+          borderRadius: 14,
+        },
+        {
+          id: "heart-warm",
+          name: "Apoyo / Donación",
+          category: "minimal",
+          tags: ["corazon", "apoyo", "donacion", "calido", "fans", "comunidad"],
+          badgeBg: "#fff1f2",
+          badgeColor: "#f43f5e",
+          shortDesc: "Rosa suave, corazón, sensación cálida",
+          specs: {
+            Posición: "Izquierda",
+            Fondo: "Rosa suave",
+            Bordes: "1px rosa",
+            Radio: "16px",
+          },
+          variants: ["heart-warm"],
+          label: "Apóyame",
+          desc: "Comparte o dona",
+          url: "https://",
+          linkType: "url",
+          variant: "left",
+          shape: "circled",
+          icon: "heart",
+          color: "#f43f5e",
+          textAlign: "left",
+          marginMedia: 14,
+          paddingMedia: 0,
+          titleFont: "'Inter', sans-serif",
+          titleColor: "#09090b",
+          subFont: "'Inter', sans-serif",
+          subColor: "#71717a",
+          bgType: "solid",
+          bgColor: "#fff1f2",
+          bgGrad1: "#fff1f2",
+          bgGrad2: "#ffe4e6",
+          borderT: 1,
+          borderB: 1,
+          borderL: 1,
+          borderR: 1,
+          borderColor: "#fecdd3",
+          borderRadius: 16,
+        },
+      ];
+
+      // ═══════════════════════════════════════════
+      // CATEGORIES
+      // ═══════════════════════════════════════════
+      const CATS = [
+        { id: "all", label: "Todos", color: "#09090b" },
+        { id: "social", label: "Social", color: "#e1306c" },
+        { id: "contact", label: "Contacto", color: "#25d366" },
+        { id: "cta", label: "CTA", color: "#2563eb" },
+        { id: "editorial", label: "Editorial", color: "#92400e" },
+        { id: "minimal", label: "Minimal", color: "#71717a" },
+      ];
+
+      // ═══════════════════════════════════════════
+      // STATE
+      // ═══════════════════════════════════════════
+      const S = {
+        cat: "all",
+        q: "",
+        activePresetId: null, // preset abierto en detail view
+        selectedVariantId: null, // variante seleccionada dentro del detail
+      };
+
+      // ═══════════════════════════════════════════
+      // BIO-BTN COMPILER (igual que builder)
+      // ═══════════════════════════════════════════
+      function compileBioBtn(p, opts = {}) {
+        const descClass = p.desc ? "bio-btn--has-desc" : "";
+        const bg =
+          p.bgType === "gradient"
+            ? `linear-gradient(135deg, ${p.bgGrad1}, ${p.bgGrad2})`
+            : p.bgColor;
+        const alignItems =
+          p.textAlign === "center"
+            ? "center"
+            : p.textAlign === "right"
+              ? "flex-end"
+              : "flex-start";
+        const mediaBg =
+          p.variant === "image"
+            ? `linear-gradient(135deg,${p.color},#cbd5e1)`
+            : "transparent";
+        const extraStyle = opts.extraStyle || "";
+
+        return `
+          <div class="bio-btn ${descClass}"
+               data-variant="${p.variant}" data-shape="${p.shape}"
+               style="
+                 --btn-bg:${bg};--btn-radius:${p.borderRadius}px;
+                 --btn-text-color:${p.titleColor};--btn-color:${p.color};
+                 --btn-border-top:${p.borderT}px;--btn-border-bottom:${p.borderB}px;
+                 --btn-border-left:${p.borderL}px;--btn-border-right:${p.borderR}px;
+                 --btn-border-color:${p.borderColor};
+                 --btn-media-margin:${p.marginMedia}px;--btn-media-padding:${p.paddingMedia}px;
+                 --btn-text-align:${p.textAlign};--btn-align-items:${alignItems};
+                 ${extraStyle}
+               ">
+            <div class="bio-btn__media" style="background:${mediaBg}">${ico(p.icon)}</div>
+            <div class="bio-btn__content">
+              <span class="bio-btn__title" style="font-family:${p.titleFont};color:${p.titleColor}">${p.label}</span>
+              ${p.desc ? `<span class="bio-btn__desc" style="font-family:${p.subFont};color:${p.subColor}">${p.desc}</span>` : ""}
+            </div>
+          </div>`;
+      }
+
+      // ═══════════════════════════════════════════
+      // FILTER
+      // ═══════════════════════════════════════════
+      function filtered() {
+        const q = S.q.toLowerCase().trim();
+        return PRESETS.filter((p) => {
+          const mCat = S.cat === "all" || p.category === S.cat;
+          const mQ =
+            !q ||
+            p.name.toLowerCase().includes(q) ||
+            p.tags.some((t) => t.includes(q));
+          return mCat && mQ;
+        });
+      }
+
+      // ═══════════════════════════════════════════
+      // VIEW A — RENDER
+      // ═══════════════════════════════════════════
+      function renderPills() {
+        document.getElementById("pillsInner").innerHTML = CATS.map(
+          (c) => `
+          <div class="pill ${S.cat === c.id ? "active" : ""}" onclick="setCat('${c.id}')">
+            <span class="pill-dot" style="background:${c.color}"></span>${c.label}
+          </div>`,
+        ).join("");
+      }
+
+      function renderList() {
+        const list = filtered();
+        const ul = document.getElementById("presetList");
+        const lbl = document.getElementById("sectionLabel");
+
+        // Section label
+        if (S.q) {
+          lbl.textContent = `${list.length} resultado${list.length !== 1 ? "s" : ""} para "${S.q}"`;
+        } else {
+          lbl.textContent =
+            S.cat === "all"
+              ? "Presets sugeridos"
+              : `Presets · ${CATS.find((c) => c.id === S.cat)?.label}`;
+        }
+
+        if (list.length === 0) {
+          ul.innerHTML = `
+            <li>
+              <div class="empty-state">
+                <div class="empty-ico">${ico("search")}</div>
+                <div class="empty-txt">Sin resultados</div>
+                <div class="empty-hint">Intenta con otro término</div>
+              </div>
+            </li>`;
+          return;
+        }
+
+        ul.innerHTML = list
+          .map(
+            (p) => `
+          <li>
+            <div class="preset-row" onclick="openDetail('${p.id}')">
+              <div class="row-badge" style="background:${p.badgeBg}">
+                <svg class="svg-icon" style="width:20px;height:20px;color:${p.badgeColor}">
+                  <use href="#icon-${p.icon}"/>
+                </svg>
+              </div>
+              <div class="row-text">
+                <div class="row-name">${p.name}</div>
+                <div class="row-desc">${p.shortDesc}</div>
+              </div>
+              <span class="row-arrow">${ico("chevron-right")}</span>
+            </div>
+          </li>`,
+          )
+          .join("");
+      }
+
+      // ═══════════════════════════════════════════
+      // VIEW B — DETAIL RENDER
+      // ═══════════════════════════════════════════
+      function openDetail(id) {
+        const preset = PRESETS.find((p) => p.id === id);
+        if (!preset) return;
+
+        S.activePresetId = id;
+        S.selectedVariantId = id; // default: el mismo preset es la variante activa
+
+        // Header
+        document.getElementById("detailTitle").textContent = preset.name;
+        document.getElementById("detailCat").textContent =
+          CATS.find((c) => c.id === preset.category)?.label || preset.category;
+
+        // Build detail content
+        renderDetailContent(preset);
+
+        // Switch views
+        showView("viewDetail", "right");
+      }
+
+      function renderDetailContent(preset) {
+        const variantIds = preset.variants || [preset.id];
+        const variantPresets = variantIds
+          .map((vid) => PRESETS.find((p) => p.id === vid))
+          .filter(Boolean);
+
+        // Hero preview (active variant)
+        const activeVariant =
+          PRESETS.find((p) => p.id === S.selectedVariantId) || preset;
+
+        // Specs chips
+        const specsHtml = Object.entries(activeVariant.specs)
+          .map(
+            ([k, v]) => `
+          <div class="spec-chip">
+            <span class="spec-label">${k}</span>
+            <span class="spec-val">${v}</span>
+          </div>`,
+          )
+          .join("");
+
+        // Variants strip (solo si hay más de 1)
+        let variantsHtml = "";
+        if (variantPresets.length > 1) {
+          variantsHtml = `
+            <div class="variants-section">
+              <div class="variants-title">Variantes del estilo</div>
+              <div class="variants-row">
+                ${variantPresets
+                  .map(
+                    (vp) => `
+                  <div class="variant-option ${S.selectedVariantId === vp.id ? "sel" : ""}"
+                       onclick="selectVariant('${vp.id}')">
+                    ${compileBioBtn(vp)}
+                  </div>`,
+                  )
+                  .join("")}
+              </div>
+            </div>`;
+        }
+
+        document.getElementById("detailScroll").innerHTML = `
+          <div class="hero-preview">
+            <div class="hero-preview-label">
+              ${ico("sparkle")} Vista previa real
+            </div>
+            <div class="hero-preview-content" id="heroPreviewContent">
+              ${compileBioBtn(activeVariant, { extraStyle: "pointer-events:none;" })}
+            </div>
+          </div>
+
+          <div class="specs-section">
+            <div class="specs-title">Configuración del preset</div>
+            <div class="specs-grid">${specsHtml}</div>
+          </div>
+
+          ${variantsHtml}
+        `;
+      }
+
+      function selectVariant(id) {
+        S.selectedVariantId = id;
+        const mainPreset = PRESETS.find((p) => p.id === S.activePresetId);
+        if (mainPreset) renderDetailContent(mainPreset);
+      }
+
+      // ═══════════════════════════════════════════
+      // USE PRESET → localStorage → redirect
+      // ═══════════════════════════════════════════
+      const BUILDER_PRESET_KEY = "bio_builder_pending_preset";
+      const BUILDER_URL = "bio-site-link-builder.html";
+
+      function usePreset() {
+        const id = S.selectedVariantId || S.activePresetId;
+        const preset = PRESETS.find((p) => p.id === id);
+        if (!preset) return;
+
+        localStorage.setItem(BUILDER_PRESET_KEY, JSON.stringify(preset));
+
+        showToast(() => {
+          window.location.href = BUILDER_URL;
+        });
+      }
+
+      function showToast(cb) {
+        const t = document.getElementById("toast");
+        t.classList.add("show");
+        setTimeout(() => {
+          t.classList.remove("show");
+          if (cb) setTimeout(cb, 300);
+        }, 1300);
+      }
+
+      // ═══════════════════════════════════════════
+      // NAVIGATION
+      // ═══════════════════════════════════════════
+      function showView(id, dir = "right") {
+        document
+          .querySelectorAll(".view")
+          .forEach((v) =>
+            v.classList.remove("active", "view-enter-right", "view-enter-left"),
+          );
+        const el = document.getElementById(id);
+        el.classList.add("active");
+        el.classList.add(
+          dir === "right" ? "view-enter-right" : "view-enter-left",
+        );
+      }
+
+      function goBack() {
+        showView("viewSearch", "left");
+      }
+
+      // ═══════════════════════════════════════════
+      // FILTERS
+      // ═══════════════════════════════════════════
+      function setCat(id) {
+        S.cat = id;
+        renderPills();
+        renderList();
+      }
+
+      function handleSearch(val) {
+        S.q = val;
+        document
+          .getElementById("searchClear")
+          .classList.toggle("vis", val.length > 0);
+        renderList();
+      }
+
+      function clearSearch() {
+        S.q = "";
+        document.getElementById("searchInput").value = "";
+        document.getElementById("searchClear").classList.remove("vis");
+        renderList();
+      }
+
+      // ═══════════════════════════════════════════
+      // INIT
+      // ═══════════════════════════════════════════
+      renderPills();
+      renderList();
+    </script>
+  </body>
+</html>

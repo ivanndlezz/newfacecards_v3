@@ -1,0 +1,1609 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Add Button Link Experience</title>
+    <link rel="stylesheet" href="links-experience.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.x/dist/tabler-icons.min.css"
+    />
+    <svg xmlns="http://www.w3.org/2000/svg" style="display: none">
+      <symbol id="icon-instagram" viewBox="0 0 24 24">
+        <rect width="20" height="20" x="2" y="2" rx="5" ry="5"></rect>
+        <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+        <line x1="17.5" x2="17.51" y1="6.5" y2="6.5"></line>
+      </symbol>
+      <symbol id="icon-twitter" viewBox="0 0 24 24">
+        <path
+          d="M22 4s-.7 2.1-2 3.4c1.6 10-9.4 17.3-18 11.6 2.2.1 4.4-.6 6-2C3 15.5.5 9.6 3 5c2.2 2.6 5.6 4.1 9 4-.9-4.2 4-6.6 7-3.8 1.1 0 3-1.2 3-1.2z"
+        ></path>
+      </symbol>
+      <symbol id="icon-linkedin" viewBox="0 0 24 24">
+        <path
+          d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"
+        ></path>
+        <rect width="4" height="12" x="2" y="9"></rect>
+        <circle cx="4" cy="4" r="2"></circle>
+      </symbol>
+      <symbol id="icon-youtube" viewBox="0 0 24 24">
+        <path
+          d="M2.5 17a24.12 24.12 0 0 1 0-10 2 2 0 0 1 1.4-1.4 49.56 49.56 0 0 1 16.2 0A2 2 0 0 1 21.5 7a24.12 24.12 0 0 1 0 10 2 2 0 0 1-1.4 1.4 49.55 49.55 0 0 1-16.2 0A2 2 0 0 1 2.5 17z"
+        ></path>
+        <polygon points="10 15 15 12 10 9 10 15"></polygon>
+      </symbol>
+      <symbol id="icon-music" viewBox="0 0 24 24">
+        <path d="M9 18V5l12-2v13"></path>
+        <circle cx="6" cy="18" r="3"></circle>
+        <circle cx="18" cy="16" r="3"></circle>
+      </symbol>
+      <symbol id="icon-mail" viewBox="0 0 24 24">
+        <rect width="20" height="16" x="2" y="4" rx="2"></rect>
+        <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"></path>
+      </symbol>
+      <symbol id="icon-phone" viewBox="0 0 24 24">
+        <path
+          d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"
+        ></path>
+      </symbol>
+      <symbol id="icon-globe" viewBox="0 0 24 24">
+        <circle cx="12" cy="12" r="10"></circle>
+        <path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"></path>
+        <path d="M2 12h20"></path>
+      </symbol>
+      <symbol id="icon-star" viewBox="0 0 24 24">
+        <polygon
+          points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"
+        ></polygon>
+      </symbol>
+      <symbol id="icon-heart" viewBox="0 0 24 24">
+        <path
+          d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"
+        ></path>
+      </symbol>
+      <symbol id="icon-zap" viewBox="0 0 24 24">
+        <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
+      </symbol>
+      <symbol id="icon-home" viewBox="0 0 24 24">
+        <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+        <polyline points="9 22 9 12 15 12 15 22"></polyline>
+      </symbol>
+      <symbol id="icon-link-2" viewBox="0 0 24 24">
+        <path d="M9 17H7A5 5 0 0 1 7 7h2"></path>
+        <path d="M15 7h2a5 5 0 0 1 0 10h-2"></path>
+        <line x1="8" x2="16" y1="12" y2="12"></line>
+      </symbol>
+      <symbol id="icon-map-pin" viewBox="0 0 24 24">
+        <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"></path>
+        <circle cx="12" cy="10" r="3"></circle>
+      </symbol>
+      <symbol id="icon-user" viewBox="0 0 24 24">
+        <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"></path>
+        <circle cx="12" cy="7" r="4"></circle>
+      </symbol>
+      <symbol id="icon-link" viewBox="0 0 24 24">
+        <path
+          d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"
+        ></path>
+        <path
+          d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"
+        ></path>
+      </symbol>
+      <symbol id="icon-whatsapp" viewBox="0 0 24 24">
+        <path
+          d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"
+        ></path>
+      </symbol>
+      <symbol id="icon-calendar" viewBox="0 0 24 24">
+        <rect width="18" height="18" x="3" y="4" rx="2" ry="2"></rect>
+        <line x1="16" x2="16" y1="2" y2="6"></line>
+        <line x1="8" x2="8" y1="2" y2="6"></line>
+        <line x1="3" x2="21" y1="10" y2="10"></line>
+      </symbol>
+      <symbol id="icon-download" viewBox="0 0 24 24">
+        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+        <polyline points="7 10 12 15 17 10"></polyline>
+        <line x1="12" x2="12" y1="15" y2="3"></line>
+      </symbol>
+      <symbol id="icon-search" viewBox="0 0 24 24">
+        <circle cx="11" cy="11" r="8"></circle>
+        <path d="m21 21-4.35-4.35"></path>
+      </symbol>
+      <symbol id="icon-x" viewBox="0 0 24 24">
+        <path d="M18 6 6 18"></path>
+        <path d="m6 6 12 12"></path>
+      </symbol>
+      <symbol id="icon-check" viewBox="0 0 24 24">
+        <path d="M20 6 9 17l-5-5"></path>
+      </symbol>
+      <symbol id="icon-chevron-right" viewBox="0 0 24 24">
+        <path d="m9 18 6-6-6-6"></path>
+      </symbol>
+      <symbol id="icon-arrow-left" viewBox="0 0 24 24">
+        <path d="m12 19-7-7 7-7"></path>
+        <path d="M19 12H5"></path>
+      </symbol>
+      <symbol id="icon-sparkle" viewBox="0 0 24 24">
+        <path
+          d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275Z"
+        ></path>
+      </symbol>
+    </svg>
+    <style></style>
+  </head>
+  <body>
+    <div id="data-status-storage" data-bottom-sheet="hidden"></div>
+    <div
+      class="buttons-list-container"
+      id="mainListContainer"
+      data-status="edit"
+    >
+      <div class="empty-state">
+        <div class="empty-icon-box">
+          <svg class="svg-icon" viewBox="0 0 24 24">
+            <use href="#icon-link"></use>
+          </svg>
+        </div>
+        <div class="empty-text">Diseña tu primer botón bio modular.</div>
+        <button class="cta-add" onclick="openSheet()">Crear enlace</button>
+      </div>
+    </div>
+    <button id="openBottomSheet">Open Examples</button>
+
+    <div id="hydration-target" class="hydration-target"></div>
+
+    <template id="config-link">
+      <div class="config-sheet-content">
+        <!-- Sticky Live Preview Area -->
+        <div class="sticky-preview">
+          <div class="preview-area" id="previewArea">
+            <div class="preview-label">Live Preview</div>
+            <div
+              class="preview-content"
+              id="previewContent"
+              style="width: 100%; max-width: 280px"
+            >
+              <div
+                class="bio-btn"
+                data-variant="left"
+                data-shape="circled"
+                style="
+                  --btn-bg: #ffffff;
+                  --btn-radius: 14px;
+                  --btn-text-color: #09090b;
+                  --btn-color: #18181b;
+
+                  --btn-border-top: 1px;
+                  --btn-border-bottom: 1px;
+                  --btn-border-left: 1px;
+                  --btn-border-right: 1px;
+                  --btn-border-color: #e4e4e7;
+
+                  --btn-media-margin: 14px;
+                  --btn-media-padding: 0px;
+
+                  --btn-text-align: left;
+                  --btn-align-items: flex-start;
+                "
+              >
+                <!-- Medio: Icono o Avatar -->
+                <div class="bio-btn__media" style="background: transparent">
+                  <svg class="svg-icon" viewBox="0 0 24 24">
+                    <use href="#icon-instagram"></use>
+                  </svg>
+                </div>
+
+                <!-- Textos -->
+                <div class="bio-btn__content">
+                  <span
+                    class="bio-btn__title"
+                    style="
+                      font-family: &quot;Inter&quot;, sans-serif;
+                      color: #09090b;
+                    "
+                    >Mi Enlace Bio</span
+                  >
+                  <span
+                    class="bio-btn__desc"
+                    style="
+                      font-family: &quot;Inter&quot;, sans-serif;
+                      color: #71717a;
+                    "
+                  ></span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Scrollable Accordion Wrapper -->
+        <div class="creator-scroll-content">
+          <div class="control-row" data-scope="btn-type">
+            <span
+              class="control-label"
+              style="display: block; margin-bottom: 6px"
+              >Tipo de Enlace</span
+            >
+            <div class="glider-container" id="linkTypeGlider">
+              <div
+                class="glider-option active"
+                data-val="url"
+                onclick="setLinkType('url')"
+              >
+                URL
+              </div>
+              <div
+                class="glider-option"
+                data-val="tel"
+                onclick="setLinkType('tel')"
+              >
+                Tel
+              </div>
+              <div
+                class="glider-option"
+                data-val="mail"
+                onclick="setLinkType('mail')"
+              >
+                Mail
+              </div>
+              <div
+                class="glider-option"
+                data-val="vcf"
+                onclick="setLinkType('vcf')"
+              >
+                VCard
+              </div>
+            </div>
+            <div class="input-wrapper">
+              <input
+                type="text"
+                id="inUrl"
+                placeholder="https://"
+                oninput="renderPreview()"
+              />
+            </div>
+          </div>
+          <div class="control-row" data-scope="titulo">
+            <span
+              class="control-label"
+              style="display: block; margin-bottom: 6px"
+              >Título</span
+            >
+            <div class="input-wrapper">
+              <input
+                type="text"
+                id="inLabel"
+                placeholder="Ej: Sígueme en Instagram"
+                value="Mi Enlace Bio"
+                oninput="renderPreview()"
+              />
+            </div>
+          </div>
+          <div class="control-row" data-scope="subtitulo">
+            <span
+              class="control-label"
+              style="display: block; margin-bottom: 6px"
+              >Subtítulo (opcional)</span
+            >
+            <div class="input-wrapper">
+              <input
+                type="text"
+                id="inDesc"
+                placeholder="Ej: Únete a mis historias diarias"
+                value=""
+                oninput="renderPreview()"
+              />
+            </div>
+          </div>
+          <!-- NUEVO: Controlador de Alineación de Texto (Iconos) -->
+          <div class="control-row" data-scope="text-align">
+            <span
+              class="control-label"
+              style="display: block; margin-bottom: 6px"
+              >Alineación de Texto</span
+            >
+            <div class="glider-container" id="textAlignGlider">
+              <div
+                class="glider-option active"
+                data-val="left"
+                onclick="setTextAlignOption('left')"
+                title="Izquierda"
+              >
+                <svg class="svg-icon" viewBox="0 0 24 24">
+                  <line x1="21" x2="3" y1="6" y2="6"></line>
+                  <line x1="15" x2="3" y1="12" y2="12"></line>
+                  <line x1="17" x2="3" y1="18" y2="18"></line>
+                </svg>
+              </div>
+              <div
+                class="glider-option"
+                data-val="center"
+                onclick="setTextAlignOption('center')"
+                title="Centro"
+              >
+                <svg class="svg-icon" viewBox="0 0 24 24">
+                  <line x1="21" x2="3" y1="6" y2="6"></line>
+                  <line x1="19" x2="5" y1="12" y2="12"></line>
+                  <line x1="17" x2="7" y1="18" y2="18"></line>
+                </svg>
+              </div>
+              <div
+                class="glider-option"
+                data-val="right"
+                onclick="setTextAlignOption('right')"
+                title="Derecha"
+              >
+                <svg class="svg-icon" viewBox="0 0 24 24">
+                  <line x1="21" x2="3" y1="6" y2="6"></line>
+                  <line x1="21" x2="9" y1="12" y2="12"></line>
+                  <line x1="21" x2="7" y1="18" y2="18"></line>
+                </svg>
+              </div>
+            </div>
+          </div>
+          <!-- /NUEVO -->
+
+          <span
+            style="
+              display: block;
+              margin-bottom: 32px;
+              margin-top: 32px;
+              border-bottom: 1px solid var(--border);
+            "
+          ></span>
+          <!-- ── ACCORDION 1: Icono y Posición ── -->
+          <div class="accordion open" id="acc-0">
+            <div class="accordion-header" onclick="toggleAccordion(0)">
+              <div class="accordion-title-wrap">
+                <span class="accordion-icon"
+                  ><svg class="svg-icon" viewBox="0 0 24 24">
+                    <rect
+                      width="18"
+                      height="18"
+                      x="3"
+                      y="3"
+                      rx="2"
+                      ry="2"
+                    ></rect>
+                    <circle cx="9" cy="9" r="2"></circle>
+                    <path
+                      d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"
+                    ></path></svg
+                ></span>
+                <span class="accordion-title">Medios (Icono e Imagen)</span>
+              </div>
+              <span class="accordion-arrow"
+                ><svg class="svg-icon" viewBox="0 0 24 24">
+                  <path d="m6 9 6 6 6-6"></path></svg
+              ></span>
+            </div>
+            <div class="accordion-content">
+              <div class="control-row">
+                <span class="control-label">Alineación del medio</span>
+                <div class="glider-container" id="posGlider">
+                  <!-- Reemplazados los textos por iconos SVG -->
+                  <div
+                    class="glider-option active"
+                    data-val="left"
+                    onclick="setPosOption('left')"
+                    title="Izquierda"
+                  >
+                    <svg class="svg-icon" viewBox="0 0 24 24">
+                      <rect
+                        width="18"
+                        height="18"
+                        x="3"
+                        y="3"
+                        rx="2"
+                        ry="2"
+                      ></rect>
+                      <path d="M9 3v18"></path>
+                    </svg>
+                  </div>
+                  <div
+                    class="glider-option"
+                    data-val="right"
+                    onclick="setPosOption('right')"
+                    title="Derecha"
+                  >
+                    <svg class="svg-icon" viewBox="0 0 24 24">
+                      <rect
+                        width="18"
+                        height="18"
+                        x="3"
+                        y="3"
+                        rx="2"
+                        ry="2"
+                      ></rect>
+                      <path d="M15 3v18"></path>
+                    </svg>
+                  </div>
+                  <div
+                    class="glider-option"
+                    data-val="top"
+                    onclick="setPosOption('top')"
+                    title="Arriba"
+                  >
+                    <svg class="svg-icon" viewBox="0 0 24 24">
+                      <rect
+                        width="18"
+                        height="18"
+                        x="3"
+                        y="3"
+                        rx="2"
+                        ry="2"
+                      ></rect>
+                      <path d="M3 9h18"></path>
+                    </svg>
+                  </div>
+                  <div
+                    class="glider-option"
+                    data-val="image"
+                    onclick="setPosOption('image')"
+                    title="Imagen"
+                  >
+                    <svg class="svg-icon" viewBox="0 0 24 24">
+                      <rect
+                        width="18"
+                        height="18"
+                        x="3"
+                        y="3"
+                        rx="2"
+                        ry="2"
+                      ></rect>
+                      <circle cx="8.5" cy="8.5" r="1.5"></circle>
+                      <polyline points="21 15 16 10 5 21"></polyline>
+                    </svg>
+                  </div>
+                  <div
+                    class="glider-option"
+                    data-val="none"
+                    onclick="setPosOption('none')"
+                    title="Sin Medio"
+                  >
+                    <svg class="svg-icon" viewBox="0 0 24 24">
+                      <circle cx="12" cy="12" r="10"></circle>
+                      <path d="m4.9 4.9 14.2 14.2"></path>
+                    </svg>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Shape panel (Visible only if aligned to image) -->
+              <div class="control-row" id="imageShapeRow" style="display: none">
+                <span class="control-label">Forma de la imagen</span>
+                <div class="glider-container" id="shapeGlider">
+                  <div
+                    class="glider-option active"
+                    data-val="circled"
+                    onclick="setShapeOption('circled')"
+                  >
+                    Círculo
+                  </div>
+                  <div
+                    class="glider-option"
+                    data-val="squircle"
+                    onclick="setShapeOption('squircle')"
+                  >
+                    Squircle
+                  </div>
+                  <div
+                    class="glider-option"
+                    data-val="square"
+                    onclick="setShapeOption('square')"
+                  >
+                    Cuadrado
+                  </div>
+                </div>
+              </div>
+
+              <!-- Range Spacers -->
+              <div class="control-row">
+                <div class="control-label-wrap">
+                  <span class="control-label">Margen del Icono/Imagen</span>
+                  <span class="control-value" id="valMargin">14px</span>
+                </div>
+                <input
+                  type="range"
+                  class="range-input"
+                  id="rngMargin"
+                  min="4"
+                  max="32"
+                  value="14"
+                  oninput="updateRange('Margin', 'px')"
+                />
+              </div>
+
+              <div class="control-row">
+                <div class="control-label-wrap">
+                  <span class="control-label">Padding Interno del Medio</span>
+                  <span class="control-value" id="valPadding">0px</span>
+                </div>
+                <input
+                  type="range"
+                  class="range-input"
+                  id="rngPadding"
+                  min="0"
+                  max="16"
+                  value="0"
+                  oninput="updateRange('Padding', 'px')"
+                />
+              </div>
+
+              <!-- Icon Selector grid (Omitted if none selected) -->
+              <div class="control-row" id="iconGridSection">
+                <span
+                  class="control-label"
+                  style="display: block; margin-bottom: 8px"
+                  >Selecciona un Icono</span
+                >
+                <div class="icon-grid" id="iconGrid">
+                  <div
+                    class="icon-opt sel"
+                    data-icon="instagram"
+                    onclick="selectIcon(this, 'instagram')"
+                  >
+                    <svg class="svg-icon" viewBox="0 0 24 24">
+                      <use href="#icon-instagram"></use>
+                    </svg>
+                  </div>
+
+                  <div
+                    class="icon-opt"
+                    data-icon="twitter"
+                    onclick="selectIcon(this, 'twitter')"
+                  >
+                    <svg class="svg-icon" viewBox="0 0 24 24">
+                      <use href="#icon-twitter"></use>
+                    </svg>
+                  </div>
+
+                  <div
+                    class="icon-opt"
+                    data-icon="linkedin"
+                    onclick="selectIcon(this, 'linkedin')"
+                  >
+                    <svg class="svg-icon" viewBox="0 0 24 24">
+                      <use href="#icon-linkedin"></use>
+                    </svg>
+                  </div>
+
+                  <div
+                    class="icon-opt"
+                    data-icon="youtube"
+                    onclick="selectIcon(this, 'youtube')"
+                  >
+                    <svg class="svg-icon" viewBox="0 0 24 24">
+                      <use href="#icon-youtube"></use>
+                    </svg>
+                  </div>
+
+                  <div
+                    class="icon-opt"
+                    data-icon="music"
+                    onclick="selectIcon(this, 'music')"
+                  >
+                    <svg class="svg-icon" viewBox="0 0 24 24">
+                      <use href="#icon-music"></use>
+                    </svg>
+                  </div>
+
+                  <div
+                    class="icon-opt"
+                    data-icon="mail"
+                    onclick="selectIcon(this, 'mail')"
+                  >
+                    <svg class="svg-icon" viewBox="0 0 24 24">
+                      <use href="#icon-mail"></use>
+                    </svg>
+                  </div>
+
+                  <div
+                    class="icon-opt"
+                    data-icon="phone"
+                    onclick="selectIcon(this, 'phone')"
+                  >
+                    <svg class="svg-icon" viewBox="0 0 24 24">
+                      <use href="#icon-phone"></use>
+                    </svg>
+                  </div>
+
+                  <div
+                    class="icon-opt"
+                    data-icon="globe"
+                    onclick="selectIcon(this, 'globe')"
+                  >
+                    <svg class="svg-icon" viewBox="0 0 24 24">
+                      <use href="#icon-globe"></use>
+                    </svg>
+                  </div>
+
+                  <div
+                    class="icon-opt"
+                    data-icon="star"
+                    onclick="selectIcon(this, 'star')"
+                  >
+                    <svg class="svg-icon" viewBox="0 0 24 24">
+                      <use href="#icon-star"></use>
+                    </svg>
+                  </div>
+
+                  <div
+                    class="icon-opt"
+                    data-icon="heart"
+                    onclick="selectIcon(this, 'heart')"
+                  >
+                    <svg class="svg-icon" viewBox="0 0 24 24">
+                      <use href="#icon-heart"></use>
+                    </svg>
+                  </div>
+
+                  <div
+                    class="icon-opt"
+                    data-icon="zap"
+                    onclick="selectIcon(this, 'zap')"
+                  >
+                    <svg class="svg-icon" viewBox="0 0 24 24">
+                      <use href="#icon-zap"></use>
+                    </svg>
+                  </div>
+
+                  <div
+                    class="icon-opt"
+                    data-icon="home"
+                    onclick="selectIcon(this, 'home')"
+                  >
+                    <svg class="svg-icon" viewBox="0 0 24 24">
+                      <use href="#icon-home"></use>
+                    </svg>
+                  </div>
+
+                  <div
+                    class="icon-opt"
+                    data-icon="link-2"
+                    onclick="selectIcon(this, 'link-2')"
+                  >
+                    <svg class="svg-icon" viewBox="0 0 24 24">
+                      <use href="#icon-link-2"></use>
+                    </svg>
+                  </div>
+
+                  <div
+                    class="icon-opt"
+                    data-icon="map-pin"
+                    onclick="selectIcon(this, 'map-pin')"
+                  >
+                    <svg class="svg-icon" viewBox="0 0 24 24">
+                      <use href="#icon-map-pin"></use>
+                    </svg>
+                  </div>
+
+                  <div
+                    class="icon-opt"
+                    data-icon="user"
+                    onclick="selectIcon(this, 'user')"
+                  >
+                    <svg class="svg-icon" viewBox="0 0 24 24">
+                      <use href="#icon-user"></use>
+                    </svg>
+                  </div>
+
+                  <div
+                    class="icon-opt"
+                    data-icon="link"
+                    onclick="selectIcon(this, 'link')"
+                  >
+                    <svg class="svg-icon" viewBox="0 0 24 24">
+                      <use href="#icon-link"></use>
+                    </svg>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- ── ACCORDION 3: Tipografía y Colores ── -->
+          <div class="accordion" id="acc-2">
+            <div class="accordion-header" onclick="toggleAccordion(2)">
+              <div class="accordion-title-wrap">
+                <span class="accordion-icon"
+                  ><svg class="svg-icon" viewBox="0 0 24 24">
+                    <path
+                      d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275Z"
+                    ></path></svg
+                ></span>
+                <span class="accordion-title">Tipografía y Colores</span>
+              </div>
+              <span class="accordion-arrow"
+                ><svg class="svg-icon" viewBox="0 0 24 24">
+                  <path d="m6 9 6 6 6-6"></path></svg
+              ></span>
+            </div>
+            <div class="accordion-content">
+              <!-- Title Font & Color -->
+              <div
+                class="control-row"
+                style="
+                  border-bottom: 1px dashed var(--border);
+                  padding-bottom: 14px;
+                "
+              >
+                <span
+                  class="control-label"
+                  style="display: block; margin-bottom: 6px"
+                  >Fuente y Color del Título</span
+                >
+                <div class="input-wrapper">
+                  <select id="selTitleFont" onchange="renderPreview()">
+                    <option value="'Inter', sans-serif">
+                      Sans-Serif (Inter)
+                    </option>
+                    <option value="'Playfair Display', serif">
+                      Serif (Playfair)
+                    </option>
+                    <option value="'JetBrains Mono', monospace">
+                      Monospace (JetBrains)
+                    </option>
+                  </select>
+                </div>
+                <div class="custom-color-picker-wrap">
+                  <span class="color-picker-label">Color del título</span>
+                  <input
+                    type="color"
+                    id="pickTitleColor"
+                    class="picker-input"
+                    value="#09090b"
+                    oninput="renderPreview()"
+                  />
+                </div>
+              </div>
+
+              <!-- Subtitle Font & Color -->
+              <div class="control-row" style="margin-top: 14px">
+                <span
+                  class="control-label"
+                  style="display: block; margin-bottom: 6px"
+                  >Fuente y Color del Subtítulo</span
+                >
+                <div class="input-wrapper">
+                  <select id="selSubFont" onchange="renderPreview()">
+                    <option value="'Inter', sans-serif">
+                      Sans-Serif (Inter)
+                    </option>
+                    <option value="'Playfair Display', serif">
+                      Serif (Playfair)
+                    </option>
+                    <option value="'JetBrains Mono', monospace">
+                      Monospace (JetBrains)
+                    </option>
+                  </select>
+                </div>
+                <div class="custom-color-picker-wrap">
+                  <span class="color-picker-label">Color del subtítulo</span>
+                  <input
+                    type="color"
+                    id="pickSubColor"
+                    class="picker-input"
+                    value="#71717a"
+                    oninput="renderPreview()"
+                  />
+                </div>
+              </div>
+
+              <!-- Element primary custom color -->
+              <div
+                class="control-row"
+                style="
+                  margin-top: 14px;
+                  border-top: 1px dashed var(--border);
+                  padding-top: 14px;
+                "
+              >
+                <span class="control-label"
+                  >Color Primario del Icono/Medio</span
+                >
+                <div class="color-presets" id="colorPresets">
+                  <div
+                    class="color-swatch active"
+                    style="background: #18181b"
+                    onclick="selectPresetColor('#18181b')"
+                  ></div>
+
+                  <div
+                    class="color-swatch"
+                    style="background: #71717a"
+                    onclick="selectPresetColor('#71717a')"
+                  ></div>
+
+                  <div
+                    class="color-swatch"
+                    style="background: #2563eb"
+                    onclick="selectPresetColor('#2563eb')"
+                  ></div>
+
+                  <div
+                    class="color-swatch"
+                    style="background: #059669"
+                    onclick="selectPresetColor('#059669')"
+                  ></div>
+
+                  <div
+                    class="color-swatch"
+                    style="background: #d97706"
+                    onclick="selectPresetColor('#d97706')"
+                  ></div>
+
+                  <div
+                    class="color-swatch"
+                    style="background: #e11d48"
+                    onclick="selectPresetColor('#e11d48')"
+                  ></div>
+
+                  <div
+                    class="color-swatch"
+                    style="background: #7c3aed"
+                    onclick="selectPresetColor('#7c3aed')"
+                  ></div>
+
+                  <div
+                    class="color-swatch"
+                    style="background: #ffffff"
+                    onclick="selectPresetColor('#ffffff')"
+                  ></div>
+                </div>
+                <div class="custom-color-picker-wrap">
+                  <span class="color-picker-label">Paleta personalizada</span>
+                  <input
+                    type="color"
+                    id="pickElementColor"
+                    class="picker-input"
+                    value="#18181b"
+                    oninput="setPrimaryCustomColor(this.value)"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- ── ACCORDION 4: Otros (Bordes y Fondos) ── -->
+          <div class="accordion" id="acc-3">
+            <div class="accordion-header" onclick="toggleAccordion(3)">
+              <div class="accordion-title-wrap">
+                <span class="accordion-icon"
+                  ><svg class="svg-icon" viewBox="0 0 24 24">
+                    <circle cx="12" cy="12" r="10"></circle>
+                    <path
+                      d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"
+                    ></path>
+                    <path d="M2 12h20"></path></svg
+                ></span>
+                <span class="accordion-title">Fondo, Bordes y Estructura</span>
+              </div>
+              <span class="accordion-arrow"
+                ><svg class="svg-icon" viewBox="0 0 24 24">
+                  <path d="m6 9 6 6 6-6"></path></svg
+              ></span>
+            </div>
+            <div class="accordion-content">
+              <!-- Background Type & Picker -->
+              <div class="control-row">
+                <span
+                  class="control-label"
+                  style="display: block; margin-bottom: 6px"
+                  >Fondo del Botón</span
+                >
+                <div class="glider-container" id="bgTypeGlider">
+                  <div
+                    class="glider-option active"
+                    data-val="solid"
+                    onclick="setBgType('solid')"
+                  >
+                    Sólido
+                  </div>
+                  <div
+                    class="glider-option"
+                    data-val="gradient"
+                    onclick="setBgType('gradient')"
+                  >
+                    Gradiente
+                  </div>
+                </div>
+                <div class="custom-color-picker-wrap" id="solidBgRow">
+                  <span class="color-picker-label">Color de Fondo</span>
+                  <input
+                    type="color"
+                    id="pickBgColor"
+                    class="picker-input"
+                    value="#ffffff"
+                    oninput="renderPreview()"
+                  />
+                </div>
+                <div
+                  class="custom-color-picker-wrap"
+                  id="gradientBgRow"
+                  style="display: none; flex-direction: column; gap: 8px"
+                >
+                  <div
+                    style="
+                      display: flex;
+                      gap: 10px;
+                      width: 100%;
+                      justify-content: space-between;
+                      align-items: center;
+                    "
+                  >
+                    <span class="color-picker-label">Color Inicial</span>
+                    <input
+                      type="color"
+                      id="pickGrad1"
+                      class="picker-input"
+                      value="#ffffff"
+                      oninput="renderPreview()"
+                    />
+                  </div>
+                  <div
+                    style="
+                      display: flex;
+                      gap: 10px;
+                      width: 100%;
+                      justify-content: space-between;
+                      align-items: center;
+                    "
+                  >
+                    <span class="color-picker-label">Color Final</span>
+                    <input
+                      type="color"
+                      id="pickGrad2"
+                      class="picker-input"
+                      value="#e4e4e7"
+                      oninput="renderPreview()"
+                    />
+                  </div>
+                </div>
+              </div>
+
+              <!-- Custom Borders Panel -->
+              <div class="control-row">
+                <span
+                  class="control-label"
+                  style="display: block; margin-bottom: 6px"
+                  >Espesores de Borde (px)</span
+                >
+                <div class="border-sides-grid">
+                  <div class="side-input-card">
+                    <span class="side-label">Top</span>
+                    <input
+                      type="number"
+                      id="borderTop"
+                      class="side-num-input"
+                      min="0"
+                      max="8"
+                      value="1"
+                      oninput="renderPreview()"
+                    />
+                  </div>
+                  <div class="side-input-card">
+                    <span class="side-label">Bottom</span>
+                    <input
+                      type="number"
+                      id="borderBottom"
+                      class="side-num-input"
+                      min="0"
+                      max="8"
+                      value="1"
+                      oninput="renderPreview()"
+                    />
+                  </div>
+                  <div class="side-input-card">
+                    <span class="side-label">Left</span>
+                    <input
+                      type="number"
+                      id="borderLeft"
+                      class="side-num-input"
+                      min="0"
+                      max="8"
+                      value="1"
+                      oninput="renderPreview()"
+                    />
+                  </div>
+                  <div class="side-input-card">
+                    <span class="side-label">Right</span>
+                    <input
+                      type="number"
+                      id="borderRight"
+                      class="side-num-input"
+                      min="0"
+                      max="8"
+                      value="1"
+                      oninput="renderPreview()"
+                    />
+                  </div>
+                </div>
+              </div>
+
+              <div class="control-row">
+                <div class="custom-color-picker-wrap">
+                  <span class="color-picker-label">Color de Bordes</span>
+                  <input
+                    type="color"
+                    id="pickBorderColor"
+                    class="picker-input"
+                    value="#e4e4e7"
+                    oninput="renderPreview()"
+                  />
+                </div>
+              </div>
+
+              <!-- Border Radius -->
+              <div class="control-row">
+                <div class="control-label-wrap">
+                  <span class="control-label"
+                    >Radio de Bordes (Corner Radius)</span
+                  >
+                  <span class="control-value" id="valRadius">14px</span>
+                </div>
+                <input
+                  type="range"
+                  class="range-input"
+                  id="rngRadius"
+                  min="0"
+                  max="30"
+                  value="14"
+                  oninput="updateRange('Radius', 'px')"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- /creator-scroll-content -->
+
+        <!-- Save Bio Link -->
+        <div class="sheet-bottom-bar">
+          <button class="btn-save-enlace" onclick="addButton()">
+            <svg class="svg-icon" viewBox="0 0 24 24">
+              <path d="M20 6 9 17l-5-5"></path>
+            </svg>
+            Confirmar y Guardar Link
+          </button>
+        </div>
+      </div>
+    </template>
+
+    <template id="example-bottom-sheet-template">
+      <!-- TOAST -->
+      <div class="toast" id="toast">
+        <svg class="svg-icon" style="width: 15px; height: 15px">
+          <use href="#icon-check"></use>
+        </svg>
+        Preset listo en el builder
+      </div>
+
+      <!-- ══════════════════════════
+           VIEW A: SEARCH
+           ══════════════════════════ -->
+      <div class="view active" id="viewSearch">
+        <div class="search-box" style="padding: 24px 20px 16px">
+          <span class="search-ico">
+            <svg class="svg-icon" style="width: 16px; height: 16px">
+              <use href="#icon-search"></use>
+            </svg>
+          </span>
+          <input
+            type="text"
+            id="searchInput"
+            class="search-input"
+            placeholder="Buscar app o enlace…"
+            oninput="handleSearch(this.value)"
+            autocomplete="off"
+            spellcheck="false"
+          />
+          <button class="search-clear" id="searchClear" onclick="clearSearch()">
+            <svg class="svg-icon" style="width: 13px; height: 13px">
+              <use href="#icon-x"></use>
+            </svg>
+          </button>
+        </div>
+        <!-- Pill row-->
+        <div class="pills-row">
+          <div class="pills-inner" id="pillsInner">
+            <div class="pill active" onclick="setCat('all')">
+              <span class="pill-dot" style="background: #09090b"></span>Todos
+            </div>
+            <div class="pill" onclick="setCat('social')">
+              <span class="pill-dot" style="background: #e1306c"></span>Social
+            </div>
+            <div class="pill" onclick="setCat('contact')">
+              <span class="pill-dot" style="background: #25d366"></span>Contacto
+            </div>
+            <div class="pill" onclick="setCat('cta')">
+              <span class="pill-dot" style="background: #2563eb"></span>CTA
+            </div>
+            <div class="pill" onclick="setCat('editorial')">
+              <span class="pill-dot" style="background: #92400e"></span
+              >Editorial
+            </div>
+            <div class="pill" onclick="setCat('minimal')">
+              <span class="pill-dot" style="background: #71717a"></span>Minimal
+            </div>
+          </div>
+        </div>
+        <!-- -->
+        <div class="section-label" id="sectionLabel">Presets sugeridos</div>
+        <!-- -->
+        <div class="list-scroll">
+          <ul class="preset-list" id="presetList">
+            <li>
+              <div class="preset-row" onclick="openDetail('default')">
+                <div class="row-badge" style="background: #f4f4f5">
+                  <svg
+                    class="svg-icon"
+                    style="width: 20px; height: 20px; color: #09090b"
+                  >
+                    <use href="#icon-link"></use>
+                  </svg>
+                </div>
+                <div class="row-text">
+                  <div class="row-name">Link por defecto</div>
+                  <div class="row-desc">
+                    Crear un enlace clásico personalizado desde cero
+                  </div>
+                </div>
+                <span class="row-arrow"
+                  ><svg class="svg-icon" viewBox="0 0 24 24">
+                    <use href="#icon-chevron-right"></use></svg
+                ></span>
+              </div>
+            </li>
+            <li>
+              <div class="preset-row" onclick="openDetail('ig-minimal')">
+                <div class="row-badge" style="background: #fdf2f8">
+                  <svg
+                    class="svg-icon"
+                    style="width: 20px; height: 20px; color: #e1306c"
+                  >
+                    <use href="#icon-instagram"></use>
+                  </svg>
+                </div>
+                <div class="row-text">
+                  <div class="row-name">Instagram Minimal</div>
+                  <div class="row-desc">
+                    Borde izquierdo rosa, icono a la izquierda
+                  </div>
+                </div>
+                <span class="row-arrow"
+                  ><svg class="svg-icon" viewBox="0 0 24 24">
+                    <use href="#icon-chevron-right"></use></svg
+                ></span>
+              </div>
+            </li>
+            <li>
+              <div class="preset-row" onclick="openDetail('ig-dark')">
+                <div class="row-badge" style="background: #09090b">
+                  <svg
+                    class="svg-icon"
+                    style="width: 20px; height: 20px; color: #e1306c"
+                  >
+                    <use href="#icon-instagram"></use>
+                  </svg>
+                </div>
+                <div class="row-text">
+                  <div class="row-name">Instagram Dark</div>
+                  <div class="row-desc">Fondo negro, subtítulo con handle</div>
+                </div>
+                <span class="row-arrow"
+                  ><svg class="svg-icon" viewBox="0 0 24 24">
+                    <use href="#icon-chevron-right"></use></svg
+                ></span>
+              </div>
+            </li>
+            <li>
+              <div class="preset-row" onclick="openDetail('twitter-x')">
+                <div class="row-badge" style="background: #000000">
+                  <svg
+                    class="svg-icon"
+                    style="width: 20px; height: 20px; color: #ffffff"
+                  >
+                    <use href="#icon-twitter"></use>
+                  </svg>
+                </div>
+                <div class="row-text">
+                  <div class="row-name">Twitter / X</div>
+                  <div class="row-desc">Fondo negro, estilo X oficial</div>
+                </div>
+                <span class="row-arrow"
+                  ><svg class="svg-icon" viewBox="0 0 24 24">
+                    <use href="#icon-chevron-right"></use></svg
+                ></span>
+              </div>
+            </li>
+            <li>
+              <div class="preset-row" onclick="openDetail('linkedin-pro')">
+                <div class="row-badge" style="background: #0a66c2">
+                  <svg
+                    class="svg-icon"
+                    style="width: 20px; height: 20px; color: #ffffff"
+                  >
+                    <use href="#icon-linkedin"></use>
+                  </svg>
+                </div>
+                <div class="row-text">
+                  <div class="row-name">LinkedIn Pro</div>
+                  <div class="row-desc">Azul LinkedIn, con descripción</div>
+                </div>
+                <span class="row-arrow"
+                  ><svg class="svg-icon" viewBox="0 0 24 24">
+                    <use href="#icon-chevron-right"></use></svg
+                ></span>
+              </div>
+            </li>
+            <li>
+              <div class="preset-row" onclick="openDetail('youtube-red')">
+                <div class="row-badge" style="background: #dc2626">
+                  <svg
+                    class="svg-icon"
+                    style="width: 20px; height: 20px; color: #ffffff"
+                  >
+                    <use href="#icon-youtube"></use>
+                  </svg>
+                </div>
+                <div class="row-text">
+                  <div class="row-name">YouTube</div>
+                  <div class="row-desc">
+                    Rojo YouTube, con CTA de suscripción
+                  </div>
+                </div>
+                <span class="row-arrow"
+                  ><svg class="svg-icon" viewBox="0 0 24 24">
+                    <use href="#icon-chevron-right"></use></svg
+                ></span>
+              </div>
+            </li>
+            <li>
+              <div class="preset-row" onclick="openDetail('music-stacked')">
+                <div class="row-badge" style="background: #f0fdf4">
+                  <svg
+                    class="svg-icon"
+                    style="width: 20px; height: 20px; color: #1db954"
+                  >
+                    <use href="#icon-music"></use>
+                  </svg>
+                </div>
+                <div class="row-text">
+                  <div class="row-name">Spotify / Música</div>
+                  <div class="row-desc">Icono arriba, estilo stacked verde</div>
+                </div>
+                <span class="row-arrow"
+                  ><svg class="svg-icon" viewBox="0 0 24 24">
+                    <use href="#icon-chevron-right"></use></svg
+                ></span>
+              </div>
+            </li>
+            <li>
+              <div class="preset-row" onclick="openDetail('whatsapp-cta')">
+                <div class="row-badge" style="background: #25d366">
+                  <svg
+                    class="svg-icon"
+                    style="width: 20px; height: 20px; color: #ffffff"
+                  >
+                    <use href="#icon-whatsapp"></use>
+                  </svg>
+                </div>
+                <div class="row-text">
+                  <div class="row-name">WhatsApp</div>
+                  <div class="row-desc">Verde WhatsApp, pill redondeado</div>
+                </div>
+                <span class="row-arrow"
+                  ><svg class="svg-icon" viewBox="0 0 24 24">
+                    <use href="#icon-chevron-right"></use></svg
+                ></span>
+              </div>
+            </li>
+            <li>
+              <div class="preset-row" onclick="openDetail('email-clean')">
+                <div class="row-badge" style="background: #f4f4f5">
+                  <svg
+                    class="svg-icon"
+                    style="width: 20px; height: 20px; color: #09090b"
+                  >
+                    <use href="#icon-mail"></use>
+                  </svg>
+                </div>
+                <div class="row-text">
+                  <div class="row-name">Email</div>
+                  <div class="row-desc">Tipografía serif, respuesta en 24h</div>
+                </div>
+                <span class="row-arrow"
+                  ><svg class="svg-icon" viewBox="0 0 24 24">
+                    <use href="#icon-chevron-right"></use></svg
+                ></span>
+              </div>
+            </li>
+            <li>
+              <div class="preset-row" onclick="openDetail('phone-pill')">
+                <div class="row-badge" style="background: #f4f4f5">
+                  <svg
+                    class="svg-icon"
+                    style="width: 20px; height: 20px; color: #09090b"
+                  >
+                    <use href="#icon-phone"></use>
+                  </svg>
+                </div>
+                <div class="row-text">
+                  <div class="row-name">Teléfono</div>
+                  <div class="row-desc">Pill redondeado, borde negro</div>
+                </div>
+                <span class="row-arrow"
+                  ><svg class="svg-icon" viewBox="0 0 24 24">
+                    <use href="#icon-chevron-right"></use></svg
+                ></span>
+              </div>
+            </li>
+            <li>
+              <div class="preset-row" onclick="openDetail('location-pin')">
+                <div class="row-badge" style="background: #fef2f2">
+                  <svg
+                    class="svg-icon"
+                    style="width: 20px; height: 20px; color: #dc2626"
+                  >
+                    <use href="#icon-map-pin"></use>
+                  </svg>
+                </div>
+                <div class="row-text">
+                  <div class="row-name">Ubicación / Maps</div>
+                  <div class="row-desc">Pin rojo, muestra ciudad/dirección</div>
+                </div>
+                <span class="row-arrow"
+                  ><svg class="svg-icon" viewBox="0 0 24 24">
+                    <use href="#icon-chevron-right"></use></svg
+                ></span>
+              </div>
+            </li>
+            <li>
+              <div class="preset-row" onclick="openDetail('portfolio-hero')">
+                <div class="row-badge" style="background: #f4f4f5">
+                  <svg
+                    class="svg-icon"
+                    style="width: 20px; height: 20px; color: #09090b"
+                  >
+                    <use href="#icon-globe"></use>
+                  </svg>
+                </div>
+                <div class="row-text">
+                  <div class="row-name">Portfolio / Sitio Web</div>
+                  <div class="row-desc">
+                    Serif, gradiente gris, sin icono centrado
+                  </div>
+                </div>
+                <span class="row-arrow"
+                  ><svg class="svg-icon" viewBox="0 0 24 24">
+                    <use href="#icon-chevron-right"></use></svg
+                ></span>
+              </div>
+            </li>
+            <li>
+              <div class="preset-row" onclick="openDetail('website-cta')">
+                <div class="row-badge" style="background: #eff6ff">
+                  <svg
+                    class="svg-icon"
+                    style="width: 20px; height: 20px; color: #2563eb"
+                  >
+                    <use href="#icon-globe"></use>
+                  </svg>
+                </div>
+                <div class="row-text">
+                  <div class="row-name">Visitar Sitio Web</div>
+                  <div class="row-desc">Azul suave, icono globo izquierda</div>
+                </div>
+                <span class="row-arrow"
+                  ><svg class="svg-icon" viewBox="0 0 24 24">
+                    <use href="#icon-chevron-right"></use></svg
+                ></span>
+              </div>
+            </li>
+            <li>
+              <div class="preset-row" onclick="openDetail('calendar-cta')">
+                <div class="row-badge" style="background: #09090b">
+                  <svg
+                    class="svg-icon"
+                    style="width: 20px; height: 20px; color: #ffffff"
+                  >
+                    <use href="#icon-calendar"></use>
+                  </svg>
+                </div>
+                <div class="row-text">
+                  <div class="row-name">Agendar Llamada</div>
+                  <div class="row-desc">
+                    Fondo negro, mono font, duración visible
+                  </div>
+                </div>
+                <span class="row-arrow"
+                  ><svg class="svg-icon" viewBox="0 0 24 24">
+                    <use href="#icon-chevron-right"></use></svg
+                ></span>
+              </div>
+            </li>
+            <li>
+              <div class="preset-row" onclick="openDetail('cv-download')">
+                <div class="row-badge" style="background: #f4f4f5">
+                  <svg
+                    class="svg-icon"
+                    style="width: 20px; height: 20px; color: #09090b"
+                  >
+                    <use href="#icon-download"></use>
+                  </svg>
+                </div>
+                <div class="row-text">
+                  <div class="row-name">Descargar CV</div>
+                  <div class="row-desc">Flecha derecha, borde doble negro</div>
+                </div>
+                <span class="row-arrow"
+                  ><svg class="svg-icon" viewBox="0 0 24 24">
+                    <use href="#icon-chevron-right"></use></svg
+                ></span>
+              </div>
+            </li>
+            <li>
+              <div class="preset-row" onclick="openDetail('serif-elegant')">
+                <div class="row-badge" style="background: #fffbeb">
+                  <svg
+                    class="svg-icon"
+                    style="width: 20px; height: 20px; color: #92400e"
+                  >
+                    <use href="#icon-star"></use>
+                  </svg>
+                </div>
+                <div class="row-text">
+                  <div class="row-name">Editorial / Blog</div>
+                  <div class="row-desc">Serif Playfair, fondo ámbar suave</div>
+                </div>
+                <span class="row-arrow"
+                  ><svg class="svg-icon" viewBox="0 0 24 24">
+                    <use href="#icon-chevron-right"></use></svg
+                ></span>
+              </div>
+            </li>
+            <li>
+              <div class="preset-row" onclick="openDetail('gradient-hero')">
+                <div class="row-badge" style="background: #eef2ff">
+                  <svg
+                    class="svg-icon"
+                    style="width: 20px; height: 20px; color: #4f46e5"
+                  >
+                    <use href="#icon-zap"></use>
+                  </svg>
+                </div>
+                <div class="row-text">
+                  <div class="row-name">Gradient Hero</div>
+                  <div class="row-desc">
+                    Icono arriba, gradiente índigo, serif
+                  </div>
+                </div>
+                <span class="row-arrow"
+                  ><svg class="svg-icon" viewBox="0 0 24 24">
+                    <use href="#icon-chevron-right"></use></svg
+                ></span>
+              </div>
+            </li>
+            <li>
+              <div class="preset-row" onclick="openDetail('mono-stark')">
+                <div class="row-badge" style="background: #f4f4f5">
+                  <svg
+                    class="svg-icon"
+                    style="width: 20px; height: 20px; color: #09090b"
+                  >
+                    <use href="#icon-link-2"></use>
+                  </svg>
+                </div>
+                <div class="row-text">
+                  <div class="row-name">Mono / GitHub</div>
+                  <div class="row-desc">
+                    Monospace, subrayado inferior, sin radio
+                  </div>
+                </div>
+                <span class="row-arrow"
+                  ><svg class="svg-icon" viewBox="0 0 24 24">
+                    <use href="#icon-chevron-right"></use></svg
+                ></span>
+              </div>
+            </li>
+            <li>
+              <div class="preset-row" onclick="openDetail('ghost-border')">
+                <div class="row-badge" style="background: #f4f4f5">
+                  <svg
+                    class="svg-icon"
+                    style="width: 20px; height: 20px; color: #71717a"
+                  >
+                    <use href="#icon-link"></use>
+                  </svg>
+                </div>
+                <div class="row-text">
+                  <div class="row-name">Ghost Border</div>
+                  <div class="row-desc">Borde gris 1px, totalmente neutro</div>
+                </div>
+                <span class="row-arrow"
+                  ><svg class="svg-icon" viewBox="0 0 24 24">
+                    <use href="#icon-chevron-right"></use></svg
+                ></span>
+              </div>
+            </li>
+            <li>
+              <div class="preset-row" onclick="openDetail('text-only')">
+                <div class="row-badge" style="background: #f4f4f5">
+                  <svg
+                    class="svg-icon"
+                    style="width: 20px; height: 20px; color: #09090b"
+                  >
+                    <use href="#icon-link"></use>
+                  </svg>
+                </div>
+                <div class="row-text">
+                  <div class="row-name">Solo Texto</div>
+                  <div class="row-desc">
+                    Sin icono, texto centrado, máximo limpio
+                  </div>
+                </div>
+                <span class="row-arrow"
+                  ><svg class="svg-icon" viewBox="0 0 24 24">
+                    <use href="#icon-chevron-right"></use></svg
+                ></span>
+              </div>
+            </li>
+            <li>
+              <div class="preset-row" onclick="openDetail('heart-warm')">
+                <div class="row-badge" style="background: #fff1f2">
+                  <svg
+                    class="svg-icon"
+                    style="width: 20px; height: 20px; color: #f43f5e"
+                  >
+                    <use href="#icon-heart"></use>
+                  </svg>
+                </div>
+                <div class="row-text">
+                  <div class="row-name">Apoyo / Donación</div>
+                  <div class="row-desc">
+                    Rosa suave, corazón, sensación cálida
+                  </div>
+                </div>
+                <span class="row-arrow"
+                  ><svg class="svg-icon" viewBox="0 0 24 24">
+                    <use href="#icon-chevron-right"></use></svg
+                ></span>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- ══════════════════════════
+           VIEW B: DETAIL
+           ══════════════════════════ -->
+      <div class="view" id="viewDetail">
+        <div class="detail-header">
+          <button class="btn-back" onclick="goBack()" aria-label="Volver">
+            <svg class="svg-icon" style="width: 18px; height: 18px">
+              <use href="#icon-arrow-left"></use>
+            </svg>
+          </button>
+          <span class="detail-title" id="detailTitle">—</span>
+          <span class="detail-cat" id="detailCat">—</span>
+        </div>
+
+        <div class="detail-scroll" id="detailScroll">
+          <!-- rendered dynamically -->
+        </div>
+
+        <div class="detail-bottom vis" id="detailBottom">
+          <button class="btn-use" onclick="usePreset()">
+            <svg class="svg-icon" style="width: 16px; height: 16px">
+              <use href="#icon-check"></use>
+            </svg>
+            Usar este preset
+          </button>
+        </div>
+      </div>
+    </template>
+
+    <script src="links-experience.js" type="module"></script>
+  </body>
+</html>
