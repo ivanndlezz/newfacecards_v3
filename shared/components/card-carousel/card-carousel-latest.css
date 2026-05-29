@@ -464,7 +464,7 @@ body.edit-mode .card-carousel__dots {
 /* 6a. Glassmorphism */
 .profile-card--glass {
   background-color: var(--glass-bg);
-  border: 1px solid var(--glass-border);
+
   backdrop-filter: var(--glass-blur);
   box-shadow:
     0 20px 25px -5px rgba(0, 0, 0, 0.1),
@@ -567,7 +567,7 @@ body.edit-mode .card-carousel__dots {
     var(--color-sunset-from),
     var(--color-sunset-to)
   );
-  border: 1px solid var(--glass-border);
+
   box-shadow: 0 25px 50px -12px rgba(249, 115, 22, 0.2);
 
   --theme-link-bg: rgba(0, 0, 0, 0.2);
