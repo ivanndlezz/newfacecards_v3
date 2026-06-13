@@ -10,6 +10,26 @@
       "isFree": true,
       "acquiredAt": "2026-05-25T15:30:00Z",
       "pricePaid": 0.0
+    },
+    {
+      "id": "tropico",
+      "label": "Tropico",
+      "templateUrl": "/templates/cards/tropico.html",
+      "previewColor": "#e65100",
+      "previewMotif": "warm autumn colors with geometric accents",
+      "isFree": true,
+      "acquiredAt": "2026-05-25T16:00:00Z",
+      "pricePaid": 0.0
+    },
+    {
+      "id": "new-1",
+      "label": "new-1",
+      "templateUrl": "/templates/cards/new-1.html",
+      "previewColor": "#e65100",
+      "previewMotif": "",
+      "isFree": true,
+      "acquiredAt": "2026-05-25T16:00:00Z",
+      "pricePaid": 0.0
     }
   ]
 }

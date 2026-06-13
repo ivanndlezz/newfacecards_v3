@@ -1,0 +1,1025 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Profile Image Style Selector</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      :root {
+        /* OLD COLOR VARS */
+        --bg-gradient-start: var(--bg-start);
+        --bg-gradient-end: var(--bg-end);
+        --accent-color: var(--accent-color);
+        --text-primary: var(--text-primary);
+        --accent-hover: #005cb8;
+        --accent-color: #06896c;
+        --accent-hover: #159478;
+        --an1: 40%;
+      }
+
+      @view-transition {
+        navigation: auto;
+      }
+
+      body {
+        font-family:
+          -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        background: #f5f5f5;
+        min-height: 100vh;
+        position: relative;
+        overflow-x: hidden;
+        transition: all 0.3s ease;
+      }
+
+      /* ==== EXISTING BOTTOM SHEET & LAYOUT STYLES ==== */
+      .bottomsheet {
+        position: fixed;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: #ffffff;
+        border-radius: 24px 24px 0 0;
+        box-shadow: 0 -4px 40px rgba(0, 0, 0, 0.3);
+        transform: translateY(101%);
+        transition: transform 0.4s cubic-bezier(0.32, 0.72, 0, 1);
+        z-index: 999;
+        display: flex;
+        flex-direction: column;
+        max-height: 90vh;
+        touch-action: none;
+        will-change: transform;
+        padding-bottom: 60px;
+        max-width: 500px;
+        margin: 0 auto;
+      }
+
+      .bottomsheet.normal {
+        transform: translateY(
+          0
+        ); /* Fix: Evita que el panel quede empujado debajo de la pantalla */
+        min-height: auto;
+      }
+
+      .bottomsheet.full {
+        transform: translateY(0);
+      }
+
+      .bottomsheet-header {
+        padding: 12px 0 16px;
+        cursor: grab;
+        user-select: none;
+        touch-action: none;
+      }
+
+      .handle {
+        width: 40px;
+        height: 5px;
+        background: #d1d5db;
+        border-radius: 10px;
+        margin: 0 auto;
+        transition: background 0.2s ease;
+      }
+
+      .bottomsheet-title-bar {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 24px 16px;
+        border-bottom: 1px solid #e5e7eb;
+      }
+
+      .bottomsheet-title-bar h2 {
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: #1f2937;
+        display: flex;
+        align-items: center;
+      }
+
+      .close-btn {
+        background: #f3f4f6;
+        border: none;
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.2s ease;
+        color: #6b7280;
+      }
+
+      .close-btn:hover {
+        background: #e5e7eb;
+        color: #1f2937;
+      }
+
+      .bottomsheet-content {
+        flex: 1;
+        overflow-y: auto;
+        color: #374151;
+        overscroll-behavior: contain;
+        padding: 20px;
+      }
+
+      .backdrop {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0, 0, 0, 0.5);
+        opacity: 0;
+        visibility: hidden;
+        transition:
+          opacity 0.3s ease,
+          visibility 0.3s ease;
+        z-index: 998;
+        backdrop-filter: blur(4px);
+      }
+
+      .backdrop.active {
+        opacity: 1;
+        visibility: visible;
+      }
+
+      /* === CONTENEDOR DE PERFIL === */
+      .profile-container {
+        position: relative;
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        gap: 17px;
+      }
+
+      .image-style-fieldset {
+        border: 0;
+        padding: 0;
+        margin: 0 0 12px;
+      }
+
+      .image-style-fieldset > legend {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        font:
+          400 16px / 1.2 system-ui,
+          -apple-system,
+          Segoe UI,
+          Roboto,
+          sans-serif;
+        margin-top: 12px;
+        text-align: center;
+        color: grey;
+        background-position: 50% 0%;
+        background-size: 100% 20px;
+        background-repeat: no-repeat;
+        font-variant: small-caps;
+        background-image: linear-gradient(#c1bfbf, #aeaeae);
+        padding-top: 15px;
+        border-radius: 100px;
+      }
+
+      .image-style-fieldset > legend span {
+        width: 100%;
+        color: white;
+        transform: translateY(-15px);
+      }
+
+      .image-style-grid {
+        display: flex;
+        gap: 10px;
+        justify-content: center;
+      }
+
+      .image-style-grid > input[type="radio"] {
+        position: absolute;
+        opacity: 0;
+        pointer-events: none;
+      }
+
+      .image-style-card {
+        position: relative;
+        display: grid;
+        place-items: center;
+        gap: 10px;
+        padding: 16px 1vw;
+        border: 2px solid #e5e7eb;
+        border-radius: 14px;
+        background: #fff;
+        cursor: pointer;
+        transition:
+          border-color 0.2s,
+          box-shadow 0.2s,
+          transform 0.02s;
+        width: 100%;
+        max-width: 115px;
+        min-width: 116px;
+      }
+
+      .image-style-card:active {
+        transform: scale(0.995);
+      }
+
+      .image-style-card:hover {
+        border-color: #d1d5db;
+      }
+
+      input[type="radio"]:focus-visible + .image-style-card {
+        outline: 3px solid #a78bfa33;
+        outline-offset: 2px;
+      }
+
+      input[type="radio"]:checked + .image-style-card {
+        border-color: #7c3aed;
+        box-shadow: 0 0 0 4px #7c3aed22;
+      }
+
+      .image-style-card .checkmark {
+        position: absolute;
+        top: 8px;
+        right: 8px;
+        width: 22px;
+        height: 22px;
+        border-radius: 999px;
+        border: 2px solid #e5e7eb;
+        background: #fff;
+        transition: all 0.2s ease;
+      }
+
+      input[type="radio"]:checked + .image-style-card .checkmark {
+        border-color: #7c3aed;
+        background: radial-gradient(
+          circle at 50% 50%,
+          #7c3aed 50%,
+          transparent 51%
+        );
+      }
+
+      .image-style-title {
+        font:
+          600 14px/1 system-ui,
+          -apple-system,
+          Segoe UI,
+          Roboto,
+          sans-serif;
+      }
+
+      .badge--pro {
+        position: absolute;
+        top: 8px;
+        left: 8px;
+        font:
+          700 11px/1 system-ui,
+          -apple-system,
+          Segoe UI,
+          Roboto,
+          sans-serif;
+        padding: 4px 6px;
+        border-radius: 8px;
+        background: #111827;
+        color: #fff;
+        display: flex;
+        gap: 2px;
+        align-items: center;
+      }
+
+      .badge--pro svg {
+        width: 12px;
+        height: 12px;
+        color: #fbbf24;
+        fill: currentColor;
+      }
+
+      .preview {
+        width: 100%;
+        height: 72px;
+        border-radius: 12px;
+        background: #f3f4f6;
+        display: grid;
+        place-items: center;
+      }
+
+      .preview--classic::before {
+        content: "";
+        width: 64px;
+        height: 64px;
+        border-radius: 999px;
+        background: #e5e7eb;
+        box-shadow:
+          inset 0 10px 20px #0000000f,
+          0 2px 4px #0000000a;
+      }
+
+      .preview--hero::before {
+        content: "";
+        width: 64px;
+        height: 48px;
+        border-radius: 12px;
+        background: #e5e7eb;
+        box-shadow:
+          inset 0 10px 20px #0000000f,
+          0 2px 4px #0000000a;
+      }
+
+      .preview--cover {
+        position: relative;
+        overflow: hidden;
+      }
+
+      .preview--cover .cover-bg {
+        position: absolute;
+        inset: 0 0 40% 0;
+        background: linear-gradient(180deg, #e9d5ff, #dbeafe);
+      }
+
+      .preview--cover .avatar {
+        position: absolute;
+        bottom: 8px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 46px;
+        height: 46px;
+        border-radius: 999px;
+        background: #e5e7eb;
+        box-shadow:
+          0 2px 4px #0000001a,
+          0 0 0 3px #fff;
+      }
+
+      .btn-primary {
+        background: #8b5cf6;
+        color: white;
+        border: none;
+        border-radius: 50px;
+        font-size: 18px;
+        font-weight: 600;
+        cursor: pointer;
+        width: 100%;
+        padding: 12px 22px;
+        transition: all 0.3s ease;
+        margin-top: 15px;
+      }
+
+      .btn-primary:hover {
+        background: #7c3aed;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(139, 92, 246, 0.3);
+      }
+
+      /* ==== STICKY BOTTOM BAR ==== */
+      .sticky-action-bar {
+        position: sticky;
+        bottom: -20px; /* Compensa el padding inferior del contenedor padre */
+        background: #ffffff;
+        padding: 10px 0 15px 0;
+        margin-top: 15px;
+        z-index: 20;
+        border-top: 1px solid #f3f4f6; /* Línea sutil para separar del scroll */
+      }
+
+      /* ==== CUSTOM SETTINGS UI ==== */
+      .sheet-content-slots {
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+        animation: fadeIn 0.3s ease;
+      }
+
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(5px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .control-row {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        margin-bottom: 15px;
+      }
+
+      .control-label {
+        font-size: 14px;
+        font-weight: 600;
+        color: #374151;
+      }
+
+      .control-label-wrap {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .control-value {
+        font-size: 13px;
+        color: #6b7280;
+        font-weight: 500;
+      }
+
+      .glider-container {
+        display: flex;
+        background: #f3f4f6;
+        border-radius: 12px;
+        padding: 4px;
+        gap: 4px;
+      }
+
+      .glider-option {
+        flex: 1;
+        text-align: center;
+        padding: 8px 12px;
+        border-radius: 8px;
+        font-size: 13px;
+        font-weight: 500;
+        color: #6b7280;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        user-select: none;
+      }
+
+      .glider-option:hover {
+        color: #374151;
+      }
+
+      .glider-option.active {
+        background: #ffffff;
+        color: #111827;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+      }
+
+      .divider {
+        height: 1px;
+        background: #e5e7eb;
+        margin: 10px 0;
+        width: 100%;
+      }
+
+      .range-input {
+        width: 100%;
+        accent-color: #8b5cf6;
+        height: 6px;
+        background: #e5e7eb;
+        border-radius: 3px;
+        outline: none;
+        -webkit-appearance: none;
+      }
+
+      .range-input::-webkit-slider-thumb {
+        -webkit-appearance: none;
+        width: 18px;
+        height: 18px;
+        background: #8b5cf6;
+        border-radius: 50%;
+        cursor: pointer;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+      }
+
+      .custom-input {
+        padding: 10px 12px;
+        border-radius: 10px;
+        border: 1px solid #d1d5db;
+        background: #ffffff;
+        font-size: 14px;
+        color: #374151;
+        outline: none;
+        transition: border-color 0.2s ease;
+        cursor: pointer;
+      }
+
+      .custom-input:focus {
+        border-color: #8b5cf6;
+      }
+
+      .checkbox-wrap {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+
+      /* ==== BREADCRUMB ==== */
+      .breadcrumb-back {
+        cursor: pointer;
+        color: #6b7280;
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        transition: color 0.2s;
+        font-weight: 500;
+      }
+
+      .breadcrumb-back:hover {
+        color: #111827;
+      }
+
+      .breadcrumb-current {
+        color: #111827;
+        font-weight: 700;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Definiciones SVG -->
+    <svg width="0" height="0" style="display: none">
+      <symbol id="pro-spark" viewBox="0 0 24 24">
+        <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" fill="currentColor" />
+      </symbol>
+    </svg>
+
+    <!-- Bottom Sheet -->
+    <div class="bottomsheet normal" id="bottomsheet">
+      <div id="header">
+        <div class="bottomsheet-header">
+          <div class="handle"></div>
+        </div>
+
+        <div class="bottomsheet-title-bar">
+          <h2 id="component-name">Profile</h2>
+          <button class="close-btn" id="closeBtn" aria-label="Cerrar">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
+              <path
+                d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8 2.146 2.854Z"
+              ></path>
+            </svg>
+          </button>
+        </div>
+      </div>
+
+      <div
+        class="backdrop active"
+        id="backdrop"
+        style="display: none !important"
+      ></div>
+
+      <div class="bottomsheet-content" id="content">
+        <!-- VISTA PRINCIPAL (SELECTOR DE ESTILO) -->
+        <div id="main-settings">
+          <div class="profile-container" data-aspect="classic">
+            <form class="image-style-form" id="image-style-form">
+              <fieldset class="image-style-fieldset">
+                <legend><span>image style</span></legend>
+                <div class="image-style-grid">
+                  <!-- Classic -->
+                  <input
+                    type="radio"
+                    name="image_style"
+                    id="style-classic"
+                    value="classic"
+                    checked
+                  />
+                  <label class="image-style-card" for="style-classic">
+                    <span
+                      class="preview preview--classic"
+                      aria-hidden="true"
+                    ></span>
+                    <span class="image-style-title">Clásico</span>
+                    <span class="checkmark" aria-hidden="true"></span>
+                  </label>
+
+                  <!-- Hero -->
+                  <input
+                    type="radio"
+                    name="image_style"
+                    id="style-hero"
+                    value="hero"
+                  />
+                  <label class="image-style-card" for="style-hero">
+                    <span
+                      class="preview preview--hero"
+                      aria-hidden="true"
+                    ></span>
+                    <span class="image-style-title">Hero</span>
+                    <span class="badge badge--pro" aria-hidden="true">
+                      Pro
+                      <svg viewBox="0 0 24 24">
+                        <use href="#pro-spark"></use>
+                      </svg>
+                    </span>
+                    <span class="checkmark" aria-hidden="true"></span>
+                  </label>
+
+                  <!-- With Cover -->
+                  <input
+                    type="radio"
+                    name="image_style"
+                    id="style-cover"
+                    value="with-cover"
+                  />
+                  <label class="image-style-card" for="style-cover">
+                    <span class="preview preview--cover" aria-hidden="true">
+                      <span class="cover-bg"></span>
+                      <span class="avatar"></span>
+                    </span>
+                    <span class="image-style-title">Con portada</span>
+                    <span class="badge badge--pro" aria-hidden="true">
+                      Pro
+                      <svg viewBox="0 0 24 24">
+                        <use href="#pro-spark"></use>
+                      </svg>
+                    </span>
+                    <span class="checkmark" aria-hidden="true"></span>
+                  </label>
+                </div>
+              </fieldset>
+            </form>
+
+            <!-- Botón de Customización Dinámico (Fijo al fondo) -->
+            <div class="sticky-action-bar">
+              <button
+                id="btn-personalizar"
+                type="button"
+                class="btn-primary"
+                style="margin-top: 0"
+              >
+                Personalizar apariencia Clásica
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- VISTA SECUNDARIA (CONTROLES ESPECÍFICOS) -->
+        <div id="custom-settings" style="display: none">
+          <div class="sheet-content-slots editor-scroll" id="editorScroll">
+            <!-- ROWS GENERALES (Ocultos por defecto, activados en Cover si es necesario) -->
+            <div class="control-row custom-layout-row" id="customPresetRow">
+              <span class="control-label">Preset de layout</span>
+              <div class="glider-container" id="presetGlider">
+                <div class="glider-option" data-val="preset-classic">
+                  Clásico
+                </div>
+                <div class="glider-option" data-val="preset-centered">
+                  Centrado
+                </div>
+                <div class="glider-option active" data-val="preset-horizontal">
+                  Horizontal
+                </div>
+                <div class="glider-option" data-val="free">Libre</div>
+              </div>
+            </div>
+
+            <div class="control-row custom-layout-row" id="customPosRow">
+              <span class="control-label">Posición</span>
+              <div
+                class="glider-container"
+                id="posGlider"
+                style="opacity: 0.5; pointer-events: none"
+              >
+                <div class="glider-option active" data-val="left">Izq</div>
+                <div class="glider-option" data-val="right">Der</div>
+                <div class="glider-option" data-val="top">Arriba</div>
+              </div>
+            </div>
+
+            <!-- CONTROLES DEL AVATAR -->
+            <div id="ctrlGroupAvatar">
+              <div class="divider custom-layout-row"></div>
+              <span
+                class="control-label"
+                style="font-size: 16px; margin-bottom: 10px; display: block"
+                >Avatar</span
+              >
+              <div class="control-row">
+                <div class="control-label-wrap">
+                  <span class="control-label">Tamaño Avatar</span>
+                  <span class="control-value" id="ctrl-size-val">100px</span>
+                </div>
+                <input
+                  type="range"
+                  class="range-input"
+                  id="ctrl-size-input"
+                  min="40"
+                  max="160"
+                  step="1"
+                  value="100"
+                />
+              </div>
+              <div class="control-row">
+                <div class="control-label-wrap">
+                  <span class="control-label">Radio Avatar</span>
+                  <span class="control-value" id="ctrl-radius-val">50px</span>
+                </div>
+                <input
+                  type="range"
+                  class="range-input"
+                  id="ctrl-radius-input"
+                  min="0"
+                  max="100"
+                  step="1"
+                  value="50"
+                />
+              </div>
+              <div class="control-row">
+                <div class="control-label-wrap">
+                  <span class="control-label">Padding Avatar</span>
+                  <span class="control-value" id="ctrl-padding-val">0px</span>
+                </div>
+                <input
+                  type="range"
+                  class="range-input"
+                  id="ctrl-padding-input"
+                  min="0"
+                  max="24"
+                  step="1"
+                  value="0"
+                />
+              </div>
+              <div class="control-row">
+                <div class="control-label-wrap">
+                  <span class="control-label">Mock Border (escala)</span>
+                  <span class="control-value" id="ctrl-mock-border-scale-val"
+                    >1.05</span
+                  >
+                </div>
+                <input
+                  type="range"
+                  class="range-input"
+                  id="ctrl-mock-border-scale-input"
+                  min="1"
+                  max="1.2"
+                  step="0.01"
+                  value="1.05"
+                />
+              </div>
+            </div>
+
+            <!-- CONTROLES ESPECÍFICOS PARA HERO -->
+            <div id="ctrlGroupHero" style="display: none">
+              <span
+                class="control-label"
+                style="font-size: 16px; margin-bottom: 10px; display: block"
+                >Apariencia Hero</span
+              >
+              <div class="control-row">
+                <div class="control-label-wrap">
+                  <span class="control-label">Efecto Freeze Glass (Blur)</span>
+                  <span class="control-value">12px</span>
+                </div>
+                <input
+                  type="range"
+                  class="range-input"
+                  min="0"
+                  max="30"
+                  value="12"
+                />
+              </div>
+              <div class="control-row">
+                <span class="control-label">Ajuste de Fondo Hero</span>
+                <select class="custom-input">
+                  <option value="cover" selected>Cover (Rellenar todo)</option>
+                  <option value="contain">Contain (Contener)</option>
+                </select>
+              </div>
+              <div class="control-row">
+                <div class="control-label-wrap">
+                  <span class="control-label">Altura de la sección</span>
+                  <span class="control-value">50%</span>
+                </div>
+                <input
+                  type="range"
+                  class="range-input"
+                  min="30"
+                  max="100"
+                  value="50"
+                />
+              </div>
+            </div>
+
+            <!-- CONTROLES ESPECÍFICOS PARA PORTADA -->
+            <div id="ctrlGroupCover">
+              <div class="divider"></div>
+              <span
+                class="control-label"
+                style="font-size: 16px; margin-bottom: 10px; display: block"
+                >Portada</span
+              >
+              <div class="control-row">
+                <span class="control-label">Estilo de portada</span>
+                <div class="glider-container" id="coverGlider">
+                  <div class="glider-option" data-val="none">Sin portada</div>
+                  <div class="glider-option active" data-val="full">
+                    Completa
+                  </div>
+                  <div class="glider-option" data-val="inset">Encuadrada</div>
+                </div>
+              </div>
+
+              <div id="insetControlsContainer">
+                <div class="divider"></div>
+                <div class="control-row">
+                  <div class="control-label-wrap">
+                    <span class="control-label">Ancho Portada</span>
+                    <span class="control-value" id="ctrl-cover-width-val"
+                      >90%</span
+                    >
+                  </div>
+                  <input
+                    type="range"
+                    class="range-input"
+                    id="ctrl-cover-width-input"
+                    min="50"
+                    max="100"
+                    step="1"
+                    value="90"
+                  />
+                </div>
+                <div class="control-row">
+                  <div class="control-label-wrap">
+                    <span class="control-label">Alto Portada</span>
+                    <span class="control-value" id="ctrl-cover-height-val"
+                      >120px</span
+                    >
+                  </div>
+                  <input
+                    type="range"
+                    class="range-input"
+                    id="ctrl-cover-height-input"
+                    min="60"
+                    max="250"
+                    step="1"
+                    value="120"
+                  />
+                </div>
+                <div class="control-row">
+                  <div class="control-label-wrap">
+                    <span class="control-label">Redondeo Esquinas</span>
+                    <span class="control-value" id="ctrl-cover-radius-val"
+                      >12px</span
+                    >
+                  </div>
+                  <input
+                    type="range"
+                    class="range-input"
+                    id="ctrl-cover-radius-input"
+                    min="0"
+                    max="40"
+                    step="1"
+                    value="12"
+                  />
+                </div>
+                <div class="control-row">
+                  <span class="control-label">Ajuste de imagen</span>
+                  <select id="ctrl-cover-fit-input" class="custom-input">
+                    <option value="cover" selected>Recortar (Cover)</option>
+                    <option value="contain">Contener (Contain)</option>
+                    <option value="fill">Rellenar (Fill)</option>
+                  </select>
+                </div>
+                <div class="control-row">
+                  <div class="checkbox-wrap">
+                    <span class="control-label" style="margin: 0"
+                      >Sombra de Portada</span
+                    >
+                    <input
+                      type="checkbox"
+                      id="ctrl-cover-shadow-input"
+                      style="
+                        accent-color: #09090b;
+                        width: 18px;
+                        height: 18px;
+                        cursor: pointer;
+                      "
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        const btnPersonalizar = document.getElementById("btn-personalizar");
+        const mainSettings = document.getElementById("main-settings");
+        const customSettings = document.getElementById("custom-settings");
+        const titleBar = document.getElementById("component-name");
+        const styleRadios = document.querySelectorAll(
+          'input[name="image_style"]',
+        );
+
+        // Grupos de controles
+        const groupAvatar = document.getElementById("ctrlGroupAvatar");
+        const groupCover = document.getElementById("ctrlGroupCover");
+        const groupHero = document.getElementById("ctrlGroupHero");
+        const customLayoutRows =
+          document.querySelectorAll(".custom-layout-row");
+
+        // Actualiza el texto del botón según el radio activo
+        function updatePersonalizarBtnText() {
+          const selected = document.querySelector(
+            'input[name="image_style"]:checked',
+          ).value;
+          if (selected === "classic") {
+            btnPersonalizar.textContent = "Personalizar apariencia Clásica";
+          } else if (selected === "hero") {
+            btnPersonalizar.textContent = "Personalizar apariencia Hero";
+          } else if (selected === "with-cover") {
+            btnPersonalizar.textContent = "Personalizar apariencia de portada";
+          }
+        }
+
+        // Escuchar cambios en los radio buttons
+        styleRadios.forEach((radio) => {
+          radio.addEventListener("change", updatePersonalizarBtnText);
+        });
+
+        // Setear el texto inicial al cargar
+        updatePersonalizarBtnText();
+
+        // Lógica para abrir la vista Custom
+        btnPersonalizar.addEventListener("click", () => {
+          const selected = document.querySelector(
+            'input[name="image_style"]:checked',
+          ).value;
+
+          // 1. Mostrar/Ocultar Vistas
+          mainSettings.style.display = "none";
+          customSettings.style.display = "block";
+
+          // 2. Insertar el Breadcrumb
+          titleBar.innerHTML = `
+                    <span class="breadcrumb-back" id="btn-back">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M15 18l-6-6 6-6"/>
+                        </svg> 
+                        Profile
+                    </span> 
+                    <span style="margin:0 6px; color:#9ca3af">/</span> 
+                    <span class="breadcrumb-current">Personalizar</span>
+                `;
+
+          // Evento para volver
+          document
+            .getElementById("btn-back")
+            .addEventListener("click", goBackToMain);
+
+          // 3. Filtrar Controles (Step by Step)
+          groupAvatar.style.display = "none";
+          groupCover.style.display = "none";
+          groupHero.style.display = "none";
+          customLayoutRows.forEach((el) => (el.style.display = "none"));
+
+          if (selected === "classic") {
+            // Solo avatar
+            groupAvatar.style.display = "block";
+          } else if (selected === "hero") {
+            // Full width, freeze glass, etc.
+            groupHero.style.display = "block";
+          } else if (selected === "with-cover") {
+            // Avatar + Cover configs + Layout Options (Opcional si las necesitas)
+            groupAvatar.style.display = "block";
+            groupCover.style.display = "block";
+            customLayoutRows.forEach((el) => (el.style.display = "flex"));
+          }
+        });
+
+        // Lógica para volver a la Vista Principal
+        function goBackToMain() {
+          customSettings.style.display = "none";
+          mainSettings.style.display = "block";
+          titleBar.textContent = "Profile"; // Restaurar título original
+        }
+
+        // --- Lógica Menor para UI (Opcional, para actualizar textos al mover sliders) ---
+        const rangeInputs = document.querySelectorAll(".range-input");
+        rangeInputs.forEach((input) => {
+          input.addEventListener("input", (e) => {
+            const id = e.target.id.replace("-input", "-val");
+            const valEl = document.getElementById(id);
+            if (valEl) {
+              let unit = "px";
+              if (id.includes("scale")) unit = "";
+              if (id.includes("width")) unit = "%";
+              valEl.textContent = e.target.value + unit;
+            }
+          });
+        });
+
+        // Toggle visual en los Gliders (botones rectangulares)
+        const gliderOptions = document.querySelectorAll(".glider-option");
+        gliderOptions.forEach((opt) => {
+          opt.addEventListener("click", function () {
+            const parent = this.closest(".glider-container");
+            parent
+              .querySelectorAll(".glider-option")
+              .forEach((el) => el.classList.remove("active"));
+            this.classList.add("active");
+          });
+        });
+      });
+    </script>
+  </body>
+</html>

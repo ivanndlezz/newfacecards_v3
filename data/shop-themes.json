@@ -56,6 +56,16 @@
       "previewMotif": "art deco gold lines",
       "rating": 5.0,
       "popular": true
+    },
+    {
+      "id": "new-1",
+      "label": "new-1",
+      "templateUrl": "/templates/cards/new-1.html",
+      "previewColor": "#e65100",
+      "previewMotif": "",
+      "price": 3.99,
+      "rating": 4.5,
+      "popular": false
     }
   ]
 }

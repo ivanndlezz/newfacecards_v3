@@ -1,0 +1,2504 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- Tabler Icons via CDN -->
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.x/dist/tabler-icons.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="/shared/components/island-menu/island-menu.css"
+    />
+    <link
+      rel="stylesheet"
+      href="/shared/components/card-carousel/card-carousel-latest.css"
+    />
+    <link
+      rel="stylesheet"
+      href="/shared/components/appearance-editor/appearance-editor.css"
+    />
+    <link
+      rel="stylesheet"
+      href="/shared/components/profile-editor/profile-editor.css"
+    />
+
+    <title>SPA Binder & Style Loader</title>
+    <!-- ========================================================================================= -->
+    <!-- ===== ICONOS ===== -->
+    <!-- ========================================================================================= -->
+    <svg style="display: none">
+      <symbol
+        id="menu"
+        class="module-icon"
+        fill="none"
+        viewBox="0 0 22 22"
+        xmlns="http://www.w3.org/2000/svg"
+        stroke="currentColor"
+      >
+        <line
+          x1="3"
+          y1="6"
+          x2="21"
+          y2="6"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+        ></line>
+        <line
+          x1="3"
+          y1="12"
+          x2="21"
+          y2="12"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+        ></line>
+        <line
+          x1="3"
+          y1="18"
+          x2="21"
+          y2="18"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+        ></line>
+      </symbol>
+
+      <symbol
+        id="share"
+        viewBox="0 0 24 24"
+        width="24"
+        height="24"
+        color="currentColor"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="1.5"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      >
+        <path
+          d="M8 7C8 7 10.1958 4.28386 11.4044 3.23889C11.5987 3.0709 11.8169 2.99152 12.0337 3.00072C12.2282 3.00897 12.4215 3.08844 12.5958 3.23912C13.8041 4.28428 16 7 16 7M12.0337 4L12.0337 15"
+        ></path>
+        <path
+          d="M8 11C6.59987 11 5.8998 11 5.36502 11.2725C4.89462 11.5122 4.51217 11.8946 4.27248 12.365C4 12.8998 4 13.5999 4 15V16C4 18.357 4 19.5355 4.73223 20.2678C5.46447 21 6.64298 21 9 21H15C17.357 21 18.5355 21 19.2678 20.2678C20 19.5355 20 18.357 20 16V15C20 13.5999 20 12.8998 19.7275 12.365C19.4878 11.8946 19.1054 11.5122 18.635 11.2725C18.1002 11 17.4001 11 16 11"
+        ></path>
+      </symbol>
+      <symbol
+        id="profile"
+        class="module-icon"
+        fill="none"
+        viewBox="0 0 22 22"
+        xmlns="http://www.w3.org/2000/svg"
+        stroke="currentColor"
+      >
+        <circle
+          cx="10.8197"
+          cy="8.29508"
+          r="3.32787"
+          stroke="black"
+          stroke-width="2"
+        ></circle>
+        <circle cx="11" cy="11" r="10" stroke="black" stroke-width="2"></circle>
+        <path
+          d="M19.3236 18.3093C17.3723 15.9382 14.4151 14.4262 11.1046 14.4262C7.79407 14.4262 4.83657 15.9381 2.88525 18.3093"
+          stroke="black"
+          stroke-width="2"
+        ></path>
+      </symbol>
+      <symbol
+        id="appearance"
+        class="module-icon"
+        fill="none"
+        viewBox="0 0 27 25"
+        xmlns="http://www.w3.org/2000/svg"
+        stroke="currentColor"
+      >
+        <rect
+          x="1.88"
+          y="1"
+          width="9"
+          height="23"
+          rx="2"
+          stroke="currentColor"
+          stroke-width="2"
+        ></rect>
+        <path
+          d="M16.4 4.98a2 2 0 0 1 2.9.02l2.93 3.14a2 2 0 0 1 0 2.72L11.9 21.93l.22-11.74c.01-.5.21-.98.56-1.34z"
+          stroke="currentColor"
+          stroke-width="2"
+        ></path>
+        <path
+          d="M3.88 24h20a2 2 0 0 0 2-2v-5a2 2 0 0 0-2-2h-5"
+          stroke="currentColor"
+          stroke-width="2"
+        ></path>
+        <circle cx="5.88" cy="20" r="1" fill="currentColor"></circle>
+      </symbol>
+      <symbol id="add-icon" class="plus-icon" viewBox="0 0 24 24" fill="none">
+        <path
+          d="M12 5v14m-7-7h14"
+          stroke="currentColor"
+          stroke-width="2.5"
+          stroke-linecap="round"
+        ></path>
+      </symbol>
+
+      <symbol
+        id="pro-spark"
+        viewBox="0 0 24 24"
+        fill="currentColor"
+        stroke="currentColor"
+        stroke-width="1"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      >
+        <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"></path>
+      </symbol>
+      <symbol
+        id="logo"
+        viewBox="0 0 158 95"
+        fill="currentColor"
+        stroke="currentColor"
+        stroke-width="1"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      >
+        <path
+          d="M134.957 46.4347L157.993 0H139.795L116.613 46.7451L134.957 46.4347Z"
+          fill="currentColor"
+        ></path>
+        <path
+          d="M85.1906 47.2785L78.3378 9.52985C77.4944 4.77978 71.5143 1.77512 63.0451 1.77512H62.6351L62.1665 1.78097C49.5387 1.99768 36.0734 8.704 32.1609 16.7399L16.7158 48.4499L35.1069 48.1395L51.167 15.1702C51.7878 13.8933 53.5918 12.9094 55.3606 12.8801L55.6242 12.8742H55.6828C57.2993 12.8742 58.4473 13.6532 58.6523 14.889L64.5913 47.6416L85.1906 47.2785Z"
+          fill="currentColor"
+        ></path>
+        <path
+          d="M128.966 80.2651L145.202 45.8081L126.834 46.1244L109.989 81.8348C109.369 83.0999 107.576 84.0839 105.813 84.1132L105.409 84.1249H105.327C103.799 84.1249 102.651 83.3166 102.463 82.11L95.3409 46.6281L74.7476 46.9795L82.76 87.4751C83.6386 92.3423 89.8353 95.3763 98.5799 95.2415L99.1656 95.2298C111.717 94.9487 125.083 88.2424 128.96 80.2651"
+          fill="currentColor"
+        ></path>
+        <path
+          d="M23.639 48.0574L0 94.5213H18.2271L42.0243 47.7469L23.639 48.0574Z"
+          fill="currentColor"
+        ></path>
+      </symbol>
+      <symbol
+        id="chevron-arrow"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      >
+        <!-- Chevron down - outline, good for accordions -->
+        <path
+          d="M6 9l6 6 6-6"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        ></path>
+      </symbol>
+      <symbol
+        id="back-arrow"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      >
+        <path
+          d="M12 3v13l7-7m-7 7l-7-7"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        ></path>
+      </symbol>
+      <symbol
+        id="move_indicator"
+        viewBox="0 0 40 60"
+        fill="currentColor"
+        stroke="none"
+      >
+        <!-- Columna izquierda -->
+        <circle cx="10" cy="10" r="5" fill="currentColor"></circle>
+        <circle cx="10" cy="30" r="5" fill="currentColor"></circle>
+        <circle cx="10" cy="50" r="5" fill="currentColor"></circle>
+
+        <!-- Columna derecha -->
+        <circle cx="30" cy="10" r="5" fill="currentColor"></circle>
+        <circle cx="30" cy="30" r="5" fill="currentColor"></circle>
+        <circle cx="30" cy="50" r="5" fill="currentColor"></circle>
+      </symbol>
+      <symbol
+        id="arrow-up"
+        version="1.1"
+        xmlns="http://www.w3.org/2000/svg"
+        xmlns:xlink="http://www.w3.org/1999/xlink"
+        width="26px"
+        height="26px"
+        viewBox="0,0,256,256"
+      >
+        <g
+          fill="currentColor"
+          fill-rule="nonzero"
+          stroke="none"
+          stroke-width="1"
+          stroke-linecap="butt"
+          stroke-linejoin="miter"
+          stroke-miterlimit="10"
+          stroke-dasharray=""
+          stroke-dashoffset="0"
+          font-family="none"
+          font-weight="none"
+          font-size="none"
+          text-anchor="none"
+          style="mix-blend-mode: normal"
+        >
+          <g transform="scale(9.84615,9.84615)">
+            <path
+              d="M5,11.30078c2.80078,-4.19922 7.19922,-8 7.39844,-8.10156c0.10156,-0.09766 0.40234,-0.19922 0.60156,-0.19922c0.19922,0 0.5,0.10156 0.69922,0.19922c0.19922,0.10156 4.60156,4 7.40234,8.10156c0.19922,0.30078 0.19922,0.69922 0.09766,1.09766c-0.19922,0.30078 -0.5,0.60156 -0.89844,0.60156h-3.69922c0,0 -0.5,8.69922 -0.80078,9.10156c-0.5,0.5 -1.69922,0.89844 -2.80078,0.89844c-1.10156,0 -2.19922,-0.39844 -2.60156,-0.89844c-0.19922,-0.40234 -0.89844,-9.10156 -0.89844,-9.10156h-3.69922c-0.40234,0 -0.69922,-0.19922 -0.90234,-0.60156c-0.19922,-0.29687 -0.09766,-0.69922 0.10156,-1.09766z"
+            ></path>
+          </g>
+        </g>
+        <symbol
+          id="pen"
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 16 16"
+          fill="currentColor"
+          class="size-4"
+        >
+          <path
+            d="M13.488 2.513a1.75 1.75 0 0 0-2.475 0L6.75 6.774a2.75 2.75 0 0 0-.596.892l-.848 2.047a.75.75 0 0 0 .98.98l2.047-.848a2.75 2.75 0 0 0 .892-.596l4.261-4.262a1.75 1.75 0 0 0 0-2.474Z"
+          ></path>
+          <path
+            d="M4.75 3.5c-.69 0-1.25.56-1.25 1.25v6.5c0 .69.56 1.25 1.25 1.25h6.5c.69 0 1.25-.56 1.25-1.25V9A.75.75 0 0 1 14 9v2.25A2.75 2.75 0 0 1 11.25 14h-6.5A2.75 2.75 0 0 1 2 11.25v-6.5A2.75 2.75 0 0 1 4.75 2H7a.75.75 0 0 1 0 1.5H4.75Z"
+          ></path>
+        </symbol>
+      </symbol>
+    </svg>
+    <!-- ========================================================================================= -->
+    <!-- ===== ESTILOS BASE ===== -->
+    <!-- ========================================================================================= -->
+    <style>
+      :root {
+        --background-color: #efefef;
+        --font-color: #111111;
+        --w100: -webkit-fill-available;
+      }
+
+      body {
+        font-family:
+          -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        background-color: #e6e6e6; /* Fondo gris claro exterior */
+        color: var(--font-color);
+        margin: 0;
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        scroll-behavior: smooth;
+        transition: blur-start;
+      }
+
+      #app {
+        width: var(--w100);
+        display: flex;
+        flex-direction: column;
+        position: relative;
+      }
+
+      /* === HEADER (PIXEL PERFECT) === */
+      .header__actions {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        width: var(--w100);
+        margin: 50px 0px 30px 10px;
+        box-sizing: border-box;
+        position: sticky;
+        top: 30px;
+        transition: all 0.3s ease;
+        transform: scale(var(--scale, 1));
+        filter: blur(var(--blur, 0px));
+      }
+
+      .header__menu {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+
+      .header__back-btn {
+        background: transparent;
+        border: solid 1px #555 !important;
+        color: #333;
+        border: none;
+        padding: 8px 16px 8px 8px;
+        border-radius: 15px;
+        font-size: 18px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+      }
+
+      .header__back-btn svg {
+        transform: rotate(90deg) translateX(3px);
+        --wh: 24px;
+        width: var(--wh);
+        height: var(--wh);
+      }
+
+      .header__title-container {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+      }
+
+      .header__title {
+        font-size: 16px;
+        font-weight: 400;
+        color: #111;
+      }
+
+      .header__module-icon svg {
+        width: 16px;
+        height: 16px;
+        opacity: 0.8;
+        transform: translateY(3px);
+      }
+
+      .header__cta {
+        background: #06896c; /* Verde del botón publish */
+        color: white;
+        border: none;
+        padding: 8px 18px 8px 14px;
+        border-radius: 25px;
+        font-size: 15px;
+        font-weight: 600;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        transition: all 0.3s ease;
+        min-height: 47px;
+      }
+
+      .header__cta svg {
+        width: 18px;
+        height: 18px;
+      }
+
+      .header__cta--cancel {
+        display: none;
+      }
+
+      .header__cta-container:has(#publishBtn) {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 10px 0px 9px 26px;
+        font-size: 18px;
+      }
+
+      .header__cta-container:has(#publishBtn) svg {
+        width: 24px;
+        height: 24px;
+        opacity: 0.8;
+      }
+
+      #publishBtn {
+        min-width: 133px;
+        z-index: 1;
+        justify-content: center;
+      }
+
+      #completePublishBtn {
+        position: absolute;
+      }
+
+      header {
+        transition: all 0.3s ease;
+        margin: 0 auto;
+        width: var(--w100);
+        max-width: 500px;
+      }
+
+      [data-top-menu="hidden"] + #app {
+        header {
+          margin-bottom: -50px;
+          transform: translatey(-110px);
+        }
+      }
+
+      .header__action.handler {
+        display: flex;
+        width: var(--w100);
+        justify-content: center;
+      }
+
+      .handler--drag {
+        padding: 8px 15px;
+        border-radius: 100px;
+        background-color: #fff;
+        margin: 5px;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        cursor: pointer;
+        z-index: 1;
+      }
+
+      .handler--drag:before,
+      .handler--drag:after {
+        content: "";
+        display: block;
+        width: 18px;
+        height: 4px;
+        background: #ccc;
+        border-radius: 2px;
+        transition: all 0.2s;
+      }
+
+      .handler--drag:before {
+        margin-right: -1px;
+      }
+      .handler--drag:after {
+        margin-left: -1px;
+      }
+
+      [data-top-menu="hidden"] + #app .handler--drag:before {
+        transform: rotate(16deg);
+      }
+      [data-top-menu="hidden"] + #app .handler--drag:after {
+        transform: rotate(-16deg);
+      }
+
+      #data-status-storage:not([data-top-menu="hidden"])
+        + #app
+        .handler--drag:before {
+        transform: rotate(-16deg);
+      }
+      #data-status-storage:not([data-top-menu="hidden"])
+        + #app
+        .handler--drag:after {
+        transform: rotate(16deg);
+      }
+
+      /* === MAIN CONTENT (CARD) === */
+      .main-content {
+        background: var(--background-color);
+        min-height: calc(100vh - 160px);
+        position: relative;
+        border-radius: 20px 20px 0px 0px;
+        transition: all 0.5s ease;
+        box-shadow: 0 0px 62px rgb(0 0 0 / 25%);
+        z-index: 15;
+        max-width: 500px;
+        margin: 0 auto;
+        width: 97%;
+        height: var(--w100);
+        overflow: clip;
+      }
+
+      .main-content__top-bar {
+        display: flex;
+        width: var(--w100);
+        justify-content: space-between;
+        margin-bottom: 5px;
+        transition: all 0.5s ease;
+        position: absolute;
+        top: 20px;
+        padding: 20px;
+        padding-bottom: 0px;
+        z-index: 10;
+        pointer-events: none;
+        top: 0px;
+      }
+
+      .logo-chip {
+        --wh: 30px;
+        height: var(--wh);
+        width: calc(var(--wh) * 2);
+        border-radius: 40px;
+        color: #fff;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: #00000055;
+        color: #fff;
+        min-height: 44px;
+        --blur: blur(18px);
+        backdrop-filter: var(--blur);
+        -webkit-backdrop-filter: var(--blur);
+      }
+
+      .logo-chip__icon {
+        width: 24px;
+        height: 24px;
+        fill: white;
+      }
+
+      /* === SKELETON LOADERS === */
+      h1:empty,
+      h2:empty {
+        width: fit-content;
+        min-width: 200px;
+        height: 24px;
+        background-color: #e0e0e0;
+        margin: 10px 0;
+        border-radius: 100px;
+        background-image: linear-gradient(
+          90deg,
+          #00000005 0%,
+          #00000015 50%,
+          #00000005 100%
+        );
+        background-size: 400% 100%;
+        animation: skel-shimmer 2s infinite linear;
+      }
+
+      @keyframes skel-shimmer {
+        0% {
+          background-position: 100% 0;
+        }
+        100% {
+          background-position: -100% 0;
+        }
+      }
+
+      /* === BOTTOM SHEET: CONTROLS === */
+      .controls {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        z-index: 3000;
+        background: #fff;
+        border-radius: 16px 16px 0 0;
+        box-shadow: 0 -8px 24px rgba(0, 0, 0, 0.18);
+        padding: 8px 16px 16px;
+        box-sizing: border-box;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        max-height: 48px; /* collapsed state - only handle visible */
+        overflow: hidden;
+        transition: max-height 0.35s cubic-bezier(0.32, 0.72, 0, 1);
+        border-top: 1px solid #e5e5e5;
+      }
+
+      .controls.expanded {
+        max-height: 320px; /* enough for all fields + textarea */
+        overflow: auto;
+      }
+
+      .controls__handle {
+        width: 100%;
+        height: 20px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        margin-bottom: 4px;
+        flex: 0 0 100%;
+      }
+
+      /* Hide all controls content except the handle when collapsed */
+      .controls:not(.expanded) > *:not(.controls__handle) {
+        display: none;
+      }
+
+      .controls__handle::after {
+        content: "";
+        width: 36px;
+        height: 4px;
+        background: #ccc;
+        border-radius: 2px;
+        transition: all 0.2s;
+      }
+
+      .controls:hover .controls__handle::after {
+        background: #999;
+      }
+
+      .controls__input,
+      .controls__select,
+      .controls__button {
+        border: solid 1px #bbb;
+        padding: 6px 12px;
+        border-radius: 8px;
+        background: white;
+      }
+
+      .controls__editor {
+        width: 100%;
+        height: 70px;
+        margin-top: 4px;
+        border: 1px solid #bbb;
+        border-radius: 8px;
+        padding: 8px;
+        font-family: monospace;
+        flex: 1 1 100%;
+      }
+
+      /**/
+      .main-content__user-card {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        height: 100vh;
+        max-height: var(--w100);
+        background-color: var(--card-background);
+      }
+
+      .main-content__user-card:not(:has([data-status="skel"])) > div {
+        height: var(--w100);
+      }
+
+      /* === COVER & PROFILE PIC === */
+      .cover {
+        position: relative;
+        width: 100%;
+        margin-bottom: 50px;
+      }
+
+      .cover__box {
+        width: 100%;
+        height: 180px;
+        overflow: hidden;
+        border-top-left-radius: 20px;
+        border-top-right-radius: 20px;
+      }
+
+      .cover__image {
+        width: 100%;
+        height: 100%;
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+      }
+
+      .cover__avatar {
+        position: absolute;
+        bottom: -40px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 100px;
+        height: 100px;
+        border-radius: 50%;
+        border: 4px solid var(--background-color);
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+        overflow: hidden;
+        background-color: #fff;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .cover__avatar-img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+
+      #card * {
+        max-width: var(--w100);
+      }
+
+      .header__action.handler:before {
+        content: "";
+        width: var(--w100);
+        position: absolute;
+        min-height: 70px;
+        background-image: linear-gradient(transparent 1%, #e6e6e6 60%, #e6e6e6);
+        border-radius: 19px;
+        transform: translateY(var(--translate));
+      }
+
+      #app:has(.edit-mode-active) header {
+        margin-bottom: -50px;
+        transform: translatey(-110px);
+        height: 85px;
+      }
+
+      #app:has(.edit-mode-active) .handler--drag {
+        transform: scale(0);
+      }
+
+      [data-bottom-sheet="showing"] + #app main {
+        transform: scale(0.9) translate(0px, -50px);
+      }
+    </style>
+  </head>
+  <body>
+    <div
+      id="data-status-storage"
+      data-bind-attr="config.cover_active"
+      data-bottom-sheet="hidden"
+    ></div>
+    <div id="app">
+      <!-- Selector de Temas Carrusel 3D Overlay -->
+      <div class="card-carousel" id="carousel-viewport">
+        <div class="card-carousel__track" id="stage">
+          <!-- Inyectado dinámicamente -->
+        </div>
+      </div>
+      <header class="header">
+        <div>
+          <div class="header__actions">
+            <div class="header__menu">
+              <button
+                class="header__back-btn"
+                id="backBtn"
+                data-action="nav:back"
+                aria-label="Atrás"
+              >
+                <svg><use href="#back-arrow"></use></svg>
+              </button>
+              <div class="header__title-container">
+                <span class="header__title">Main hub</span>
+                <div class="header__module-icon">
+                  <svg><use href="#chevron-arrow"></use></svg>
+                </div>
+              </div>
+            </div>
+
+            <button
+              id="cancelBtn"
+              data-action="content:cancel"
+              class="header__cta header__cta--cancel"
+            >
+              Cancel
+            </button>
+
+            <span class="header__cta-container">
+              <button
+                id="completePublishBtn"
+                data-action="content:publish"
+                class="header__cta"
+              >
+                <svg><use href="#share"></use></svg>
+                <span class="header__btn-text">Complete</span>
+              </button>
+              <button
+                id="publishBtn"
+                data-action="content:publish"
+                class="header__cta"
+              >
+                <svg><use href="#share"></use></svg>
+                <span class="header__btn-text">Publish</span>
+              </button>
+            </span>
+          </div>
+          <!-- CORREGIDO: antes era un </div> -->
+
+          <div class="header__action handler" aria-label="Arrastrar">
+            <span class="header__action__handler handler--drag"></span>
+          </div>
+        </div>
+        <!-- CORREGIDO: antes era un </span> -->
+      </header>
+
+      <main class="main-content main-content--profile" data-style="classic">
+        <div class="main-content__top-bar">
+          <div class="logo-chip">
+            <svg class="logo-chip__icon" viewBox="0 0 24 24" fill="none">
+              <use href="#logo"></use>
+            </svg>
+          </div>
+        </div>
+        <div
+          id="card"
+          class="main-content__user-card"
+          data-object="binder-area"
+        >
+          <div class="cover">
+            <div class="cover__box">
+              <div class="cover__image nfc_cover" id="background_cover"></div>
+            </div>
+            <div class="cover__avatar">
+              <div data-img="none" data-status="skel"></div>
+            </div>
+          </div>
+          <h1 id="title"></h1>
+          <h2 id="subtitle"></h2>
+        </div>
+
+        <!-- Apariencia carousel panel (lives OUTSIDE #card so binder swaps never destroy it) -->
+        <div
+          id="appearance-panel"
+          hidden
+          data-role="appearance-panel"
+          style="
+            margin: 12px 0 24px;
+            padding: 8px 0;
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
+          "
+        >
+          <!-- Populated dynamically by card-carousel when island mode === 'apariencia' -->
+        </div>
+      </main>
+
+      <!-- Cohort profile editor panel -->
+      <!-- Template for Dynamic Profile Editor -->
+      <template id="tmpl-profile-editor">
+        <!-- Navigation Mode Selector (Scroll vs Tab) -->
+        <div
+          class="nav-mode-selector-container"
+          id="nav-mode-selector-container"
+        >
+          <div class="segmented-control">
+            <button
+              type="button"
+              class="segmented-btn active"
+              id="btn-nav-scroll"
+              data-nav-mode="scroll"
+            >
+              <i class="ti ti-fold" aria-hidden="true"></i> Scroll
+            </button>
+            <button
+              type="button"
+              class="segmented-btn"
+              id="btn-nav-tabs"
+              data-nav-mode="tabs"
+            >
+              <i class="ti ti-layout-columns" aria-hidden="true"></i> Tab
+            </button>
+          </div>
+        </div>
+
+        <!-- Cohort Tabs Selector (simplified for Contacto/Redes navigation) -->
+        <div class="cohort-tabs-container">
+          <div class="cohort-tabs">
+            <button class="cohort-tab active" data-cohort="3">
+              <i class="ti ti-phone" aria-hidden="true"></i> Contacto
+            </button>
+            <button class="cohort-tab" data-cohort="5">
+              <i class="ti ti-brand-instagram" aria-hidden="true"></i> Redes
+            </button>
+          </div>
+        </div>
+
+        <div class="profile-editor-content">
+          <!-- Cohort 1: Foto y Portada -->
+          <div class="cohort-pane active" id="pane-1">
+            <div class="editor-section">
+              <label class="editor-label">Foto de Perfil</label>
+              <div class="avatar-edit-container">
+                <img
+                  id="edit-avatar-preview"
+                  src=""
+                  class="avatar-edit-preview"
+                  alt="Avatar"
+                />
+                <input
+                  type="text"
+                  id="input-profile-photo"
+                  class="editor-input"
+                  placeholder="Pegar URL de imagen..."
+                  data-bind-field="profile.photo.src"
+                  data-bind-target=".blank__avatar, .aurora__avatar"
+                  data-bind-event="change"
+                />
+              </div>
+            </div>
+
+            <div class="editor-section">
+              <label class="editor-label">Imagen de Portada (Cover)</label>
+              <div class="cover-edit-container">
+                <div id="edit-cover-preview" class="cover-edit-preview"></div>
+                <input
+                  type="text"
+                  id="input-profile-cover"
+                  class="editor-input"
+                  placeholder="Pegar URL de portada..."
+                  data-bind-field="profile.cover.src"
+                  data-bind-target="#background_cover"
+                  data-bind-event="change"
+                />
+              </div>
+            </div>
+
+            <div class="editor-section">
+              <div class="image-style-section">
+                <form class="image-style-form" id="image-style-form">
+                  <fieldset class="image-style-fieldset">
+                    <legend><span>image style</span></legend>
+                    <div class="image-style-grid">
+                      <!-- Classic -->
+                      <input
+                        type="radio"
+                        name="image_style"
+                        id="style-classic"
+                        value="classic"
+                        checked
+                      />
+                      <label class="image-style-card" for="style-classic">
+                        <span
+                          class="preview preview--classic"
+                          aria-hidden="true"
+                        ></span>
+                        <span class="image-style-title">Clásico</span>
+                        <span class="checkmark" aria-hidden="true"></span>
+                      </label>
+                      <!-- Hero -->
+                      <input
+                        type="radio"
+                        name="image_style"
+                        id="style-hero"
+                        value="hero"
+                      />
+                      <label class="image-style-card" for="style-hero">
+                        <span
+                          class="preview preview--hero"
+                          aria-hidden="true"
+                        ></span>
+                        <span class="image-style-title">Hero</span>
+                        <span class="badge badge--pro" aria-hidden="true">
+                          Pro
+                          <svg
+                            style="width: 12px; height: 12px; color: white"
+                            viewBox="0 0 24 24"
+                            fill="currentColor"
+                          >
+                            <use href="#pro-spark"></use>
+                          </svg>
+                        </span>
+                        <span class="checkmark" aria-hidden="true"></span>
+                      </label>
+                      <!-- With Cover -->
+                      <input
+                        type="radio"
+                        name="image_style"
+                        id="style-cover"
+                        value="with-cover"
+                      />
+                      <label class="image-style-card" for="style-cover">
+                        <span class="preview preview--cover" aria-hidden="true">
+                          <span class="cover-bg"></span>
+                          <span class="avatar"></span>
+                        </span>
+                        <span class="image-style-title">Con portada</span>
+                        <span class="badge badge--pro" aria-hidden="true">
+                          Pro
+                          <svg
+                            style="width: 12px; height: 12px; color: white"
+                            viewBox="0 0 24 24"
+                            fill="currentColor"
+                          >
+                            <use href="#pro-spark"></use>
+                          </svg>
+                        </span>
+                        <span class="checkmark" aria-hidden="true"></span>
+                      </label>
+                    </div>
+                  </fieldset>
+                </form>
+              </div>
+            </div>
+          </div>
+
+          <!-- Cohort 2: Datos principales -->
+          <div class="cohort-pane" id="pane-2">
+            <div class="editor-section">
+              <label class="editor-label">Nombre Completo</label>
+              <input
+                type="text"
+                id="input-profile-name"
+                class="editor-input"
+                placeholder="Nombre..."
+                data-bind-field="profile.name"
+                data-bind-target=".blank__name, .aurora__name"
+              />
+            </div>
+            <div class="editor-section">
+              <label class="editor-label">Puesto / Cargo</label>
+              <input
+                type="text"
+                id="input-profile-title"
+                class="editor-input"
+                placeholder="Cargo..."
+                data-bind-field="profile.title"
+                data-bind-target=".blank__title, .aurora__title"
+              />
+            </div>
+            <div class="editor-section">
+              <label class="editor-label">Agencia / Organización</label>
+              <input
+                type="text"
+                id="input-profile-org"
+                class="editor-input"
+                placeholder="Organización..."
+                data-bind-field="profile.org"
+                data-bind-target=".blank__org, .aurora__org"
+              />
+            </div>
+            <div class="editor-section">
+              <label class="editor-label">Biografía / Presentación</label>
+              <textarea
+                id="input-profile-bio"
+                class="editor-textarea"
+                placeholder="Escribe tu bio..."
+                data-bind-field="profile.bio"
+                data-bind-target=".blank__bio, .aurora__bio"
+              ></textarea>
+            </div>
+            <div class="editor-section">
+              <label class="editor-label">Ajustes de Iconos de Redes</label>
+              <div class="toggle-switch-container">
+                <span>Mostrar iconos de redes justo debajo de la Bio</span>
+                <label class="toggle-switch">
+                  <input type="checkbox" id="toggle-social-icons-under-bio" />
+                  <span class="toggle-slider"></span>
+                </label>
+              </div>
+            </div>
+          </div>
+
+          <!-- Cohort 3: Datos de Contacto -->
+          <div class="cohort-pane" id="pane-3">
+            <div class="editor-section">
+              <label class="editor-label">Correo Electrónico</label>
+              <input
+                type="email"
+                id="input-profile-email"
+                class="editor-input"
+                placeholder="email@ejemplo.com"
+                data-bind-field="profile.email"
+                data-bind-target=".blank__email a, .aurora__email a"
+              />
+            </div>
+            <div class="editor-section">
+              <label class="editor-label">Teléfono Móvil</label>
+              <input
+                type="tel"
+                id="input-profile-phone"
+                class="editor-input"
+                placeholder="+52..."
+                data-bind-field="profile.phone"
+                data-bind-target=".blank__phone a, .aurora__phone a"
+              />
+            </div>
+            <div class="editor-section">
+              <label class="editor-label">Página Web</label>
+              <input
+                type="url"
+                id="input-profile-website"
+                class="editor-input"
+                placeholder="https://..."
+                data-bind-field="profile.website"
+                data-bind-target=".blank__website a, .aurora__website a"
+              />
+            </div>
+          </div>
+
+          <!-- Cohort 5: Redes -->
+          <div class="cohort-pane" id="pane-5">
+            <div class="editor-section">
+              <p
+                style="
+                  color: rgba(0, 0, 0, 0.5);
+                  font-size: 0.9rem;
+                  text-align: center;
+                  margin: 32px 0;
+                "
+              >
+                La configuración de enlaces de redes sociales se habilitará en
+                una futura versión.
+              </p>
+            </div>
+          </div>
+        </div>
+      </template>
+    </div>
+    <!-- ======================== 
+           ISLAND MENU
+         ======================== -->
+    <div id="root-island-menu">
+      <div
+        id="island"
+        data-component="island"
+        data-status="idle"
+        role="toolbar"
+        aria-label="Barra de acciones"
+      ></div>
+    </div>
+
+    <div id="root-styles-loader"></div>
+    <!-- 2. CONFIGURACIÓN E IMPORTACIÓN DEL BINDER UTILITY (ES MODULE) -->
+    <script type="module">
+      import { DataBinder } from "/shared/utilities/binder.js";
+      import {
+        constructSheet,
+        closeSheet,
+      } from "/shared/components/bottom-sheet/bottom-sheet.js";
+      import { DataFlowBinder } from "/shared/utilities/data-flow-binder.js";
+      import { EmptyStateManager } from "/shared/utilities/empty-state.js";
+      import "/shared/utilities/api-middleware-mock.js"; // Activa window.__useMockApi automáticamente
+      window.constructSheet = constructSheet;
+      window.closeSheet = closeSheet;
+      window.DataFlowBinder = DataFlowBinder;
+
+      // Configuración del sistema de bindeo e hidratación
+      const binderConfig = {
+        container: document.querySelector("#card"), // Montar e hidratar EXCLUSIVAMENTE dentro del card
+        endpoint:
+          "https://app.newfacecards.com/wp-content/uploads/ultimatemember/1/data/card-data.json",
+
+        // Habilita/Deshabilita el fetch local de respaldo en caso de que falle el remoto (SOLID Configurable)
+        allowLocalFallback: true,
+        localPath: "/data/card-data.json", // Ruta al backup local (root-relative, recomendada)
+
+        onSuccess: (data) => {
+          console.log("[App] Hidratación completada con éxito:", data);
+        },
+        onError: (err) => {
+          console.error("[App] Error crítico de hidratación:", err);
+        },
+      };
+
+      // Inicializar y ejecutar la tubería de bindeo con la plantilla cargada dinámicamente
+      const binder = new DataBinder(binderConfig);
+
+      const THEME_STORAGE_KEY = "APP_THEME_SELECTED";
+      const OVERRIDES_KEY = "APP_THEME_OVERRIDES";
+      // expose globally for other script blocks
+      window.THEME_STORAGE_KEY = THEME_STORAGE_KEY;
+      window.OVERRIDES_KEY = OVERRIDES_KEY;
+
+      // ── Legacy ID migration: corrects stale localStorage values ──────────────
+      // Maps any old/mismatched theme IDs to their current canonical form.
+      // Add new entries here whenever a template is renamed.
+      const LEGACY_THEME_ID_MAP = {
+        "new1": "new-1",
+      };
+      // Valid theme IDs (must match filenames under /templates/cards/)
+      const VALID_THEME_IDS = ["aurora", "blank", "brutal", "deco", "new-1", "obsidiana", "tropico", "zen"];
+
+      (function migrateThemeId() {
+        const stored = localStorage.getItem(THEME_STORAGE_KEY);
+        if (!stored) return;
+        const canonical = LEGACY_THEME_ID_MAP[stored] || stored;
+        if (!VALID_THEME_IDS.includes(canonical)) {
+          console.warn(`[App] Unknown theme ID "${stored}" — resetting to "aurora".`);
+          localStorage.setItem(THEME_STORAGE_KEY, "aurora");
+        } else if (canonical !== stored) {
+          console.info(`[App] Migrated legacy theme ID "${stored}" → "${canonical}".`);
+          localStorage.setItem(THEME_STORAGE_KEY, canonical);
+        }
+      })();
+
+      const initialTheme = localStorage.getItem(THEME_STORAGE_KEY) || "aurora";
+      const initialOverrides = (() => {
+        try {
+          return JSON.parse(localStorage.getItem(OVERRIDES_KEY) || "{}");
+        } catch {
+          return {};
+        }
+      })();
+      document.getElementById('card').removeAttribute('data-hydrated');
+      binder
+        .loadTemplateAndRun(`/templates/cards/${initialTheme}.html`)
+        .then(() => {
+          if (initialOverrides && Object.keys(initialOverrides).length)
+            applyLiveOverrides(initialOverrides);
+          // Inyectar placeholders en loaders vacíos tras la hidratación
+          EmptyStateManager.scan(document.getElementById('card'));
+          // Señal de hidratación completa → teardown de skeletons via CSS
+          document.getElementById('card').setAttribute('data-hydrated', '');
+        });
+
+      window.__adminBinder = binder;
+
+      function applyLiveOverrides(overrides) {
+        const cardEl = document.getElementById("card");
+        if (!cardEl || !overrides) return;
+        let styleEl = document.getElementById("live-theme-overrides");
+        if (!styleEl) {
+          styleEl = document.createElement("style");
+          styleEl.id = "live-theme-overrides";
+          document.head.appendChild(styleEl);
+        }
+        let css = "";
+        if (overrides.font)
+          css += `#card, #card * { font-family: "${overrides.font}", system-ui, -apple-system, sans-serif !important; }`;
+        if (overrides.accentColor) {
+          const a = overrides.accentColor;
+          css += `#card [class*="__avatar"], #card [class*="avatar"] { border-color: ${a} !important; box-shadow: 0 0 0 6px ${a}22 !important; }`;
+          css += `#card h1, #card [class*="__name"], #card [class*="name"] { color: ${a} !important; }`;
+          css += `#card [class*="__role"], #card [class*="role"] { color: ${a} !important; }`;
+        }
+        styleEl.textContent = css;
+      }
+
+      window.__setCardTheme = (themeId) => {
+        if (!themeId) return;
+        EmptyStateManager.destroy(); // Limpiar observers del tema anterior
+        document.getElementById('card').removeAttribute('data-hydrated');
+        binder
+          .loadTemplateAndRun(`/templates/cards/${themeId}.html`)
+          .then(() => {
+            const saved = (() => {
+              try {
+                return JSON.parse(localStorage.getItem(OVERRIDES_KEY) || "{}");
+              } catch {
+                return {};
+              }
+            })();
+            applyLiveOverrides(saved);
+            EmptyStateManager.scan(document.getElementById('card'));
+            document.getElementById('card').setAttribute('data-hydrated', '');
+          });
+        localStorage.setItem(THEME_STORAGE_KEY, themeId);
+      };
+
+      window.__applyCardTheme = (themeId, overrides = {}) => {
+        if (!themeId) return;
+        const merged = { ...(overrides || {}) };
+        localStorage.setItem(THEME_STORAGE_KEY, themeId);
+        localStorage.setItem(OVERRIDES_KEY, JSON.stringify(merged));
+        EmptyStateManager.destroy(); // Limpiar observers del tema anterior
+        document.getElementById('card').removeAttribute('data-hydrated');
+        binder
+          .loadTemplateAndRun(`/templates/cards/${themeId}.html`)
+          .then(() => {
+            applyLiveOverrides(merged);
+            EmptyStateManager.scan(document.getElementById('card'));
+            document.getElementById('card').setAttribute('data-hydrated', '');
+          });
+      };
+    </script>
+
+    <script>
+      /**
+       * CONFIGURACIÓN Y CONSTANTES
+       */
+      const STORAGE_PREFIX = "APP_BIND_";
+
+      const DOM = {
+        // Destinos de hidratación
+        TARGETS: {
+          title: "#title",
+          subtitle: "#subtitle",
+          styles_loader: "#root-styles-loader",
+        },
+        // Controles de entrada
+        INPUTS: {
+          main: "#binder",
+          selector: "#selector",
+        },
+        // Acciones de usuario
+        ACTIONS: {
+          bind: "#btn-bind",
+          clear: "#btn-clear",
+          run: "run-btn",
+        },
+      };
+
+      const BINDING_MAP = {
+        TITLE: {
+          label: "Título Principal",
+          selector: DOM.TARGETS.title,
+        },
+        SUBTITLE: { label: "Subtítulo", selector: DOM.TARGETS.subtitle },
+      };
+
+      const UI_SELECTORS = {
+        INPUT: "#binder",
+        SELECT: "#selector",
+        BUTTON_BIND: "#btn-bind",
+        BUTTON_CLEAR: "#btn-clear",
+      };
+
+      /**
+       * SERVICIO DE PERSISTENCIA
+       */
+      const StorageService = {
+        save: (selector, value) =>
+          localStorage.setItem(`${STORAGE_PREFIX}${selector}`, value),
+        get: (selector) => localStorage.getItem(`${STORAGE_PREFIX}${selector}`),
+        remove: (selector) =>
+          localStorage.removeItem(`${STORAGE_PREFIX}${selector}`),
+      };
+    </script>
+
+    <!-- Island Menu: modern reusable component (auto-enhances existing markup) -->
+    <!--
+      Pure JS object configs (admin now starts with the template you declared):
+      - Bootstrap uses morphedIslandConfig (Perfil + Navegacion) — the one you chose in JS.
+      - Clicking satellite in edit mode swaps to the other declared config.
+      You control both templates directly in this script. No .html files involved at runtime.
+    -->
+    <script type="module">
+      import { importIslandMenu } from "/shared/components/island-menu/island-menu.js";
+
+      const defaultIslandConfig = {
+        edit: { label: "Menu", icon: "ti ti-menu-2" },
+        modes: [
+          {
+            value: "cardbar",
+            label: "Profile",
+            icon: "ti ti-user-circle",
+          },
+          { value: "apariencia", label: "Style", icon: "ti ti-palette" },
+        ],
+      };
+
+      const morphedIslandConfig = {
+        edit: { label: "Menu", icon: "ti ti-menu-2" },
+        modes: [
+          {
+            value: "cardbar",
+            label: "Profile",
+            icon: "ti ti-user-circle",
+          },
+          { value: "apariencia", label: "Style", icon: "ti ti-palette" },
+        ],
+      };
+
+      function setupIslandListeners(el) {
+        if (el._islandListenersSetup) return; // idempotent: attach only once (stable root + event delegation style)
+        el._islandListenersSetup = true;
+
+        el.addEventListener("island-action", (e) => {
+          console.log("[admin binder] island-action:", e.detail);
+
+          // Dynamic template swap demo: uses the JS-declared morphedIslandConfig (object-config path)
+          if (e.detail.type === "more-options") {
+            console.log(
+              "Swapping to JS-declared morphed config (Perfil + Navegacion)",
+            );
+            importIslandMenu(morphedIslandConfig);
+            // No re-setup needed: listener lives on the permanent #island div,
+            // inner content replacement does not affect it. Re-enhance happens inside the loader.
+          }
+        });
+        el.addEventListener("island-mode-change", (e) => {
+          console.log("[admin binder] island-mode-change:", e.detail);
+          if (typeof handleIslandMode === "function") {
+            handleIslandMode(e.detail.mode);
+          } else {
+            handleAparienciaMode(e.detail.mode);
+          }
+        });
+        el.addEventListener("island-status-change", (e) => {
+          console.log("[admin binder] island-status-change:", e.detail);
+          if (e.detail.status !== "edit") {
+            closeCarouselOverlay();
+            // Full exit: deactivate card edit mode too
+            if (typeof closeProfileEditor === "function")
+              closeProfileEditor(true);
+          }
+        });
+      }
+
+      // ===== Selector de Temas Carrusel 3D Overlay (Micro-transacciones simuladas) =====
+      // THEME_STORAGE_KEY ya declarada arriba ("APP_THEME_SELECTED") — no re-declarar.
+      const OWNED_THEMES_KEY = "NFC_OWNED_THEMES";
+
+      const BACKUP_THEMES = [
+        {
+          id: "aurora",
+          label: "Aurora",
+          accent: "#a855f7",
+          font: "Josefin Sans",
+          isFree: true,
+          price: 0,
+        },
+        {
+          id: "zen",
+          label: "Zen",
+          accent: "#c0392b",
+          font: "Noto Serif JP",
+          price: 4.99,
+          description: "Minimalista verde calma de paz visual.",
+        },
+        {
+          id: "tropico",
+          label: "Tropico",
+          accent: "#f4d03f",
+          font: "Syne",
+          price: 4.99,
+          description: "Tonos atardecer intensos y creativos.",
+        },
+        {
+          id: "obsidiana",
+          label: "Obsidiana",
+          accent: "#0ea5e9",
+          font: "DM Sans",
+          price: 5.99,
+          description: "Elegancia oscura y profunda premium.",
+        },
+        {
+          id: "brutal",
+          label: "Brutal",
+          accent: "#f59e0b",
+          font: "Bebas Neue",
+          price: 3.99,
+          description: "Diseño brutalista audaz de alto contraste.",
+        },
+        {
+          id: "deco",
+          label: "Deco",
+          accent: "#d4a843",
+          font: "Cinzel Decorative",
+          price: 6.99,
+          description: "Art Deco clásico sofisticado con líneas de oro.",
+        },
+      ];
+
+      let ownedThemes = [];
+      let shopThemes = [];
+      let allThemes = [];
+
+      function initOwnedThemes() {
+        let stored = localStorage.getItem(OWNED_THEMES_KEY);
+        if (stored) {
+          try {
+            ownedThemes = JSON.parse(stored);
+          } catch (e) {
+            ownedThemes = ["aurora"];
+          }
+        } else {
+          ownedThemes = ["aurora"];
+          localStorage.setItem(OWNED_THEMES_KEY, JSON.stringify(ownedThemes));
+        }
+      }
+
+      async function loadThemesData() {
+        initOwnedThemes();
+        try {
+          const [userRes, shopRes] = await Promise.all([
+            fetch("/data/user-themes.json")
+              .then((r) => r.json())
+              .catch(() => null),
+            fetch("/data/shop-themes.json")
+              .then((r) => r.json())
+              .catch(() => null),
+          ]);
+
+          if (userRes && userRes.ownedThemes) {
+            userRes.ownedThemes.forEach((t) => {
+              if (!ownedThemes.includes(t.id)) ownedThemes.push(t.id);
+            });
+            localStorage.setItem(OWNED_THEMES_KEY, JSON.stringify(ownedThemes));
+          }
+
+          if (shopRes && shopRes.shopThemes) {
+            shopThemes = shopRes.shopThemes;
+          } else {
+            shopThemes = BACKUP_THEMES.filter((t) => !t.isFree);
+          }
+        } catch (e) {
+          console.warn("Error loading theme JSON databases, falling back:", e);
+          shopThemes = BACKUP_THEMES.filter((t) => !t.isFree);
+        }
+
+        allThemes = [];
+        const aurora = BACKUP_THEMES.find((t) => t.id === "aurora");
+        allThemes.push(aurora);
+
+        shopThemes.forEach((t) => {
+          if (!allThemes.some((x) => x.id === t.id)) {
+            allThemes.push(t);
+          }
+        });
+      }
+
+      function renderHighFidelityPreview(themeId, host, accentColor, fontName) {
+        if (!host) return;
+        host.innerHTML = "";
+        const accent = accentColor || "#a855f7";
+        const font = fontName || "system-ui";
+        let inner = "";
+
+        if (themeId === "aurora") {
+          inner = `<div style="width:100%;height:100%;background:radial-gradient(ellipse 80% 60% at 20% 10%, rgba(168,85,247,.42) 0%,transparent 60%),radial-gradient(ellipse 70% 50% at 80% 30%, rgba(59,130,246,.38) 0%,transparent 55%),radial-gradient(ellipse 60% 70% at 50% 80%, rgba(236,72,153,.32) 0%,transparent 60%),#0f0c1e;position:relative;overflow:hidden"><div style="padding:28px 16px 10px;text-align:center"><div style="width:68px;height:68px;border-radius:50%;margin:0 auto 10px;border:2px solid ${accent};box-shadow:0 0 0 5px ${accent}22;background:#222"></div><div style="font-family:'Fraunces',Georgia,serif;font-size:21px;font-weight:700;color:#fff;letter-spacing:-.025em;line-height:.92">Jane <em style="font-style:italic;background:linear-gradient(135deg,#c084fc,#818cf8,#f472b6);-webkit-background-clip:text;-webkit-text-fill-color:transparent">Doe</em></div><div style="font-size:9px;text-transform:uppercase;letter-spacing:.18em;color:#c084fc;margin-top:3px;opacity:.8">Product Designer</div></div><div style="position:absolute;bottom:18px;left:50%;transform:translateX(-50%);display:flex;gap:10px;opacity:.6"><span style="font-size:11px">in</span><span style="font-size:11px">✕</span><span style="font-size:11px">◎</span></div></div>`;
+        } else if (themeId === "zen") {
+          inner = `<div style="width:100%;height:100%;background:#fefcf8;position:relative;border-left:3px solid ${accent}"><div style="height:118px;background:linear-gradient(#ddd,#f4f1e9);filter:saturate(.6)"></div><div style="position:absolute;top:78px;left:50%;transform:translateX(-50%);width:62px;height:62px;border:1px solid #1c181122;background:#e8e0d0"></div><div style="padding:62px 14px 8px;text-align:center;font-family:'Noto Serif JP',serif"><div style="font-size:15px;color:#1c1811;letter-spacing:.08em">山田 太郎</div><div style="font-size:8.5px;color:${accent};margin-top:1px;letter-spacing:.16em">ENGINEER</div></div><div style="position:absolute;bottom:12px;left:0;right:0;height:22px;background:rgba(254,252,248,.9);display:flex;align-items:center;justify-content:space-around;font-size:8px;color:#9a8e7e;border-top:1px solid #1c181122"><span>一</span><span>二</span><span>三</span></div></div>`;
+        } else if (themeId === "tropico") {
+          inner = `<div style="width:100%;height:100%;background:#0f3326;position:relative;border-top:4px solid ${accent}"><div style="height:108px;background:linear-gradient(#3a2a1a,#0f3326);filter:saturate(1.25)"></div><div style="position:absolute;top:72px;left:50%;transform:translateX(-50%);width:62px;height:62px;border-radius:50%;border:3px solid ${accent};background:#222"></div><div style="padding:68px 12px 6px;text-align:center"><div style="font-family:'Syne',sans-serif;font-size:17px;font-weight:800;color:${accent};letter-spacing:-.01em;text-transform:uppercase">LUNA RIOS</div><div style="font-size:8px;color:#f4d03f;margin-top:2px;letter-spacing:.14em">CREATIVE</div></div><div style="position:absolute;bottom:14px;left:50%;transform:translateX(-50%);display:flex;gap:4px"><div style="font-size:7px;background:#f4d03f22;color:#f4d03f;padding:1px 5px;border-radius:3px">SUN</div></div></div>`;
+        } else if (themeId === "obsidiana") {
+          inner = `<div style="width:100%;height:100%;background:rgba(255,255,255,.035);backdrop-filter:blur(18px);border:1px solid rgba(255,255,255,.07);position:relative"><div style="height:102px;background:linear-gradient(rgba(9,11,16,0),#090b10);opacity:.6"></div><div style="position:absolute;top:66px;left:18px;width:54px;height:54px;border-radius:12px;border:2px solid ${accent};background:#222"></div><div style="padding:54px 14px 6px 72px"><div style="font-family:'Syne',sans-serif;font-size:15px;font-weight:800;color:#fff;letter-spacing:-.015em">Alex Rivera</div><div style="font-size:8px;color:#64748b;margin-top:1px;letter-spacing:.1em">FOUNDER</div></div><div style="position:absolute;bottom:12px;left:14px;right:14px;display:flex;gap:4px"><div style="flex:1;height:14px;background:rgba(255,255,255,.06);border-radius:3px"></div><div style="flex:1;height:14px;background:rgba(255,255,255,.06);border-radius:3px"></div></div></div>`;
+        } else if (themeId === "brutal") {
+          inner = `<div style="width:100%;height:100%;background:#f59e0b;position:relative;border: 2px solid #000;"><div style="height:132px;background:#222;filter:grayscale(1) contrast(1.15)"></div><div style="position:absolute;top:102px;left:16px;width:46px;height:46px;background:#ddd;border:3px solid #f0ece2;filter:grayscale(1)"></div><div style="padding:106px 12px 6px 70px;font-family:'Bebas Neue',sans-serif"><div style="font-size:18px;color:#111;letter-spacing:.01em;line-height:1">BRUTAL</div><div style="font-size:7px;color:#666;margin-top:-1px;letter-spacing:.12em">STUDIO</div></div><div style="position:absolute;bottom:10px;left:12px;right:12px;height:18px;background:#111;display:flex;gap:3px;align-items:center;padding:0 6px"><div style="font-size:6px;color:#f0ece244;letter-spacing:.08em">01 02 03</div></div></div>`;
+        } else {
+          inner = `<div style="width:100%;height:100%;background:#120f08;position:relative;border:1px solid #d4a84333"><div style="height:106px;background:#222"></div><div style="position:absolute;top:68px;left:50%;transform:translateX(-50%);width:58px;height:58px;clip-path:polygon(50% 0,100% 50%,50% 100%,0 50%);background:#222;outline:2px solid ${accent};outline-offset:2px"></div><div style="padding:62px 10px 4px;text-align:center;font-family:'Cinzel Decorative',serif"><div style="font-size:13px;color:#d4a843;letter-spacing:.06em">ATELIER</div><div style="font-size:8px;color:#d4a84388;margin-top:1px;letter-spacing:.18em">PARIS</div></div><div style="position:absolute;bottom:12px;left:50%;transform:translateX(-50%);font-size:8px;color:#d4a84344">◆ ◇ ◆</div></div>`;
+        }
+
+        const wrap = document.createElement("div");
+        wrap.style.cssText =
+          "position:absolute;inset:0;font-family:" + font + ",system-ui";
+        wrap.innerHTML = inner;
+        host.appendChild(wrap);
+      }
+
+      let carouselCards = [];
+      let carouselCurrentIndex = 0;
+      let carouselTransitioning = false;
+      let isCarouselActive = false;
+
+      function showSuccessToast(themeLabel) {
+        let toast = document.querySelector(".buy-toast");
+        if (!toast) {
+          toast = document.createElement("div");
+          toast.className = "buy-toast";
+          document.body.appendChild(toast);
+        }
+        toast.innerHTML = `<i class="fa-solid fa-circle-check"></i> ¡Tema <strong>${themeLabel}</strong> adquirido con éxito!`;
+        toast.classList.add("buy-toast--visible");
+        setTimeout(() => {
+          toast.classList.remove("buy-toast--visible");
+        }, 2200);
+      }
+
+      function buildCarouselUI() {
+        const stage = document.getElementById("stage");
+        if (!stage) return;
+        stage.innerHTML = "";
+        carouselCards = [];
+
+        const currentSelectedTheme =
+          localStorage.getItem(THEME_STORAGE_KEY) || "aurora";
+
+        // Only show themes the user already owns (finite, non-looping list)
+        const displayThemes = allThemes.filter((t) =>
+          ownedThemes.includes(t.id),
+        );
+
+        displayThemes.forEach((theme, index) => {
+          const isActive = theme.id === currentSelectedTheme;
+
+          const cardEl = document.createElement("div");
+          cardEl.className = `profile-card profile-card--glass`;
+
+          const aeCard = document.createElement("div");
+          aeCard.className = "ae-card";
+          aeCard.dataset.theme = theme.id;
+
+          const previewHost = document.createElement("div");
+          previewHost.className = "ae-preview-host";
+          previewHost.style.cssText = "position:absolute;inset:0;";
+
+          renderHighFidelityPreview(
+            theme.id,
+            previewHost,
+            theme.accent,
+            theme.font,
+          );
+
+          const labelEl = document.createElement("div");
+          labelEl.className = "ae-card-label";
+          labelEl.innerText = theme.label;
+
+          aeCard.appendChild(previewHost);
+          aeCard.appendChild(labelEl);
+          cardEl.appendChild(aeCard);
+
+          const actionBar = document.createElement("div");
+          actionBar.className = "profile-card__action-bar";
+
+          if (isActive) {
+            actionBar.innerHTML = `
+              <div class="theme-active-badge">
+                <i class="fa-solid fa-circle-check"></i> Tema Activo
+              </div>
+            `;
+          } else {
+            const applyBtn = document.createElement("button");
+            applyBtn.className = "apply-theme-btn";
+            applyBtn.innerHTML = `<i class="fa-solid fa-palette"></i> Aplicar`;
+            applyBtn.addEventListener("click", (e) => {
+              e.stopPropagation();
+              applyThemeSelection(theme.id);
+            });
+            actionBar.appendChild(applyBtn);
+          }
+
+          cardEl.appendChild(actionBar);
+
+          cardEl.addEventListener("click", () => {
+            if (carouselTransitioning || !isCarouselActive) return;
+            if (cardEl.classList.contains("profile-card--prev"))
+              rotateCarousel(carouselCurrentIndex - 1);
+            if (cardEl.classList.contains("profile-card--next"))
+              rotateCarousel(carouselCurrentIndex + 1);
+          });
+
+          stage.appendChild(cardEl);
+          carouselCards.push(cardEl);
+        });
+
+        // ── Special card: "Buscar más themes" ──
+        const searchCard = document.createElement("div");
+        searchCard.className =
+          "profile-card profile-card--glass profile-card--special";
+        searchCard.innerHTML = `
+          <div class="special-card__content">
+            <div class="special-card__icon"><i class="ti ti-search" aria-hidden="true"></i></div>
+            <div class="special-card__label">Buscar más themes</div>
+            <div class="special-card__hint">Explora la tienda de temas</div>
+          </div>
+        `;
+        searchCard.addEventListener("click", () => {
+          if (carouselTransitioning) return;
+          if (searchCard.classList.contains("profile-card--active")) {
+            window.location.href = "/theme-store.html";
+          } else if (searchCard.classList.contains("profile-card--prev")) {
+            rotateCarousel(carouselCurrentIndex - 1);
+          } else if (searchCard.classList.contains("profile-card--next")) {
+            rotateCarousel(carouselCurrentIndex + 1);
+          }
+        });
+        stage.appendChild(searchCard);
+        carouselCards.push(searchCard);
+
+        // ── Special card: "Empezar en blanco" ──
+        const blankCard = document.createElement("div");
+        blankCard.className =
+          "profile-card profile-card--glass profile-card--special";
+        blankCard.innerHTML = `
+          <div class="special-card__content">
+            <div class="special-card__icon"><i class="ti ti-plus" aria-hidden="true"></i></div>
+            <div class="special-card__label">Empezar en blanco</div>
+            <div class="special-card__hint">Crea tu propio diseño</div>
+          </div>
+        `;
+        blankCard.addEventListener("click", () => {
+          if (carouselTransitioning) return;
+          if (blankCard.classList.contains("profile-card--active")) {
+            applyThemeSelection("blank");
+          } else if (blankCard.classList.contains("profile-card--prev")) {
+            rotateCarousel(carouselCurrentIndex - 1);
+          } else if (blankCard.classList.contains("profile-card--next")) {
+            rotateCarousel(carouselCurrentIndex + 1);
+          }
+        });
+        stage.appendChild(blankCard);
+        carouselCards.push(blankCard);
+
+        const activeIdx = displayThemes.findIndex(
+          (t) => t.id === currentSelectedTheme,
+        );
+        if (currentSelectedTheme === "blank") {
+          carouselCurrentIndex = carouselCards.length - 1;
+        } else {
+          carouselCurrentIndex = activeIdx >= 0 ? activeIdx : 0;
+        }
+
+        updateCarouselClasses();
+      }
+
+      function updateCarouselClasses() {
+        const length = carouselCards.length;
+        if (length === 0) return;
+
+        carouselCards.forEach((card, index) => {
+          card.className = card.className
+            .replace(/\b(profile-card--(active|prev|next|hidden))\b/g, "")
+            .trim();
+
+          if (index === carouselCurrentIndex) {
+            card.classList.add("profile-card--active");
+          } else if (
+            index === carouselCurrentIndex - 1 &&
+            carouselCurrentIndex > 0
+          ) {
+            card.classList.add("profile-card--prev");
+          } else if (
+            index === carouselCurrentIndex + 1 &&
+            carouselCurrentIndex < length - 1
+          ) {
+            card.classList.add("profile-card--next");
+          } else {
+            card.classList.add("profile-card--hidden");
+          }
+        });
+      }
+
+      function rotateCarousel(newIndex) {
+        if (carouselTransitioning) return;
+        const length = carouselCards.length;
+        const clamped = Math.max(0, Math.min(newIndex, length - 1));
+        if (clamped === carouselCurrentIndex) return; // already at edge
+        carouselTransitioning = true;
+        carouselCurrentIndex = clamped;
+        updateCarouselClasses();
+        setTimeout(() => {
+          carouselTransitioning = false;
+        }, 500);
+      }
+
+      function simulatePurchase(theme) {
+        if (ownedThemes.includes(theme.id)) return;
+
+        ownedThemes.push(theme.id);
+        localStorage.setItem(OWNED_THEMES_KEY, JSON.stringify(ownedThemes));
+
+        showSuccessToast(theme.label);
+        buildCarouselUI();
+      }
+
+      function applyThemeSelection(themeId) {
+        if (window.__setCardTheme) {
+          window.__setCardTheme(themeId);
+        } else {
+          localStorage.setItem(THEME_STORAGE_KEY, themeId);
+        }
+
+        buildCarouselUI();
+        closeCarouselOverlay();
+
+        const island = document.getElementById("island");
+        if (island && typeof island.setActiveMode === "function") {
+          island.setActiveMode(null);
+        }
+      }
+
+      function openCarouselOverlay() {
+        if (isCarouselActive) return; // Guard: already open, don't re-trigger animation
+        isCarouselActive = true;
+        loadThemesData().then(() => {
+          // Double-check: user may have toggled off while themes were loading
+          if (!isCarouselActive) return;
+          buildCarouselUI();
+          const viewport = document.getElementById("carousel-viewport");
+          if (viewport) {
+            viewport.style.display = "flex";
+            viewport.offsetHeight; // force reflow
+            viewport.classList.add("card-carousel--visible");
+          }
+        });
+      }
+
+      function closeCarouselOverlay() {
+        isCarouselActive = false;
+        const viewport = document.getElementById("carousel-viewport");
+        if (viewport) {
+          viewport.classList.remove("card-carousel--visible");
+          setTimeout(() => {
+            if (!isCarouselActive) viewport.style.display = "none";
+          }, 400);
+        }
+      }
+
+      function setupCarouselControls() {
+        const viewport = document.getElementById("carousel-viewport");
+        if (!viewport) return;
+
+        document.addEventListener("keydown", (e) => {
+          if (!isCarouselActive || carouselTransitioning) return;
+          if (e.key === "ArrowRight") rotateCarousel(carouselCurrentIndex + 1);
+          if (e.key === "ArrowLeft") rotateCarousel(carouselCurrentIndex - 1);
+        });
+
+        let wheelAccumulator = 0;
+        let isWheelOnCooldown = false;
+
+        viewport.addEventListener(
+          "wheel",
+          (e) => {
+            if (!isCarouselActive) return;
+
+            const delta =
+              Math.abs(e.deltaX) > Math.abs(e.deltaY) ? e.deltaX : e.deltaY;
+            if (Math.abs(delta) > 5) e.preventDefault();
+
+            if (isWheelOnCooldown || carouselTransitioning) return;
+
+            wheelAccumulator += delta;
+
+            if (wheelAccumulator > 60) {
+              rotateCarousel(carouselCurrentIndex + 1);
+              triggerWheelCooldown();
+            } else if (wheelAccumulator < -60) {
+              rotateCarousel(carouselCurrentIndex - 1);
+              triggerWheelCooldown();
+            }
+          },
+          { passive: false },
+        );
+
+        function triggerWheelCooldown() {
+          wheelAccumulator = 0;
+          isWheelOnCooldown = true;
+          setTimeout(() => {
+            isWheelOnCooldown = false;
+            wheelAccumulator = 0;
+          }, 400);
+        }
+
+        let startX = 0;
+        let isDragging = false;
+
+        function getPositionX(e) {
+          if (e.type.includes("mouse")) {
+            return e.clientX;
+          } else {
+            return e.type.includes("end")
+              ? e.changedTouches[0].clientX
+              : e.touches[0].clientX;
+          }
+        }
+
+        function touchStart(e) {
+          if (!isCarouselActive) return;
+          isDragging = true;
+          startX = getPositionX(e);
+        }
+
+        function touchEnd(e) {
+          if (!isDragging || !isCarouselActive) return;
+          isDragging = false;
+          const endX = getPositionX(e);
+          const diffX = startX - endX;
+
+          if (Math.abs(diffX) > 50 && !carouselTransitioning) {
+            if (diffX > 0) rotateCarousel(carouselCurrentIndex + 1);
+            else rotateCarousel(carouselCurrentIndex - 1);
+          }
+        }
+
+        viewport.addEventListener("mousedown", touchStart);
+        viewport.addEventListener("mouseup", touchEnd);
+        viewport.addEventListener("mouseleave", () => (isDragging = false));
+
+        viewport.addEventListener("touchstart", touchStart, { passive: true });
+        viewport.addEventListener("touchend", touchEnd);
+      }
+
+      setupCarouselControls();
+
+      function openImmersiveAppearance() {
+        openCarouselOverlay();
+      }
+
+      function closeImmersiveAppearance() {
+        closeCarouselOverlay();
+      }
+
+      let lastIslandStatus = "idle";
+      document.getElementById("island")?.addEventListener(
+        "island-status-change",
+        (e) => {
+          lastIslandStatus = e.detail?.status || "idle";
+          if (lastIslandStatus !== "edit") closeCarouselOverlay();
+        },
+        { passive: true },
+      );
+
+      // ── iOS-style contextual editor: cohort titles ──
+      const COHORT_TITLES = {
+        1: "Editar Foto y Portada",
+        2: "Editar Datos Personales",
+        3: "Editar Contacto",
+        4: "Editar Empresa",
+        5: "Editar Redes Sociales",
+        6: "Ajustes de Iconos",
+      };
+
+      function handleIslandMode(mode) {
+        console.log(
+          "[handleIslandMode]",
+          mode,
+          "| carousel active:",
+          isCarouselActive,
+        );
+        if (mode === "apariencia") {
+          // Exit card-edit mode & profile editor first
+          deactivateCardEditMode();
+          if (typeof closeProfileEditor === "function") {
+            // CRITICAL: Call closeProfileEditor with false (fullyExit = false) to prevent it
+            // from internally resetting the island mode back to null and breaking the switch.
+            closeProfileEditor(false);
+          }
+          // Ensure island stays in edit status
+          if (lastIslandStatus !== "edit") {
+            const islandEl = document.getElementById("island");
+            if (islandEl && islandEl.setStatus) islandEl.setStatus("edit");
+          }
+          openImmersiveAppearance();
+        } else if (mode === "cardbar") {
+          // Exit appearance mode first
+          closeImmersiveAppearance();
+          // Ensure island stays in edit status
+          if (lastIslandStatus !== "edit") {
+            const islandEl = document.getElementById("island");
+            if (islandEl && islandEl.setStatus) islandEl.setStatus("edit");
+          }
+          // iOS-style: activate visual edit mode on card, don't open the sheet yet
+          activateCardEditMode();
+        } else {
+          // mode === null → toggle OFF: clean up all active sub-modes
+          console.log("[handleIslandMode] toggle OFF — closing everything");
+          deactivateCardEditMode();
+          closeImmersiveAppearance();
+          if (typeof closeProfileEditor === "function") {
+            // Call with false to avoid redundant loop calls when the island is already null
+            closeProfileEditor(false);
+          }
+        }
+      }
+
+      // Toggle .edit-mode-active on #card, body and .main-content
+      function activateCardEditMode() {
+        console.log("[Perfil Editor] activateCardEditMode called");
+        const card = document.getElementById("card");
+        if (!card) {
+          console.error("[Perfil Editor] #card element NOT found!");
+          return;
+        }
+        card.classList.add("edit-mode-active");
+        document.body.classList.add("edit-mode-active");
+        const mainContent = document.querySelector(".main-content");
+        if (mainContent) mainContent.classList.add("edit-mode-active");
+
+        console.log("[Perfil Editor] #card classes:", card.className);
+        setupCardEditDelegation();
+      }
+
+      function deactivateCardEditMode() {
+        console.log("[Perfil Editor] deactivateCardEditMode called");
+        const card = document.getElementById("card");
+        if (card) card.classList.remove("edit-mode-active");
+        document.body.classList.remove("edit-mode-active");
+        const mainContent = document.querySelector(".main-content");
+        if (mainContent) mainContent.classList.remove("edit-mode-active");
+      }
+
+      // Event delegation on #card: detect clicks on [data-editable-zone]
+      let _cardDelegationSetup = false;
+      function setupCardEditDelegation() {
+        if (_cardDelegationSetup) return;
+        _cardDelegationSetup = true;
+        const card = document.getElementById("card");
+        if (!card) {
+          console.error(
+            "[Perfil Editor] setupCardEditDelegation failed: no #card",
+          );
+          return;
+        }
+        console.log(
+          "[Perfil Editor] Setting up card edit delegation click listener on #card",
+        );
+
+        card.addEventListener("click", (e) => {
+          console.log("[Perfil Editor] Click detected inside #card:", e.target);
+          const card = document.getElementById("card");
+          if (!card || !card.classList.contains("edit-mode-active")) {
+            console.log(
+              "[Perfil Editor] Click ignored: edit-mode-active not on card",
+            );
+            return;
+          }
+
+          const zone = e.target.closest("[data-editable-zone]");
+          if (!zone) {
+            console.log(
+              "[Perfil Editor] Click ignored: not inside an editable zone",
+            );
+            return;
+          }
+
+          e.stopPropagation();
+          const cohort = parseInt(zone.dataset.editableCohort || "1", 10);
+          if (cohort === 4) {
+            console.log(
+              "[Perfil Editor] Redirecting Cohort 4 (Empresa) click to Cohort 2 (Datos / Empresa)",
+            );
+            openContextualEditor(2);
+            return;
+          }
+          console.log(
+            "[Perfil Editor] Clicked inside editable zone! Cohort:",
+            cohort,
+            zone,
+          );
+          openContextualEditor(cohort);
+        });
+      }
+
+      // Open the bottom sheet focused on one cohort (contextual mode)
+      async function openContextualEditor(cohortNumber) {
+        profileEditorActive = true;
+
+        // Construct sheet dynamically using the bottom-sheet component
+        constructSheet({
+          title: COHORT_TITLES[cohortNumber] || "Edición de Perfil",
+          scope: "profile",
+          content: "#tmpl-profile-editor",
+          bottom_actions: {
+            layout: "single",
+            primary: {
+              label: "Listo",
+              callback: () => closeProfileEditor(false),
+            },
+          },
+        });
+
+        // Set cohort attribute on the sheet container for conditional visibility styles
+        const sheet = document.querySelector('[data-scope="profile"]');
+        if (sheet) {
+          sheet.setAttribute("data-active-cohort", cohortNumber);
+        }
+
+        // Get card data and populate inputs inside the fresh DOM
+        await openProfileEditor();
+
+        // Bind event listeners to these newly created input elements
+        bindCohortInputs();
+
+        // ── DataFlowBinder: Input → Mock API → DOM ────────────────────────
+        // Destroy any previous binder instance before creating a new one
+        if (window.__activeFlowBinder) {
+          window.__activeFlowBinder.destroy();
+        }
+        if (window.DataFlowBinder && sheet) {
+          const flowBinder = new window.DataFlowBinder({
+            container: sheet,
+            endpoint: "/wp-json/nfc/v1/update-field",
+            debounceMs: 300,
+            onSyncStart: (input) => {
+              input?.classList.add("is-syncing");
+            },
+            onSyncSuccess: (input, field, target, value) => {
+              input?.classList.remove("is-syncing");
+              input?.classList.add("is-synced");
+              setTimeout(() => input?.classList.remove("is-synced"), 1200);
+              console.log(`[FlowBinder] ✓ ${field} → "${value}" → ${target}`);
+            },
+            onSyncError: (input, field, err) => {
+              input?.classList.remove("is-syncing");
+              input?.classList.add("is-error");
+              setTimeout(() => input?.classList.remove("is-error"), 2000);
+              console.error(`[FlowBinder] ✗ ${field}:`, err);
+            },
+          });
+          flowBinder.bind();
+          window.__activeFlowBinder = flowBinder;
+        }
+
+        // If it's cohort 3 or 5 (Navigation / Contact and Networks)
+        if (cohortNumber === 3 || cohortNumber === 5) {
+          // Initialize navigation mode (Scroll vs Tab)
+          const navType = cachedCardData?.config?.["nav-type"] || "scroll";
+          setNavModeUI(navType);
+
+          // Activate pane and tab
+          document
+            .querySelectorAll(".cohort-tab")
+            .forEach((t) => t.classList.remove("active"));
+          document
+            .querySelectorAll(".cohort-pane")
+            .forEach((p) => p.classList.remove("active"));
+
+          const targetPane = document.getElementById(`pane-${cohortNumber}`);
+          if (targetPane) targetPane.classList.add("active");
+
+          const targetTab = document.querySelector(
+            `.cohort-tab[data-cohort="${cohortNumber}"]`,
+          );
+          if (targetTab) targetTab.classList.add("active");
+
+          // Bind tab click listener
+          setupTabListeners();
+        } else {
+          // Cohorts 1 and 2
+          document
+            .querySelectorAll(".cohort-pane")
+            .forEach((p) => p.classList.remove("active"));
+          const pane = document.getElementById(`pane-${cohortNumber}`);
+          if (pane) pane.classList.add("active");
+        }
+
+        // Bind segmented buttons and cover style change listeners
+        setupDesignModeListeners();
+      }
+
+      function setNavModeUI(mode) {
+        const container = document.querySelector('[data-scope="profile"]');
+        if (!container) return;
+
+        if (mode === "scroll") {
+          container.classList.remove("mode-tabs");
+          container.classList.add("mode-scroll");
+          document.getElementById("btn-nav-scroll")?.classList.add("active");
+          document.getElementById("btn-nav-tabs")?.classList.remove("active");
+        } else {
+          container.classList.remove("mode-scroll");
+          container.classList.add("mode-tabs");
+          document.getElementById("btn-nav-tabs")?.classList.add("active");
+          document.getElementById("btn-nav-scroll")?.classList.remove("active");
+        }
+      }
+
+      function handleAparienciaMode(mode) {
+        handleIslandMode(mode);
+      }
+
+      // ===== COHORT PROFILE EDITOR CONTROLLER =====
+      let profileEditorActive = false;
+      let cachedCardData = null;
+
+      // 1. Intercept binder fetcher to establish Single Source of Truth
+      function initBinderFetcherIntercept() {
+        if (!window.__adminBinder || !window.__adminBinder.fetcher) return;
+        const originalFetch = window.__adminBinder.fetcher.fetchData.bind(
+          window.__adminBinder.fetcher,
+        );
+        window.__adminBinder.fetcher.fetchData = async function () {
+          const stored = localStorage.getItem("NFC_CARD_DATA");
+          if (stored) {
+            try {
+              return JSON.parse(stored);
+            } catch (e) {}
+          }
+          const fetched = await originalFetch();
+          localStorage.setItem("NFC_CARD_DATA", JSON.stringify(fetched));
+          return fetched;
+        };
+      }
+
+      // Initialize the intercept once binder is ready
+      setTimeout(initBinderFetcherIntercept, 100);
+
+      // Load data helper
+      async function getCardData() {
+        if (window.__adminBinder && window.__adminBinder.fetcher) {
+          return await window.__adminBinder.fetcher.fetchData();
+        }
+        const stored = localStorage.getItem("NFC_CARD_DATA");
+        if (stored) {
+          try {
+            return JSON.parse(stored);
+          } catch (e) {}
+        }
+        return await fetch("/data/card-data.json")
+          .then((r) => r.json())
+          .catch(() => ({}));
+      }
+
+      // Save data helper
+      function saveCardData(data) {
+        localStorage.setItem("NFC_CARD_DATA", JSON.stringify(data));
+        if (window.__adminBinder && window.__adminBinder.hydrator) {
+          window.__adminBinder.hydrator.hydrate(data);
+        }
+      }
+
+      // Open Profile Editor (mode === "cardbar"): loads and populates inputs
+      async function openProfileEditor() {
+        profileEditorActive = true;
+        const data = await getCardData();
+        cachedCardData = data;
+
+        // Ensure nodes exist in cache
+        if (!data.profile) data.profile = {};
+        if (!data.profile.photo) data.profile.photo = { src: "" };
+        if (!data.profile.cover) data.profile.cover = { src: "" };
+        if (!data.config) data.config = {};
+
+        const setVal = (id, val) => {
+          const el = document.getElementById(id);
+          if (el) el.value = val;
+        };
+
+        // Populate fields
+        // Cohort 1: Foto y portada
+        setVal("input-profile-photo", data.profile.photo.src || "");
+        const avatarPrev = document.getElementById("edit-avatar-preview");
+        if (avatarPrev) avatarPrev.src = data.profile.photo.src || "";
+
+        setVal("input-profile-cover", data.profile.cover.src || "");
+        const coverPrev = document.getElementById("edit-cover-preview");
+        if (coverPrev) {
+          coverPrev.style.backgroundImage = data.profile.cover.src
+            ? `url("${data.profile.cover.src}")`
+            : "";
+        }
+
+        // Check active cover style
+        const mainEl = document.querySelector(".main-content");
+        const activeStyle = mainEl
+          ? mainEl.getAttribute("data-style")
+          : "classic";
+        const radioEl = document.querySelector(
+          `input[name="image_style"][value="${activeStyle}"]`,
+        );
+        if (radioEl) radioEl.checked = true;
+
+        // Cohort 2: Datos
+        setVal("input-profile-name", data.profile.name || "");
+        setVal("input-profile-title", data.profile.title || "");
+        setVal("input-profile-org", data.profile.org || "");
+        setVal("input-profile-bio", data.profile.bio || "");
+
+        // Cohort 3: Contacto
+        setVal("input-profile-email", data.profile.email || "");
+        setVal("input-profile-phone", data.profile.phone || "");
+        setVal("input-profile-website", data.profile.website || "");
+
+        // Cohort 6: Redes Icons Toggle
+        const showUnderBio = data.config["show-networks-under-bio"] ?? true;
+        const toggleSocial = document.getElementById(
+          "toggle-social-icons-under-bio",
+        );
+        if (toggleSocial) toggleSocial.checked = showUnderBio;
+      }
+
+      // closeProfileEditor: if fullyExit=true, reset island; otherwise just close sheet and
+      // keep the card in edit mode so the user can continue tapping other zones.
+      function closeProfileEditor(fullyExit = false) {
+        profileEditorActive = false;
+
+        // Destroy DataFlowBinder to cancel in-flight requests and remove listeners
+        if (window.__activeFlowBinder) {
+          window.__activeFlowBinder.destroy();
+          window.__activeFlowBinder = null;
+        }
+
+        closeSheet();
+
+        if (fullyExit) {
+          deactivateCardEditMode();
+          const island = document.getElementById("island");
+          if (island && typeof island.setActiveMode === "function") {
+            island.setActiveMode(null);
+          }
+        }
+      }
+
+      window.closeProfileEditor = closeProfileEditor;
+
+      // Tabs switching mechanism
+      function setupTabListeners() {
+        document.querySelectorAll(".cohort-tab").forEach((tab) => {
+          tab.addEventListener("click", (e) => {
+            const btn = e.target.closest(".cohort-tab");
+            const cohort = btn.dataset.cohort;
+
+            document
+              .querySelectorAll(".cohort-tab")
+              .forEach((t) => t.classList.remove("active"));
+            btn.classList.add("active");
+
+            document
+              .querySelectorAll(".cohort-pane")
+              .forEach((p) => p.classList.remove("active"));
+            const pane = document.getElementById(`pane-${cohort}`);
+            if (pane) pane.classList.add("active");
+          });
+        });
+      }
+
+      // Design controls switching mechanism
+      function setupDesignModeListeners() {
+        document.querySelectorAll("[data-nav-mode]").forEach((btn) => {
+          btn.addEventListener("click", (e) => {
+            const targetMode = e.currentTarget.dataset.navMode;
+            if (!cachedCardData) return;
+            if (!cachedCardData.config) cachedCardData.config = {};
+            cachedCardData.config["nav-type"] = targetMode;
+            saveCardData(cachedCardData);
+
+            // Update UI styles and active buttons
+            setNavModeUI(targetMode);
+          });
+        });
+
+        // Radio buttons style change event
+        document
+          .querySelectorAll('input[name="image_style"]')
+          .forEach((radio) => {
+            radio.addEventListener("change", (e) => {
+              const val = e.target.value;
+              const mainEl = document.querySelector(".main-content");
+              if (mainEl) {
+                mainEl.setAttribute("data-style", val);
+                // Save to config
+                if (cachedCardData) {
+                  if (!cachedCardData.config) cachedCardData.config = {};
+                  cachedCardData.config.cover_active = val === "with-cover";
+                  saveCardData(cachedCardData);
+                }
+              }
+            });
+          });
+      }
+
+      // Save sync with inputs
+      function bindCohortInputs() {
+        const syncValue = (inputId, objPath, isSrc = false, isBg = false) => {
+          const el = document.getElementById(inputId);
+          if (!el) return;
+
+          el.addEventListener("input", (e) => {
+            if (!cachedCardData) return;
+            const val = e.target.value;
+
+            // Set nested value
+            const parts = objPath.split(".");
+            let current = cachedCardData;
+            for (let i = 0; i < parts.length - 1; i++) {
+              current = current[parts[i]];
+            }
+            current[parts[parts.length - 1]] = val;
+
+            // Sync live previews in sheet
+            if (isSrc) {
+              const prev = document.getElementById(
+                inputId.replace("input-", "") + "-preview",
+              );
+              if (prev) prev.src = val;
+            }
+            if (isBg) {
+              const prev = document.getElementById(
+                inputId.replace("input-", "") + "-preview",
+              );
+              if (prev) prev.style.backgroundImage = val ? `url("${val}")` : "";
+            }
+
+            // Sync visual covers
+            if (objPath === "profile.cover.src") {
+              const bgCover = document.getElementById("background_cover");
+              if (bgCover)
+                bgCover.style.backgroundImage = val ? `url("${val}")` : "";
+            }
+
+            saveCardData(cachedCardData);
+          });
+        };
+
+        // Cohort 1
+        syncValue("input-profile-photo", "profile.photo.src", true);
+        syncValue("input-profile-cover", "profile.cover.src", false, true);
+
+        // Radio buttons style change event
+        document
+          .querySelectorAll('input[name="image_style"]')
+          .forEach((radio) => {
+            radio.addEventListener("change", (e) => {
+              const val = e.target.value;
+              const mainEl = document.querySelector(".main-content");
+              if (mainEl) {
+                mainEl.setAttribute("data-style", val);
+                // Save to config
+                if (cachedCardData) {
+                  if (!cachedCardData.config) cachedCardData.config = {};
+                  cachedCardData.config.cover_active = val === "with-cover";
+                  saveCardData(cachedCardData);
+                }
+              }
+            });
+          });
+
+        // Cohort 2
+        syncValue("input-profile-name", "profile.name");
+        syncValue("input-profile-title", "profile.title");
+        syncValue("input-profile-org", "profile.org");
+        syncValue("input-profile-bio", "profile.bio");
+
+        // Cohort 3
+        syncValue("input-profile-email", "profile.email");
+        syncValue("input-profile-phone", "profile.phone");
+        syncValue("input-profile-website", "profile.website");
+
+        // Cohort 6: toggle icons
+        document
+          .getElementById("toggle-social-icons-under-bio")
+          ?.addEventListener("change", (e) => {
+            if (!cachedCardData) return;
+            cachedCardData.config["show-networks-under-bio"] = e.target.checked;
+            saveCardData(cachedCardData);
+
+            // Toggle UI list visibility
+            const list =
+              document.querySelector(".aurora__socials") ||
+              document.querySelector(".blank__socials");
+            if (list) {
+              list.style.display = e.target.checked ? "flex" : "none";
+            }
+          });
+      }
+
+      // Initialize inputs listeners
+      setTimeout(bindCohortInputs, 200);
+
+      window.__openAppearanceEditor = openImmersiveAppearance;
+      window.__closeAppearanceEditor = closeImmersiveAppearance;
+
+      importIslandMenu(morphedIslandConfig)
+        .then((island) => {
+          setupIslandListeners(island);
+        })
+        .catch((err) =>
+          console.error("[admin binder] island bootstrap failed:", err),
+        );
+    </script>
+
+    <!-- Header: click toggle + scroll-depth compression effect -->
+    <script>
+      (function () {
+        const storage = document.getElementById("data-status-storage");
+        const handler = document.querySelector(".handler");
+        const actions = document.querySelector(".header__actions");
+        const nextHandler = document.querySelector(".header__action.handler");
+
+        if (!storage || !handler) return;
+
+        // === Click toggle for data-top-menu (handle rotation etc.) ===
+        function setTopMenuState(state) {
+          storage.setAttribute("data-top-menu", state); // "hidden" | "showing"
+        }
+
+        handler.addEventListener("click", () => {
+          const current = storage.getAttribute("data-top-menu");
+          setTopMenuState(current === "hidden" ? "showing" : "hidden");
+        });
+
+        // === Scroll-depth calculator (drives --scale / --blur on header) ===
+        if (!actions) return;
+
+        const MAX_SCROLL_DEPTH = 220;
+        const MIN_SCALE = 0.7;
+        const MAX_BLUR = 7;
+
+        let ticking = false;
+
+        function updateHeaderEffect() {
+          const scrollY = window.scrollY || 0;
+          const progress = Math.min(Math.max(scrollY / MAX_SCROLL_DEPTH, 0), 1);
+
+          const scale = (1 - (1 - MIN_SCALE) * progress).toFixed(3);
+          const blur = (MAX_BLUR * progress).toFixed(1);
+          const newBlur = blur - 1.5;
+
+          actions.style.setProperty("--scale", scale);
+          actions.style.setProperty("--blur", `${newBlur}px`);
+          nextHandler.style.setProperty("--translate", `${blur * -20}px`);
+        }
+
+        function onScroll() {
+          if (!ticking) {
+            requestAnimationFrame(() => {
+              updateHeaderEffect();
+              ticking = false;
+            });
+            ticking = true;
+          }
+        }
+
+        window.addEventListener("scroll", onScroll, { passive: true });
+
+        // Initialize on load (handles restored scroll position)
+        updateHeaderEffect();
+      })();
+    </script>
+  </body>
+</html>

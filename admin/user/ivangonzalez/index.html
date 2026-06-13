@@ -12,19 +12,6 @@
       rel="stylesheet"
       href="/shared/components/island-menu/island-menu.css"
     />
-    <link
-      rel="stylesheet"
-      href="/shared/components/card-carousel/card-carousel-latest.css"
-    />
-    <link
-      rel="stylesheet"
-      href="/shared/components/appearance-editor/appearance-editor.css"
-    />
-    <link
-      rel="stylesheet"
-      href="/shared/components/profile-editor/profile-editor.css"
-    />
-
     <title>SPA Binder & Style Loader</title>
     <!-- ========================================================================================= -->
     <!-- ===== ICONOS ===== -->
@@ -282,6 +269,44 @@
           ></path>
         </symbol>
       </symbol>
+      <symbol
+        id="cover-edit"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      >
+        <g
+          fill="#ffffff"
+          fill-rule="nonzero"
+          stroke="none"
+          stroke-width="1"
+          stroke-linecap="butt"
+          stroke-linejoin="miter"
+          stroke-miterlimit="10"
+          stroke-dasharray=""
+          stroke-dashoffset="0"
+          font-family="none"
+          font-weight="none"
+          font-size="none"
+          text-anchor="none"
+          style="mix-blend-mode: normal"
+        >
+          <g transform="scale(10.66667,10.66667)">
+            <path
+              d="M16,16h-13c-0.6,0 -1,-0.4 -1,-1v-10c0,-0.6 0.4,-1 1,-1h13c0.6,0 1,0.4 1,1v10c0,0.6 -0.4,1 -1,1z"
+              opacity="0.3"
+            />
+            <path
+              d="M16,17h-13c-1.1,0 -2,-0.9 -2,-2v-10c0,-1.1 0.9,-2 2,-2h13c1.1,0 2,0.9 2,2v10c0,1.1 -0.9,2 -2,2zM3,5v10h13v-10z"
+            />
+            <path d="M20,21h-15v-2h15v-12h2v12c0,1.1 -0.9,2 -2,2z" />
+            <path d="M15,13l-3.4,-4.7l-2.8,3.7l-2.1,-2.5l-2.7,3.5z" />
+          </g>
+        </g>
+      </symbol>
     </svg>
     <!-- ========================================================================================= -->
     <!-- ===== ESTILOS BASE ===== -->
@@ -291,6 +316,20 @@
         --background-color: #efefef;
         --font-color: #111111;
         --w100: -webkit-fill-available;
+        --bg: #f4f4f5;
+        --sheet: #ffffff;
+        --sheet2: #f4f4f5;
+        --sheet3: #e4e4e7;
+        --border: #e4e4e7;
+        --text: #09090b;
+        --text2: #71717a;
+        --text3: #a1a1aa;
+        --accent: #18181b;
+        --accent-hover: #27272a;
+        --radius: 16px;
+        --radius-sm: 10px;
+        --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.04);
+        --shadow-md: 0 10px 30px -10px rgba(9, 9, 11, 0.08);
       }
 
       body {
@@ -305,6 +344,151 @@
         align-items: center;
         scroll-behavior: smooth;
         transition: blur-start;
+      }
+
+      /* === SYNC STATUS BADGE === */
+      .sync-status-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        padding: 4px 10px;
+        border-radius: 20px;
+        font-size: 11px;
+        font-weight: 600;
+        background: rgba(0, 0, 0, 0.05);
+        color: #666;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        margin-left: 8px;
+        font-family: inherit;
+      }
+      .sync-dot {
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+        background: #10b981;
+        transition: all 0.3s ease;
+      }
+      #data-status-storage[data-sync-status="syncing"]
+        + #app
+        .sync-status-badge {
+        background: rgba(245, 158, 11, 0.1);
+        color: #d97706;
+      }
+      #data-status-storage[data-sync-status="syncing"] + #app .sync-dot {
+        background: transparent;
+        border: 2px solid rgba(245, 158, 11, 0.3);
+        border-top-color: #f59e0b;
+        border-radius: 50%;
+        width: 8px;
+        height: 8px;
+        animation: spin 0.8s linear infinite;
+        box-sizing: border-box;
+      }
+      #data-status-storage[data-sync-status="error"] + #app .sync-status-badge {
+        background: rgba(239, 68, 68, 0.1);
+        color: #dc2626;
+      }
+      #data-status-storage[data-sync-status="error"] + #app .sync-dot {
+        background: #ef4444;
+      }
+      #data-status-storage[data-sync-status="offline"]
+        + #app
+        .sync-status-badge {
+        background: rgba(107, 114, 128, 0.1);
+        color: #4b5563;
+      }
+      #data-status-storage[data-sync-status="offline"] + #app .sync-dot {
+        background: #6b7280;
+      }
+      @keyframes sync-pulse {
+        0% {
+          transform: scale(0.8);
+          opacity: 0.6;
+        }
+        100% {
+          transform: scale(1.2);
+          opacity: 1;
+        }
+      }
+      @keyframes spin {
+        0% {
+          transform: rotate(0deg);
+        }
+        100% {
+          transform: rotate(360deg);
+        }
+      }
+
+      /* === SYNC DETAILS SHEET === */
+      .sync-details-container {
+        padding: 24px;
+        text-align: center;
+        font-family: inherit;
+      }
+      .sync-details-icon {
+        width: 64px;
+        height: 64px;
+        border-radius: 50%;
+        margin: 0 auto 16px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #fff;
+        transition: all 0.3s ease;
+      }
+      .sync-details-icon.synced {
+        background: rgba(16, 185, 129, 0.1);
+        color: #10b981;
+      }
+      .sync-details-icon.syncing {
+        background: rgba(245, 158, 11, 0.1);
+        color: #f59e0b;
+      }
+      .sync-details-icon.syncing svg {
+        animation: spin 1.5s linear infinite;
+      }
+      .sync-details-icon.error {
+        background: rgba(239, 68, 68, 0.1);
+        color: #ef4444;
+      }
+      .sync-details-icon.offline {
+        background: rgba(107, 114, 128, 0.1);
+        color: #6b7280;
+      }
+      .sync-details-title {
+        font-size: 20px;
+        font-weight: 700;
+        color: #09090b;
+        margin-bottom: 8px;
+      }
+      .sync-details-desc {
+        font-size: 14px;
+        color: #71717a;
+        line-height: 1.5;
+        margin-bottom: 24px;
+      }
+      .sync-details-grid {
+        background: #f4f4f5;
+        border-radius: 12px;
+        padding: 16px;
+        text-align: left;
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+      }
+      .sync-detail-item {
+        display: flex;
+        justify-content: space-between;
+        font-size: 13px;
+      }
+      .sync-detail-label {
+        color: #71717a;
+        font-weight: 500;
+      }
+      .sync-detail-val {
+        color: #18181b;
+        font-weight: 600;
+        word-break: break-all;
       }
 
       #app {
@@ -650,7 +834,6 @@
       /**/
       .main-content__user-card {
         display: flex;
-        flex-direction: column;
         align-items: center;
         height: 100vh;
         max-height: var(--w100);
@@ -734,24 +917,932 @@
       [data-bottom-sheet="showing"] + #app main {
         transform: scale(0.9) translate(0px, -50px);
       }
+
+      h1:empty,
+      h2:empty {
+        width: fit-content;
+        min-width: 13ch;
+        max-height: 30px;
+        background-color: #efefef;
+        margin: 20px auto 0px auto;
+        border-radius: 100px;
+        background-image: linear-gradient(
+          90deg,
+          #00000010 0%,
+          #00000035 50%,
+          #00000010 100%
+        );
+        background-size: 400% 100%;
+        animation: skel-shimmer 2s infinite linear;
+      }
+      @keyframes skel-shimmer {
+        0% {
+          background-position: 100% 0;
+        }
+        100% {
+          background-position: -100% 0;
+        }
+      }
+
+      #card * {
+        max-width: var(--w100);
+      }
+
+      :root {
+        --wh: stretch;
+        --avatar-size: 100px;
+      }
+
+      .profile-card {
+        background: #ffffff;
+        border-radius: 16px;
+        width: 100%;
+        max-width: 450px;
+        overflow: hidden;
+        font-family: sans-serif;
+        transition: all 0.3s ease;
+      }
+
+      /* --- Portada --- */
+      .cover-wrap {
+        position: relative;
+        width: 100%;
+        min-height: 115px;
+        background-color: #e5e7eb;
+        display: none;
+        transition: all 0.2s ease; /* Transición para cuando cambien los valores del slider */
+      }
+      .cover-photo {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: none;
+      }
+
+      /* --- Contenido Principal --- */
+      .profile-row {
+        display: flex;
+        align-items: center;
+        gap: 20px;
+        padding: 20px;
+        position: relative;
+        transition: all 0.3s ease;
+      }
+
+      .avt {
+        --avatar-size: 100px; /* single source of truth for avatar dimensions */
+        --avatar-radius: 50px;
+        display: grid;
+        place-items: center;
+        position: relative;
+        width: var(--avatar-size);
+        height: var(--avatar-size);
+        flex-shrink: 0;
+        transition:
+          width 0.3s ease,
+          height 0.3s ease,
+          margin 0.3s ease;
+        border-radius: var(--avatar-radius);
+        transform-origin: center;
+      }
+
+      .avt__img {
+        width: var(--avatar-size);
+        height: var(--avatar-size);
+        border-radius: var(--avatar-radius);
+        object-fit: cover;
+        z-index: 1;
+        grid-area: 1 / 1;
+        transform-origin: center;
+      }
+
+      /* --- Efecto Shimmer --- */
+      .cover-skel,
+      .avt__skel,
+      .lin__skel {
+        background: linear-gradient(
+          90deg,
+          #ecefef 25%,
+          #f4f6f6 50%,
+          #ecefef 75%
+        );
+        background-size: 200% 100%;
+        animation: shimmer 1.5s infinite linear;
+      }
+      .cover-skel {
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        top: 0;
+        left: 0;
+      }
+      .avt__skel {
+        width: var(--avatar-size, 100px);
+        height: var(--avatar-size, 100px);
+        border-radius: var(--avatar-radius);
+        grid-area: 1 / 1;
+        transition: all 0.3s ease;
+      }
+      .lin__skel {
+        margin-bottom: 8px;
+        border-radius: 4px;
+      }
+
+      @keyframes shimmer {
+        0% {
+          background-position: 200% 0;
+        }
+        100% {
+          background-position: -200% 0;
+        }
+      }
+
+      /* --- Control de visibilidad --- */
+      .avt__img,
+      .cover-photo,
+      .lin__identity {
+        display: none;
+      }
+
+      .status-storage[data-general-status="loaded"] .avt__skel,
+      .status-storage[data-general-status="loaded"] .cover-skel,
+      .status-storage[data-general-status="loaded"] .lin__identity-skel {
+        display: none;
+      }
+      .status-storage[data-general-status="loaded"] .avt__img,
+      .status-storage[data-general-status="loaded"] .cover-photo,
+      .status-storage[data-general-status="loaded"] .lin__identity {
+        display: block;
+      }
+
+      /* --- PRESETS SOCIALES --- */
+      .profile-card.preset-classic .cover-wrap {
+        display: block;
+      }
+      .profile-card.preset-classic .profile-row {
+        flex-direction: column;
+        align-items: flex-start;
+        text-align: left;
+        padding-top: 0;
+      }
+      .profile-card.preset-classic .avt {
+        margin-top: -50px;
+      }
+
+      .profile-card.preset-centered .cover-wrap {
+        display: block;
+      }
+      .profile-card.preset-centered .profile-row {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        padding-top: 0;
+      }
+      .profile-card.preset-centered .avt {
+        margin-top: -50px;
+      }
+
+      .profile-card.preset-horizontal .cover-wrap {
+        display: block;
+      }
+      .profile-card.preset-horizontal .profile-row {
+        flex-direction: row;
+        align-items: center;
+        text-align: left;
+        padding-top: 20px;
+      }
+      .profile-card.preset-horizontal .avt {
+        margin-top: 0;
+      }
+
+      /* --- ESTILOS DE PORTADA --- */
+      .profile-card.cover-style-none .cover-wrap {
+        display: none !important;
+      }
+      .profile-card.cover-style-none .profile-row {
+        padding-top: 20px !important;
+      }
+      .profile-card.cover-style-none .avt {
+        margin-top: 0 !important;
+      }
+
+      .profile-card.cover-style-full .cover-wrap {
+        display: block !important;
+        margin: 0;
+        width: 100%;
+        border-radius: 0;
+      }
+
+      .profile-card.cover-style-inset .cover-wrap {
+        display: block !important;
+        margin: 16px auto; /* auto para mantenerlo centrado si modificamos el width */
+        width: calc(100% - 32px);
+        border-radius: 12px;
+        overflow: hidden;
+      }
+
+      /* --- MORPHING CONTROLLER SYSTEM --- */
+      .morphing-controller {
+        position: fixed;
+        bottom: 20px;
+        left: 50%;
+        transform: translateX(-50%);
+        z-index: 10000;
+        box-sizing: border-box;
+        transition: all 0.5s cubic-bezier(0.2, 1, 0.2, 1);
+        overflow: hidden;
+        font-family: sans-serif;
+        display: none;
+      }
+
+      .morphing-controller[data-status="pill"] {
+        width: 380px;
+        height: 380px;
+        border-radius: 16px;
+        background: transparent;
+        box-shadow: none;
+        pointer-events: none;
+        transform: translate(-50%, 110%);
+        opacity: 0;
+        border: none;
+      }
+      .morphing-controller[data-status="pill"] * {
+        display: none !important;
+      }
+
+      .morphing-controller[data-status="main-controller"] {
+        width: 380px;
+        height: 380px; /* Un poco más de altura */
+        border-radius: 16px;
+        background: #ffffff;
+        color: #09090b;
+        padding: 16px;
+        box-shadow: 0 12px 32px rgba(0, 0, 0, 0.15);
+        border: 1px solid #e4e4e7;
+        cursor: default;
+      }
+
+      .pill-content {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        width: 100%;
+        height: 100%;
+        font-size: 14px;
+        font-weight: 600;
+        white-space: nowrap;
+        transition:
+          opacity 0.2s ease,
+          transform 0.2s ease;
+        opacity: 1;
+        transform: scale(1);
+      }
+      .morphing-controller[data-status="main-controller"] .pill-content {
+        opacity: 0;
+        transform: scale(0.8);
+        pointer-events: none;
+        height: 0;
+        overflow: hidden;
+      }
+
+      .panel-content {
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+        opacity: 0;
+        transform: scale(0.95);
+        transition:
+          opacity 0.3s ease,
+          transform 0.3s ease;
+        pointer-events: none;
+        height: 0;
+        overflow: hidden;
+      }
+      .morphing-controller[data-status="main-controller"] .panel-content {
+        opacity: 1;
+        transform: scale(1);
+        pointer-events: auto;
+        height: 100%;
+      }
+
+      /* ==========================================================================
+         REGLAS DE ARQUITECTURA UI
+
+         Patrones:
+         - La estructura permanente vive en CSS por clase semantica.
+         - Los cambios de estado se expresan con atributos data-*:
+           data-state, data-status, data-card-status, data-bottom-sheet.
+         - JS solo cambia atributos data-* o variables CSS de runtime.
+         - Componentes flex/grid mantienen su display base en CSS.
+
+         Antipatrones:
+         - No usar el atributo style="" para comportamiento o estado.
+         - No usar el atributo style="" para display, visibility, overflow,
+           pointer-events, position, transform o layout del componente.
+         - No usar element.style.display = "block" para mostrar un componente
+           que depende de display:flex o display:grid.
+         - No hardcodear CSS inline desde JS si puede resolverse con data-*.
+
+         Ejemplo:
+         Correcto: el.dataset.status = "active"
+         Incorrecto: el.style.display = "block"
+         ========================================================================== */
+      #main-sheet {
+        height: min(55dvh, 720px);
+      }
+
+      #main-sheet[data-status="hidden"] {
+        display: none;
+      }
+
+      #main-sheet[data-status="ready"] {
+        display: flex;
+      }
+
+      .editor-scroll {
+        flex: 1;
+        min-height: 0;
+        overflow-y: auto;
+        padding-bottom: calc(32px + env(safe-area-inset-bottom));
+        overscroll-behavior: contain;
+        -webkit-overflow-scrolling: touch;
+      }
+      .editor-scroll::-webkit-scrollbar {
+        width: 5px;
+      }
+      .editor-scroll::-webkit-scrollbar-thumb {
+        background: #e4e4e7;
+        border-radius: 10px;
+      }
+
+      .fc-header {
+        font-size: 14px;
+        font-weight: 700;
+        margin: 0 0 14px 0;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        color: #09090b;
+        flex-shrink: 0;
+      }
+      .fc-close-btn {
+        background: none;
+        border: none;
+        color: #a1a1aa;
+        font-size: 16px;
+        cursor: pointer;
+        margin-left: auto;
+        padding: 4px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+        transition: all 0.2s;
+      }
+      .fc-close-btn:hover {
+        background: #f4f4f5;
+        color: #18181b;
+      }
+      .control-row {
+        margin-bottom: 16px;
+      }
+      .control-label {
+        display: block;
+        font-size: 12px;
+        font-weight: 600;
+        margin-bottom: 8px;
+        color: #09090b;
+      }
+      .glider-container {
+        display: flex;
+        background: #f4f4f5;
+        border-radius: 8px;
+        padding: 4px;
+        gap: 4px;
+      }
+      .glider-option {
+        flex: 1;
+        text-align: center;
+        padding: 6px;
+        font-size: 11px;
+        cursor: pointer;
+        border-radius: 6px;
+        color: #71717a;
+        transition: all 0.2s;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 500;
+      }
+      .glider-option.active {
+        background: #ffffff;
+        color: #09090b;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        font-weight: 700;
+      }
+      .control-label-wrap {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-size: 12px;
+        font-weight: 600;
+        margin-bottom: 8px;
+        color: #09090b;
+      }
+      .control-value {
+        color: #71717a;
+        font-weight: 400;
+      }
+      .range-input {
+        width: 100%;
+        accent-color: #09090b;
+      }
+      #insetControlsContainer[data-status="hidden"],
+      .sheet-sticky-controls[data-status="hidden"] {
+        display: none;
+      }
+      #insetControlsContainer[data-status="active"] {
+        display: block;
+      }
+      .sheet-sticky-controls[data-status="active"] {
+        display: block;
+      }
+      .custom-input {
+        width: 100%;
+        padding: 6px 8px;
+        border-radius: 6px;
+        border: 1px solid #d4d4d8;
+        font-family: sans-serif;
+        font-size: 12px;
+        box-sizing: border-box;
+        background: #fff;
+      }
+      .checkbox-wrap {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 8px;
+      }
+      .divider {
+        height: 1px;
+        background: #e4e4e7;
+        margin: 14px 0;
+      }
+
+      /* --- MOCK BORDER (::before) --- */
+      .avt {
+        --mock-border-scale: 1.05;
+        --mock-border-bg: #ffffff;
+      }
+      .avt::before {
+        content: "";
+        grid-area: 1 / 1;
+        width: var(--avatar-size, 100px);
+        height: var(--avatar-size, 100px);
+        display: block;
+        background: var(--mock-border-bg);
+        border-radius: var(--avatar-radius);
+        transform: scale(var(--mock-border-scale));
+        z-index: 0;
+        transition:
+          width 0.3s ease,
+          height 0.3s ease,
+          transform 0.2s ease;
+        transform-origin: center;
+      }
+
+      main:has(.cover-style-none) .main-content__top-bar {
+        flex-direction: row-reverse;
+      }
+
+      /**/
+
+      /* --- ESTRUCTURA SOLICITADA --- */
+      .pill-wrapper {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+
+      /* Contenedor principal estilo Píldora */
+      .buttons-container {
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: transparent;
+        border-radius: 9999px;
+        width: 130px; /* Ancho fijo para mantener la forma durante la animación */
+        height: 48px; /* Alto fijo */
+        overflow: hidden; /* Oculta los botones cuando salen del área */
+        border: 1px solid #0e876d;
+
+        box-shadow: var(--shadow-sm);
+      }
+
+      /* Estilos base compartidos por los botones Editar y Listo */
+      .btn-action {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        border: none;
+        color: white;
+        font-weight: bold;
+        font-size: 1rem;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        transition:
+          transform 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+          opacity 0.4s ease;
+      }
+
+      /* Estado inicial: Botón Editar */
+      .btn-edit {
+        background-color: transparent;
+        transform: translateY(0);
+        opacity: 1;
+        color: #0c886d;
+      }
+
+      /* Estado inicial: Botón Listo (oculto abajo) */
+      .btn-done {
+        background-color: transparent;
+        transform: translateY(100%);
+        opacity: 0;
+      }
+
+      /* Contenedor del Botón Satélite */
+      .satellite-container {
+        transition:
+          transform 0.4s ease,
+          opacity 0.4s ease,
+          width 0.4s ease,
+          margin 0.4s ease;
+        overflow: hidden;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+
+      /* Botón Satélite Circular */
+      .btn-satellite {
+        width: 48px;
+        height: 48px;
+        border-radius: 50%;
+        border: none;
+        background-color: #09090b;
+        color: white;
+        font-size: 1.2rem;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+      }
+
+      .btn-satellite svg {
+        width: 20px;
+      }
+
+      /* =========================================
+       ESTADOS DE ANIMACIÓN (Clase 'is-active')
+       ========================================= */
+
+      /* Editar se mueve hacia arriba y desaparece */
+      .pill-wrapper.is-active .btn-edit {
+        transform: translateY(-100%);
+        opacity: 0;
+      }
+
+      /* Listo sube desde abajo y ocupa el lugar */
+      .pill-wrapper.is-active .btn-done {
+        transform: translateY(0);
+        opacity: 1;
+      }
+
+      /* El botón satélite colapsa y desaparece */
+      .pill-wrapper.is-active .satellite-container {
+        transform: scale(0);
+        opacity: 0;
+        width: 0;
+        margin-left: -12px; /* Cancela visualmente el gap del flexbox */
+      }
+
+      .pill-wrapper-container {
+        display: flex;
+        width: -webkit-fill-available;
+        justify-content: center;
+        position: fixed;
+        bottom: 20px;
+        left: 0px;
+        z-index: 999;
+      }
+
+      .pill-wrapper:not(.is-active) .buttons-container {
+        background-color: #bcdbd4;
+      }
+
+      .pill-wrapper.is-active .buttons-container {
+        background-color: #06896c;
+      }
+
+      /**/
+
+      [data-card-status="editing"] + #app header {
+        margin-bottom: -50px;
+        transform: translatey(-130px);
+        height: 85px;
+      }
+
+      [data-card-status="editing"] + #app .handler--drag {
+        transform: scale(0);
+      }
+
+      .avt__edit {
+        transform: translate(-50%, -50%);
+      }
+
+      [data-card-status="editing"] + #app .mobile_input,
+      [data-card-status="editing"] + #app .avt__edit {
+        display: flex;
+        position: absolute;
+        width: var(--w100);
+        height: var(--w100);
+        max-width: var(--wh);
+        max-height: var(--wh);
+        background-color: #00000044;
+        justify-content: center;
+        align-items: center;
+        cursor: pointer;
+      }
+
+      [data-card-status="editing"] + #app .avt__edit {
+        inset: 50% auto auto 50%;
+        z-index: 2;
+        background-color: #00000070;
+        width: var(--avatar-size);
+        height: var(--avatar-size);
+        max-width: var(--avatar-size);
+        max-height: var(--avatar-size);
+        border-radius: var(--avatar-radius);
+        transform: translate(-50%, -50%);
+        transform-origin: center;
+        position: absolute;
+      }
+
+      [data-card-status="editing"] + #app .icon_cover:before {
+        --wh: 45px;
+        content: "";
+        width: var(--wh);
+        height: var(--wh);
+        background-color: #00000000;
+        display: flex;
+        padding: 0px;
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-position: center;
+        align-items: center;
+        justify-content: center;
+        background-image: url("data:image/svg+xml,%3Csvg version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' width='24px' height='24px' viewBox='0,0,256,256'%3E%3Cg fill='%23ffffff' fill-rule='nonzero' stroke='none' stroke-width='1' stroke-linecap='butt' stroke-linejoin='miter' stroke-miterlimit='10' stroke-dasharray='' stroke-dashoffset='0' font-family='none' font-weight='none' font-size='none' text-anchor='none' style='mix-blend-mode: normal'%3E%3Cg transform='scale(10.66667,10.66667)'%3E%3Cpath d='M16,16h-13c-0.6,0 -1,-0.4 -1,-1v-10c0,-0.6 0.4,-1 1,-1h13c0.6,0 1,0.4 1,1v10c0,0.6 -0.4,1 -1,1z' opacity='0.3'%3E%3C/path%3E%3Cpath d='M16,17h-13c-1.1,0 -2,-0.9 -2,-2v-10c0,-1.1 0.9,-2 2,-2h13c1.1,0 2,0.9 2,2v10c0,1.1 -0.9,2 -2,2zM3,5v10h13v-10z'%3E%3C/path%3E%3Cpath d='M20,21h-15v-2h15v-12h2v12c0,1.1 -0.9,2 -2,2z'%3E%3C/path%3E%3Cpath d='M15,13l-3.4,-4.7l-2.8,3.7l-2.1,-2.5l-2.7,3.5z'%3E%3C/path%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+      }
+
+      [data-card-status="editing"] + #app .avt__ico:before {
+        --wh: 45px;
+        content: "";
+        width: var(--wh);
+        height: var(--wh);
+        background-color: #00000000;
+        display: flex;
+        padding: 0px;
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-position: center;
+        align-items: center;
+        justify-content: center;
+                background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 20 20' fill='none'%3E%3Cg clip-path='url(%23clip0_4_5)'%3E%3Cpath d='M20 10C20 15.5228 15.5228 20 10 20C4.47715 20 0 15.5228 0 10C0 4.47715 4.47715 0 10 0C15.5228 0 20 4.47715 20 10Z' fill='white' fill-opacity='0.5'/%3E%3Ccircle cx='10' cy='8' r='3' fill='white'/%3E%3Crect x='5' y='12' width='10' height='3' rx='1.5' fill='white'/%3E%3C/g%3E%3Cdefs%3E%3CclipPath id='clip0_4_5'%3E%3Crect width='20' height='20' fill='white'/%3E%3C/clipPath%3E%3C/defs%3E%3C/svg%3E");
+      }
+
+      /* === STYLE SELECTOR GRID === */
+      .image-style-fieldset {
+        border: 0;
+        padding: 0;
+        margin: 0 0 12px;
+      }
+      .image-style-grid {
+        display: flex;
+        gap: 12px;
+        justify-content: center;
+      }
+      .image-style-card {
+        position: relative;
+        display: grid;
+        place-items: center;
+        gap: 10px;
+        padding: 16px 10px;
+        border: 2px solid #e5e7eb;
+        border-radius: 14px;
+        background: #fff;
+        cursor: pointer;
+        transition:
+          border-color 0.2s,
+          box-shadow 0.2s,
+          transform 0.02s;
+        width: 100%;
+        max-width: 120px;
+        min-width: 110px;
+      }
+      .image-style-card:active {
+        transform: scale(0.995);
+      }
+      .image-style-card:hover {
+        border-color: #d1d5db;
+      }
+      input[name="image_style"]:checked + .image-style-card {
+        border-color: #06896c;
+        box-shadow: 0 0 0 4px #06896c22;
+      }
+      .image-style-card .checkmark {
+        position: absolute;
+        top: 8px;
+        right: 8px;
+        width: 22px;
+        height: 22px;
+        border-radius: 999px;
+        border: 2px solid #e5e7eb;
+        background: #fff;
+        transition: all 0.2s ease;
+      }
+      input[name="image_style"]:checked + .image-style-card .checkmark {
+        border-color: #06896c;
+        background: radial-gradient(
+          circle at 50% 50%,
+          #06896c 50%,
+          transparent 51%
+        );
+      }
+      .image-style-title {
+        font-size: 13px;
+        font-weight: 600;
+        color: #374151;
+      }
+      .preview {
+        width: 100%;
+        height: 72px;
+        border-radius: 12px;
+        background: #f3f4f6;
+        display: grid;
+        place-items: center;
+      }
+      .preview--classic::before {
+        content: "";
+        width: 48px;
+        height: 48px;
+        border-radius: 999px;
+        background: #e5e7eb;
+        box-shadow:
+          inset 0 10px 20px #0000000f,
+          0 2px 4px #0000000a;
+      }
+      .preview--hero::before {
+        content: "";
+        width: 48px;
+        height: 36px;
+        border-radius: 8px;
+        background: #e5e7eb;
+        box-shadow:
+          inset 0 10px 20px #0000000f,
+          0 2px 4px #0000000a;
+      }
+      .preview--cover {
+        position: relative;
+        overflow: hidden;
+      }
+      .preview--cover .cover-bg {
+        position: absolute;
+        inset: 0 0 40% 0;
+        background: linear-gradient(180deg, #e9d5ff, #dbeafe);
+      }
+      .preview--cover .avatar {
+        position: absolute;
+        bottom: 8px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 32px;
+        height: 32px;
+        border-radius: 999px;
+        background: #e5e7eb;
+        box-shadow:
+          0 2px 4px #0000001a,
+          0 0 0 2px #fff;
+      }
+
+      /* Breadcrumb Styles */
+      .breadcrumb-back {
+        cursor: pointer;
+        color: #6b7280;
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        transition: color 0.2s;
+        font-weight: 500;
+      }
+      .breadcrumb-back:hover {
+        color: #111827;
+      }
+      .breadcrumb-separator {
+        margin: 0 6px;
+        color: #9ca3af;
+      }
+      .breadcrumb-current {
+        color: #111827;
+        font-weight: 700;
+      }
+
+      /* --- PRESET HERO --- */
+      .profile-card.preset-hero {
+        position: relative;
+        overflow: hidden;
+      }
+      .profile-card.preset-hero .cover-wrap {
+        display: block !important;
+        position: absolute;
+        inset: 0;
+        z-index: 1;
+        width: 100% !important;
+        height: var(--hero-height, 50%) !important;
+        margin: 0 !important;
+        border-radius: 0 !important;
+      }
+      .profile-card.preset-hero .cover-photo {
+        width: 100%;
+        height: 100%;
+        object-fit: var(--hero-fit, cover) !important;
+      }
+      .profile-card.preset-hero .profile-row {
+        position: relative;
+        z-index: 2;
+        margin-top: calc(var(--hero-height, 50%) - 40px);
+        background: rgba(255, 255, 255, 0.7);
+        backdrop-filter: blur(var(--hero-blur, 12px));
+        -webkit-backdrop-filter: blur(var(--hero-blur, 12px));
+        border-radius: 24px 24px 0 0;
+        border-top: 1px solid rgba(255, 255, 255, 0.4);
+        box-shadow: 0 -10px 30px rgba(0,0,0,0.05);
+        padding: 24px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+      }
+      .profile-card.preset-hero .avt {
+        margin-top: -64px;
+        margin-bottom: 12px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      }
     </style>
   </head>
+
   <body>
-    <div
-      id="data-status-storage"
-      data-bind-attr="config.cover_active"
-      data-bottom-sheet="hidden"
-    ></div>
+    <div id="data-status-storage">
+      <!-- 
+    INSTRUCCIONES.
+    ESTE ELEMENTO HTML SE USARA PARA ALMACENAR ESTADOS DE JS EN ATRIBUTOS data-*something
+    de esta manera permitiremos a la UI cambiar su aspecto dependiendo del atributo y estado designado por medio de cadena de clases css
+
+    ejemplo:
+
+    #data-status-storage[data-status="offline"] + #app{
+        --background-color: #efefef;
+    }
+    #data-status-storage[data-status="online"] + #app{
+        --background-color: #00ff00;
+    }
+
+    ESTADO GLOBAL DE UI (State-Driven CSS)
+
+    Este elemento actúa como un "observador de estado". La lógica de negocio 
+    en JS actualiza únicamente los atributos data-* de este nodo, y el CSS 
+    reacciona de forma declarativa mediante selectores de atributos.
+
+    Mantenimiento:
+    - Evitar lógica compleja aquí; solo estados de alto nivel (ej: auth, theme, status).
+    - Selector: Se usa el adyacente (+) para encapsular cambios en #app.
+    - Ejemplo: 
+    #data-status-storage[data-status="online"] + #app { --color: green; }
+    
+--->
+    </div>
     <div id="app">
-      <!-- Selector de Temas Carrusel 3D Overlay -->
-      <div class="card-carousel" id="carousel-viewport">
-        <div class="card-carousel__track" id="stage">
-          <!-- Inyectado dinámicamente -->
-        </div>
-      </div>
       <header class="header">
         <div>
-          <div class="header__actions">
+          <div
+            class="header__actions"
+            style="--scale: 0.941; --blur: -0.10000000000000009px"
+          >
             <div class="header__menu">
               <button
                 class="header__back-btn"
@@ -763,6 +1854,10 @@
               </button>
               <div class="header__title-container">
                 <span class="header__title">Main hub</span>
+                <div class="sync-status-badge" id="syncStatusBadge">
+                  <span class="sync-dot"></span>
+                  <span class="sync-text">Sincronizado</span>
+                </div>
                 <div class="header__module-icon">
                   <svg><use href="#chevron-arrow"></use></svg>
                 </div>
@@ -798,14 +1893,17 @@
           </div>
           <!-- CORREGIDO: antes era un </div> -->
 
-          <div class="header__action handler" aria-label="Arrastrar">
+          <div
+            class="header__action handler"
+            aria-label="Arrastrar"
+            style="--translate: -28px"
+          >
             <span class="header__action__handler handler--drag"></span>
           </div>
         </div>
         <!-- CORREGIDO: antes era un </span> -->
       </header>
-
-      <main class="main-content main-content--profile" data-style="classic">
+      <main class="main-content profile-section" data-style="classic">
         <div class="main-content__top-bar">
           <div class="logo-chip">
             <svg class="logo-chip__icon" viewBox="0 0 24 24" fill="none">
@@ -817,1658 +1915,1744 @@
           id="card"
           class="main-content__user-card"
           data-object="binder-area"
+          data-hydrated=""
         >
-          <div class="cover">
-            <div class="cover__box">
-              <div class="cover__image nfc_cover" id="background_cover"></div>
+          <!-- unnmamed template test -->
+          <style></style>
+          <!-- Contenedor Principal (Storage Node y Master Bind) -->
+          <div data-master-bind="true"></div>
+          <div
+            class="profile-card preset-classic cover-style-full status-storage"
+            id="mainCard"
+            data-general-status="skel-loading"
+          >
+            <!-- Portada (Añadimos ID coverWrap para el Factory) -->
+            <div class="cover-wrap" id="coverWrap">
+              <span
+                id="mobile_cover_input"
+                class="mobile_input edit-element"
+                data-scope="mobile_cover_input"
+              >
+                <span class="icon_cover"> </span>
+              </span>
+              <div class="cover-skel"></div>
+              <img
+                class="cover-photo skeleton-target"
+                id="profileCover"
+                data-bind="user.umCoverUrl"
+                data-bind-type="src"
+                alt="Portada"
+              />
             </div>
-            <div class="cover__avatar">
-              <div data-img="none" data-status="skel"></div>
+
+            <div class="profile-row" id="profileContent">
+              <div class="avt" id="avatarContainer">
+                <span
+                  id="mobile_avatar_input"
+                  class="avt__edit edit-element"
+                  data-scope="avt__edit"
+                >
+                  <span class="avt__ico"> </span>
+                </span>
+                <div class="avt__skel"></div>
+                <img
+                  class="avt__img skeleton-target"
+                  id="profileImg"
+                  data-bind="user.avatar.url"
+                  data-bind-type="src"
+                  alt="Foto de perfil"
+                  onerror="
+                    this.onerror = null;
+                    this.src =
+                      'data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 24 24\' width=\'100\' height=\'100\'><circle cx=\'12\' cy=\'8\' r=\'4\' fill=\'%23ccc\'/><path d=\'M12 14c-6.1 0-8 4-8 4v2h16v-2s-1.9-4-8-4z\' fill=\'%23ccc\'/></svg>';
+                  "
+                />
+              </div>
+
+              <div class="lin__identity-skel">
+                <div class="lin__skel" style="height: 22px; width: 140px"></div>
+                <div class="lin__skel" style="height: 13px; width: 90px"></div>
+              </div>
+
+              <div class="lin__identity">
+                <h2
+                  style="margin: 0; font-size: 22px"
+                  id="profileName"
+                  data-bind="user.firstName"
+                  data-bind-type="text"
+                ></h2>
+                <p
+                  style="margin: 4px 0 0 0; font-size: 13px; color: #666"
+                  id="profileRole"
+                  data-bind="user.role"
+                  data-bind-type="text"
+                ></p>
+              </div>
             </div>
           </div>
-          <h1 id="title"></h1>
-          <h2 id="subtitle"></h2>
-        </div>
-
-        <!-- Apariencia carousel panel (lives OUTSIDE #card so binder swaps never destroy it) -->
-        <div
-          id="appearance-panel"
-          hidden
-          data-role="appearance-panel"
-          style="
-            margin: 12px 0 24px;
-            padding: 8px 0;
-            border-top: 1px solid rgba(255, 255, 255, 0.08);
-          "
-        >
-          <!-- Populated dynamically by card-carousel when island mode === 'apariencia' -->
         </div>
       </main>
+    </div>
+    <!-- New Pill Edit BTN -->
+    <div class="pill-wrapper-container" style="">
+      <div class="pill-wrapper" id="mi-pildora">
+        <!-- Contenedor principal estilo Píldora -->
+        <div class="buttons-container">
+          <button class="btn-action btn-edit">
+            <i class="fa-solid fa-pen"></i>
+            <span>Editar</span>
+          </button>
 
-      <!-- Cohort profile editor panel -->
-      <!-- Template for Dynamic Profile Editor -->
-      <template id="tmpl-profile-editor">
-        <!-- Navigation Mode Selector (Scroll vs Tab) -->
-        <div
-          class="nav-mode-selector-container"
-          id="nav-mode-selector-container"
-        >
-          <div class="segmented-control">
-            <button
-              type="button"
-              class="segmented-btn active"
-              id="btn-nav-scroll"
-              data-nav-mode="scroll"
-            >
-              <i class="ti ti-fold" aria-hidden="true"></i> Scroll
-            </button>
-            <button
-              type="button"
-              class="segmented-btn"
-              id="btn-nav-tabs"
-              data-nav-mode="tabs"
-            >
-              <i class="ti ti-layout-columns" aria-hidden="true"></i> Tab
-            </button>
-          </div>
+          <button class="btn-action btn-done">
+            <i class="fa-solid fa-check"></i>
+            <span>Listo</span>
+          </button>
         </div>
 
-        <!-- Cohort Tabs Selector (simplified for Contacto/Redes navigation) -->
-        <div class="cohort-tabs-container">
-          <div class="cohort-tabs">
-            <button class="cohort-tab active" data-cohort="3">
-              <i class="ti ti-phone" aria-hidden="true"></i> Contacto
-            </button>
-            <button class="cohort-tab" data-cohort="5">
-              <i class="ti ti-brand-instagram" aria-hidden="true"></i> Redes
-            </button>
-          </div>
+        <!-- Botón Satélite Circular -->
+        <div class="satellite-container">
+          <button
+            class="btn-satellite"
+            onclick="simulateAction('Satélite / Añadir')"
+          >
+            <svg
+              viewBox="0 0 24 24"
+              width="100%"
+              height="100%"
+              xmlns="http://w3.org"
+            >
+              <path
+                fill="currentColor"
+                d="M11 2v9H2v2h9v9h2v-9h9v-2h-9V2h-2z"
+              />
+            </svg>
+          </button>
         </div>
+      </div>
+    </div>
 
-        <div class="profile-editor-content">
-          <!-- Cohort 1: Foto y Portada -->
-          <div class="cohort-pane active" id="pane-1">
-            <div class="editor-section">
-              <label class="editor-label">Foto de Perfil</label>
-              <div class="avatar-edit-container">
-                <img
-                  id="edit-avatar-preview"
-                  src=""
-                  class="avatar-edit-preview"
-                  alt="Avatar"
-                />
+    <!-- Fondo opaco -->
+    <div class="sheet-backdrop" id="main-backdrop" data-state="closed"></div>
+
+    <!-- Contenedor principal del Bottom Sheet -->
+    <div
+      class="bottom-sheet"
+      id="main-sheet"
+      data-state="closed"
+      data-status="ready"
+      aria-modal="true"
+      role="dialog"
+    >
+      <!-- Zona de arrastre (Pill) -->
+      <div class="sheet-handler-area"><div class="sheet-drag-pill"></div></div>
+
+      <!-- Header Dividido en 3 zonas -->
+      <header class="sheet-header">
+        <div class="sheet-header-left" id="sheet-header-left">
+          <h2
+            style="
+              font-size: 1.5rem;
+              font-weight: 700;
+              color: #1f2937;
+              margin: 0px;
+            "
+          >
+            Perfil y portada
+          </h2>
+        </div>
+        <div class="sheet-header-center" id="sheet-header-center"></div>
+        <div class="sheet-header-right" id="sheet-header-right">
+          <button
+            class="icon-btn"
+            data-action="close"
+            style="
+              background: var(--bg-secondary);
+              border: none;
+              border-radius: 50%;
+              width: 36px;
+              height: 36px;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              cursor: pointer;
+            "
+          >
+            <i
+              class="ti ti-x"
+              style="font-size: 18px; color: var(--text-primary)"
+            ></i>
+          </button>
+        </div>
+      </header>
+
+      <!-- Contenedor principal con scroll independiente. Mantenemos el ID 'editorScroll' para compatibilidad con CONTROLS -->
+      <div class="sheet-content-slots editor-scroll" id="editorScroll">
+        
+        <!-- VISTA PRINCIPAL (SELECTOR DE ESTILO) -->
+        <div id="main-settings" style="padding: 20px 0;">
+          <div class="profile-container">
+            <fieldset class="image-style-fieldset">
+              <div class="image-style-grid">
+                <!-- Classic -->
                 <input
-                  type="text"
-                  id="input-profile-photo"
-                  class="editor-input"
-                  placeholder="Pegar URL de imagen..."
-                  data-bind-field="profile.photo.src"
-                  data-bind-target=".blank__avatar, .aurora__avatar"
-                  data-bind-event="change"
+                  type="radio"
+                  name="image_style"
+                  id="style-classic"
+                  value="classic"
+                  checked
+                  style="position: absolute; opacity: 0; pointer-events: none;"
                 />
-              </div>
-            </div>
+                <label class="image-style-card" for="style-classic">
+                  <span class="preview preview--classic" aria-hidden="true"></span>
+                  <span class="image-style-title">Clásico</span>
+                  <span class="checkmark" aria-hidden="true"></span>
+                </label>
 
-            <div class="editor-section">
-              <label class="editor-label">Imagen de Portada (Cover)</label>
-              <div class="cover-edit-container">
-                <div id="edit-cover-preview" class="cover-edit-preview"></div>
+                <!-- Hero -->
                 <input
-                  type="text"
-                  id="input-profile-cover"
-                  class="editor-input"
-                  placeholder="Pegar URL de portada..."
-                  data-bind-field="profile.cover.src"
-                  data-bind-target="#background_cover"
-                  data-bind-event="change"
+                  type="radio"
+                  name="image_style"
+                  id="style-hero"
+                  value="hero"
+                  style="position: absolute; opacity: 0; pointer-events: none;"
                 />
-              </div>
-            </div>
+                <label class="image-style-card" for="style-hero">
+                  <span class="preview preview--hero" aria-hidden="true"></span>
+                  <span class="image-style-title">Hero</span>
+                  <span class="checkmark" aria-hidden="true"></span>
+                </label>
 
-            <div class="editor-section">
-              <div class="image-style-section">
-                <form class="image-style-form" id="image-style-form">
-                  <fieldset class="image-style-fieldset">
-                    <legend><span>image style</span></legend>
-                    <div class="image-style-grid">
-                      <!-- Classic -->
-                      <input
-                        type="radio"
-                        name="image_style"
-                        id="style-classic"
-                        value="classic"
-                        checked
-                      />
-                      <label class="image-style-card" for="style-classic">
-                        <span
-                          class="preview preview--classic"
-                          aria-hidden="true"
-                        ></span>
-                        <span class="image-style-title">Clásico</span>
-                        <span class="checkmark" aria-hidden="true"></span>
-                      </label>
-                      <!-- Hero -->
-                      <input
-                        type="radio"
-                        name="image_style"
-                        id="style-hero"
-                        value="hero"
-                      />
-                      <label class="image-style-card" for="style-hero">
-                        <span
-                          class="preview preview--hero"
-                          aria-hidden="true"
-                        ></span>
-                        <span class="image-style-title">Hero</span>
-                        <span class="badge badge--pro" aria-hidden="true">
-                          Pro
-                          <svg
-                            style="width: 12px; height: 12px; color: white"
-                            viewBox="0 0 24 24"
-                            fill="currentColor"
-                          >
-                            <use href="#pro-spark"></use>
-                          </svg>
-                        </span>
-                        <span class="checkmark" aria-hidden="true"></span>
-                      </label>
-                      <!-- With Cover -->
-                      <input
-                        type="radio"
-                        name="image_style"
-                        id="style-cover"
-                        value="with-cover"
-                      />
-                      <label class="image-style-card" for="style-cover">
-                        <span class="preview preview--cover" aria-hidden="true">
-                          <span class="cover-bg"></span>
-                          <span class="avatar"></span>
-                        </span>
-                        <span class="image-style-title">Con portada</span>
-                        <span class="badge badge--pro" aria-hidden="true">
-                          Pro
-                          <svg
-                            style="width: 12px; height: 12px; color: white"
-                            viewBox="0 0 24 24"
-                            fill="currentColor"
-                          >
-                            <use href="#pro-spark"></use>
-                          </svg>
-                        </span>
-                        <span class="checkmark" aria-hidden="true"></span>
-                      </label>
-                    </div>
-                  </fieldset>
-                </form>
-              </div>
-            </div>
-          </div>
-
-          <!-- Cohort 2: Datos principales -->
-          <div class="cohort-pane" id="pane-2">
-            <div class="editor-section">
-              <label class="editor-label">Nombre Completo</label>
-              <input
-                type="text"
-                id="input-profile-name"
-                class="editor-input"
-                placeholder="Nombre..."
-                data-bind-field="profile.name"
-                data-bind-target=".blank__name, .aurora__name"
-              />
-            </div>
-            <div class="editor-section">
-              <label class="editor-label">Puesto / Cargo</label>
-              <input
-                type="text"
-                id="input-profile-title"
-                class="editor-input"
-                placeholder="Cargo..."
-                data-bind-field="profile.title"
-                data-bind-target=".blank__title, .aurora__title"
-              />
-            </div>
-            <div class="editor-section">
-              <label class="editor-label">Agencia / Organización</label>
-              <input
-                type="text"
-                id="input-profile-org"
-                class="editor-input"
-                placeholder="Organización..."
-                data-bind-field="profile.org"
-                data-bind-target=".blank__org, .aurora__org"
-              />
-            </div>
-            <div class="editor-section">
-              <label class="editor-label">Biografía / Presentación</label>
-              <textarea
-                id="input-profile-bio"
-                class="editor-textarea"
-                placeholder="Escribe tu bio..."
-                data-bind-field="profile.bio"
-                data-bind-target=".blank__bio, .aurora__bio"
-              ></textarea>
-            </div>
-            <div class="editor-section">
-              <label class="editor-label">Ajustes de Iconos de Redes</label>
-              <div class="toggle-switch-container">
-                <span>Mostrar iconos de redes justo debajo de la Bio</span>
-                <label class="toggle-switch">
-                  <input type="checkbox" id="toggle-social-icons-under-bio" />
-                  <span class="toggle-slider"></span>
+                <!-- With Cover -->
+                <input
+                  type="radio"
+                  name="image_style"
+                  id="style-cover"
+                  value="with-cover"
+                  style="position: absolute; opacity: 0; pointer-events: none;"
+                />
+                <label class="image-style-card" for="style-cover">
+                  <span class="preview preview--cover" aria-hidden="true">
+                    <span class="cover-bg"></span>
+                    <span class="avatar"></span>
+                  </span>
+                  <span class="image-style-title">Con portada</span>
+                  <span class="checkmark" aria-hidden="true"></span>
                 </label>
               </div>
-            </div>
-          </div>
+            </fieldset>
 
-          <!-- Cohort 3: Datos de Contacto -->
-          <div class="cohort-pane" id="pane-3">
-            <div class="editor-section">
-              <label class="editor-label">Correo Electrónico</label>
-              <input
-                type="email"
-                id="input-profile-email"
-                class="editor-input"
-                placeholder="email@ejemplo.com"
-                data-bind-field="profile.email"
-                data-bind-target=".blank__email a, .aurora__email a"
-              />
-            </div>
-            <div class="editor-section">
-              <label class="editor-label">Teléfono Móvil</label>
-              <input
-                type="tel"
-                id="input-profile-phone"
-                class="editor-input"
-                placeholder="+52..."
-                data-bind-field="profile.phone"
-                data-bind-target=".blank__phone a, .aurora__phone a"
-              />
-            </div>
-            <div class="editor-section">
-              <label class="editor-label">Página Web</label>
-              <input
-                type="url"
-                id="input-profile-website"
-                class="editor-input"
-                placeholder="https://..."
-                data-bind-field="profile.website"
-                data-bind-target=".blank__website a, .aurora__website a"
-              />
-            </div>
-          </div>
-
-          <!-- Cohort 5: Redes -->
-          <div class="cohort-pane" id="pane-5">
-            <div class="editor-section">
-              <p
-                style="
-                  color: rgba(0, 0, 0, 0.5);
-                  font-size: 0.9rem;
-                  text-align: center;
-                  margin: 32px 0;
-                "
+            <!-- Botón de Customización Fijo al fondo -->
+            <div class="sticky-action-bar">
+              <button
+                id="btn-personalizar"
+                type="button"
+                class="btn-primary"
+                style="margin-top: 0; width: 100%; height: auto;"
               >
-                La configuración de enlaces de redes sociales se habilitará en
-                una futura versión.
-              </p>
+                Personalizar apariencia Clásica
+              </button>
             </div>
           </div>
         </div>
-      </template>
-    </div>
-    <!-- ======================== 
-           ISLAND MENU
-         ======================== -->
-    <div id="root-island-menu">
+
+        <!-- VISTA SECUNDARIA (CONTROLES ESPECÍFICOS) -->
+        <div id="custom-settings" style="display: none; padding: 20px 0;">
+          <!-- TU CUSTOM - ESTO NO SE TOCA NUNCA POR JS -->
+          <div class="control-row custom-layout-row" id="customPresetRow">
+            <span class="control-label">Preset de layout</span>
+            <div
+              class="glider-container"
+              id="presetGlider"
+              data-control-sync="preset.layout"
+              data-target="mainCard"
+              data-state-path="preset"
+              data-value-attr="val"
+              data-event="click"
+              data-active-status="active"
+              data-inactive-status="unset"
+              data-values='{"preset-classic":"preset-classic","preset-centered":"preset-centered","preset-horizontal":"preset-horizontal","free":"free"}'
+            >
+              <div class="glider-option" data-val="preset-classic">Clásico</div>
+              <div class="glider-option" data-val="preset-centered">Centrado</div>
+              <div class="glider-option" data-val="preset-horizontal">
+                Horizontal
+              </div>
+              <div class="glider-option" data-val="free">Libre</div>
+            </div>
+          </div>
+
+          <div class="control-row custom-layout-row" id="customPosRow">
+            <span class="control-label">Posición</span>
+            <div
+              class="glider-container"
+              id="posGlider"
+              data-control-sync="preset.position"
+              data-target="profileContent"
+              data-state-path="position"
+              data-value-attr="val"
+              data-event="click"
+              data-active-status="active"
+              data-inactive-status="unset"
+              data-values='{"left":"left","right":"right","top":"top"}'
+              style="opacity: 0.5; pointer-events: none"
+            >
+              <div class="glider-option active" data-val="left">Izq</div>
+              <div class="glider-option" data-val="right">Der</div>
+              <div class="glider-option" data-val="top">Arriba</div>
+            </div>
+          </div>
+
+          <!-- CONTROLES ESPECÍFICOS PARA HERO -->
+          <div id="ctrlGroupHero" style="display: none">
+            <div class="divider"></div>
+            <span
+              class="control-label"
+              style="font-size: 16px; margin-bottom: 10px; display: block"
+              >Apariencia Hero</span
+            >
+            <div class="control-row">
+              <div class="control-label-wrap" style="display: flex; justify-content: space-between; align-items: center;">
+                <span class="control-label">Efecto Freeze Glass (Blur)</span>
+                <span class="control-value" id="ctrl-hero-blur-val">12px</span>
+              </div>
+              <input
+                type="range"
+                class="range-input"
+                id="ctrl-hero-blur-input"
+                min="0"
+                max="30"
+                value="12"
+                data-control-sync="hero-blur"
+                data-target="profileContent"
+                data-css-var="--hero-blur"
+                data-unit="px"
+              />
+            </div>
+            <div class="control-row">
+              <span class="control-label">Ajuste de Fondo Hero</span>
+              <select
+                class="custom-input"
+                id="ctrl-hero-fit-input"
+                data-control-sync="hero-fit"
+                data-target="profileCover"
+                data-css-prop="objectFit"
+                data-event="change"
+              >
+                <option value="cover" selected>Cover (Rellenar todo)</option>
+                <option value="contain">Contain (Contener)</option>
+              </select>
+            </div>
+            <div class="control-row">
+              <div class="control-label-wrap" style="display: flex; justify-content: space-between; align-items: center;">
+                <span class="control-label">Altura de la sección</span>
+                <span class="control-value" id="ctrl-hero-height-val">50%</span>
+              </div>
+              <input
+                type="range"
+                class="range-input"
+                id="ctrl-hero-height-input"
+                min="30"
+                max="100"
+                value="50"
+                data-control-sync="hero-height"
+                data-target="mainCard"
+                data-css-var="--hero-height"
+                data-unit="%"
+              />
+            </div>
+          </div>
+
+          <!-- Contenedor para grupos dinámicos (Avatar, Portada) -->
+          <div id="dynamicGroupsContainer"></div>
+        </div>
+      </div>
+
+      <!-- Footer fijo (opcional) -->
       <div
-        id="island"
-        data-component="island"
-        data-status="idle"
-        role="toolbar"
-        aria-label="Barra de acciones"
+        class="sheet-sticky-controls"
+        id="sheet-footer"
+        data-status="hidden"
       ></div>
     </div>
-
     <div id="root-styles-loader"></div>
-    <!-- 2. CONFIGURACIÓN E IMPORTACIÓN DEL BINDER UTILITY (ES MODULE) -->
-    <script type="module">
-      import { DataBinder } from "/shared/utilities/binder.js";
-      import {
-        constructSheet,
-        closeSheet,
-      } from "/shared/components/bottom-sheet/bottom-sheet.js";
-      import { DataFlowBinder } from "/shared/utilities/data-flow-binder.js";
-      import { EmptyStateManager } from "/shared/utilities/empty-state.js";
-      import "/shared/utilities/api-middleware-mock.js"; // Activa window.__useMockApi automáticamente
-      window.constructSheet = constructSheet;
-      window.closeSheet = closeSheet;
-      window.DataFlowBinder = DataFlowBinder;
-
-      // Configuración del sistema de bindeo e hidratación
-      const binderConfig = {
-        container: document.querySelector("#card"), // Montar e hidratar EXCLUSIVAMENTE dentro del card
-        endpoint:
-          "https://app.newfacecards.com/wp-content/uploads/ultimatemember/1/data/card-data.json",
-
-        // Habilita/Deshabilita el fetch local de respaldo en caso de que falle el remoto (SOLID Configurable)
-        allowLocalFallback: true,
-        localPath: "/data/card-data.json", // Ruta al backup local (root-relative, recomendada)
-
-        onSuccess: (data) => {
-          console.log("[App] Hidratación completada con éxito:", data);
-        },
-        onError: (err) => {
-          console.error("[App] Error crítico de hidratación:", err);
-        },
-      };
-
-      // Inicializar y ejecutar la tubería de bindeo con la plantilla cargada dinámicamente
-      const binder = new DataBinder(binderConfig);
-
-      const THEME_STORAGE_KEY = "APP_THEME_SELECTED";
-      const OVERRIDES_KEY = "APP_THEME_OVERRIDES";
-      // expose globally for other script blocks
-      window.THEME_STORAGE_KEY = THEME_STORAGE_KEY;
-      window.OVERRIDES_KEY = OVERRIDES_KEY;
-      const initialTheme = localStorage.getItem(THEME_STORAGE_KEY) || "aurora";
-      const initialOverrides = (() => {
-        try {
-          return JSON.parse(localStorage.getItem(OVERRIDES_KEY) || "{}");
-        } catch {
-          return {};
-        }
-      })();
-      binder
-        .loadTemplateAndRun(`/templates/cards/${initialTheme}.html`)
-        .then(() => {
-          if (initialOverrides && Object.keys(initialOverrides).length)
-            applyLiveOverrides(initialOverrides);
-          // Inyectar placeholders en loaders vacíos tras la hidratación
-          EmptyStateManager.scan(document.getElementById('card'));
-        });
-
-      window.__adminBinder = binder;
-
-      function applyLiveOverrides(overrides) {
-        const cardEl = document.getElementById("card");
-        if (!cardEl || !overrides) return;
-        let styleEl = document.getElementById("live-theme-overrides");
-        if (!styleEl) {
-          styleEl = document.createElement("style");
-          styleEl.id = "live-theme-overrides";
-          document.head.appendChild(styleEl);
-        }
-        let css = "";
-        if (overrides.font)
-          css += `#card, #card * { font-family: "${overrides.font}", system-ui, -apple-system, sans-serif !important; }`;
-        if (overrides.accentColor) {
-          const a = overrides.accentColor;
-          css += `#card [class*="__avatar"], #card [class*="avatar"] { border-color: ${a} !important; box-shadow: 0 0 0 6px ${a}22 !important; }`;
-          css += `#card h1, #card [class*="__name"], #card [class*="name"] { color: ${a} !important; }`;
-          css += `#card [class*="__role"], #card [class*="role"] { color: ${a} !important; }`;
-        }
-        styleEl.textContent = css;
-      }
-
-      window.__setCardTheme = (themeId) => {
-        if (!themeId) return;
-        EmptyStateManager.destroy(); // Limpiar observers del tema anterior
-        binder
-          .loadTemplateAndRun(`/templates/cards/${themeId}.html`)
-          .then(() => {
-            const saved = (() => {
-              try {
-                return JSON.parse(localStorage.getItem(OVERRIDES_KEY) || "{}");
-              } catch {
-                return {};
-              }
-            })();
-            applyLiveOverrides(saved);
-            EmptyStateManager.scan(document.getElementById('card'));
-          });
-        localStorage.setItem(THEME_STORAGE_KEY, themeId);
-      };
-
-      window.__applyCardTheme = (themeId, overrides = {}) => {
-        if (!themeId) return;
-        const merged = { ...(overrides || {}) };
-        localStorage.setItem(THEME_STORAGE_KEY, themeId);
-        localStorage.setItem(OVERRIDES_KEY, JSON.stringify(merged));
-        EmptyStateManager.destroy(); // Limpiar observers del tema anterior
-        binder
-          .loadTemplateAndRun(`/templates/cards/${themeId}.html`)
-          .then(() => {
-            applyLiveOverrides(merged);
-            EmptyStateManager.scan(document.getElementById('card'));
-          });
-      };
-    </script>
 
     <script>
-      /**
-       * CONFIGURACIÓN Y CONSTANTES
-       */
-      const STORAGE_PREFIX = "APP_BIND_";
-
-      const DOM = {
-        // Destinos de hidratación
-        TARGETS: {
-          title: "#title",
-          subtitle: "#subtitle",
-          styles_loader: "#root-styles-loader",
-        },
-        // Controles de entrada
-        INPUTS: {
-          main: "#binder",
-          selector: "#selector",
-        },
-        // Acciones de usuario
-        ACTIONS: {
-          bind: "#btn-bind",
-          clear: "#btn-clear",
-          run: "run-btn",
-        },
+      const DOM_CONST = {
+        statusStorage: "#data-status-storage",
       };
 
-      const BINDING_MAP = {
-        TITLE: {
-          label: "Título Principal",
-          selector: DOM.TARGETS.title,
-        },
-        SUBTITLE: { label: "Subtítulo", selector: DOM.TARGETS.subtitle },
-      };
+      document.addEventListener("DOMContentLoaded", () => {
+        // Seleccionamos el contenedor principal
+        const pildora = document.getElementById("mi-pildora");
 
-      const UI_SELECTORS = {
-        INPUT: "#binder",
-        SELECT: "#selector",
-        BUTTON_BIND: "#btn-bind",
-        BUTTON_CLEAR: "#btn-clear",
-      };
+        // Seleccionamos los botones de acción dentro de la píldora
+        const btnEdit = pildora.querySelector(".btn-edit");
+        const btnDone = pildora.querySelector(".btn-done");
+        const btnSatellite = pildora.querySelector(".btn-satellite");
 
-      /**
-       * SERVICIO DE PERSISTENCIA
-       */
-      const StorageService = {
-        save: (selector, value) =>
-          localStorage.setItem(`${STORAGE_PREFIX}${selector}`, value),
-        get: (selector) => localStorage.getItem(`${STORAGE_PREFIX}${selector}`),
-        remove: (selector) =>
-          localStorage.removeItem(`${STORAGE_PREFIX}${selector}`),
-      };
-    </script>
+        // Instancia del Bottom Sheet global
+        window.appBottomSheet = null;
 
-    <!-- Island Menu: modern reusable component (auto-enhances existing markup) -->
-    <!--
-      Pure JS object configs (admin now starts with the template you declared):
-      - Bootstrap uses morphedIslandConfig (Perfil + Navegacion) — the one you chose in JS.
-      - Clicking satellite in edit mode swaps to the other declared config.
-      You control both templates directly in this script. No .html files involved at runtime.
-    -->
-    <script type="module">
-      import { importIslandMenu } from "/shared/components/island-menu/island-menu.js";
-
-      const defaultIslandConfig = {
-        edit: { label: "Menu", icon: "ti ti-menu-2" },
-        modes: [
-          {
-            value: "cardbar",
-            label: "Profile",
-            icon: "ti ti-user-circle",
+        // Importar dinámicamente el componente Bottom Sheet
+        import("/shared/components/bottom-sheet/bottom-sheet.js").then(
+          (mod) => {
+            window.appBottomSheet = new mod.BottomSheet(
+              "main-sheet",
+              "main-backdrop",
+            ).hydrate();
+            window.constructBottomSheet = mod.constructSheet;
+            window.appBottomSheetClose = mod.closeSheet;
           },
-          { value: "apariencia", label: "Style", icon: "ti ti-palette" },
-        ],
-      };
+        );
 
-      const morphedIslandConfig = {
-        edit: { label: "Menu", icon: "ti ti-menu-2" },
-        modes: [
-          {
-            value: "cardbar",
-            label: "Profile",
-            icon: "ti ti-user-circle",
-          },
-          { value: "apariencia", label: "Style", icon: "ti ti-palette" },
-        ],
-      };
+        // ------------------------------------------------------------
+        // Credential validation – ensure both user ID and API token exist
+        // ------------------------------------------------------------
+        function ensureDevCredentials() {
+          // Check both generic keys and dev‑specific keys
+          const uid =
+            localStorage.getItem("user id") ||
+            localStorage.getItem("devUserId");
+          const token =
+            localStorage.getItem("apiToken") ||
+            localStorage.getItem("devApiKey");
+          if (!uid || !token) {
+            // Build a simple bottom‑sheet content with inputs
+            const sheetContent = `
+              <div class="test-content">
+                <label style="display:block;margin-bottom:8px;">User ID:
+                  <input type="number" id="credUserId" value="${uid ?? ""}" style="width:100%;margin-top:4px;" />
+                </label>
+                <label style="display:block;margin-bottom:12px;">API Token:
+                  <input type="text" id="credApiToken" value="${token ?? ""}" style="width:100%;margin-top:4px;" />
+                </label>
+                <button id="credSaveBtn" style="padding:8px 16px;background:#0f876c;color:white;border:none;border-radius:6px;cursor:pointer;">Guardar</button>
+              </div>`;
 
-      function setupIslandListeners(el) {
-        if (el._islandListenersSetup) return; // idempotent: attach only once (stable root + event delegation style)
-        el._islandListenersSetup = true;
+            // Open the bottom sheet using the existing construct function
+            if (typeof window.constructBottomSheet === "function") {
+              window.constructBottomSheet({
+                title: "Configuración de Credenciales",
+                scope: "dev-credentials",
+                content: sheetContent,
+                bottom_actions: {
+                  layout: "single",
+                  primary: { label: "Cerrar", callback: "close" },
+                },
+              });
+            }
 
-        el.addEventListener("island-action", (e) => {
-          console.log("[admin binder] island-action:", e.detail);
-
-          // Dynamic template swap demo: uses the JS-declared morphedIslandConfig (object-config path)
-          if (e.detail.type === "more-options") {
-            console.log(
-              "Swapping to JS-declared morphed config (Perfil + Navegacion)",
-            );
-            importIslandMenu(morphedIslandConfig);
-            // No re-setup needed: listener lives on the permanent #island div,
-            // inner content replacement does not affect it. Re-enhance happens inside the loader.
+            // Attach save handler after sheet is rendered
+            setTimeout(() => {
+              const saveBtn = document.getElementById("credSaveBtn");
+              if (saveBtn) {
+                saveBtn.addEventListener("click", () => {
+                  const newUid = document
+                    .getElementById("credUserId")
+                    .value.trim();
+                  const newToken = document
+                    .getElementById("credApiToken")
+                    .value.trim();
+                  if (newUid && newToken) {
+                    localStorage.setItem("devUserId", newUid);
+                    localStorage.setItem("devApiKey", newToken);
+                    // Update the running storage instance if present
+                    if (window.appBipartiteStorage) {
+                      window.appBipartiteStorage.userId = Number(newUid);
+                      window.appBipartiteStorage.apiKey = newToken;
+                    }
+                    // Close the sheet
+                    if (window.appBottomSheetClose)
+                      window.appBottomSheetClose();
+                  }
+                });
+              }
+            }, 0);
           }
-        });
-        el.addEventListener("island-mode-change", (e) => {
-          console.log("[admin binder] island-mode-change:", e.detail);
-          if (typeof handleIslandMode === "function") {
-            handleIslandMode(e.detail.mode);
+        }
+
+        // Call the check once the bottom‑sheet module has loaded
+        const maybeInitCredCheck = () => {
+          if (typeof window.constructBottomSheet === "function") {
+            ensureDevCredentials();
           } else {
-            handleAparienciaMode(e.detail.mode);
+            // Retry shortly if the module is still loading
+            setTimeout(maybeInitCredCheck, 100);
+          }
+        };
+        // Trigger after a short delay to give the import a chance to resolve
+        setTimeout(maybeInitCredCheck, 200);
+
+        // ===== WIRE: conectar data-control-sync con lógica existente =====
+        function wireCustomControls() {
+          if (!window.syncEngine) {
+            setTimeout(wireCustomControls, 100);
+            return;
+          }
+
+          window.syncEngine.store.subscribe("preset", (val) => {
+            if (val && typeof setPreset === "function") {
+              setPreset(val);
+            }
+          });
+
+          window.syncEngine.store.subscribe("position", (val) => {
+            if (val && typeof setPos === "function") {
+              setPos(val);
+            }
+          });
+        }
+
+        wireCustomControls();
+        // Evento para activar el modo edición
+        btnEdit.addEventListener("click", () => {
+          pildora.classList.add("is-active");
+          document
+            .querySelector(DOM_CONST.statusStorage)
+            .setAttribute("data-card-status", "editing");
+        });
+
+        // Evento para finalizar la edición (Listo)
+        btnDone.addEventListener("click", () => {
+          pildora.classList.remove("is-active");
+          document
+            .querySelector(DOM_CONST.statusStorage)
+            .setAttribute("data-card-status", "pasive");
+        });
+
+        // Evento para el botón satélite (puedes agregar tu lógica aquí)
+        btnSatellite.addEventListener("click", () => {
+          console.log("Botón satélite clickeado / Añadir");
+        });
+
+        // Evento para abrir el panel de edición al hacer clic en un .edit-element
+        document.addEventListener("click", (e) => {
+          const editBtn = e.target.closest(".edit-element");
+          if (editBtn) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            const scope = editBtn.getAttribute("data-scope");
+
+            if (window.appBottomSheet) {
+              window.appBottomSheet.open();
+            }
+
+            const editorScroll = document.getElementById("editorScroll");
+            if (editorScroll) {
+              let targetEl = null;
+              if (scope === "avt__edit") {
+                targetEl = document.getElementById("ctrlGroupAvatar");
+              } else if (scope === "mobile_cover_input") {
+                targetEl = document.getElementById("ctrlGroupCover");
+              }
+
+              if (targetEl) {
+                setTimeout(() => {
+                  editorScroll.scrollTo({
+                    top: targetEl.offsetTop - 10,
+                    behavior: "smooth",
+                  });
+                }, 150);
+              }
+            }
           }
         });
-        el.addEventListener("island-status-change", (e) => {
-          console.log("[admin binder] island-status-change:", e.detail);
-          if (e.detail.status !== "edit") {
-            closeCarouselOverlay();
-            // Full exit: deactivate card edit mode too
-            if (typeof closeProfileEditor === "function")
-              closeProfileEditor(true);
-          }
-        });
-      }
+      });
+    </script>
+    <script>
+      // ==========================================
+      // klef-profile-controller.js
+      // Arquitectura declarativa — Klef Agency
+      // ==========================================
 
-      // ===== Selector de Temas Carrusel 3D Overlay (Micro-transacciones simuladas) =====
-      // THEME_STORAGE_KEY ya declarada arriba ("APP_THEME_SELECTED") — no re-declarar.
-      const OWNED_THEMES_KEY = "NFC_OWNED_THEMES";
+      /*
+       * ==========================================================================
+       * REGLAS DE ARQUITECTURA UI
+       *
+       * Patrones:
+       * - JS expresa estado con atributos data-*.
+       * - CSS decide como se ve cada estado.
+       * - Las variables CSS son validas para valores vivos de controles
+       *   como --avatar-size o --avatar-radius.
+       * - El display base de un componente pertenece al CSS.
+       *
+       * Antipatrones:
+       * - No usar estilos inline hardcoded para comportamiento.
+       * - No usar el.style.display = "block" para mostrar componentes.
+       *   Si el componente es flex/grid, eso rompe su layout interno.
+       * - No esconder/mostrar paneles con style="" cuando puede usarse
+       *   data-status="hidden|active|ready".
+       * - No mezclar estado en class="" si ya existe un atributo data-*.
+       *
+       * Ejemplo:
+       * Correcto: panel.dataset.status = "active"
+       * Incorrecto: panel.style.display = "block"
+       * ==========================================================================
+       */
 
-      const BACKUP_THEMES = [
+      // ==========================================
+      // 1. CONTROL SCHEMA — único lugar de verdad
+      //    Agregar un control = un objeto en este array.
+      //    El motor no necesita ningún cambio.
+      // ==========================================
+      const CONTROLS = [
+        // --- Grupo: avatar ---
         {
-          id: "aurora",
-          label: "Aurora",
-          accent: "#a855f7",
-          font: "Josefin Sans",
-          isFree: true,
-          price: 0,
+          id: "ctrl-size",
+          group: "avatar",
+          label: "Tamaño Avatar",
+          type: "range",
+          targetId: "profileContent",
+          unit: "px",
+          min: 40,
+          max: 160,
+          initial: 100,
+          onChange(val, target) {
+            const container = document.getElementById("avatarContainer");
+            if (container) {
+              container.style.setProperty("--avatar-size", `${val}px`);
+            }
+            const radiusInput = document.getElementById("ctrl-radius-input");
+            if (radiusInput) {
+              radiusInput.max = val;
+              if (Number(radiusInput.value) > Number(val)) {
+                radiusInput.value = val;
+                radiusInput.dispatchEvent(
+                  new Event("input", { bubbles: true }),
+                );
+              }
+            }
+          },
         },
+
         {
-          id: "zen",
-          label: "Zen",
-          accent: "#c0392b",
-          font: "Noto Serif JP",
-          price: 4.99,
-          description: "Minimalista verde calma de paz visual.",
+          id: "ctrl-radius",
+          group: "avatar",
+          label: "Radio Avatar",
+          type: "range",
+          targetId: "avatarContainer",
+          unit: "px",
+          min: 0,
+          max: 100,
+          initial: 50,
+          onChange(val, target) {
+            target.style.setProperty("--avatar-radius", `${val}px`);
+          },
         },
+
         {
-          id: "tropico",
-          label: "Tropico",
-          accent: "#f4d03f",
-          font: "Syne",
-          price: 4.99,
-          description: "Tonos atardecer intensos y creativos.",
+          id: "ctrl-padding",
+          group: "avatar",
+          label: "Padding Avatar",
+          type: "range",
+          targetId: "avatarContainer",
+          unit: "px",
+          min: 0,
+          max: 24,
+          initial: 0,
+          onChange(val, target) {
+            target.style.padding = val + "px";
+            target.style.boxSizing = "border-box";
+          },
         },
+
         {
-          id: "obsidiana",
-          label: "Obsidiana",
-          accent: "#0ea5e9",
-          font: "DM Sans",
-          price: 5.99,
-          description: "Elegancia oscura y profunda premium.",
+          id: "ctrl-mock-border-scale",
+          group: "avatar",
+          label: "Mock Border (escala)",
+          type: "range",
+          targetId: "avatarContainer",
+          unit: "",
+          min: 1,
+          max: 1.2,
+          step: 0.01,
+          initial: 1.05,
+          onChange(val, target) {
+            target.style.setProperty("--mock-border-scale", val);
+          },
         },
+
+        // --- Grupo: cover-inset (solo visible cuando cover-style === 'inset') ---
         {
-          id: "brutal",
-          label: "Brutal",
-          accent: "#f59e0b",
-          font: "Bebas Neue",
-          price: 3.99,
-          description: "Diseño brutalista audaz de alto contraste.",
+          id: "ctrl-cover-width",
+          group: "cover-inset",
+          label: "Ancho Portada",
+          type: "range",
+          targetId: "coverWrap",
+          cssProp: "width",
+          unit: "%",
+          min: 50,
+          max: 100,
+          initial: 90,
         },
+
         {
-          id: "deco",
-          label: "Deco",
-          accent: "#d4a843",
-          font: "Cinzel Decorative",
-          price: 6.99,
-          description: "Art Deco clásico sofisticado con líneas de oro.",
+          id: "ctrl-cover-height",
+          group: "cover-inset",
+          label: "Alto Portada",
+          type: "range",
+          targetId: "coverWrap",
+          cssProp: "height",
+          unit: "px",
+          min: 60,
+          max: 250,
+          initial: 120,
+        },
+
+        {
+          id: "ctrl-cover-radius",
+          group: "cover-inset",
+          label: "Redondeo Esquinas",
+          type: "range",
+          targetId: "coverWrap",
+          cssProp: "borderRadius",
+          unit: "px",
+          min: 0,
+          max: 40,
+          initial: 12,
+        },
+
+        {
+          id: "ctrl-cover-fit",
+          group: "cover-inset",
+          label: "Ajuste de imagen",
+          type: "select",
+          targetId: "profileCover",
+          cssProp: "objectFit",
+          initial: "cover",
+          options: [
+            { label: "Recortar (Cover)", value: "cover" },
+            { label: "Contener (Contain)", value: "contain" },
+            { label: "Rellenar (Fill)", value: "fill" },
+          ],
+        },
+
+        {
+          id: "ctrl-cover-shadow",
+          group: "cover-inset",
+          label: "Sombra de Portada",
+          type: "checkbox",
+          targetId: "coverWrap",
+          cssProp: "boxShadow",
+          trueValue: "0 8px 24px rgba(0,0,0,0.15)",
+          falseValue: "none",
+          initial: false,
         },
       ];
 
-      let ownedThemes = [];
-      let shopThemes = [];
-      let allThemes = [];
+      // ==========================================
+      // 2. CONTROL FACTORY — motor puro
+      //    No conoce ningún control por nombre.
+      //    Solo sabe leer la configuración y actuar.
+      // ==========================================
+      const ControlFactory = {
+        /**
+         * Construye todos los controles de un grupo e inyecta en el contenedor.
+         * @param {string}      group     — nombre del grupo definido en CONTROLS
+         * @param {HTMLElement} container — elemento donde se inyectarán los inputs
+         */
+        buildGroup(group, container) {
+          if (!container) return;
+          CONTROLS.filter((cfg) => cfg.group === group).forEach((cfg) => {
+            const el = this._build(cfg);
+            if (el) container.appendChild(el);
+          });
+        },
 
-      function initOwnedThemes() {
-        let stored = localStorage.getItem(OWNED_THEMES_KEY);
-        if (stored) {
-          try {
-            ownedThemes = JSON.parse(stored);
-          } catch (e) {
-            ownedThemes = ["aurora"];
-          }
-        } else {
-          ownedThemes = ["aurora"];
-          localStorage.setItem(OWNED_THEMES_KEY, JSON.stringify(ownedThemes));
-        }
-      }
+        /** Construye y vincula un control individual */
+        _build(cfg) {
+          const target = document.getElementById(cfg.targetId);
+          if (!target) return null;
 
-      async function loadThemesData() {
-        initOwnedThemes();
-        try {
-          const [userRes, shopRes] = await Promise.all([
-            fetch("/data/user-themes.json")
-              .then((r) => r.json())
-              .catch(() => null),
-            fetch("/data/shop-themes.json")
-              .then((r) => r.json())
-              .catch(() => null),
-          ]);
+          const wrap = document.createElement("div");
+          wrap.className = "control-row";
 
-          if (userRes && userRes.ownedThemes) {
-            userRes.ownedThemes.forEach((t) => {
-              if (!ownedThemes.includes(t.id)) ownedThemes.push(t.id);
-            });
-            localStorage.setItem(OWNED_THEMES_KEY, JSON.stringify(ownedThemes));
-          }
-
-          if (shopRes && shopRes.shopThemes) {
-            shopThemes = shopRes.shopThemes;
+          if (cfg.type === "checkbox") {
+            wrap.innerHTML = `
+        <div class="checkbox-wrap">
+          <span class="control-label" style="margin:0">${cfg.label}</span>
+          ${this._renderInput(cfg)}
+        </div>`;
           } else {
-            shopThemes = BACKUP_THEMES.filter((t) => !t.isFree);
-          }
-        } catch (e) {
-          console.warn("Error loading theme JSON databases, falling back:", e);
-          shopThemes = BACKUP_THEMES.filter((t) => !t.isFree);
-        }
-
-        allThemes = [];
-        const aurora = BACKUP_THEMES.find((t) => t.id === "aurora");
-        allThemes.push(aurora);
-
-        shopThemes.forEach((t) => {
-          if (!allThemes.some((x) => x.id === t.id)) {
-            allThemes.push(t);
-          }
-        });
-      }
-
-      function renderHighFidelityPreview(themeId, host, accentColor, fontName) {
-        if (!host) return;
-        host.innerHTML = "";
-        const accent = accentColor || "#a855f7";
-        const font = fontName || "system-ui";
-        let inner = "";
-
-        if (themeId === "aurora") {
-          inner = `<div style="width:100%;height:100%;background:radial-gradient(ellipse 80% 60% at 20% 10%, rgba(168,85,247,.42) 0%,transparent 60%),radial-gradient(ellipse 70% 50% at 80% 30%, rgba(59,130,246,.38) 0%,transparent 55%),radial-gradient(ellipse 60% 70% at 50% 80%, rgba(236,72,153,.32) 0%,transparent 60%),#0f0c1e;position:relative;overflow:hidden"><div style="padding:28px 16px 10px;text-align:center"><div style="width:68px;height:68px;border-radius:50%;margin:0 auto 10px;border:2px solid ${accent};box-shadow:0 0 0 5px ${accent}22;background:#222"></div><div style="font-family:'Fraunces',Georgia,serif;font-size:21px;font-weight:700;color:#fff;letter-spacing:-.025em;line-height:.92">Jane <em style="font-style:italic;background:linear-gradient(135deg,#c084fc,#818cf8,#f472b6);-webkit-background-clip:text;-webkit-text-fill-color:transparent">Doe</em></div><div style="font-size:9px;text-transform:uppercase;letter-spacing:.18em;color:#c084fc;margin-top:3px;opacity:.8">Product Designer</div></div><div style="position:absolute;bottom:18px;left:50%;transform:translateX(-50%);display:flex;gap:10px;opacity:.6"><span style="font-size:11px">in</span><span style="font-size:11px">✕</span><span style="font-size:11px">◎</span></div></div>`;
-        } else if (themeId === "zen") {
-          inner = `<div style="width:100%;height:100%;background:#fefcf8;position:relative;border-left:3px solid ${accent}"><div style="height:118px;background:linear-gradient(#ddd,#f4f1e9);filter:saturate(.6)"></div><div style="position:absolute;top:78px;left:50%;transform:translateX(-50%);width:62px;height:62px;border:1px solid #1c181122;background:#e8e0d0"></div><div style="padding:62px 14px 8px;text-align:center;font-family:'Noto Serif JP',serif"><div style="font-size:15px;color:#1c1811;letter-spacing:.08em">山田 太郎</div><div style="font-size:8.5px;color:${accent};margin-top:1px;letter-spacing:.16em">ENGINEER</div></div><div style="position:absolute;bottom:12px;left:0;right:0;height:22px;background:rgba(254,252,248,.9);display:flex;align-items:center;justify-content:space-around;font-size:8px;color:#9a8e7e;border-top:1px solid #1c181122"><span>一</span><span>二</span><span>三</span></div></div>`;
-        } else if (themeId === "tropico") {
-          inner = `<div style="width:100%;height:100%;background:#0f3326;position:relative;border-top:4px solid ${accent}"><div style="height:108px;background:linear-gradient(#3a2a1a,#0f3326);filter:saturate(1.25)"></div><div style="position:absolute;top:72px;left:50%;transform:translateX(-50%);width:62px;height:62px;border-radius:50%;border:3px solid ${accent};background:#222"></div><div style="padding:68px 12px 6px;text-align:center"><div style="font-family:'Syne',sans-serif;font-size:17px;font-weight:800;color:${accent};letter-spacing:-.01em;text-transform:uppercase">LUNA RIOS</div><div style="font-size:8px;color:#f4d03f;margin-top:2px;letter-spacing:.14em">CREATIVE</div></div><div style="position:absolute;bottom:14px;left:50%;transform:translateX(-50%);display:flex;gap:4px"><div style="font-size:7px;background:#f4d03f22;color:#f4d03f;padding:1px 5px;border-radius:3px">SUN</div></div></div>`;
-        } else if (themeId === "obsidiana") {
-          inner = `<div style="width:100%;height:100%;background:rgba(255,255,255,.035);backdrop-filter:blur(18px);border:1px solid rgba(255,255,255,.07);position:relative"><div style="height:102px;background:linear-gradient(rgba(9,11,16,0),#090b10);opacity:.6"></div><div style="position:absolute;top:66px;left:18px;width:54px;height:54px;border-radius:12px;border:2px solid ${accent};background:#222"></div><div style="padding:54px 14px 6px 72px"><div style="font-family:'Syne',sans-serif;font-size:15px;font-weight:800;color:#fff;letter-spacing:-.015em">Alex Rivera</div><div style="font-size:8px;color:#64748b;margin-top:1px;letter-spacing:.1em">FOUNDER</div></div><div style="position:absolute;bottom:12px;left:14px;right:14px;display:flex;gap:4px"><div style="flex:1;height:14px;background:rgba(255,255,255,.06);border-radius:3px"></div><div style="flex:1;height:14px;background:rgba(255,255,255,.06);border-radius:3px"></div></div></div>`;
-        } else if (themeId === "brutal") {
-          inner = `<div style="width:100%;height:100%;background:#f59e0b;position:relative;border: 2px solid #000;"><div style="height:132px;background:#222;filter:grayscale(1) contrast(1.15)"></div><div style="position:absolute;top:102px;left:16px;width:46px;height:46px;background:#ddd;border:3px solid #f0ece2;filter:grayscale(1)"></div><div style="padding:106px 12px 6px 70px;font-family:'Bebas Neue',sans-serif"><div style="font-size:18px;color:#111;letter-spacing:.01em;line-height:1">BRUTAL</div><div style="font-size:7px;color:#666;margin-top:-1px;letter-spacing:.12em">STUDIO</div></div><div style="position:absolute;bottom:10px;left:12px;right:12px;height:18px;background:#111;display:flex;gap:3px;align-items:center;padding:0 6px"><div style="font-size:6px;color:#f0ece244;letter-spacing:.08em">01 02 03</div></div></div>`;
-        } else {
-          inner = `<div style="width:100%;height:100%;background:#120f08;position:relative;border:1px solid #d4a84333"><div style="height:106px;background:#222"></div><div style="position:absolute;top:68px;left:50%;transform:translateX(-50%);width:58px;height:58px;clip-path:polygon(50% 0,100% 50%,50% 100%,0 50%);background:#222;outline:2px solid ${accent};outline-offset:2px"></div><div style="padding:62px 10px 4px;text-align:center;font-family:'Cinzel Decorative',serif"><div style="font-size:13px;color:#d4a843;letter-spacing:.06em">ATELIER</div><div style="font-size:8px;color:#d4a84388;margin-top:1px;letter-spacing:.18em">PARIS</div></div><div style="position:absolute;bottom:12px;left:50%;transform:translateX(-50%);font-size:8px;color:#d4a84344">◆ ◇ ◆</div></div>`;
-        }
-
-        const wrap = document.createElement("div");
-        wrap.style.cssText =
-          "position:absolute;inset:0;font-family:" + font + ",system-ui";
-        wrap.innerHTML = inner;
-        host.appendChild(wrap);
-      }
-
-      let carouselCards = [];
-      let carouselCurrentIndex = 0;
-      let carouselTransitioning = false;
-      let isCarouselActive = false;
-
-      function showSuccessToast(themeLabel) {
-        let toast = document.querySelector(".buy-toast");
-        if (!toast) {
-          toast = document.createElement("div");
-          toast.className = "buy-toast";
-          document.body.appendChild(toast);
-        }
-        toast.innerHTML = `<i class="fa-solid fa-circle-check"></i> ¡Tema <strong>${themeLabel}</strong> adquirido con éxito!`;
-        toast.classList.add("buy-toast--visible");
-        setTimeout(() => {
-          toast.classList.remove("buy-toast--visible");
-        }, 2200);
-      }
-
-      function buildCarouselUI() {
-        const stage = document.getElementById("stage");
-        if (!stage) return;
-        stage.innerHTML = "";
-        carouselCards = [];
-
-        const currentSelectedTheme =
-          localStorage.getItem(THEME_STORAGE_KEY) || "aurora";
-
-        // Only show themes the user already owns (finite, non-looping list)
-        const displayThemes = allThemes.filter((t) =>
-          ownedThemes.includes(t.id),
-        );
-
-        displayThemes.forEach((theme, index) => {
-          const isActive = theme.id === currentSelectedTheme;
-
-          const cardEl = document.createElement("div");
-          cardEl.className = `profile-card profile-card--glass`;
-
-          const aeCard = document.createElement("div");
-          aeCard.className = "ae-card";
-          aeCard.dataset.theme = theme.id;
-
-          const previewHost = document.createElement("div");
-          previewHost.className = "ae-preview-host";
-          previewHost.style.cssText = "position:absolute;inset:0;";
-
-          renderHighFidelityPreview(
-            theme.id,
-            previewHost,
-            theme.accent,
-            theme.font,
-          );
-
-          const labelEl = document.createElement("div");
-          labelEl.className = "ae-card-label";
-          labelEl.innerText = theme.label;
-
-          aeCard.appendChild(previewHost);
-          aeCard.appendChild(labelEl);
-          cardEl.appendChild(aeCard);
-
-          const actionBar = document.createElement("div");
-          actionBar.className = "profile-card__action-bar";
-
-          if (isActive) {
-            actionBar.innerHTML = `
-              <div class="theme-active-badge">
-                <i class="fa-solid fa-circle-check"></i> Tema Activo
-              </div>
-            `;
-          } else {
-            const applyBtn = document.createElement("button");
-            applyBtn.className = "apply-theme-btn";
-            applyBtn.innerHTML = `<i class="fa-solid fa-palette"></i> Aplicar`;
-            applyBtn.addEventListener("click", (e) => {
-              e.stopPropagation();
-              applyThemeSelection(theme.id);
-            });
-            actionBar.appendChild(applyBtn);
+            const unit = cfg.unit || "";
+            wrap.innerHTML = `
+        <div class="control-label-wrap">
+          <span class="control-label">${cfg.label}</span>
+          <span class="control-value" id="${cfg.id}-val">
+            ${cfg.type !== "select" ? cfg.initial + unit : ""}
+          </span>
+        </div>
+        ${this._renderInput(cfg)}`;
           }
 
-          cardEl.appendChild(actionBar);
-
-          cardEl.addEventListener("click", () => {
-            if (carouselTransitioning || !isCarouselActive) return;
-            if (cardEl.classList.contains("profile-card--prev"))
-              rotateCarousel(carouselCurrentIndex - 1);
-            if (cardEl.classList.contains("profile-card--next"))
-              rotateCarousel(carouselCurrentIndex + 1);
+          const input = wrap.querySelector("input, select");
+          input.addEventListener("input", (e) => {
+            const raw =
+              cfg.type === "checkbox" ? e.target.checked : e.target.value;
+            this._applyCSS(cfg, target, raw);
+            this._updateDisplay(wrap, cfg, raw);
+            if (cfg.onChange) cfg.onChange(raw, target);
+            if (window.appBipartiteStorage) {
+              window.appBipartiteStorage.updateControlValue(cfg.id, raw);
+            }
           });
 
-          stage.appendChild(cardEl);
-          carouselCards.push(cardEl);
-        });
-
-        // ── Special card: "Buscar más themes" ──
-        const searchCard = document.createElement("div");
-        searchCard.className =
-          "profile-card profile-card--glass profile-card--special";
-        searchCard.innerHTML = `
-          <div class="special-card__content">
-            <div class="special-card__icon"><i class="ti ti-search" aria-hidden="true"></i></div>
-            <div class="special-card__label">Buscar más themes</div>
-            <div class="special-card__hint">Explora la tienda de temas</div>
-          </div>
-        `;
-        searchCard.addEventListener("click", () => {
-          if (carouselTransitioning) return;
-          if (searchCard.classList.contains("profile-card--active")) {
-            window.location.href = "/theme-store.html";
-          } else if (searchCard.classList.contains("profile-card--prev")) {
-            rotateCarousel(carouselCurrentIndex - 1);
-          } else if (searchCard.classList.contains("profile-card--next")) {
-            rotateCarousel(carouselCurrentIndex + 1);
-          }
-        });
-        stage.appendChild(searchCard);
-        carouselCards.push(searchCard);
-
-        // ── Special card: "Empezar en blanco" ──
-        const blankCard = document.createElement("div");
-        blankCard.className =
-          "profile-card profile-card--glass profile-card--special";
-        blankCard.innerHTML = `
-          <div class="special-card__content">
-            <div class="special-card__icon"><i class="ti ti-plus" aria-hidden="true"></i></div>
-            <div class="special-card__label">Empezar en blanco</div>
-            <div class="special-card__hint">Crea tu propio diseño</div>
-          </div>
-        `;
-        blankCard.addEventListener("click", () => {
-          if (carouselTransitioning) return;
-          if (blankCard.classList.contains("profile-card--active")) {
-            applyThemeSelection("blank");
-          } else if (blankCard.classList.contains("profile-card--prev")) {
-            rotateCarousel(carouselCurrentIndex - 1);
-          } else if (blankCard.classList.contains("profile-card--next")) {
-            rotateCarousel(carouselCurrentIndex + 1);
-          }
-        });
-        stage.appendChild(blankCard);
-        carouselCards.push(blankCard);
-
-        const activeIdx = displayThemes.findIndex(
-          (t) => t.id === currentSelectedTheme,
-        );
-        if (currentSelectedTheme === "blank") {
-          carouselCurrentIndex = carouselCards.length - 1;
-        } else {
-          carouselCurrentIndex = activeIdx >= 0 ? activeIdx : 0;
-        }
-
-        updateCarouselClasses();
-      }
-
-      function updateCarouselClasses() {
-        const length = carouselCards.length;
-        if (length === 0) return;
-
-        carouselCards.forEach((card, index) => {
-          card.className = card.className
-            .replace(/\b(profile-card--(active|prev|next|hidden))\b/g, "")
-            .trim();
-
-          if (index === carouselCurrentIndex) {
-            card.classList.add("profile-card--active");
-          } else if (
-            index === carouselCurrentIndex - 1 &&
-            carouselCurrentIndex > 0
-          ) {
-            card.classList.add("profile-card--prev");
-          } else if (
-            index === carouselCurrentIndex + 1 &&
-            carouselCurrentIndex < length - 1
-          ) {
-            card.classList.add("profile-card--next");
-          } else {
-            card.classList.add("profile-card--hidden");
-          }
-        });
-      }
-
-      function rotateCarousel(newIndex) {
-        if (carouselTransitioning) return;
-        const length = carouselCards.length;
-        const clamped = Math.max(0, Math.min(newIndex, length - 1));
-        if (clamped === carouselCurrentIndex) return; // already at edge
-        carouselTransitioning = true;
-        carouselCurrentIndex = clamped;
-        updateCarouselClasses();
-        setTimeout(() => {
-          carouselTransitioning = false;
-        }, 500);
-      }
-
-      function simulatePurchase(theme) {
-        if (ownedThemes.includes(theme.id)) return;
-
-        ownedThemes.push(theme.id);
-        localStorage.setItem(OWNED_THEMES_KEY, JSON.stringify(ownedThemes));
-
-        showSuccessToast(theme.label);
-        buildCarouselUI();
-      }
-
-      function applyThemeSelection(themeId) {
-        if (window.__setCardTheme) {
-          window.__setCardTheme(themeId);
-        } else {
-          localStorage.setItem(THEME_STORAGE_KEY, themeId);
-        }
-
-        buildCarouselUI();
-        closeCarouselOverlay();
-
-        const island = document.getElementById("island");
-        if (island && typeof island.setActiveMode === "function") {
-          island.setActiveMode(null);
-        }
-      }
-
-      function openCarouselOverlay() {
-        if (isCarouselActive) return; // Guard: already open, don't re-trigger animation
-        isCarouselActive = true;
-        loadThemesData().then(() => {
-          // Double-check: user may have toggled off while themes were loading
-          if (!isCarouselActive) return;
-          buildCarouselUI();
-          const viewport = document.getElementById("carousel-viewport");
-          if (viewport) {
-            viewport.style.display = "flex";
-            viewport.offsetHeight; // force reflow
-            viewport.classList.add("card-carousel--visible");
-          }
-        });
-      }
-
-      function closeCarouselOverlay() {
-        isCarouselActive = false;
-        const viewport = document.getElementById("carousel-viewport");
-        if (viewport) {
-          viewport.classList.remove("card-carousel--visible");
-          setTimeout(() => {
-            if (!isCarouselActive) viewport.style.display = "none";
-          }, 400);
-        }
-      }
-
-      function setupCarouselControls() {
-        const viewport = document.getElementById("carousel-viewport");
-        if (!viewport) return;
-
-        document.addEventListener("keydown", (e) => {
-          if (!isCarouselActive || carouselTransitioning) return;
-          if (e.key === "ArrowRight") rotateCarousel(carouselCurrentIndex + 1);
-          if (e.key === "ArrowLeft") rotateCarousel(carouselCurrentIndex - 1);
-        });
-
-        let wheelAccumulator = 0;
-        let isWheelOnCooldown = false;
-
-        viewport.addEventListener(
-          "wheel",
-          (e) => {
-            if (!isCarouselActive) return;
-
-            const delta =
-              Math.abs(e.deltaX) > Math.abs(e.deltaY) ? e.deltaX : e.deltaY;
-            if (Math.abs(delta) > 5) e.preventDefault();
-
-            if (isWheelOnCooldown || carouselTransitioning) return;
-
-            wheelAccumulator += delta;
-
-            if (wheelAccumulator > 60) {
-              rotateCarousel(carouselCurrentIndex + 1);
-              triggerWheelCooldown();
-            } else if (wheelAccumulator < -60) {
-              rotateCarousel(carouselCurrentIndex - 1);
-              triggerWheelCooldown();
-            }
-          },
-          { passive: false },
-        );
-
-        function triggerWheelCooldown() {
-          wheelAccumulator = 0;
-          isWheelOnCooldown = true;
-          setTimeout(() => {
-            isWheelOnCooldown = false;
-            wheelAccumulator = 0;
-          }, 400);
-        }
-
-        let startX = 0;
-        let isDragging = false;
-
-        function getPositionX(e) {
-          if (e.type.includes("mouse")) {
-            return e.clientX;
-          } else {
-            return e.type.includes("end")
-              ? e.changedTouches[0].clientX
-              : e.touches[0].clientX;
-          }
-        }
-
-        function touchStart(e) {
-          if (!isCarouselActive) return;
-          isDragging = true;
-          startX = getPositionX(e);
-        }
-
-        function touchEnd(e) {
-          if (!isDragging || !isCarouselActive) return;
-          isDragging = false;
-          const endX = getPositionX(e);
-          const diffX = startX - endX;
-
-          if (Math.abs(diffX) > 50 && !carouselTransitioning) {
-            if (diffX > 0) rotateCarousel(carouselCurrentIndex + 1);
-            else rotateCarousel(carouselCurrentIndex - 1);
-          }
-        }
-
-        viewport.addEventListener("mousedown", touchStart);
-        viewport.addEventListener("mouseup", touchEnd);
-        viewport.addEventListener("mouseleave", () => (isDragging = false));
-
-        viewport.addEventListener("touchstart", touchStart, { passive: true });
-        viewport.addEventListener("touchend", touchEnd);
-      }
-
-      setupCarouselControls();
-
-      function openImmersiveAppearance() {
-        openCarouselOverlay();
-      }
-
-      function closeImmersiveAppearance() {
-        closeCarouselOverlay();
-      }
-
-      let lastIslandStatus = "idle";
-      document.getElementById("island")?.addEventListener(
-        "island-status-change",
-        (e) => {
-          lastIslandStatus = e.detail?.status || "idle";
-          if (lastIslandStatus !== "edit") closeCarouselOverlay();
+          return wrap;
         },
-        { passive: true },
-      );
 
-      // ── iOS-style contextual editor: cohort titles ──
-      const COHORT_TITLES = {
-        1: "Editar Foto y Portada",
-        2: "Editar Datos Personales",
-        3: "Editar Contacto",
-        4: "Editar Empresa",
-        5: "Editar Redes Sociales",
-        6: "Ajustes de Iconos",
+        /** Aplica la propiedad CSS al target si está configurada */
+        _applyCSS(cfg, target, val) {
+          if (!cfg.cssProp) return;
+          if (cfg.type === "checkbox") {
+            target.style[cfg.cssProp] = val
+              ? (cfg.trueValue ?? "")
+              : (cfg.falseValue ?? "none");
+          } else {
+            target.style[cfg.cssProp] = val + (cfg.unit || "");
+          }
+        },
+
+        /** Actualiza el span de valor visible junto al label */
+        _updateDisplay(wrap, cfg, val) {
+          if (cfg.type === "checkbox" || cfg.type === "select") return;
+          const display = wrap.querySelector(`#${cfg.id}-val`);
+          if (display) display.textContent = val + (cfg.unit || "");
+        },
+
+        /** Genera el HTML del input según el tipo */
+        _renderInput(cfg) {
+          const id = `${cfg.id}-input`;
+
+          if (cfg.type === "select") {
+            const opts = (cfg.options || [])
+              .map(
+                (o) =>
+                  `<option value="${o.value}"${o.value === cfg.initial ? " selected" : ""}>${o.label}</option>`,
+              )
+              .join("");
+            return `<select id="${id}" class="custom-input">${opts}</select>`;
+          }
+
+          if (cfg.type === "checkbox") {
+            return `<input type="checkbox" id="${id}"${cfg.initial ? " checked" : ""}
+        style="accent-color:#09090b;width:16px;height:16px;cursor:pointer">`;
+          }
+
+          if (cfg.type === "range") {
+            return `<input type="range" class="range-input" id="${id}"
+        min="${cfg.min ?? 0}"
+        max="${cfg.max ?? 100}"
+        step="${cfg.step ?? 1}"
+        value="${cfg.initial}">`;
+          }
+
+          // Fallback: text, number, email, tel, etc.
+          return `<input type="${cfg.type}" id="${id}" class="custom-input"
+      placeholder="${cfg.placeholder || ""}"
+      value="${cfg.initial || ""}">`;
+        },
       };
 
-      function handleIslandMode(mode) {
-        console.log(
-          "[handleIslandMode]",
-          mode,
-          "| carousel active:",
-          isCarouselActive,
-        );
-        if (mode === "apariencia") {
-          // Exit card-edit mode & profile editor first
-          deactivateCardEditMode();
-          if (typeof closeProfileEditor === "function") {
-            // CRITICAL: Call closeProfileEditor with false (fullyExit = false) to prevent it
-            // from internally resetting the island mode back to null and breaking the switch.
-            closeProfileEditor(false);
-          }
-          // Ensure island stays in edit status
-          if (lastIslandStatus !== "edit") {
-            const islandEl = document.getElementById("island");
-            if (islandEl && islandEl.setStatus) islandEl.setStatus("edit");
-          }
-          openImmersiveAppearance();
-        } else if (mode === "cardbar") {
-          // Exit appearance mode first
-          closeImmersiveAppearance();
-          // Ensure island stays in edit status
-          if (lastIslandStatus !== "edit") {
-            const islandEl = document.getElementById("island");
-            if (islandEl && islandEl.setStatus) islandEl.setStatus("edit");
-          }
-          // iOS-style: activate visual edit mode on card, don't open the sheet yet
-          activateCardEditMode();
-        } else {
-          // mode === null → toggle OFF: clean up all active sub-modes
-          console.log("[handleIslandMode] toggle OFF — closing everything");
-          deactivateCardEditMode();
-          closeImmersiveAppearance();
-          if (typeof closeProfileEditor === "function") {
-            // Call with false to avoid redundant loop calls when the island is already null
-            closeProfileEditor(false);
-          }
-        }
-      }
+      // ==========================================
+      // 2.1 CONTROL SYNC REGISTRY
+      //    (Modular SyncEngine is loaded asynchronously via bootSync.js)
+      // ==========================================
 
-      // Toggle .edit-mode-active on #card, body and .main-content
-      function activateCardEditMode() {
-        console.log("[Perfil Editor] activateCardEditMode called");
-        const card = document.getElementById("card");
-        if (!card) {
-          console.error("[Perfil Editor] #card element NOT found!");
-          return;
-        }
-        card.classList.add("edit-mode-active");
-        document.body.classList.add("edit-mode-active");
-        const mainContent = document.querySelector(".main-content");
-        if (mainContent) mainContent.classList.add("edit-mode-active");
+      // ==========================================
+      // 3. CONDITIONAL PANEL MANAGER
+      //    Decide qué grupos se renderizan y cuándo.
+      //    Ya no crea controles — delega en ControlFactory.
+      // ==========================================
+      const ConditionalPanelManager = {
+        // ---- helpers de construcción ----
 
-        console.log("[Perfil Editor] #card classes:", card.className);
-        setupCardEditDelegation();
-      }
+        /** Crea un <div class="control-row"> con label + glider y lo devuelve */
+        _buildGlider(id, label, options, initialVal) {
+          const row = document.createElement("div");
+          row.className = "control-row";
 
-      function deactivateCardEditMode() {
-        console.log("[Perfil Editor] deactivateCardEditMode called");
-        const card = document.getElementById("card");
-        if (card) card.classList.remove("edit-mode-active");
-        document.body.classList.remove("edit-mode-active");
-        const mainContent = document.querySelector(".main-content");
-        if (mainContent) mainContent.classList.remove("edit-mode-active");
-      }
+          const lbl = document.createElement("span");
+          lbl.className = "control-label";
+          lbl.textContent = label;
+          row.appendChild(lbl);
 
-      // Event delegation on #card: detect clicks on [data-editable-zone]
-      let _cardDelegationSetup = false;
-      function setupCardEditDelegation() {
-        if (_cardDelegationSetup) return;
-        _cardDelegationSetup = true;
-        const card = document.getElementById("card");
-        if (!card) {
-          console.error(
-            "[Perfil Editor] setupCardEditDelegation failed: no #card",
-          );
-          return;
-        }
-        console.log(
-          "[Perfil Editor] Setting up card edit delegation click listener on #card",
-        );
+          const glider = document.createElement("div");
+          glider.className = "glider-container";
+          glider.id = id;
 
-        card.addEventListener("click", (e) => {
-          console.log("[Perfil Editor] Click detected inside #card:", e.target);
-          const card = document.getElementById("card");
-          if (!card || !card.classList.contains("edit-mode-active")) {
-            console.log(
-              "[Perfil Editor] Click ignored: edit-mode-active not on card",
-            );
-            return;
-          }
-
-          const zone = e.target.closest("[data-editable-zone]");
-          if (!zone) {
-            console.log(
-              "[Perfil Editor] Click ignored: not inside an editable zone",
-            );
-            return;
-          }
-
-          e.stopPropagation();
-          const cohort = parseInt(zone.dataset.editableCohort || "1", 10);
-          if (cohort === 4) {
-            console.log(
-              "[Perfil Editor] Redirecting Cohort 4 (Empresa) click to Cohort 2 (Datos / Empresa)",
-            );
-            openContextualEditor(2);
-            return;
-          }
-          console.log(
-            "[Perfil Editor] Clicked inside editable zone! Cohort:",
-            cohort,
-            zone,
-          );
-          openContextualEditor(cohort);
-        });
-      }
-
-      // Open the bottom sheet focused on one cohort (contextual mode)
-      async function openContextualEditor(cohortNumber) {
-        profileEditorActive = true;
-
-        // Construct sheet dynamically using the bottom-sheet component
-        constructSheet({
-          title: COHORT_TITLES[cohortNumber] || "Edición de Perfil",
-          scope: "profile",
-          content: "#tmpl-profile-editor",
-          bottom_actions: {
-            layout: "single",
-            primary: {
-              label: "Listo",
-              callback: () => closeProfileEditor(false),
-            },
-          },
-        });
-
-        // Set cohort attribute on the sheet container for conditional visibility styles
-        const sheet = document.querySelector('[data-scope="profile"]');
-        if (sheet) {
-          sheet.setAttribute("data-active-cohort", cohortNumber);
-        }
-
-        // Get card data and populate inputs inside the fresh DOM
-        await openProfileEditor();
-
-        // Bind event listeners to these newly created input elements
-        bindCohortInputs();
-
-        // ── DataFlowBinder: Input → Mock API → DOM ────────────────────────
-        // Destroy any previous binder instance before creating a new one
-        if (window.__activeFlowBinder) {
-          window.__activeFlowBinder.destroy();
-        }
-        if (window.DataFlowBinder && sheet) {
-          const flowBinder = new window.DataFlowBinder({
-            container: sheet,
-            endpoint: "/wp-json/nfc/v1/update-field",
-            debounceMs: 300,
-            onSyncStart: (input) => {
-              input?.classList.add("is-syncing");
-            },
-            onSyncSuccess: (input, field, target, value) => {
-              input?.classList.remove("is-syncing");
-              input?.classList.add("is-synced");
-              setTimeout(() => input?.classList.remove("is-synced"), 1200);
-              console.log(`[FlowBinder] ✓ ${field} → "${value}" → ${target}`);
-            },
-            onSyncError: (input, field, err) => {
-              input?.classList.remove("is-syncing");
-              input?.classList.add("is-error");
-              setTimeout(() => input?.classList.remove("is-error"), 2000);
-              console.error(`[FlowBinder] ✗ ${field}:`, err);
-            },
+          options.forEach(({ label: optLabel, val, handler }) => {
+            const opt = document.createElement("div");
+            opt.className =
+              "glider-option" + (val === initialVal ? " active" : "");
+            opt.dataset.val = val;
+            opt.textContent = optLabel;
+            opt.addEventListener("click", () => handler(val));
+            glider.appendChild(opt);
           });
-          flowBinder.bind();
-          window.__activeFlowBinder = flowBinder;
-        }
 
-        // If it's cohort 3 or 5 (Navigation / Contact and Networks)
-        if (cohortNumber === 3 || cohortNumber === 5) {
-          // Initialize navigation mode (Scroll vs Tab)
-          const navType = cachedCardData?.config?.["nav-type"] || "scroll";
-          setNavModeUI(navType);
+          row.appendChild(glider);
+          return row;
+        },
 
-          // Activate pane and tab
-          document
-            .querySelectorAll(".cohort-tab")
-            .forEach((t) => t.classList.remove("active"));
-          document
-            .querySelectorAll(".cohort-pane")
-            .forEach((p) => p.classList.remove("active"));
+        /** Crea un <div class="divider"> */
+        _divider() {
+          const d = document.createElement("div");
+          d.className = "divider";
+          return d;
+        },
 
-          const targetPane = document.getElementById(`pane-${cohortNumber}`);
-          if (targetPane) targetPane.classList.add("active");
+        /** Crea un contenedor de grupo con label */
+        _buildGroup(id, label) {
+          const wrap = document.createElement("div");
+          wrap.id = id;
+          const lbl = document.createElement("span");
+          lbl.className = "control-label";
+          lbl.textContent = label;
+          wrap.appendChild(lbl);
+          return wrap;
+        },
 
-          const targetTab = document.querySelector(
-            `.cohort-tab[data-cohort="${cohortNumber}"]`,
+        // ---- init principal ----
+        init() {
+          const controller = document.getElementById("main-sheet");
+          const card = document.getElementById("mainCard");
+          const scroll = document.getElementById("editorScroll");
+          if (!controller || !card || !scroll) return;
+
+          const isMasterActive = !!document.querySelector(
+            '[data-master-bind="true"]',
           );
-          if (targetTab) targetTab.classList.add("active");
-
-          // Bind tab click listener
-          setupTabListeners();
-        } else {
-          // Cohorts 1 and 2
-          document
-            .querySelectorAll(".cohort-pane")
-            .forEach((p) => p.classList.remove("active"));
-          const pane = document.getElementById(`pane-${cohortNumber}`);
-          if (pane) pane.classList.add("active");
-        }
-
-        // Bind segmented buttons and cover style change listeners
-        setupDesignModeListeners();
-      }
-
-      function setNavModeUI(mode) {
-        const container = document.querySelector('[data-scope="profile"]');
-        if (!container) return;
-
-        if (mode === "scroll") {
-          container.classList.remove("mode-tabs");
-          container.classList.add("mode-scroll");
-          document.getElementById("btn-nav-scroll")?.classList.add("active");
-          document.getElementById("btn-nav-tabs")?.classList.remove("active");
-        } else {
-          container.classList.remove("mode-scroll");
-          container.classList.add("mode-tabs");
-          document.getElementById("btn-nav-tabs")?.classList.add("active");
-          document.getElementById("btn-nav-scroll")?.classList.remove("active");
-        }
-      }
-
-      function handleAparienciaMode(mode) {
-        handleIslandMode(mode);
-      }
-
-      // ===== COHORT PROFILE EDITOR CONTROLLER =====
-      let profileEditorActive = false;
-      let cachedCardData = null;
-
-      // 1. Intercept binder fetcher to establish Single Source of Truth
-      function initBinderFetcherIntercept() {
-        if (!window.__adminBinder || !window.__adminBinder.fetcher) return;
-        const originalFetch = window.__adminBinder.fetcher.fetchData.bind(
-          window.__adminBinder.fetcher,
-        );
-        window.__adminBinder.fetcher.fetchData = async function () {
-          const stored = localStorage.getItem("NFC_CARD_DATA");
-          if (stored) {
-            try {
-              return JSON.parse(stored);
-            } catch (e) {}
+          if (!isMasterActive) {
+            controller.dataset.status = "hidden";
+            return;
           }
-          const fetched = await originalFetch();
-          localStorage.setItem("NFC_CARD_DATA", JSON.stringify(fetched));
-          return fetched;
-        };
+          controller.dataset.status = "ready";
+
+          const hasAvatar = !!document.querySelector(
+            '[data-bind="user.avatar.url"]',
+          );
+          const hasCover = !!document.querySelector(
+            '[data-bind="user.umCoverUrl"]',
+          );
+
+          // --- Sección: Preset de layout ---
+          // REEMPLAZADO POR HTML CUSTOM EN #editorScroll
+          // scroll.appendChild(
+          //   this._buildGlider(
+          //     "presetGlider",
+          //     "Preset de layout",
+          //     ...
+          //   ),
+          // );
+
+          // --- Sección: Posición libre ---
+          // REEMPLAZADO POR HTML CUSTOM EN #editorScroll
+          // const posRow = this._buildGlider(...);
+          // posRow.querySelector("#posGlider").style.opacity = "0.5";
+          // posRow.querySelector("#posGlider").style.pointerEvents = "none";
+          // scroll.appendChild(posRow);
+
+          // --- Grupo: Avatar ---
+          if (hasAvatar) {
+            scroll.appendChild(this._divider());
+            const avatarGroup = this._buildGroup("ctrlGroupAvatar", "Avatar");
+            ControlFactory.buildGroup("avatar", avatarGroup);
+            scroll.appendChild(avatarGroup);
+          }
+
+          // --- Grupo: Portada ---
+          if (hasCover) {
+            scroll.appendChild(this._divider());
+            const coverGroup = this._buildGroup("ctrlGroupCover", "Portada");
+
+            // Glider de estilo de portada
+            coverGroup.appendChild(
+              this._buildGlider(
+                "coverGlider",
+                "Estilo de portada",
+                [
+                  { label: "Sin portada", val: "none", handler: setCoverStyle },
+                  { label: "Completa", val: "full", handler: setCoverStyle },
+                  { label: "Encuadrada", val: "inset", handler: setCoverStyle },
+                ],
+                "full",
+              ),
+            );
+
+            // Controles inset (ocultos hasta seleccionar "Encuadrada")
+            const insetContainer = document.createElement("div");
+            insetContainer.id = "insetControlsContainer";
+            insetContainer.dataset.status = "hidden";
+            insetContainer.appendChild(this._divider());
+            ControlFactory.buildGroup("cover-inset", insetContainer);
+            coverGroup.appendChild(insetContainer);
+
+            scroll.appendChild(coverGroup);
+          } else {
+            // Sin portada → forzar cover-style-none
+            card.classList.remove("cover-style-full", "cover-style-inset");
+            card.classList.add("cover-style-none");
+          }
+        },
+      };
+
+      // ==========================================
+      // 4. LÓGICA DE UI E INTERACCIÓN
+      // ==========================================
+      function handleControllerClick() {
+        if (window.appBottomSheet) window.appBottomSheet.open();
       }
 
-      // Initialize the intercept once binder is ready
-      setTimeout(initBinderFetcherIntercept, 100);
+      function toggleController(event) {
+        if (event) event.stopPropagation();
+        if (window.appBottomSheet) window.appBottomSheet.close();
+      }
 
-      // Load data helper
-      async function getCardData() {
-        if (window.__adminBinder && window.__adminBinder.fetcher) {
-          return await window.__adminBinder.fetcher.fetchData();
+      function setPreset(presetName) {
+        const card = document.getElementById("mainCard");
+        const content = document.getElementById("profileContent");
+        if (!card || !content) return;
+
+        // NOTA: La clase .active en .glider-option la maneja data-control-sync
+        // No modificar clases manualmente aquí.
+        content.style.flexDirection = "";
+        content.style.textAlign = "";
+        card.classList.remove(
+          "preset-classic",
+          "preset-centered",
+          "preset-horizontal",
+        );
+
+        const posGlider = document.getElementById("posGlider");
+        if (presetName !== "free") {
+          card.classList.add(presetName);
+          if (posGlider) {
+            posGlider.style.opacity = "0.5";
+            posGlider.style.pointerEvents = "none";
+          }
+        } else {
+          if (posGlider) {
+            posGlider.style.opacity = "1";
+            posGlider.style.pointerEvents = "auto";
+          }
+          setPos("left");
         }
-        const stored = localStorage.getItem("NFC_CARD_DATA");
-        if (stored) {
+
+        if (window.appBipartiteStorage) {
+          window.appBipartiteStorage.updatePreset(presetName);
+        }
+      }
+
+      function setPos(direction) {
+        // NOTA: La validación de "free" y la clase .active en .glider-option
+        // la maneja data-control-sync. Aquí solo aplicamos el posicionamiento.
+        const freeOption = document.querySelector(
+          '#presetGlider .glider-option[data-val="free"]',
+        );
+        if (!freeOption || !freeOption.classList.contains("active")) return;
+
+        // NOTA: La clase .active en .glider-option la maneja data-control-sync
+        // No modificar clases manualmente aquí.
+        const content = document.getElementById("profileContent");
+        if (!content) return;
+        content.style.flexDirection =
+          direction === "left"
+            ? "row"
+            : direction === "right"
+              ? "row-reverse"
+              : "column";
+        content.style.textAlign = direction === "top" ? "center" : "left";
+
+        if (window.appBipartiteStorage) {
+          window.appBipartiteStorage.updatePosition(direction);
+        }
+      }
+
+      function setCoverStyle(styleName) {
+        const card = document.getElementById("mainCard");
+        if (!card) return;
+
+        document
+          .querySelectorAll("#coverGlider .glider-option")
+          .forEach((el) => el.classList.remove("active"));
+        const activeOption = document.querySelector(
+          `#coverGlider .glider-option[data-val="${styleName}"]`,
+        );
+        if (activeOption) activeOption.classList.add("active");
+
+        card.classList.remove(
+          "cover-style-none",
+          "cover-style-full",
+          "cover-style-inset",
+        );
+        card.classList.add(`cover-style-${styleName}`);
+
+        const insetControls = document.getElementById("insetControlsContainer");
+        const coverWrap = document.getElementById("coverWrap");
+
+        if (insetControls) {
+          if (styleName === "inset") {
+            insetControls.dataset.status = "active";
+          } else {
+            insetControls.dataset.status = "hidden";
+            if (coverWrap) {
+              coverWrap.style.width = "";
+              coverWrap.style.height = "";
+              coverWrap.style.borderRadius = "";
+            }
+          }
+        }
+
+        if (window.appBipartiteStorage) {
+          window.appBipartiteStorage.updateCoverStyle(styleName);
+        }
+      }
+
+      // ==========================================
+      // 5. MOTOR DECLARATIVO DE HIDRATACIÓN (SOLID)
+      // ==========================================
+      const BindingStrategies = {
+        text: (el, value) => {
+          el.textContent = value;
+        },
+        innerhtml: (el, value) => {
+          el.innerHTML = value;
+        },
+        src: (el, value) => {
+          if (value) el.setAttribute("src", value);
+        },
+        href: (el, value) => {
+          if (value) el.setAttribute("href", value);
+        },
+        alt: (el, value) => {
+          if (value) el.setAttribute("alt", value);
+        },
+        title: (el, value) => {
+          if (value) el.setAttribute("title", value);
+        },
+        value: (el, value) => {
+          if (value) el.setAttribute("value", value);
+        },
+        class: (el, value) => {
+          if (value) el.classList.add(value);
+        },
+        "css-var": (el, value, config) => {
+          if (config.cssVar && value)
+            el.style.setProperty(config.cssVar, value);
+        },
+        "bg-image": (el, value) => {
+          if (value) el.style.backgroundImage = `url('${value}')`;
+        },
+      };
+
+      const DataUtils = {
+        getNestedValue(obj, path) {
+          if (!path || !obj) return undefined;
+          return path.split(".").reduce((acc, part) => acc && acc[part], obj);
+        },
+        formatValue(value, format) {
+          if (!format || value === null || value === undefined || value === "")
+            return value;
+          return format.replace("{value}", value);
+        },
+      };
+
+      class HydrationEngine {
+        constructor(strategies) {
+          this.strategies = strategies;
+        }
+
+        hydrate(rootElement, data) {
+          rootElement.querySelectorAll("[data-bind]").forEach((el) => {
+            const config = this._extractConfig(el);
+            let rawValue = DataUtils.getNestedValue(data, config.path);
+            if (rawValue === null || rawValue === undefined) rawValue = "";
+            const finalValue = DataUtils.formatValue(rawValue, config.format);
+            const strategy = this.strategies[config.bindType];
+            if (strategy) strategy(el, finalValue, config);
+            this._cleanupSkeleton(el);
+          });
+        }
+
+        _extractConfig(el) {
+          return {
+            path: el.getAttribute("data-bind"),
+            bindType: (
+              el.getAttribute("data-bind-type") || "text"
+            ).toLowerCase(),
+            cssVar: el.getAttribute("data-bind-var"),
+            format: el.getAttribute("data-bind-format"),
+          };
+        }
+
+        _cleanupSkeleton(el) {
+          el.classList.remove("skeleton-target");
+          // Solo limpia el width si fue puesto por el skeleton placeholder,
+          // no inyecta --wh en elementos que no son el avatar.
+          if (!el.dataset.bindType || el.dataset.bindType !== "src") {
+            el.style.width = "";
+          }
+        }
+      }
+
+      // ==========================================
+      // 5.1 BIPARTITE STORAGE UTILITY (SOLID / DRY)
+      // ==========================================
+      class BipartiteStorage {
+        constructor(options = {}) {
+          this.storageKey = options.storageKey || "nfc_profile_aspect";
+          this.userId =
+            options.userId || localStorage.getItem("devUserId") || 1;
+          this.apiUrl =
+            options.apiUrl ||
+            "https://my.newfacecards.com/nfc/gateway-profile.php";
+          this.apiKey =
+            options.apiKey || localStorage.getItem("devApiKey") || "";
+          this.debounceMs = options.debounceMs || 1500;
+          this.statusStorageEl = document.getElementById("data-status-storage");
+
+          this.debounceTimer = null;
+          this.abortController = null;
+          this.lastSyncedHash = null;
+          this.isApplyingState = false;
+          this.syncState = "synced";
+
+          // Local memory state
+          this.state = {
+            preset: "preset-classic",
+            position: "left",
+            coverStyle: "full",
+            controls: {},
+          };
+
+          // Initialize default controls from schema
+          CONTROLS.forEach((cfg) => {
+            this.state.controls[cfg.id] = cfg.initial;
+          });
+
+          // Bind offline/online recovery
+          window.addEventListener("online", () =>
+            this.handleNetworkChange(true),
+          );
+          window.addEventListener("offline", () =>
+            this.handleNetworkChange(false),
+          );
+
+          // Initial network state check
+          this.handleNetworkChange(navigator.onLine);
+
+          // Add click listener to sync status badge
+          const badgeEl = document.getElementById("syncStatusBadge");
+          if (badgeEl) {
+            badgeEl.style.cursor = "pointer";
+            badgeEl.addEventListener("click", () =>
+              this.showSyncDetailsSheet(),
+            );
+          }
+        }
+
+        handleNetworkChange(isOnline) {
+          if (this.statusStorageEl) {
+            this.statusStorageEl.setAttribute(
+              "data-status",
+              isOnline ? "online" : "offline",
+            );
+            if (!isOnline) {
+              this.setSyncState("offline", "Sin conexión");
+            } else {
+              this.setSyncState("synced", "Sincronizado");
+              this.syncPending();
+            }
+          }
+        }
+
+        setSyncState(status, text) {
+          this.syncState = status;
+          if (this.statusStorageEl) {
+            this.statusStorageEl.setAttribute("data-sync-status", status);
+          }
+          const badgeText = document.querySelector(
+            "#syncStatusBadge .sync-text",
+          );
+          if (badgeText) {
+            badgeText.textContent = text;
+          }
+        }
+
+        showSyncDetailsSheet() {
+          if (typeof window.constructBottomSheet !== "function") {
+            console.error("constructBottomSheet helper is not available yet.");
+            return;
+          }
+
+          let iconColor = "";
+          let iconSVG = "";
+          let titleText = "";
+          let descriptionText = "";
+
+          switch (this.syncState) {
+            case "synced":
+              iconColor = "synced";
+              iconSVG = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="width: 32px; height: 32px;"><path d="M20 6L9 17l-5-5"/></svg>`;
+              titleText = "Sincronizado";
+              descriptionText =
+                "Tus cambios se guardaron de forma segura en la nube (WordPress) y están disponibles en todos tus dispositivos.";
+              break;
+            case "syncing":
+              iconColor = "syncing";
+              iconSVG = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="width: 32px; height: 32px;"><path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"/></svg>`;
+              titleText = "Sincronizando...";
+              descriptionText =
+                "Guardando tus cambios en el servidor cloud. Por favor espera un momento...";
+              break;
+            case "offline":
+              iconColor = "offline";
+              iconSVG = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="width: 32px; height: 32px;"><path d="M1 1l22 22M16.72 11.06A10.94 10.94 0 0 1 19 12.5M5 12.5a10.94 10.94 0 0 1 5.83-2.84M8.5 16a5.5 5.5 0 0 1 7 0M12 20h.01"/></svg>`;
+              titleText = "Modo Sin Conexión";
+              descriptionText =
+                "No tienes conexión a Internet. Las configuraciones están guardadas localmente (LocalStorage) y se sincronizarán automáticamente cuando vuelvas a tener conexión.";
+              break;
+            case "error":
+            default:
+              iconColor = "error";
+              iconSVG = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="width: 32px; height: 32px;"><path d="M18 6L6 18M6 6l12 12"/></svg>`;
+              titleText = "Error de Sincronización";
+              descriptionText =
+                "Hubo un problema al conectar con el servidor cloud. Los cambios se mantienen seguros localmente en tu navegador.";
+              break;
+          }
+
+          const hasPending =
+            localStorage.getItem(`${this.storageKey}_pending`) === "true"
+              ? "Sí"
+              : "No";
+
+          const sheetContent = `
+            <div class="sync-details-container">
+              <div class="sync-details-icon ${iconColor}">
+                ${iconSVG}
+              </div>
+              <div class="sync-details-title">${titleText}</div>
+              <div class="sync-details-desc">${descriptionText}</div>
+              <div class="sync-details-grid">
+                <div class="sync-detail-item">
+                  <span class="sync-detail-label">Servidor Cloud:</span>
+                  <span class="sync-detail-val">my.newfacecards.com</span>
+                </div>
+                <div class="sync-detail-item">
+                  <span class="sync-detail-label">ID Usuario:</span>
+                  <span class="sync-detail-val">${this.userId}</span>
+                </div>
+                <div class="sync-detail-item">
+                  <span class="sync-detail-label">Cambios pendientes:</span>
+                  <span class="sync-detail-val">${hasPending}</span>
+                </div>
+                <div class="sync-detail-item">
+                  <span class="sync-detail-label">Endpoint de guardado:</span>
+                  <span class="sync-detail-val">/nfc/gateway-profile.php</span>
+                </div>
+              </div>
+            </div>
+          `;
+
+          const config = {
+            title: "Detalles de sincronización",
+            scope: "sync-details",
+            content: sheetContent,
+            bottom_actions: {
+              layout: "dual",
+              secondary: {
+                label: "Cerrar",
+                callback: "close",
+              },
+              primary: {
+                label: "Sincronizar ahora",
+                callback: () => {
+                  window.appBipartiteStorage.syncCloud();
+                  if (typeof window.appBottomSheetClose === "function") {
+                    window.appBottomSheetClose();
+                  } else {
+                    const activeOverlay = document.querySelector(
+                      ".bottom-sheet-overlay",
+                    );
+                    if (activeOverlay) {
+                      const closeBtn = activeOverlay.querySelector(
+                        "[data-bsheet-close]",
+                      );
+                      if (closeBtn) closeBtn.click();
+                    }
+                  }
+                },
+              },
+            },
+          };
+
+          window.constructBottomSheet(config);
+        }
+
+        // Apply loaded state back to UI controls and DOM elements
+        applyStateToUI() {
+          this.isApplyingState = true;
+          console.log("Aplicando estado cargado a la interfaz:", this.state);
+
           try {
-            return JSON.parse(stored);
-          } catch (e) {}
-        }
-        return await fetch("/data/card-data.json")
-          .then((r) => r.json())
-          .catch(() => ({}));
-      }
+            // 1. Preset
+            if (this.state.preset) {
+              setPreset(this.state.preset);
+            }
 
-      // Save data helper
-      function saveCardData(data) {
-        localStorage.setItem("NFC_CARD_DATA", JSON.stringify(data));
-        if (window.__adminBinder && window.__adminBinder.hydrator) {
-          window.__adminBinder.hydrator.hydrate(data);
-        }
-      }
+            // 2. Position (only applies if free)
+            if (this.state.position) {
+              setPos(this.state.position);
+            }
 
-      // Open Profile Editor (mode === "cardbar"): loads and populates inputs
-      async function openProfileEditor() {
-        profileEditorActive = true;
-        const data = await getCardData();
-        cachedCardData = data;
+            // 3. Cover style
+            if (this.state.coverStyle) {
+              setCoverStyle(this.state.coverStyle);
+            }
 
-        // Ensure nodes exist in cache
-        if (!data.profile) data.profile = {};
-        if (!data.profile.photo) data.profile.photo = { src: "" };
-        if (!data.profile.cover) data.profile.cover = { src: "" };
-        if (!data.config) data.config = {};
+            // 4. Controls
+            Object.entries(this.state.controls).forEach(([id, value]) => {
+              const cfg = CONTROLS.find((c) => c.id === id);
+              if (!cfg) return;
 
-        const setVal = (id, val) => {
-          const el = document.getElementById(id);
-          if (el) el.value = val;
-        };
+              // Update DOM element input value
+              const inputEl = document.getElementById(`${cfg.id}-input`);
+              if (inputEl) {
+                if (cfg.type === "checkbox") {
+                  inputEl.checked = !!value;
+                } else {
+                  inputEl.value = value;
+                }
+              }
 
-        // Populate fields
-        // Cohort 1: Foto y portada
-        setVal("input-profile-photo", data.profile.photo.src || "");
-        const avatarPrev = document.getElementById("edit-avatar-preview");
-        if (avatarPrev) avatarPrev.src = data.profile.photo.src || "";
+              // Apply styling only if the group is relevant to the active layout!
+              // For example, cover-inset controls should only apply inline style if coverStyle is "inset"
+              const isRelevant =
+                cfg.group !== "cover-inset" ||
+                this.state.coverStyle === "inset";
 
-        setVal("input-profile-cover", data.profile.cover.src || "");
-        const coverPrev = document.getElementById("edit-cover-preview");
-        if (coverPrev) {
-          coverPrev.style.backgroundImage = data.profile.cover.src
-            ? `url("${data.profile.cover.src}")`
-            : "";
-        }
+              const target = document.getElementById(cfg.targetId);
+              if (target) {
+                if (cfg.cssProp) {
+                  if (isRelevant) {
+                    if (cfg.type === "checkbox") {
+                      target.style[cfg.cssProp] = value
+                        ? (cfg.trueValue ?? "")
+                        : (cfg.falseValue ?? "none");
+                    } else {
+                      target.style[cfg.cssProp] = value + (cfg.unit || "");
+                    }
+                  } else {
+                    // Clear the inline style so it falls back to stylesheet defaults
+                    target.style[cfg.cssProp] = "";
+                  }
+                }
+                if (cfg.onChange && isRelevant) {
+                  cfg.onChange(value, target);
+                }
+              }
 
-        // Check active cover style
-        const mainEl = document.querySelector(".main-content");
-        const activeStyle = mainEl
-          ? mainEl.getAttribute("data-style")
-          : "classic";
-        const radioEl = document.querySelector(
-          `input[name="image_style"][value="${activeStyle}"]`,
-        );
-        if (radioEl) radioEl.checked = true;
-
-        // Cohort 2: Datos
-        setVal("input-profile-name", data.profile.name || "");
-        setVal("input-profile-title", data.profile.title || "");
-        setVal("input-profile-org", data.profile.org || "");
-        setVal("input-profile-bio", data.profile.bio || "");
-
-        // Cohort 3: Contacto
-        setVal("input-profile-email", data.profile.email || "");
-        setVal("input-profile-phone", data.profile.phone || "");
-        setVal("input-profile-website", data.profile.website || "");
-
-        // Cohort 6: Redes Icons Toggle
-        const showUnderBio = data.config["show-networks-under-bio"] ?? true;
-        const toggleSocial = document.getElementById(
-          "toggle-social-icons-under-bio",
-        );
-        if (toggleSocial) toggleSocial.checked = showUnderBio;
-      }
-
-      // closeProfileEditor: if fullyExit=true, reset island; otherwise just close sheet and
-      // keep the card in edit mode so the user can continue tapping other zones.
-      function closeProfileEditor(fullyExit = false) {
-        profileEditorActive = false;
-
-        // Destroy DataFlowBinder to cancel in-flight requests and remove listeners
-        if (window.__activeFlowBinder) {
-          window.__activeFlowBinder.destroy();
-          window.__activeFlowBinder = null;
+              // Update label display value
+              const display = document.getElementById(`${cfg.id}-val`);
+              if (display && cfg.type !== "checkbox" && cfg.type !== "select") {
+                display.textContent = value + (cfg.unit || "");
+              }
+            });
+            if (window.ControlSyncRegistry) {
+              window.ControlSyncRegistry.applyAll(this.state);
+            }
+          } catch (e) {
+            console.error("Error applying state to UI:", e);
+          } finally {
+            this.isApplyingState = false;
+          }
         }
 
-        closeSheet();
+        // Load state from local storage or cloud
+        loadState(cloudDescription = null) {
+          let localState = null;
+          try {
+            const stored = localStorage.getItem(this.storageKey);
+            if (stored) {
+              localState = JSON.parse(stored);
+            }
+          } catch (e) {
+            console.error("Error reading local aspect state:", e);
+          }
 
-        if (fullyExit) {
-          deactivateCardEditMode();
-          const island = document.getElementById("island");
-          if (island && typeof island.setActiveMode === "function") {
-            island.setActiveMode(null);
+          let cloudState = null;
+          if (cloudDescription) {
+            try {
+              cloudState = JSON.parse(cloudDescription);
+            } catch (e) {
+              console.warn(
+                "La descripción del usuario no es un JSON de aspecto válido:",
+                e,
+              );
+            }
+          }
+
+          // Merge order: Cloud state (source of truth) -> Local storage (offline/in progress) -> Default state
+          if (cloudState && cloudState.controls) {
+            this.state = { ...this.state, ...cloudState };
+            this.lastSyncedHash = JSON.stringify(this.state);
+          }
+
+          if (localState && localState.controls) {
+            // If local state has pending unsynced changes, merge them
+            const isPending =
+              localStorage.getItem(`${this.storageKey}_pending`) === "true";
+            if (isPending || !cloudState) {
+              this.state = { ...this.state, ...localState };
+            }
+          }
+
+          this.applyStateToUI();
+        }
+
+        updatePreset(presetName) {
+          if (this.isApplyingState) return;
+          if (this.state.preset === presetName) return;
+          this.state.preset = presetName;
+          this.saveLocal();
+        }
+
+        updatePosition(direction) {
+          if (this.isApplyingState) return;
+          if (this.state.position === direction) return;
+          this.state.position = direction;
+          this.saveLocal();
+        }
+
+        updateCoverStyle(styleName) {
+          if (this.isApplyingState) return;
+          if (this.state.coverStyle === styleName) return;
+          this.state.coverStyle = styleName;
+          this.saveLocal();
+        }
+
+        updateControlValue(id, value) {
+          if (this.isApplyingState) return;
+          if (this.state.controls[id] === value) return;
+          this.state.controls[id] = value;
+          if (window.ControlSyncRegistry) {
+            window.ControlSyncRegistry.applyControl(id, value);
+          }
+          this.saveLocal();
+        }
+
+        // 1. Local Storage (Immediate)
+        saveLocal() {
+          try {
+            localStorage.setItem(this.storageKey, JSON.stringify(this.state));
+            localStorage.setItem(`${this.storageKey}_pending`, "true");
+
+            // Trigger asynchronous debounced cloud sync
+            this.scheduleSync();
+          } catch (e) {
+            console.error("Error saving aspect to LocalStorage:", e);
+          }
+        }
+
+        // 2. Debounce Trigger
+        async scheduleSync() {
+          if (this.debounceTimer) {
+            clearTimeout(this.debounceTimer);
+          }
+          this.debounceTimer = setTimeout(async () => {
+            await this.syncCloud();
+          }, this.debounceMs);
+        }
+
+        // 3. API Sync (Asynchronous & Idempotent)
+        async syncCloud() {
+          if (!navigator.onLine) {
+            console.warn("Offline: Sincronización encolada.");
+            this.setSyncState("offline", "Sin conexión");
+            return;
+          }
+
+          const currentHash = JSON.stringify(this.state);
+          if (currentHash === this.lastSyncedHash) {
+            console.log(
+              "Idempotencia: Sin cambios desde la última sincronización.",
+            );
+            localStorage.removeItem(`${this.storageKey}_pending`);
+            this.setSyncState("synced", "Sincronizado");
+            return;
+          }
+
+          if (this.abortController) {
+            this.abortController.abort();
+            console.log("Cancelando sincronización anterior.");
+          }
+          this.abortController = new AbortController();
+
+          this.setSyncState("syncing", "Sincronizando...");
+
+          try {
+            const payload = {
+              user_id: this.userId,
+              description: currentHash,
+            };
+
+            const headers = {
+              "Content-Type": "application/json",
+            };
+            if (this.apiKey) {
+              headers["Authorization"] = `Bearer ${this.apiKey}`;
+            }
+
+            const response = await fetch(this.apiUrl, {
+              method: "POST",
+              headers: headers,
+              body: JSON.stringify(payload),
+              signal: this.abortController.signal,
+            });
+
+            if (!response.ok) {
+              throw new Error(`HTTP Error ${response.status}`);
+            }
+
+            const resData = await response.json();
+            if (!resData.success) {
+              throw new Error(resData.message || "La API no devolvió éxito");
+            }
+
+            this.lastSyncedHash = currentHash;
+            localStorage.removeItem(`${this.storageKey}_pending`);
+            this.setSyncState("synced", "Sincronizado");
+            console.log("Sincronización en la nube exitosa!");
+          } catch (err) {
+            if (err.name === "AbortError") {
+              console.log("Sincronización abortada por nuevo cambio.");
+              return;
+            }
+            console.error("Error sincronizando en la nube:", err);
+            this.setSyncState("error", "Error de sincronización");
+          } finally {
+            this.abortController = null;
+          }
+        }
+
+        syncPending() {
+          const isPending =
+            localStorage.getItem(`${this.storageKey}_pending`) === "true";
+          if (isPending) {
+            console.log(
+              "Sincronizando cambios locales pendientes al volver online...",
+            );
+            this.syncCloud();
           }
         }
       }
 
-      window.closeProfileEditor = closeProfileEditor;
-
-      // Tabs switching mechanism
-      function setupTabListeners() {
-        document.querySelectorAll(".cohort-tab").forEach((tab) => {
-          tab.addEventListener("click", (e) => {
-            const btn = e.target.closest(".cohort-tab");
-            const cohort = btn.dataset.cohort;
-
-            document
-              .querySelectorAll(".cohort-tab")
-              .forEach((t) => t.classList.remove("active"));
-            btn.classList.add("active");
-
-            document
-              .querySelectorAll(".cohort-pane")
-              .forEach((p) => p.classList.remove("active"));
-            const pane = document.getElementById(`pane-${cohort}`);
-            if (pane) pane.classList.add("active");
-          });
-        });
-      }
-
-      // Design controls switching mechanism
-      function setupDesignModeListeners() {
-        document.querySelectorAll("[data-nav-mode]").forEach((btn) => {
-          btn.addEventListener("click", (e) => {
-            const targetMode = e.currentTarget.dataset.navMode;
-            if (!cachedCardData) return;
-            if (!cachedCardData.config) cachedCardData.config = {};
-            cachedCardData.config["nav-type"] = targetMode;
-            saveCardData(cachedCardData);
-
-            // Update UI styles and active buttons
-            setNavModeUI(targetMode);
-          });
-        });
-
-        // Radio buttons style change event
-        document
-          .querySelectorAll('input[name="image_style"]')
-          .forEach((radio) => {
-            radio.addEventListener("change", (e) => {
-              const val = e.target.value;
-              const mainEl = document.querySelector(".main-content");
-              if (mainEl) {
-                mainEl.setAttribute("data-style", val);
-                // Save to config
-                if (cachedCardData) {
-                  if (!cachedCardData.config) cachedCardData.config = {};
-                  cachedCardData.config.cover_active = val === "with-cover";
-                  saveCardData(cachedCardData);
-                }
-              }
-            });
-          });
-      }
-
-      // Save sync with inputs
-      function bindCohortInputs() {
-        const syncValue = (inputId, objPath, isSrc = false, isBg = false) => {
-          const el = document.getElementById(inputId);
-          if (!el) return;
-
-          el.addEventListener("input", (e) => {
-            if (!cachedCardData) return;
-            const val = e.target.value;
-
-            // Set nested value
-            const parts = objPath.split(".");
-            let current = cachedCardData;
-            for (let i = 0; i < parts.length - 1; i++) {
-              current = current[parts[i]];
-            }
-            current[parts[parts.length - 1]] = val;
-
-            // Sync live previews in sheet
-            if (isSrc) {
-              const prev = document.getElementById(
-                inputId.replace("input-", "") + "-preview",
-              );
-              if (prev) prev.src = val;
-            }
-            if (isBg) {
-              const prev = document.getElementById(
-                inputId.replace("input-", "") + "-preview",
-              );
-              if (prev) prev.style.backgroundImage = val ? `url("${val}")` : "";
-            }
-
-            // Sync visual covers
-            if (objPath === "profile.cover.src") {
-              const bgCover = document.getElementById("background_cover");
-              if (bgCover)
-                bgCover.style.backgroundImage = val ? `url("${val}")` : "";
-            }
-
-            saveCardData(cachedCardData);
-          });
-        };
-
-        // Cohort 1
-        syncValue("input-profile-photo", "profile.photo.src", true);
-        syncValue("input-profile-cover", "profile.cover.src", false, true);
-
-        // Radio buttons style change event
-        document
-          .querySelectorAll('input[name="image_style"]')
-          .forEach((radio) => {
-            radio.addEventListener("change", (e) => {
-              const val = e.target.value;
-              const mainEl = document.querySelector(".main-content");
-              if (mainEl) {
-                mainEl.setAttribute("data-style", val);
-                // Save to config
-                if (cachedCardData) {
-                  if (!cachedCardData.config) cachedCardData.config = {};
-                  cachedCardData.config.cover_active = val === "with-cover";
-                  saveCardData(cachedCardData);
-                }
-              }
-            });
-          });
-
-        // Cohort 2
-        syncValue("input-profile-name", "profile.name");
-        syncValue("input-profile-title", "profile.title");
-        syncValue("input-profile-org", "profile.org");
-        syncValue("input-profile-bio", "profile.bio");
-
-        // Cohort 3
-        syncValue("input-profile-email", "profile.email");
-        syncValue("input-profile-phone", "profile.phone");
-        syncValue("input-profile-website", "profile.website");
-
-        // Cohort 6: toggle icons
-        document
-          .getElementById("toggle-social-icons-under-bio")
-          ?.addEventListener("change", (e) => {
-            if (!cachedCardData) return;
-            cachedCardData.config["show-networks-under-bio"] = e.target.checked;
-            saveCardData(cachedCardData);
-
-            // Toggle UI list visibility
-            const list =
-              document.querySelector(".aurora__socials") ||
-              document.querySelector(".blank__socials");
-            if (list) {
-              list.style.display = e.target.checked ? "flex" : "none";
-            }
-          });
-      }
-
-      // Initialize inputs listeners
-      setTimeout(bindCohortInputs, 200);
-
-      window.__openAppearanceEditor = openImmersiveAppearance;
-      window.__closeAppearanceEditor = closeImmersiveAppearance;
-
-      importIslandMenu(morphedIslandConfig)
-        .then((island) => {
-          setupIslandListeners(island);
-        })
-        .catch((err) =>
-          console.error("[admin binder] island bootstrap failed:", err),
-        );
-    </script>
-
-    <!-- Header: click toggle + scroll-depth compression effect -->
-    <script>
-      (function () {
-        const storage = document.getElementById("data-status-storage");
-        const handler = document.querySelector(".handler");
-        const actions = document.querySelector(".header__actions");
-        const nextHandler = document.querySelector(".header__action.handler");
-
-        if (!storage || !handler) return;
-
-        // === Click toggle for data-top-menu (handle rotation etc.) ===
-        function setTopMenuState(state) {
-          storage.setAttribute("data-top-menu", state); // "hidden" | "showing"
+      // ==========================================
+      // 6. USER SERVICE
+      // ==========================================
+      class UserService {
+        constructor(apiUrl) {
+          this.apiUrl = apiUrl;
         }
 
-        handler.addEventListener("click", () => {
-          const current = storage.getAttribute("data-top-menu");
-          setTopMenuState(current === "hidden" ? "showing" : "hidden");
-        });
-
-        // === Scroll-depth calculator (drives --scale / --blur on header) ===
-        if (!actions) return;
-
-        const MAX_SCROLL_DEPTH = 220;
-        const MIN_SCALE = 0.7;
-        const MAX_BLUR = 7;
-
-        let ticking = false;
-
-        function updateHeaderEffect() {
-          const scrollY = window.scrollY || 0;
-          const progress = Math.min(Math.max(scrollY / MAX_SCROLL_DEPTH, 0), 1);
-
-          const scale = (1 - (1 - MIN_SCALE) * progress).toFixed(3);
-          const blur = (MAX_BLUR * progress).toFixed(1);
-          const newBlur = blur - 1.5;
-
-          actions.style.setProperty("--scale", scale);
-          actions.style.setProperty("--blur", `${newBlur}px`);
-          nextHandler.style.setProperty("--translate", `${blur * -20}px`);
-        }
-
-        function onScroll() {
-          if (!ticking) {
-            requestAnimationFrame(() => {
-              updateHeaderEffect();
-              ticking = false;
-            });
-            ticking = true;
+        async getUserData() {
+          try {
+            const response = await fetch(this.apiUrl);
+            if (!response.ok) throw new Error("HTTP " + response.status);
+            const data = await response.json();
+            return data?.data || {};
+          } catch {
+            return this._getMockData();
           }
         }
 
-        window.addEventListener("scroll", onScroll, { passive: true });
+        async _getMockData() {
+          await new Promise((resolve) => setTimeout(resolve, 2000));
+          return {
+            user: {
+              firstName: "Alex Developer",
+              role: "Software Engineer",
+              description: "Especialista en interfaces declarativas.",
+              avatar: {
+                url: "https://app.newfacecards.com/nfc/profile-pic/recBOO8H0GO0RZlUU.jpg?timestamp=1723160426&size=1000x1000",
+              },
+              umCoverUrl:
+                "https://my.newfacecards.com/wp-content/uploads/ultimatemember/1/cover_photo.jpg",
+            },
+          };
+        }
+      }
 
-        // Initialize on load (handles restored scroll position)
-        updateHeaderEffect();
-      })();
+      // ==========================================
+      // 7. APP CONTROLLER — orquesta todo
+      // ==========================================
+      class AppController {
+        constructor() {
+          this.storageEl = document.querySelector(".status-storage");
+          this.userService = new UserService(
+            "https://my.newfacecards.com/nfc/front/get_user.php",
+          );
+          this.hydrator = new HydrationEngine(BindingStrategies);
+        }
+
+        setLoadingState(isLoading) {
+          if (this.storageEl) {
+            this.storageEl.setAttribute(
+              "data-general-status",
+              isLoading ? "skel-loading" : "loaded",
+            );
+          }
+        }
+
+        async init() {
+          // 1. Inicializar los controles del panel condicional inmediatamente
+          ConditionalPanelManager.init();
+
+          // 2. Instanciar BipartiteStorage con ID por defecto e inicializar con LocalStorage de inmediato
+          window.appBipartiteStorage = new BipartiteStorage({
+            userId: 1,
+            apiKey:
+              "patMGuFVV5CBYL2TU.92aa853aaf30125e860bab7543358d01ef8632ad87081467d9d44e384f5e0ff5",
+          });
+          window.ControlSyncRegistry?.connectStorage(
+            window.appBipartiteStorage,
+          );
+          window.ControlSyncRegistry?.define({
+            id: "ctrl-size",
+            root: "[data-control-sync='avatar-size']",
+            target: "#avatarContainer",
+            cssVar: "--avatar-size",
+            unit: "px",
+            values: { sm: 64, md: 100, lg: 140 },
+          });
+          window.appBipartiteStorage.loadState(null);
+
+          // 3. Mostrar estado de carga (skeleton) para los datos del usuario e iniciar la consulta cloud
+          this.setLoadingState(true);
+          const data = await this.userService.getUserData();
+
+          // 4. Hidratar los datos de usuario en el DOM y remover el skeleton
+          this.hydrator.hydrate(document, data);
+          this.setLoadingState(false);
+
+          // 5. Actualizar el ID del usuario y priorizar/sincronizar la configuración desde la nube (descripción/biographical info)
+          if (data?.user?.id) {
+            window.appBipartiteStorage.userId = data.user.id;
+          }
+          window.appBipartiteStorage.loadState(data?.user?.description);
+        }
+      }
+
+      // ==========================================
+      // 8. INICIALIZACIÓN
+      // ==========================================
+      document.addEventListener("DOMContentLoaded", () => {
+        const app = new AppController();
+        app.init();
+      });
     </script>
+    <script type="module" src="/assets/js/core/bootSync.js"></script>
   </body>
 </html>

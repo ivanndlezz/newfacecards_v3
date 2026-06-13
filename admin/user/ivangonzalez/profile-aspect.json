@@ -1,0 +1,14 @@
+{
+    "profile-heading": {
+        "cover-style": "no-cover",
+        "cover-height": "small",      
+        "cover-free-layout": "left-aligned",
+        "cover-floating-layout": "center",
+        "cover-border-radius": "10px",
+        "profile-layout": "classic",
+        "avatar-border-radius": "10px",
+        "avatar-size" : "100px",
+        "avatar-border" : 1
+    }
+}
+
