@@ -1249,7 +1249,7 @@
          Incorrecto: el.style.display = "block"
          ========================================================================== */
       #main-sheet {
-        height: min(55dvh, 720px);
+        height: min(92dvh, 720px);
       }
 
       #main-sheet[data-status="hidden"] {
@@ -1623,185 +1623,7 @@
         background-position: center;
         align-items: center;
         justify-content: center;
-                background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 20 20' fill='none'%3E%3Cg clip-path='url(%23clip0_4_5)'%3E%3Cpath d='M20 10C20 15.5228 15.5228 20 10 20C4.47715 20 0 15.5228 0 10C0 4.47715 4.47715 0 10 0C15.5228 0 20 4.47715 20 10Z' fill='white' fill-opacity='0.5'/%3E%3Ccircle cx='10' cy='8' r='3' fill='white'/%3E%3Crect x='5' y='12' width='10' height='3' rx='1.5' fill='white'/%3E%3C/g%3E%3Cdefs%3E%3CclipPath id='clip0_4_5'%3E%3Crect width='20' height='20' fill='white'/%3E%3C/clipPath%3E%3C/defs%3E%3C/svg%3E");
-      }
-
-      /* === STYLE SELECTOR GRID === */
-      .image-style-fieldset {
-        border: 0;
-        padding: 0;
-        margin: 0 0 12px;
-      }
-      .image-style-grid {
-        display: flex;
-        gap: 12px;
-        justify-content: center;
-      }
-      .image-style-card {
-        position: relative;
-        display: grid;
-        place-items: center;
-        gap: 10px;
-        padding: 16px 10px;
-        border: 2px solid #e5e7eb;
-        border-radius: 14px;
-        background: #fff;
-        cursor: pointer;
-        transition:
-          border-color 0.2s,
-          box-shadow 0.2s,
-          transform 0.02s;
-        width: 100%;
-        max-width: 120px;
-        min-width: 110px;
-      }
-      .image-style-card:active {
-        transform: scale(0.995);
-      }
-      .image-style-card:hover {
-        border-color: #d1d5db;
-      }
-      input[name="image_style"]:checked + .image-style-card {
-        border-color: #06896c;
-        box-shadow: 0 0 0 4px #06896c22;
-      }
-      .image-style-card .checkmark {
-        position: absolute;
-        top: 8px;
-        right: 8px;
-        width: 22px;
-        height: 22px;
-        border-radius: 999px;
-        border: 2px solid #e5e7eb;
-        background: #fff;
-        transition: all 0.2s ease;
-      }
-      input[name="image_style"]:checked + .image-style-card .checkmark {
-        border-color: #06896c;
-        background: radial-gradient(
-          circle at 50% 50%,
-          #06896c 50%,
-          transparent 51%
-        );
-      }
-      .image-style-title {
-        font-size: 13px;
-        font-weight: 600;
-        color: #374151;
-      }
-      .preview {
-        width: 100%;
-        height: 72px;
-        border-radius: 12px;
-        background: #f3f4f6;
-        display: grid;
-        place-items: center;
-      }
-      .preview--classic::before {
-        content: "";
-        width: 48px;
-        height: 48px;
-        border-radius: 999px;
-        background: #e5e7eb;
-        box-shadow:
-          inset 0 10px 20px #0000000f,
-          0 2px 4px #0000000a;
-      }
-      .preview--hero::before {
-        content: "";
-        width: 48px;
-        height: 36px;
-        border-radius: 8px;
-        background: #e5e7eb;
-        box-shadow:
-          inset 0 10px 20px #0000000f,
-          0 2px 4px #0000000a;
-      }
-      .preview--cover {
-        position: relative;
-        overflow: hidden;
-      }
-      .preview--cover .cover-bg {
-        position: absolute;
-        inset: 0 0 40% 0;
-        background: linear-gradient(180deg, #e9d5ff, #dbeafe);
-      }
-      .preview--cover .avatar {
-        position: absolute;
-        bottom: 8px;
-        left: 50%;
-        transform: translateX(-50%);
-        width: 32px;
-        height: 32px;
-        border-radius: 999px;
-        background: #e5e7eb;
-        box-shadow:
-          0 2px 4px #0000001a,
-          0 0 0 2px #fff;
-      }
-
-      /* Breadcrumb Styles */
-      .breadcrumb-back {
-        cursor: pointer;
-        color: #6b7280;
-        display: inline-flex;
-        align-items: center;
-        gap: 6px;
-        transition: color 0.2s;
-        font-weight: 500;
-      }
-      .breadcrumb-back:hover {
-        color: #111827;
-      }
-      .breadcrumb-separator {
-        margin: 0 6px;
-        color: #9ca3af;
-      }
-      .breadcrumb-current {
-        color: #111827;
-        font-weight: 700;
-      }
-
-      /* --- PRESET HERO --- */
-      .profile-card.preset-hero {
-        position: relative;
-        overflow: hidden;
-      }
-      .profile-card.preset-hero .cover-wrap {
-        display: block !important;
-        position: absolute;
-        inset: 0;
-        z-index: 1;
-        width: 100% !important;
-        height: var(--hero-height, 50%) !important;
-        margin: 0 !important;
-        border-radius: 0 !important;
-      }
-      .profile-card.preset-hero .cover-photo {
-        width: 100%;
-        height: 100%;
-        object-fit: var(--hero-fit, cover) !important;
-      }
-      .profile-card.preset-hero .profile-row {
-        position: relative;
-        z-index: 2;
-        margin-top: calc(var(--hero-height, 50%) - 40px);
-        background: rgba(255, 255, 255, 0.7);
-        backdrop-filter: blur(var(--hero-blur, 12px));
-        -webkit-backdrop-filter: blur(var(--hero-blur, 12px));
-        border-radius: 24px 24px 0 0;
-        border-top: 1px solid rgba(255, 255, 255, 0.4);
-        box-shadow: 0 -10px 30px rgba(0,0,0,0.05);
-        padding: 24px;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        text-align: center;
-      }
-      .profile-card.preset-hero .avt {
-        margin-top: -64px;
-        margin-bottom: 12px;
-        box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 20 20' fill='none'%3E%3Cg clip-path='url(%23clip0_4_5)'%3E%3Cpath d='M20 10C20 15.5228 15.5228 20 10 20C4.47715 20 0 15.5228 0 10C0 4.47715 4.47715 0 10 0C15.5228 0 20 4.47715 20 10Z' fill='white' fill-opacity='0.5'/%3E%3Ccircle cx='10' cy='8' r='3' fill='white'/%3E%3Crect x='5' y='12' width='10' height='3' rx='1.5' fill='white'/%3E%3C/g%3E%3Cdefs%3E%3CclipPath id='clip0_4_5'%3E%3Crect width='20' height='20' fill='white'/%3E%3C/clipPath%3E%3C/defs%3E%3C/svg%3E");
       }
     </style>
   </head>
@@ -2049,19 +1871,6 @@
       <!-- Header Dividido en 3 zonas -->
       <header class="sheet-header">
         <div class="sheet-header-left" id="sheet-header-left">
-          <h2
-            style="
-              font-size: 1.5rem;
-              font-weight: 700;
-              color: #1f2937;
-              margin: 0px;
-            "
-          >
-            Perfil y portada
-          </h2>
-        </div>
-        <div class="sheet-header-center" id="sheet-header-center"></div>
-        <div class="sheet-header-right" id="sheet-header-right">
           <button
             class="icon-btn"
             data-action="close"
@@ -2083,189 +1892,16 @@
             ></i>
           </button>
         </div>
+        <div class="sheet-header-center" id="sheet-header-center">
+          <h2 style="font-size: 18px; margin: 0; font-weight: 600">
+            Editar Portada y Perfil
+          </h2>
+        </div>
+        <div class="sheet-header-right" id="sheet-header-right"></div>
       </header>
 
       <!-- Contenedor principal con scroll independiente. Mantenemos el ID 'editorScroll' para compatibilidad con CONTROLS -->
-      <div class="sheet-content-slots editor-scroll" id="editorScroll">
-        
-        <!-- VISTA PRINCIPAL (SELECTOR DE ESTILO) -->
-        <div id="main-settings" style="padding: 20px 0;">
-          <div class="profile-container">
-            <fieldset class="image-style-fieldset">
-              <div class="image-style-grid">
-                <!-- Classic -->
-                <input
-                  type="radio"
-                  name="image_style"
-                  id="style-classic"
-                  value="classic"
-                  checked
-                  style="position: absolute; opacity: 0; pointer-events: none;"
-                />
-                <label class="image-style-card" for="style-classic">
-                  <span class="preview preview--classic" aria-hidden="true"></span>
-                  <span class="image-style-title">Clásico</span>
-                  <span class="checkmark" aria-hidden="true"></span>
-                </label>
-
-                <!-- Hero -->
-                <input
-                  type="radio"
-                  name="image_style"
-                  id="style-hero"
-                  value="hero"
-                  style="position: absolute; opacity: 0; pointer-events: none;"
-                />
-                <label class="image-style-card" for="style-hero">
-                  <span class="preview preview--hero" aria-hidden="true"></span>
-                  <span class="image-style-title">Hero</span>
-                  <span class="checkmark" aria-hidden="true"></span>
-                </label>
-
-                <!-- With Cover -->
-                <input
-                  type="radio"
-                  name="image_style"
-                  id="style-cover"
-                  value="with-cover"
-                  style="position: absolute; opacity: 0; pointer-events: none;"
-                />
-                <label class="image-style-card" for="style-cover">
-                  <span class="preview preview--cover" aria-hidden="true">
-                    <span class="cover-bg"></span>
-                    <span class="avatar"></span>
-                  </span>
-                  <span class="image-style-title">Con portada</span>
-                  <span class="checkmark" aria-hidden="true"></span>
-                </label>
-              </div>
-            </fieldset>
-
-            <!-- Botón de Customización Fijo al fondo -->
-            <div class="sticky-action-bar">
-              <button
-                id="btn-personalizar"
-                type="button"
-                class="btn-primary"
-                style="margin-top: 0; width: 100%; height: auto;"
-              >
-                Personalizar apariencia Clásica
-              </button>
-            </div>
-          </div>
-        </div>
-
-        <!-- VISTA SECUNDARIA (CONTROLES ESPECÍFICOS) -->
-        <div id="custom-settings" style="display: none; padding: 20px 0;">
-          <!-- TU CUSTOM - ESTO NO SE TOCA NUNCA POR JS -->
-          <div class="control-row custom-layout-row" id="customPresetRow">
-            <span class="control-label">Preset de layout</span>
-            <div
-              class="glider-container"
-              id="presetGlider"
-              data-control-sync="preset.layout"
-              data-target="mainCard"
-              data-state-path="preset"
-              data-value-attr="val"
-              data-event="click"
-              data-active-status="active"
-              data-inactive-status="unset"
-              data-values='{"preset-classic":"preset-classic","preset-centered":"preset-centered","preset-horizontal":"preset-horizontal","free":"free"}'
-            >
-              <div class="glider-option" data-val="preset-classic">Clásico</div>
-              <div class="glider-option" data-val="preset-centered">Centrado</div>
-              <div class="glider-option" data-val="preset-horizontal">
-                Horizontal
-              </div>
-              <div class="glider-option" data-val="free">Libre</div>
-            </div>
-          </div>
-
-          <div class="control-row custom-layout-row" id="customPosRow">
-            <span class="control-label">Posición</span>
-            <div
-              class="glider-container"
-              id="posGlider"
-              data-control-sync="preset.position"
-              data-target="profileContent"
-              data-state-path="position"
-              data-value-attr="val"
-              data-event="click"
-              data-active-status="active"
-              data-inactive-status="unset"
-              data-values='{"left":"left","right":"right","top":"top"}'
-              style="opacity: 0.5; pointer-events: none"
-            >
-              <div class="glider-option active" data-val="left">Izq</div>
-              <div class="glider-option" data-val="right">Der</div>
-              <div class="glider-option" data-val="top">Arriba</div>
-            </div>
-          </div>
-
-          <!-- CONTROLES ESPECÍFICOS PARA HERO -->
-          <div id="ctrlGroupHero" style="display: none">
-            <div class="divider"></div>
-            <span
-              class="control-label"
-              style="font-size: 16px; margin-bottom: 10px; display: block"
-              >Apariencia Hero</span
-            >
-            <div class="control-row">
-              <div class="control-label-wrap" style="display: flex; justify-content: space-between; align-items: center;">
-                <span class="control-label">Efecto Freeze Glass (Blur)</span>
-                <span class="control-value" id="ctrl-hero-blur-val">12px</span>
-              </div>
-              <input
-                type="range"
-                class="range-input"
-                id="ctrl-hero-blur-input"
-                min="0"
-                max="30"
-                value="12"
-                data-control-sync="hero-blur"
-                data-target="profileContent"
-                data-css-var="--hero-blur"
-                data-unit="px"
-              />
-            </div>
-            <div class="control-row">
-              <span class="control-label">Ajuste de Fondo Hero</span>
-              <select
-                class="custom-input"
-                id="ctrl-hero-fit-input"
-                data-control-sync="hero-fit"
-                data-target="profileCover"
-                data-css-prop="objectFit"
-                data-event="change"
-              >
-                <option value="cover" selected>Cover (Rellenar todo)</option>
-                <option value="contain">Contain (Contener)</option>
-              </select>
-            </div>
-            <div class="control-row">
-              <div class="control-label-wrap" style="display: flex; justify-content: space-between; align-items: center;">
-                <span class="control-label">Altura de la sección</span>
-                <span class="control-value" id="ctrl-hero-height-val">50%</span>
-              </div>
-              <input
-                type="range"
-                class="range-input"
-                id="ctrl-hero-height-input"
-                min="30"
-                max="100"
-                value="50"
-                data-control-sync="hero-height"
-                data-target="mainCard"
-                data-css-var="--hero-height"
-                data-unit="%"
-              />
-            </div>
-          </div>
-
-          <!-- Contenedor para grupos dinámicos (Avatar, Portada) -->
-          <div id="dynamicGroupsContainer"></div>
-        </div>
-      </div>
+      <div class="sheet-content-slots editor-scroll" id="editorScroll"></div>
 
       <!-- Footer fijo (opcional) -->
       <div
@@ -2382,28 +2018,6 @@
         };
         // Trigger after a short delay to give the import a chance to resolve
         setTimeout(maybeInitCredCheck, 200);
-
-        // ===== WIRE: conectar data-control-sync con lógica existente =====
-        function wireCustomControls() {
-          if (!window.syncEngine) {
-            setTimeout(wireCustomControls, 100);
-            return;
-          }
-
-          window.syncEngine.store.subscribe("preset", (val) => {
-            if (val && typeof setPreset === "function") {
-              setPreset(val);
-            }
-          });
-
-          window.syncEngine.store.subscribe("position", (val) => {
-            if (val && typeof setPos === "function") {
-              setPos(val);
-            }
-          });
-        }
-
-        wireCustomControls();
         // Evento para activar el modo edición
         btnEdit.addEventListener("click", () => {
           pildora.classList.add("is-active");
@@ -2756,8 +2370,137 @@
 
       // ==========================================
       // 2.1 CONTROL SYNC REGISTRY
-      //    (Modular SyncEngine is loaded asynchronously via bootSync.js)
+      //    Input Adapter -> SSOT -> Design Binder
       // ==========================================
+      const ControlSyncRegistry = {
+        defs: new Map(),
+        storage: null,
+
+        connectStorage(storage) {
+          this.storage = storage;
+        },
+
+        define(def) {
+          if (!def?.id) return;
+          const normalized = {
+            event: "click",
+            valueAttr: "value",
+            activeStatus: "active",
+            inactiveStatus: "unset",
+            statePath: `controls.${def.id}`,
+            ...def,
+          };
+          this.defs.set(normalized.id, normalized);
+          if (normalized.root) this.bindInput(normalized.id);
+          return normalized;
+        },
+
+        bindInput(id) {
+          const def = this.defs.get(id);
+          const root = document.querySelector(def.root);
+          if (!root || root.dataset.syncBound === "true") return;
+          root.dataset.syncBound = "true";
+          root.addEventListener(def.event, (e) => {
+            const item = e.target.closest(`[data-${def.valueAttr}]`);
+            if (!item || !root.contains(item)) return;
+            const raw = item.dataset[this._dataKey(def.valueAttr)];
+            this.setValue(id, this.resolveValue(def, raw));
+          });
+        },
+
+        setValue(id, value) {
+          const def = this.defs.get(id);
+          if (!def) return;
+          this.writeState(def, value);
+          this.applyDesign(def, value);
+          this.syncInput(def, value);
+          this.syncDisplay(def, value);
+        },
+
+        applyControl(id, value) {
+          const def = this.defs.get(id);
+          if (!def) return;
+          this.applyDesign(def, value);
+          this.syncInput(def, value);
+          this.syncDisplay(def, value);
+        },
+
+        applyAll(state) {
+          this.defs.forEach((def) => {
+            const value = this.readFromState(state, def.statePath);
+            if (value !== undefined) this.applyControl(def.id, value);
+          });
+        },
+
+        writeState(def, value) {
+          if (this.storage?.state) {
+            if (this.storage.isApplyingState) return;
+            const current = this.readFromState(this.storage.state, def.statePath);
+            if (String(current) === String(value)) return;
+            this.writeToState(this.storage.state, def.statePath, value);
+            this.storage.saveLocal();
+            return;
+          }
+          const root = this.storage?.state || window.appState;
+          if (!root) return;
+          this.writeToState(root, def.statePath, value);
+        },
+
+        applyDesign(def, value) {
+          const target = document.querySelector(def.target);
+          if (!target) return;
+          const designValue = this.resolveValue(def, value);
+          if (def.cssVar) {
+            target.style.setProperty(def.cssVar, `${designValue}${def.unit || ""}`);
+          }
+          if (def.cssProp) {
+            target.style[def.cssProp] = `${designValue}${def.unit || ""}`;
+          }
+          if (typeof def.onApply === "function") def.onApply(designValue, target);
+        },
+
+        syncInput(def, value) {
+          const root = document.querySelector(def.root);
+          if (!root) return;
+          root.querySelectorAll(`[data-${def.valueAttr}]`).forEach((item) => {
+            const raw = item.dataset[this._dataKey(def.valueAttr)];
+            const itemValue = this.resolveValue(def, raw);
+            item.dataset.status =
+              String(itemValue) === String(value)
+                ? def.activeStatus
+                : def.inactiveStatus;
+          });
+        },
+
+        syncDisplay(def, value) {
+          const display = document.getElementById(`${def.id}-val`);
+          if (display) display.textContent = `${value}${def.unit || ""}`;
+        },
+
+        resolveValue(def, raw) {
+          if (def.values && Object.hasOwn(def.values, raw)) return def.values[raw];
+          return raw;
+        },
+
+        readFromState(state, path) {
+          return path.split(".").reduce((acc, key) => acc?.[key], state);
+        },
+
+        writeToState(state, path, value) {
+          const parts = path.split(".");
+          const last = parts.pop();
+          const owner = parts.reduce((acc, key) => {
+            acc[key] = acc[key] || {};
+            return acc[key];
+          }, state);
+          owner[last] = value;
+        },
+
+        _dataKey(attr) {
+          return attr.replace(/-([a-z])/g, (_, char) => char.toUpperCase());
+        },
+      };
+      window.ControlSyncRegistry = ControlSyncRegistry;
 
       // ==========================================
       // 3. CONDITIONAL PANEL MANAGER
@@ -2837,21 +2580,42 @@
           );
 
           // --- Sección: Preset de layout ---
-          // REEMPLAZADO POR HTML CUSTOM EN #editorScroll
-          // scroll.appendChild(
-          //   this._buildGlider(
-          //     "presetGlider",
-          //     "Preset de layout",
-          //     ...
-          //   ),
-          // );
+          scroll.appendChild(
+            this._buildGlider(
+              "presetGlider",
+              "Preset de layout",
+              [
+                { label: "Clásico", val: "preset-classic", handler: setPreset },
+                {
+                  label: "Centrado",
+                  val: "preset-centered",
+                  handler: setPreset,
+                },
+                {
+                  label: "Horizontal",
+                  val: "preset-horizontal",
+                  handler: setPreset,
+                },
+                { label: "Libre", val: "free", handler: setPreset },
+              ],
+              "preset-classic",
+            ),
+          );
 
           // --- Sección: Posición libre ---
-          // REEMPLAZADO POR HTML CUSTOM EN #editorScroll
-          // const posRow = this._buildGlider(...);
-          // posRow.querySelector("#posGlider").style.opacity = "0.5";
-          // posRow.querySelector("#posGlider").style.pointerEvents = "none";
-          // scroll.appendChild(posRow);
+          const posRow = this._buildGlider(
+            "posGlider",
+            "Posición",
+            [
+              { label: "Izq", val: "left", handler: setPos },
+              { label: "Der", val: "right", handler: setPos },
+              { label: "Arriba", val: "top", handler: setPos },
+            ],
+            "left",
+          );
+          posRow.querySelector("#posGlider").style.opacity = "0.5";
+          posRow.querySelector("#posGlider").style.pointerEvents = "none";
+          scroll.appendChild(posRow);
 
           // --- Grupo: Avatar ---
           if (hasAvatar) {
@@ -2914,8 +2678,14 @@
         const content = document.getElementById("profileContent");
         if (!card || !content) return;
 
-        // NOTA: La clase .active en .glider-option la maneja data-control-sync
-        // No modificar clases manualmente aquí.
+        document
+          .querySelectorAll("#presetGlider .glider-option")
+          .forEach((el) => el.classList.remove("active"));
+        const activeOption = document.querySelector(
+          `#presetGlider .glider-option[data-val="${presetName}"]`,
+        );
+        if (activeOption) activeOption.classList.add("active");
+
         content.style.flexDirection = "";
         content.style.textAlign = "";
         card.classList.remove(
@@ -2945,15 +2715,19 @@
       }
 
       function setPos(direction) {
-        // NOTA: La validación de "free" y la clase .active en .glider-option
-        // la maneja data-control-sync. Aquí solo aplicamos el posicionamiento.
         const freeOption = document.querySelector(
           '#presetGlider .glider-option[data-val="free"]',
         );
         if (!freeOption || !freeOption.classList.contains("active")) return;
 
-        // NOTA: La clase .active en .glider-option la maneja data-control-sync
-        // No modificar clases manualmente aquí.
+        document
+          .querySelectorAll("#posGlider .glider-option")
+          .forEach((el) => el.classList.remove("active"));
+        const activeOption = document.querySelector(
+          `#posGlider .glider-option[data-val="${direction}"]`,
+        );
+        if (activeOption) activeOption.classList.add("active");
+
         const content = document.getElementById("profileContent");
         if (!content) return;
         content.style.flexDirection =
@@ -3616,9 +3390,7 @@
             apiKey:
               "patMGuFVV5CBYL2TU.92aa853aaf30125e860bab7543358d01ef8632ad87081467d9d44e384f5e0ff5",
           });
-          window.ControlSyncRegistry?.connectStorage(
-            window.appBipartiteStorage,
-          );
+          window.ControlSyncRegistry?.connectStorage(window.appBipartiteStorage);
           window.ControlSyncRegistry?.define({
             id: "ctrl-size",
             root: "[data-control-sync='avatar-size']",
@@ -3653,6 +3425,5 @@
         app.init();
       });
     </script>
-    <script type="module" src="/assets/js/core/bootSync.js"></script>
   </body>
 </html>

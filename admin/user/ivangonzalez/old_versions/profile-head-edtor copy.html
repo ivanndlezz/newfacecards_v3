@@ -1,0 +1,759 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Simulación de Carga + Hidratación Declarativa</title>
+  <style>
+    /* --- Estilos base y de estructura --- */
+    body {
+      background-color: #f3f4f6;
+      display: flex;
+      justify-content: center;
+      padding-top: 40px;
+      margin: 0;
+    }
+
+    .profile-card {
+      background: #ffffff;
+      border-radius: 16px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+      width: 100%;
+      max-width: 450px;
+      overflow: hidden;
+      font-family: sans-serif;
+      transition: all 0.3s ease;
+    }
+
+    /* --- Portada --- */
+    .cover-wrap {
+      position: relative;
+      width: 100%;
+      height: 120px;
+      background-color: #e5e7eb;
+      display: none;
+    }
+    .cover-photo {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: none;
+    }
+
+    /* --- Contenido Principal --- */
+    .profile-row {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      padding: 20px;
+      position: relative;
+      transition: all 0.3s ease;
+    }
+
+    .avatar-wrap {
+      position: relative;
+      width: 100px;
+      height: 100px;
+      flex-shrink: 0;
+      transition: all 0.3s ease;
+      border-radius: 50%;
+    }
+    
+    .avatar {
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      object-fit: cover;
+    }
+
+    /* --- Efecto Shimmer (Animación del Skeleton) --- */
+    .cover-skel, .avatar-skel, .lin__skel {
+      background: linear-gradient(90deg, #ecefef 25%, #f4f6f6 50%, #ecefef 75%);
+      background-size: 200% 100%;
+      animation: shimmer 1.5s infinite linear;
+    }
+    .cover-skel {
+      width: 100%;
+      height: 100%;
+      position: absolute;
+      top: 0;
+      left: 0;
+    }
+    .avatar-skel--circle {
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      transition: all 0.3s ease;
+    }
+    .lin__skel {
+      margin-bottom: 8px;
+      border-radius: 4px;
+    }
+
+    @keyframes shimmer {
+      0% { background-position: 200% 0; }
+      100% { background-position: -200% 0; }
+    }
+
+    /* --- Control de visibilidad mediante data-general-status --- */
+    .avatar, .cover-photo, .lin__identity {
+      display: none;
+    }
+
+    .status-storage[data-general-status="loaded"] .avatar-skel,
+    .status-storage[data-general-status="loaded"] .cover-skel,
+    .status-storage[data-general-status="loaded"] .lin__identity-skel {
+      display: none;
+    }
+    .status-storage[data-general-status="loaded"] .avatar,
+    .status-storage[data-general-status="loaded"] .cover-photo,
+    .status-storage[data-general-status="loaded"] .lin__identity {
+      display: block;
+    }
+
+    /* --- PRESETS SOCIALES (Clases Dinámicas) --- */
+    .profile-card.preset-classic .cover-wrap { display: block; }
+    .profile-card.preset-classic .profile-row {
+      flex-direction: column;
+      align-items: flex-start;
+      text-align: left;
+      padding-top: 0;
+    }
+    .profile-card.preset-classic .avatar-wrap {
+      margin-top: -50px;
+      border: 4px solid #ffffff; 
+    }
+
+    .profile-card.preset-centered .cover-wrap { display: block; }
+    .profile-card.preset-centered .profile-row {
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      padding-top: 0;
+    }
+    .profile-card.preset-centered .avatar-wrap {
+      margin-top: -50px;
+      border: 4px solid #ffffff;
+    }
+
+    .profile-card.preset-horizontal .cover-wrap { display: block; }
+    .profile-card.preset-horizontal .profile-row {
+      flex-direction: row;
+      align-items: center;
+      text-align: left;
+      padding-top: 20px;
+    }
+    .profile-card.preset-horizontal .avatar-wrap {
+      margin-top: 0;
+      border: none;
+    }
+
+    /* --- ESTILOS DE PORTADA --- */
+    .profile-card.cover-style-none .cover-wrap { display: none !important; }
+    .profile-card.cover-style-none .profile-row { padding-top: 20px !important; }
+    .profile-card.cover-style-none .avatar-wrap { margin-top: 0 !important; border-width: 0 !important; }
+
+    .profile-card.cover-style-full .cover-wrap {
+      display: block !important;
+      margin: 0;
+      width: 100%;
+      border-radius: 0;
+    }
+
+    .profile-card.cover-style-inset .cover-wrap {
+      display: block !important;
+      margin: 16px;
+      width: calc(100% - 32px);
+      border-radius: 12px;
+      overflow: hidden; 
+    }
+
+    /* --- MORPHING CONTROLLER SYSTEM --- */
+    .morphing-controller {
+      position: fixed;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 10000;
+      box-sizing: border-box;
+      transition: all 0.5s cubic-bezier(0.2, 1, 0.2, 1);
+      overflow: hidden;
+      font-family: sans-serif;
+      display: none; /* Oculto por defecto hasta que el Master Check lo active */
+    }
+
+    /* ESTADO PILL */
+    .morphing-controller[data-status="pill"] {
+      width: 140px;
+      height: 46px;
+      border-radius: 9999px;
+      background: #09090b;
+      color: #ffffff;
+      padding: 12px 20px;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+      cursor: pointer;
+      border: 1px solid transparent;
+    }
+    .morphing-controller[data-status="pill"]:hover {
+      background: #27272a;
+      transform: translateX(-50%) scale(1.04);
+    }
+    .morphing-controller[data-status="pill"]:active {
+      transform: translateX(-50%) scale(0.96);
+    }
+
+    /* ESTADO MAIN-CONTROLLER (PANEL) */
+    .morphing-controller[data-status="main-controller"] {
+      width: 380px;
+      height: 360px;
+      border-radius: 16px;
+      background: #ffffff;
+      color: #09090b;
+      padding: 16px;
+      box-shadow: 0 12px 32px rgba(0,0,0,0.15);
+      border: 1px solid #e4e4e7;
+      cursor: default;
+    }
+
+    /* Contenido de la Pill (Botón) */
+    .pill-content {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      width: 100%;
+      height: 100%;
+      font-size: 14px;
+      font-weight: 600;
+      white-space: nowrap;
+      transition: opacity 0.2s ease, transform 0.2s ease;
+      opacity: 1;
+      transform: scale(1);
+    }
+    .morphing-controller[data-status="main-controller"] .pill-content {
+      opacity: 0;
+      transform: scale(0.8);
+      pointer-events: none;
+      height: 0;
+      overflow: hidden;
+    }
+
+    /* Contenido del Panel */
+    .panel-content {
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+      opacity: 0;
+      transform: scale(0.95);
+      transition: opacity 0.3s ease, transform 0.3s ease;
+      pointer-events: none;
+      height: 0;
+      overflow: hidden;
+    }
+    .morphing-controller[data-status="main-controller"] .panel-content {
+      opacity: 1;
+      transform: scale(1);
+      pointer-events: auto;
+      height: 100%;
+    }
+
+    /* Scroll Interno del Editor */
+    .editor-scroll {
+      flex: 1;
+      overflow-y: auto;
+      padding-right: 4px;
+    }
+    .editor-scroll::-webkit-scrollbar { width: 5px; }
+    .editor-scroll::-webkit-scrollbar-thumb { background: #e4e4e7; border-radius: 10px; }
+
+    /* Estructuras Internas Panel */
+    .fc-header {
+      font-size: 14px;
+      font-weight: 700;
+      margin: 0 0 14px 0;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: #09090b;
+      flex-shrink: 0;
+    }
+    .fc-close-btn {
+      background: none;
+      border: none;
+      color: #a1a1aa;
+      font-size: 16px;
+      cursor: pointer;
+      margin-left: auto;
+      padding: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      transition: all 0.2s;
+    }
+    .fc-close-btn:hover { background: #f4f4f5; color: #18181b; }
+    .control-row { margin-bottom: 16px; }
+    .control-label { display: block; font-size: 12px; font-weight: 600; margin-bottom: 8px; color: #09090b; }
+    .glider-container { display: flex; background: #f4f4f5; border-radius: 8px; padding: 4px; gap: 4px; }
+    .glider-option { flex: 1; text-align: center; padding: 6px; font-size: 11px; cursor: pointer; border-radius: 6px; color: #71717a; transition: all 0.2s; display: flex; align-items: center; justify-content: center; font-weight: 500; }
+    .glider-option.active { background: #ffffff; color: #09090b; box-shadow: 0 1px 3px rgba(0,0,0,0.1); font-weight: 700; }
+    .control-label-wrap { display: flex; justify-content: space-between; align-items: center; font-size: 12px; font-weight: 600; margin-bottom: 8px; color: #09090b; }
+    .control-value { color: #71717a; font-weight: 400; }
+    .range-input { width: 100%; accent-color: #09090b; }
+    .divider { height: 1px; background: #e4e4e7; margin: 14px 0; }
+  </style>
+</head>
+<body>
+
+  <!-- Contenedor Principal (Storage Node y Master Bind) -->
+   <div data-master-bind="true"></div>
+  <!-- NOTA: data-master-bind="true" le dice a nuestro sistema que este bloque habilita el modo edición -->
+  <div class="profile-card preset-classic cover-style-full status-storage" 
+       id="mainCard" 
+       data-general-status="skel-loading" 
+       >
+    
+    <!-- Portada -->
+    <div class="cover-wrap">
+      <div class="cover-skel"></div>
+      <img class="cover-photo skeleton-target" 
+           id="profileCover" 
+           data-bind="user.umCoverUrl" 
+           data-bind-type="src" 
+           alt="Portada">
+    </div>
+
+    <div class="profile-row" id="profileContent">
+      <!-- Avatar -->
+      <div class="avatar-wrap" id="avatarContainer">
+        <div class="avatar-skel avatar-skel--circle"></div>
+        <img class="avatar skeleton-target" 
+             id="profileImg"
+             data-bind="user.avatar.url" 
+             data-bind-type="src" 
+             alt="Foto de perfil" 
+             onerror="this.onerror=null; this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 24 24\' width=\'100\' height=\'100\'><circle cx=\'12\' cy=\'8\' r=\'4\' fill=\'%23ccc\'/><path d=\'M12 14c-6.1 0-8 4-8 4v2h16v-2s-1.9-4-8-4z\' fill=\'%23ccc\'/></svg>';">
+      </div>
+
+      <!-- Identity -->
+      <div class="lin__identity-skel">
+        <div class="lin__skel" style="height: 22px; width: 140px;"></div>
+        <div class="lin__skel" style="height: 13px; width: 90px;"></div>
+      </div>
+
+      <div class="lin__identity">
+        <h2 style="margin: 0; font-size: 22px;" id="profileName" data-bind="user.firstName" data-bind-type="text">Cargando...</h2>
+        <p style="margin: 4px 0 0 0; font-size: 13px; color: #666;" id="profileRole" data-bind="user.role" data-bind-type="text">Cargando...</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Morphing Controller -->
+  <div class="morphing-controller" id="interactiveController" data-status="pill" onclick="handleControllerClick(event)">
+    
+    <!-- Vista 1: Botón Pill -->
+    <div class="pill-content">
+      <span>✏️</span> Editar Perfil
+    </div>
+
+    <!-- Vista 2: Panel de Controladores -->
+    <div class="panel-content">
+      <div class="fc-header">
+        <span>🖼️ Medios (Icono e Imagen)</span>
+        <button class="fc-close-btn" onclick="toggleController(event)">✕</button>
+      </div>
+      
+      <div class="editor-scroll">
+        
+        <!-- GRUPO: AVATAR / DISEÑO (Se oculta si no hay data-bind="user.avatar.url") -->
+        <div id="ctrlGroupAvatar">
+          <!-- PRESETS -->
+          <div class="control-row">
+            <span class="control-label">Diseños Sociales (Presets)</span>
+            <div class="glider-container" id="presetGlider">
+              <div class="glider-option active" data-val="preset-classic" onclick="setPreset('preset-classic')">X / LinkedIn</div>
+              <div class="glider-option" data-val="preset-centered" onclick="setPreset('preset-centered')">TikTok</div>
+              <div class="glider-option" data-val="preset-horizontal" onclick="setPreset('preset-horizontal')">YouTube</div>
+              <div class="glider-option" data-val="free" onclick="setPreset('free')">Libre</div>
+            </div>
+          </div>
+          
+          <div class="divider"></div>
+
+          <!-- POSICIÓN -->
+          <div class="control-row">
+            <span class="control-label">Posición del medio (Solo modo Libre)</span>
+            <div class="glider-container" id="posGlider">
+              <div class="glider-option active" data-val="left" onclick="setPos('left')">Izq</div>
+              <div class="glider-option" data-val="right" onclick="setPos('right')">Der</div>
+              <div class="glider-option" data-val="top" onclick="setPos('top')">Arriba</div>
+            </div>
+          </div>
+
+          <!-- DIMENSIONES -->
+          <div class="control-row">
+            <div class="control-label-wrap">
+              <span>Tamaño de imagen</span>
+              <span class="control-value" id="valSize">100px</span>
+            </div>
+            <input type="range" class="range-input" id="rngSize" min="40" max="150" value="100" oninput="updateStyle('size', this.value)">
+          </div>
+
+          <div class="control-row">
+            <div class="control-label-wrap">
+              <span>Margen exterior</span>
+              <span class="control-value" id="valMargin">0px</span>
+            </div>
+            <input type="range" class="range-input" id="rngMargin" min="0" max="50" value="0" oninput="updateStyle('margin', this.value)">
+          </div>
+
+          <div class="control-row">
+            <div class="control-label-wrap">
+              <span>Padding interno</span>
+              <span class="control-value" id="valPadding">0px</span>
+            </div>
+            <input type="range" class="range-input" id="rngPadding" min="0" max="50" value="0" oninput="updateStyle('padding', this.value)">
+          </div>
+
+          <div class="divider"></div>
+        </div>
+
+        <!-- GRUPO: PORTADA (Se oculta si no hay data-bind="user.umCoverUrl") -->
+        <div id="ctrlGroupCover">
+          <!-- PORTADA -->
+          <div class="control-row">
+            <span class="control-label">Estilo de Portada</span>
+            <div class="glider-container" id="coverGlider">
+              <div class="glider-option active" data-val="full" onclick="setCoverStyle('full')">Full</div>
+              <div class="glider-option" data-val="inset" onclick="setCoverStyle('inset')">Encapsulada</div>
+              <div class="glider-option" data-val="none" onclick="setCoverStyle('none')">Sin portada</div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Aquí se podrían agregar más grupos escalables, ej: textControls (para user.firstName) -->
+
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // ==========================================
+    // 1. ADMINISTRADOR CONDICIONAL DE CONTROLES
+    // Permite escalar qué menús se muestran basándose en el HTML actual.
+    // ==========================================
+    class ConditionalPanelManager {
+    static init() {
+      const controller = document.getElementById('interactiveController');
+      const card = document.getElementById('mainCard');
+      if (!controller || !card) return;
+
+      const isMasterActive = !!document.querySelector('[data-master-bind="true"]');
+      if (!isMasterActive) {
+        controller.style.display = 'none';
+        return;
+      }
+
+      controller.style.display = 'block';
+
+      // 1. Definición de dependencias
+      const controlDependencies = {
+        'ctrlGroupAvatar': '[data-bind="user.avatar.url"]',
+        'ctrlGroupCover': '[data-bind="user.umCoverUrl"]'
+      };
+
+      // 2. Lógica de Sincronización Automática
+      for (const [groupId, selector] of Object.entries(controlDependencies)) {
+        const groupEl = document.getElementById(groupId);
+        const domElement = document.querySelector(selector);
+        const domElementExists = !!domElement;
+
+        if (groupEl) {
+          groupEl.style.display = domElementExists ? 'block' : 'none';
+        }
+
+        if (selector === '[data-bind="user.umCoverUrl"]' && !domElementExists) {
+          card.classList.remove('cover-style-full', 'cover-style-inset');
+          card.classList.add('cover-style-none');
+          
+          const noneOption = document.querySelector('#coverGlider .glider-option[data-val="none"]');
+          if(noneOption) {
+            document.querySelectorAll('#coverGlider .glider-option').forEach(el => el.classList.remove('active'));
+            noneOption.classList.add('active');
+          }
+        }
+      }
+    }
+
+    /**
+     * Factoría de controladores: Crea un input de rango que manipula CSS
+     * @param {string} label - Texto del control
+     * @param {string} targetId - ID del elemento DOM a afectar
+     * @param {string} cssProperty - Propiedad CSS (ej: width)
+     * @param {object} rangeConfig - {min, max, unit}
+     */
+    static createRangeController(label, targetId, cssProperty, rangeConfig = {min: 0, max: 200, unit: 'px'}) {
+      const container = document.createElement('div');
+      container.className = 'control-row';
+      const id = `rng-${Math.random().toString(36).substr(2, 9)}`;
+
+      container.innerHTML = `
+        <div class="control-label-wrap">
+          <span>${label}</span>
+          <span class="control-value" id="val-${id}">${rangeConfig.initial || 100}${rangeConfig.unit}</span>
+        </div>
+        <input type="range" class="range-input" id="${id}" 
+               min="${rangeConfig.min}" max="${rangeConfig.max}" value="${rangeConfig.initial || 100}">
+      `;
+
+      // Vincular lógica
+      const input = container.querySelector('input');
+      const valueDisplay = container.querySelector(`#val-${id}`);
+      const target = document.getElementById(targetId);
+
+      input.oninput = (e) => {
+        const val = e.target.value + rangeConfig.unit;
+        valueDisplay.textContent = val;
+        if(target) target.style[cssProperty] = val;
+      };
+
+      return container;
+    }
+  }
+
+
+    // ==========================================
+    // 2. LÓGICA DE UI E INTERACCIÓN (Morphing & Presets null-safe)
+    // ==========================================
+    function handleControllerClick(event) {
+      const controller = document.getElementById('interactiveController');
+      if (controller && controller.getAttribute('data-status') === 'pill') {
+        controller.setAttribute('data-status', 'main-controller');
+      }
+    }
+
+    function toggleController(event) {
+      if (event) event.stopPropagation(); 
+      const controller = document.getElementById('interactiveController');
+      if(controller) controller.setAttribute('data-status', 'pill');
+    }
+
+    function setPreset(presetName) {
+      const card = document.getElementById('mainCard');
+      const content = document.getElementById('profileContent');
+      if(!card || !content) return; // Null-safety
+      
+      document.querySelectorAll('#presetGlider .glider-option').forEach(el => el.classList.remove('active'));
+      const activeOption = document.querySelector(`#presetGlider .glider-option[data-val="${presetName}"]`);
+      if(activeOption) activeOption.classList.add('active');
+
+      content.style.flexDirection = '';
+      content.style.textAlign = '';
+      card.classList.remove('preset-classic', 'preset-centered', 'preset-horizontal');
+
+      const posGlider = document.getElementById('posGlider');
+      if (presetName !== 'free') {
+        card.classList.add(presetName);
+        if(posGlider) {
+          posGlider.style.opacity = '0.5';
+          posGlider.style.pointerEvents = 'none';
+        }
+      } else {
+        if(posGlider) {
+          posGlider.style.opacity = '1';
+          posGlider.style.pointerEvents = 'auto';
+        }
+        setPos('left');
+      }
+    }
+
+    function setPos(direction) {
+      const freeOption = document.querySelector('#presetGlider .glider-option[data-val="free"]');
+      if (!freeOption || !freeOption.classList.contains('active')) return; 
+
+      document.querySelectorAll('#posGlider .glider-option').forEach(el => el.classList.remove('active'));
+      const activeOption = document.querySelector(`#posGlider .glider-option[data-val="${direction}"]`);
+      if(activeOption) activeOption.classList.add('active');
+
+      const content = document.getElementById('profileContent');
+      if(!content) return;
+      content.style.flexDirection = direction === 'left' ? 'row' : direction === 'right' ? 'row-reverse' : 'column';
+      content.style.textAlign = direction === 'top' ? 'center' : 'left';
+    }
+
+    function setCoverStyle(styleName) {
+      const card = document.getElementById('mainCard');
+      if(!card) return;
+      
+      document.querySelectorAll('#coverGlider .glider-option').forEach(el => el.classList.remove('active'));
+      const activeOption = document.querySelector(`#coverGlider .glider-option[data-val="${styleName}"]`);
+      if(activeOption) activeOption.classList.add('active');
+
+      card.classList.remove('cover-style-none', 'cover-style-full', 'cover-style-inset');
+      card.classList.add(`cover-style-${styleName}`);
+    }
+
+    function updateStyle(type, value) {
+      const wrap = document.getElementById('avatarContainer');
+      const skel = document.querySelector('.avatar-skel--circle');
+      if(!wrap) return; // Si no hay avatar, no ejecutamos
+      
+      if (type === 'size') {
+        document.getElementById('valSize').textContent = value + 'px';
+        wrap.style.width = value + 'px';
+        wrap.style.height = value + 'px';
+        if (skel) {
+            skel.style.width = value + 'px';
+            skel.style.height = value + 'px';
+        }
+      } else if (type === 'margin') {
+        document.getElementById('valMargin').textContent = value + 'px';
+        const freeOption = document.querySelector('#presetGlider .glider-option[data-val="free"]');
+        const horizOption = document.querySelector('#presetGlider .glider-option[data-val="preset-horizontal"]');
+        
+        const isPreset = freeOption ? !freeOption.classList.contains('active') : false;
+        const isHorizontal = horizOption ? horizOption.classList.contains('active') : false;
+        
+        if (isPreset && !isHorizontal) {
+             wrap.style.margin = `-50px ${value}px ${value}px ${value}px`;
+        } else {
+             wrap.style.margin = value + 'px';
+        }
+      } else if (type === 'padding') {
+        document.getElementById('valPadding').textContent = value + 'px';
+        wrap.style.padding = value + 'px';
+        wrap.style.boxSizing = 'border-box'; 
+      }
+    }
+
+    // ==========================================
+    // 3. MOTOR DECLARATIVO DE HIDRATACIÓN (SOLID)
+    // ==========================================
+
+    const BindingStrategies = {
+      text: (el, value) => { el.textContent = value; },
+      innerhtml: (el, value) => { el.innerHTML = value; },
+      src: (el, value) => { if (value) el.setAttribute('src', value); },
+      href: (el, value) => { if (value) el.setAttribute('href', value); },
+      alt: (el, value) => { if (value) el.setAttribute('alt', value); },
+      title: (el, value) => { if (value) el.setAttribute('title', value); },
+      value: (el, value) => { if (value) el.setAttribute('value', value); },
+      class: (el, value) => { if (value) el.classList.add(value); },
+      'css-var': (el, value, config) => { if (config.cssVar && value) el.style.setProperty(config.cssVar, value); },
+      'bg-image': (el, value) => { if (value) el.style.backgroundImage = `url('${value}')`; }
+    };
+
+    const DataUtils = {
+      getNestedValue: (obj, path) => {
+        if (!path || !obj) return undefined;
+        return path.split(".").reduce((acc, part) => acc && acc[part], obj);
+      },
+      formatValue: (value, format) => {
+        if (!format || value === null || value === undefined || value === '') return value;
+        return format.replace('{value}', value);
+      }
+    };
+
+    class HydrationEngine {
+      constructor(strategies) {
+        this.strategies = strategies;
+      }
+      hydrate(rootElement, data) {
+        const bindableElements = rootElement.querySelectorAll('[data-bind]');
+        bindableElements.forEach(el => {
+          const config = this._extractConfig(el);
+          let rawValue = DataUtils.getNestedValue(data, config.path);
+          if (rawValue === null || rawValue === undefined) rawValue = '';
+          const finalValue = DataUtils.formatValue(rawValue, config.format);
+          
+          const strategy = this.strategies[config.bindType];
+          if (strategy) {
+            strategy(el, finalValue, config);
+          } else {
+            console.warn(`[HydrationEngine] Tipo de binding no soportado: ${config.bindType}`);
+          }
+          this._cleanupSkeleton(el);
+        });
+      }
+      _extractConfig(el) {
+        return {
+          path: el.getAttribute('data-bind'),
+          bindType: (el.getAttribute('data-bind-type') || 'text').toLowerCase(),
+          cssVar: el.getAttribute('data-bind-var'),
+          format: el.getAttribute('data-bind-format')
+        };
+      }
+      _cleanupSkeleton(el) {
+        el.classList.remove('skeleton-target');
+        el.style.width = ''; 
+      }
+    }
+
+    class UserService {
+      constructor(apiUrl) {
+        this.apiUrl = apiUrl;
+      }
+      async getUserData() {
+        try {
+          const response = await fetch(this.apiUrl);
+          if (!response.ok) throw new Error("Error HTTP: " + response.status);
+          const data = await response.json();
+          return data?.data || {};
+        } catch (error) {
+          console.log("Cargando datos de prueba locales...");
+          return this._getMockData();
+        }
+      }
+      async _getMockData() {
+        await new Promise(resolve => setTimeout(resolve, 2000)); 
+        return {
+          user: {
+            firstName: "Alex Developer",
+            role: "Software Engineer",
+            description: "Especialista en interfaces declarativas.",
+            avatar: { 
+              url: "https://app.newfacecards.com/nfc/profile-pic/recBOO8H0GO0RZlUU.jpg?timestamp=1723160426&size=1000x1000" 
+            },
+            // Usamos la nueva llave que solicitaste
+            umCoverUrl: "https://my.newfacecards.com/wp-content/uploads/ultimatemember/1/cover_photo.jpg"
+          }
+        };
+      }
+    }
+
+    class AppController {
+      constructor() {
+        this.storageEl = document.querySelector('.status-storage');
+        this.userService = new UserService("https://my.newfacecards.com/nfc/front/get_user.php");
+        this.hydrator = new HydrationEngine(BindingStrategies);
+      }
+      setLoadingState(isLoading) {
+        if (this.storageEl) {
+          this.storageEl.setAttribute(
+            'data-general-status', 
+            isLoading ? 'skel-loading' : 'loaded'
+          );
+        }
+      }
+      async init() {
+        this.setLoadingState(true);
+        const data = await this.userService.getUserData();
+        this.hydrator.hydrate(document, data);
+        this.setLoadingState(false);
+        console.log("✅ Hidratación completada con éxito.");
+        
+        // Ejecutar revisión del panel al inicializar la app
+        ConditionalPanelManager.init();
+      }
+    }
+
+    // ==========================================
+    // 4. INICIALIZACIÓN
+    // ==========================================
+    document.addEventListener("DOMContentLoaded", () => {
+      const app = new AppController();
+      app.init();
+    });
+  </script>
+</body>
+</html>

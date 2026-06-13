@@ -1,0 +1,671 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Premium Dynamic Bottom Sheet</title>
+  
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <style>
+    :root {
+      --bg-primary: #FFFFFF;
+      --bg-secondary: #F7F7F9;
+      --text-primary: #222222;
+      --text-secondary: #717171;
+      --border-color: #EBEBEB;
+      --brand-color: #E61E4D; /* Airbnb Red for demo purposes */
+      --brand-dark: #000000;
+      
+      --sheet-transform: 100%;
+      --sheet-transition-duration: 0.5s;
+      --spring-easing: cubic-bezier(0.32, 0.72, 0, 1);
+    }
+
+    * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      margin: 0; background-color: var(--bg-secondary); color: var(--text-primary);
+      -webkit-font-smoothing: antialiased; min-height: 100vh;
+    }
+
+    /* === DEMO GRID === */
+    .demo-container { padding: 40px 24px; max-width: 600px; margin: 0 auto; }
+    .demo-header { margin-bottom: 40px; text-align: center; }
+    .demo-header h1 { font-size: 32px; font-weight: 700; margin: 0 0 8px 0; letter-spacing: -0.03em; }
+    .demo-header p { margin: 0; color: var(--text-secondary); font-size: 16px; line-height: 1.5; }
+
+    .button-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 16px; }
+    .btn-premium {
+      display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 12px;
+      background: var(--bg-primary); border: 1px solid var(--border-color); border-radius: 20px;
+      padding: 20px 12px; font-size: 14px; font-weight: 600; cursor: pointer; color: var(--text-primary);
+      transition: all 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94); box-shadow: 0 4px 12px rgba(0,0,0,0.02);
+      text-align: center;
+    }
+    .btn-premium:hover { border-color: var(--brand-dark); transform: translateY(-4px); box-shadow: 0 8px 24px rgba(0,0,0,0.06); }
+    .btn-premium i { width: 28px; height: 28px; color: var(--brand-dark); }
+
+    /* === BOTTOM SHEET ARQUITECTURA === */
+    .sheet-backdrop {
+      position: fixed; inset: 0; background: rgba(0, 0, 0, 0.5); backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px);
+      opacity: 0; pointer-events: none; z-index: 99; transition: opacity 0.4s ease;
+    }
+    .sheet-backdrop[data-state="open"] { opacity: 1; pointer-events: auto; }
+
+    .bottom-sheet {
+      position: fixed; bottom: 0; left: 0; right: 0; z-index: 100;
+      background: var(--bg-primary); border-radius: 24px 24px 0 0;
+      display: flex; flex-direction: column; max-height: 92dvh;
+      box-shadow: 0 -8px 32px rgba(0, 0, 0, 0.1);
+      transform: translateY(var(--sheet-transform));
+      transition: transform var(--sheet-transition-duration) var(--spring-easing);
+      will-change: transform;
+    }
+    .bottom-sheet[data-state="open"] { --sheet-transform: 0%; }
+    .bottom-sheet[data-state="dragging"] { transition: none; }
+
+    .sheet-handler-area { padding: 12px 0 16px; display: flex; justify-content: center; touch-action: none; cursor: grab; }
+    .sheet-handler-area:active { cursor: grabbing; }
+    .sheet-drag-pill { width: 48px; height: 5px; border-radius: 3px; background: #E0E0E0; }
+
+    /* Estructura Modular del Header */
+    .sheet-header {
+      display: grid; grid-template-columns: 1fr auto 1fr; align-items: center;
+      padding: 0 24px 16px; min-height: 48px; border-bottom: 1px solid transparent;
+    }
+    .sheet-header-left { display: flex; justify-content: flex-start; align-items: center; gap: 8px; }
+    .sheet-header-center { display: flex; justify-content: center; align-items: center; width: 100%; }
+    .sheet-header-right { display: flex; justify-content: flex-end; align-items: center; gap: 8px; }
+
+    .sheet-content-slots { padding: 8px 24px 32px; overflow-y: auto; overscroll-behavior: contain; flex-grow: 1; }
+    
+    .sheet-sticky-controls {
+      padding: 16px 24px 32px; border-top: 1px solid var(--border-color); background: var(--bg-primary);
+    }
+
+    /* === UI COMPONENTS (Para Inyección) === */
+    .icon-btn {
+      background: transparent; border: none; border-radius: 50%; width: 36px; height: 36px;
+      display: flex; align-items: center; justify-content: center; cursor: pointer; color: var(--text-primary);
+      transition: background 0.2s;
+    }
+    .icon-btn:hover { background: var(--bg-secondary); }
+    
+    .search-bar {
+      background: var(--bg-secondary); border-radius: 24px; padding: 10px 16px; display: flex; align-items: center; gap: 8px; width: 100%;
+    }
+    .search-bar input { border: none; background: transparent; font-size: 15px; outline: none; width: 100%; }
+
+    .btn-primary {
+      width: 100%; padding: 14px 24px; border-radius: 12px; background: var(--brand-color);
+      color: #FFF; font-size: 16px; font-weight: 600; border: none; cursor: pointer; transition: transform 0.1s;
+    }
+    .btn-primary:active { transform: scale(0.98); }
+    
+    .btn-secondary {
+      width: 100%; padding: 14px 24px; border-radius: 12px; background: var(--bg-primary);
+      color: var(--text-primary); font-size: 16px; font-weight: 600; border: 1px solid var(--border-color); cursor: pointer;
+    }
+
+    /* Booking Footer Flex */
+    .booking-footer { display: flex; justify-content: space-between; align-items: center; }
+    .booking-price { display: flex; flex-direction: column; }
+    .booking-price strong { font-size: 18px; }
+    .booking-price span { font-size: 14px; color: var(--text-secondary); text-decoration: underline; cursor: pointer;}
+    
+    /* Layouts Complejos */
+    .image-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; border-radius: 16px; overflow: hidden; margin-bottom: 24px; }
+    .image-grid img { width: 100%; height: 120px; object-fit: cover; }
+    .image-grid img:first-child { grid-column: span 2; height: 200px; }
+
+    /* iOS Toggle Switch & Rows */
+    .row-item { display: flex; justify-content: space-between; align-items: center; padding: 16px 0; border-bottom: 1px solid var(--border-color); }
+    .row-info h4 { margin: 0 0 4px 0; font-size: 16px; }
+    .row-info p { margin: 0; font-size: 14px; color: var(--text-secondary); }
+    
+    .switch { position: relative; display: inline-block; width: 50px; height: 30px; }
+    .switch input { opacity: 0; width: 0; height: 0; }
+    .slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: #ccc; transition: .4s; border-radius: 34px; }
+    .slider:before { position: absolute; content: ""; height: 22px; width: 22px; left: 4px; bottom: 4px; background-color: white; transition: .4s; border-radius: 50%; box-shadow: 0 2px 4px rgba(0,0,0,0.2); }
+    input:checked + .slider { background-color: var(--brand-dark); }
+    input:checked + .slider:before { transform: translateX(20px); }
+
+    /* Utils */
+    .hide-scrollbar::-webkit-scrollbar { display: none; }
+    .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+  </style>
+</head>
+<body>
+
+  <div class="demo-container">
+    <header class="demo-header">
+      <h1>Dynamic Sheets</h1>
+      <p>Explorando inyecciones modulares complejas</p>
+    </header>
+    
+    <div class="button-grid">
+      <!-- Originales -->
+      <button class="btn-premium" id="btn-booking">
+        <i data-lucide="home"></i> Reserva
+      </button>
+      <button class="btn-premium" id="btn-filters">
+        <i data-lucide="sliders-horizontal"></i> Filtros
+      </button>
+      <button class="btn-premium" id="btn-flow">
+        <i data-lucide="arrow-right-left"></i> Multi-paso
+      </button>
+      
+      <!-- Agregados anteriormente -->
+      <button class="btn-premium" id="btn-payment">
+        <i data-lucide="credit-card"></i> Checkout
+      </button>
+      <button class="btn-premium" id="btn-share">
+        <i data-lucide="share-2"></i> Compartir
+      </button>
+      <button class="btn-premium" id="btn-terms">
+        <i data-lucide="file-text"></i> Scroll Largo
+      </button>
+
+      <!-- NUEVOS -->
+      <button class="btn-premium" id="btn-location">
+        <i data-lucide="map-pin"></i> Ubicación
+      </button>
+      <button class="btn-premium" id="btn-actions">
+        <i data-lucide="plus-circle"></i> Crear Nuevo
+      </button>
+    </div>
+  </div>
+
+  <div class="sheet-backdrop" id="main-backdrop" data-state="closed"></div>
+
+  <div class="bottom-sheet" id="main-sheet" data-state="closed" aria-modal="true" role="dialog">
+    <div class="sheet-handler-area">
+      <div class="sheet-drag-pill"></div>
+    </div>
+    
+    <!-- HEADER MODULAR -->
+    <header class="sheet-header">
+      <div class="sheet-header-left" id="sheet-header-left"></div>
+      <div class="sheet-header-center" id="sheet-header-center"></div>
+      <div class="sheet-header-right" id="sheet-header-right"></div>
+    </header>
+    
+    <!-- CONTENIDO DÍNAMICO -->
+    <div class="sheet-content-slots" id="sheet-content"></div>
+    
+    <!-- FOOTER STICKY -->
+    <div class="sheet-sticky-controls" id="sheet-footer" style="display: none;"></div>
+  </div>
+
+  <script>
+    class BottomSheet {
+      constructor(sheetId, backdropId) {
+        this.sheet = document.getElementById(sheetId);
+        this.backdrop = document.getElementById(backdropId);
+        
+        this.zones = {
+          headerLeft: this.sheet.querySelector('#sheet-header-left'),
+          headerCenter: this.sheet.querySelector('#sheet-header-center'),
+          headerRight: this.sheet.querySelector('#sheet-header-right'),
+          content: this.sheet.querySelector('#sheet-content'),
+          footer: this.sheet.querySelector('#sheet-footer')
+        };
+
+        this.handlerArea = this.sheet.querySelector('.sheet-handler-area');
+        this.isOpen = false;
+        this.startY = 0;
+        this.currentY = 0;
+        
+        this.open = this.open.bind(this);
+        this.close = this.close.bind(this);
+        this.onDragStart = this.onDragStart.bind(this);
+        this.onDragMove = this.onDragMove.bind(this);
+        this.onDragEnd = this.onDragEnd.bind(this);
+        this.handleDelegatedClicks = this.handleDelegatedClicks.bind(this);
+      }
+
+      hydrate() {
+        this.backdrop.addEventListener('click', this.close);
+        this.sheet.addEventListener('click', this.handleDelegatedClicks);
+
+        this.handlerArea.addEventListener('touchstart', this.onDragStart, { passive: true });
+        this.handlerArea.addEventListener('touchmove', this.onDragMove, { passive: false });
+        this.handlerArea.addEventListener('touchend', this.onDragEnd);
+        
+        this.handlerArea.addEventListener('mousedown', this.onDragStart);
+        window.addEventListener('mousemove', this.onDragMove);
+        window.addEventListener('mouseup', this.onDragEnd);
+
+        return this; 
+      }
+
+      handleDelegatedClicks(e) {
+        const closeBtn = e.target.closest('[data-action="close"]');
+        if (closeBtn) this.close();
+      }
+
+      configure(config) {
+        this.zones.content.scrollTop = 0;
+
+        if (config.headerLeft !== undefined) this.zones.headerLeft.innerHTML = config.headerLeft;
+        if (config.headerCenter !== undefined) this.zones.headerCenter.innerHTML = `<h2 style="font-size: 18px; margin:0; font-weight: 600;">${config.headerCenter}</h2>`;
+        if (config.headerRight !== undefined) this.zones.headerRight.innerHTML = config.headerRight;
+        if (config.content !== undefined) this.zones.content.innerHTML = config.content;
+        
+        if (config.footer) {
+          this.zones.footer.innerHTML = config.footer;
+          this.zones.footer.style.display = 'block';
+        } else if (config.footer === null) {
+          this.zones.footer.style.display = 'none';
+        }
+        
+        if (window.lucide) lucide.createIcons();
+      }
+
+      open() {
+        this.isOpen = true;
+        this.sheet.style.setProperty('--sheet-transform', '0%');
+        this.sheet.setAttribute('data-state', 'open');
+        this.backdrop.setAttribute('data-state', 'open');
+        document.body.style.overflow = 'hidden';
+      }
+
+      close() {
+        this.isOpen = false;
+        this.sheet.style.setProperty('--sheet-transform', '100%');
+        this.sheet.setAttribute('data-state', 'closed');
+        this.backdrop.setAttribute('data-state', 'closed');
+        document.body.style.overflow = ''; 
+        setTimeout(() => { this.sheet.style.transform = ''; }, 500); 
+      }
+
+      onDragStart(e) {
+        if (!this.isOpen) return;
+        this.sheet.setAttribute('data-state', 'dragging');
+        this.startY = e.type.includes('mouse') ? e.pageY : e.touches[0].clientY;
+      }
+      onDragMove(e) {
+        if (this.sheet.getAttribute('data-state') !== 'dragging') return;
+        const y = e.type.includes('mouse') ? e.pageY : e.touches[0].clientY;
+        const deltaY = y - this.startY;
+        if (deltaY > 0) {
+          e.preventDefault(); 
+          this.currentY = deltaY;
+          this.sheet.style.transform = `translateY(${this.currentY}px)`;
+        }
+      }
+      onDragEnd() {
+        if (this.sheet.getAttribute('data-state') !== 'dragging') return;
+        this.sheet.setAttribute('data-state', 'open'); 
+        if (this.currentY > 120) this.close();
+        else this.sheet.style.transform = `translateY(0px)`;
+        this.currentY = 0;
+      }
+    }
+
+    // === INICIALIZACIÓN ===
+    document.addEventListener('DOMContentLoaded', () => {
+      lucide.createIcons();
+      const dynamicSheet = new BottomSheet('main-sheet', 'main-backdrop').hydrate();
+
+      const closeButtonHTML = `
+        <button class="icon-btn" data-action="close" style="background: var(--bg-secondary);">
+          <i data-lucide="x" style="width:18px; height:18px;"></i>
+        </button>
+      `;
+
+      // 1. Vista de Reserva
+      document.getElementById('btn-booking').addEventListener('click', () => {
+        dynamicSheet.configure({
+          headerLeft: closeButtonHTML,
+          headerCenter: '', 
+          headerRight: `
+            <button class="icon-btn"><i data-lucide="share" style="width:20px; height:20px;"></i></button>
+            <button class="icon-btn"><i data-lucide="heart" style="width:20px; height:20px;"></i></button>
+          `,
+          content: `
+            <div class="image-grid">
+              <img src="https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?auto=format&fit=crop&w=600&q=80" alt="Room">
+              <img src="https://images.unsplash.com/photo-1502672260266-1c1de2d9d000?auto=format&fit=crop&w=300&q=80" alt="Kitchen">
+              <img src="https://images.unsplash.com/photo-1484154218962-a197022b5858?auto=format&fit=crop&w=300&q=80" alt="Detail">
+            </div>
+            <h2 style="margin: 0 0 8px 0; font-size: 22px;">Loft panorámico en el centro</h2>
+            <p style="color: var(--text-secondary); margin: 0 0 16px 0; font-size: 15px;">Alojamiento entero · Anfitrión: Carlos</p>
+            <hr style="border: none; border-top: 1px solid var(--border-color); margin: 24px 0;">
+            <div style="display: flex; gap: 16px; align-items: center;">
+              <i data-lucide="calendar" style="color: var(--text-secondary);"></i>
+              <div>
+                <h4 style="margin: 0 0 4px 0;">Cancelación gratuita</h4>
+                <p style="margin: 0; color: var(--text-secondary); font-size: 14px;">Cancela antes del 15 de oct. para recibir un reembolso total.</p>
+              </div>
+            </div>
+          `,
+          footer: `
+            <div class="booking-footer">
+              <div class="booking-price">
+                <strong>$120 USD <span style="font-weight:400; font-size: 14px;">noche</span></strong>
+                <span>Desglose del precio</span>
+              </div>
+              <button class="btn-primary" style="width: auto; padding-left: 32px; padding-right: 32px; background: var(--brand-color);" data-action="close">Reservar</button>
+            </div>
+          `
+        });
+        dynamicSheet.open();
+      });
+
+      // 2. Búsqueda y Filtros
+      document.getElementById('btn-filters').addEventListener('click', () => {
+        dynamicSheet.configure({
+          headerLeft: closeButtonHTML,
+          headerCenter: `
+            <div class="search-bar">
+              <i data-lucide="search" style="width:16px; height:16px; color: var(--text-secondary);"></i>
+              <input type="text" placeholder="¿A dónde vas?">
+            </div>
+          `,
+          headerRight: '',
+          content: `
+            <h3 style="margin: 8px 0 16px 0;">Opciones de reserva</h3>
+            <div class="row-item">
+              <div class="row-info">
+                <h4>Reserva inmediata</h4>
+                <p>Alojamientos que puedes reservar sin esperar.</p>
+              </div>
+              <label class="switch"><input type="checkbox" checked><span class="slider"></span></label>
+            </div>
+            <div class="row-item">
+              <div class="row-info">
+                <h4>Llegada autónoma</h4>
+                <p>Accede al alojamiento fácilmente.</p>
+              </div>
+              <label class="switch"><input type="checkbox"><span class="slider"></span></label>
+            </div>
+            <div class="row-item" style="border:none;">
+              <div class="row-info">
+                <h4>Permite mascotas</h4>
+                <p>Viaja con tus amigos peludos.</p>
+              </div>
+              <label class="switch"><input type="checkbox"><span class="slider"></span></label>
+            </div>
+          `,
+          footer: `
+            <div style="display: flex; gap: 16px;">
+              <button class="btn-secondary" style="border: none; text-decoration: underline;">Limpiar</button>
+              <button class="btn-primary" style="background: var(--brand-dark);" data-action="close">Mostrar 140 lugares</button>
+            </div>
+          `
+        });
+        dynamicSheet.open();
+      });
+
+      // 3. Flujo Dinámico (Multi-paso sin cerrar)
+      document.getElementById('btn-flow').addEventListener('click', () => {
+        const renderStep1 = () => {
+          dynamicSheet.configure({
+            headerLeft: '',
+            headerCenter: 'Paso 1: Selecciona',
+            headerRight: closeButtonHTML,
+            content: `
+              <p style="color: var(--text-secondary); margin-top:0;">Elige un método para continuar con el proceso de verificación.</p>
+              <div class="row-item" style="cursor:pointer;" onclick="renderStep2('Email')">
+                <div style="display:flex; align-items:center; gap:16px;">
+                  <div class="icon-btn" style="background: var(--bg-secondary); pointer-events:none;"><i data-lucide="mail"></i></div>
+                  <h4 style="margin:0;">Vía Correo Electrónico</h4>
+                </div>
+                <i data-lucide="chevron-right" style="color: var(--text-secondary);"></i>
+              </div>
+              <div class="row-item" style="cursor:pointer; border:none;" onclick="renderStep2('SMS')">
+                <div style="display:flex; align-items:center; gap:16px;">
+                  <div class="icon-btn" style="background: var(--bg-secondary); pointer-events:none;"><i data-lucide="smartphone"></i></div>
+                  <h4 style="margin:0;">Vía Mensaje SMS</h4>
+                </div>
+                <i data-lucide="chevron-right" style="color: var(--text-secondary);"></i>
+              </div>
+            `,
+            footer: null
+          });
+        };
+
+        window.renderStep2 = (method) => {
+          dynamicSheet.configure({
+            headerLeft: `
+              <button class="icon-btn" onclick="renderStep1()">
+                <i data-lucide="chevron-left" style="width:24px; height:24px;"></i>
+              </button>
+            `,
+            headerCenter: 'Paso 2: Confirmación',
+            headerRight: '',
+            content: `
+              <div style="text-align: center; padding: 32px 0;">
+                <div style="width: 64px; height: 64px; background: #E8F5E9; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 16px;">
+                  <i data-lucide="check-circle" style="color: #4CAF50; width: 32px; height: 32px;"></i>
+                </div>
+                <h3 style="margin: 0 0 8px 0;">Código enviado</h3>
+                <p style="color: var(--text-secondary); margin: 0;">Hemos enviado un código a tu ${method}.</p>
+                <input type="text" placeholder="0 0 0 0" style="margin-top: 24px; text-align: center; font-size: 24px; letter-spacing: 8px; padding: 16px; border: 1px solid var(--border-color); border-radius: 12px; width: 200px; outline:none;">
+              </div>
+            `,
+            footer: `<button class="btn-primary" style="background: var(--brand-dark);" data-action="close">Verificar y Terminar</button>`
+          });
+        };
+
+        window.renderStep1 = renderStep1;
+        renderStep1();
+        dynamicSheet.open();
+      });
+
+      // 4. Checkout / Resumen de pago
+      document.getElementById('btn-payment').addEventListener('click', () => {
+        dynamicSheet.configure({
+          headerLeft: '',
+          headerCenter: 'Confirmar Pago',
+          headerRight: closeButtonHTML,
+          content: `
+            <div style="background: var(--bg-secondary); padding: 16px; border-radius: 16px; margin-bottom: 24px;">
+              <div style="display: flex; justify-content: space-between; margin-bottom: 12px;">
+                <span style="color: var(--text-secondary);">Subtotal (2 noches)</span>
+                <span>$240.00</span>
+              </div>
+              <div style="display: flex; justify-content: space-between; margin-bottom: 12px;">
+                <span style="color: var(--text-secondary);">Tarifa de servicio</span>
+                <span>$32.00</span>
+              </div>
+              <div style="display: flex; justify-content: space-between; margin-bottom: 12px;">
+                <span style="color: var(--text-secondary);">Impuestos</span>
+                <span>$18.50</span>
+              </div>
+              <hr style="border:none; border-top: 1px dashed #ccc; margin: 16px 0;">
+              <div style="display: flex; justify-content: space-between; font-weight: 700; font-size: 18px;">
+                <span>Total (USD)</span>
+                <span>$290.50</span>
+              </div>
+            </div>
+            
+            <h4 style="margin: 0 0 12px 0; font-size: 16px;">Método de pago</h4>
+            <div style="border: 1px solid var(--border-color); padding: 16px; border-radius: 16px; display: flex; align-items: center; justify-content: space-between; cursor: pointer;">
+              <div style="display: flex; align-items: center; gap: 16px;">
+                <div style="background: #f0f4f8; padding: 8px; border-radius: 8px;">
+                  <i data-lucide="credit-card" style="color: #0056b3;"></i>
+                </div>
+                <div>
+                  <h4 style="margin: 0 0 4px 0;">Visa terminada en 4242</h4>
+                  <p style="margin: 0; font-size: 13px; color: var(--text-secondary);">Expira 12/26</p>
+                </div>
+              </div>
+              <i data-lucide="chevron-right" style="color: var(--text-secondary);"></i>
+            </div>
+          `,
+          footer: `<button class="btn-primary" style="background: var(--brand-dark);" data-action="close">Pagar $290.50</button>`
+        });
+        dynamicSheet.open();
+      });
+
+      // 5. Menu de compartir
+      document.getElementById('btn-share').addEventListener('click', () => {
+        dynamicSheet.configure({
+          headerLeft: '',
+          headerCenter: 'Compartir',
+          headerRight: closeButtonHTML,
+          content: `
+            <h4 style="margin: 0 0 16px 0;">Contactos sugeridos</h4>
+            <div class="hide-scrollbar" style="display: flex; gap: 20px; overflow-x: auto; padding-bottom: 24px; margin-bottom: 24px; border-bottom: 1px solid var(--border-color);">
+              ${[1, 2, 3, 4, 5, 6].map(i => `
+                <div style="display: flex; flex-direction: column; align-items: center; gap: 8px; min-width: 64px; cursor: pointer;">
+                  <img src="https://i.pravatar.cc/150?img=${i + 15}" style="width: 56px; height: 56px; border-radius: 50%; object-fit: cover; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+                  <span style="font-size: 12px; font-weight: 500;">User ${i}</span>
+                </div>
+              `).join('')}
+            </div>
+            
+            <h4 style="margin: 0 0 16px 0;">Aplicaciones</h4>
+            <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; text-align: center;">
+              <div style="display: flex; flex-direction: column; align-items: center; gap: 8px; cursor: pointer;">
+                <div class="icon-btn" style="background: #E8F5E9; color: #4CAF50; width: 56px; height: 56px;"><i data-lucide="message-circle"></i></div>
+                <span style="font-size: 12px;">WhatsApp</span>
+              </div>
+              <div style="display: flex; flex-direction: column; align-items: center; gap: 8px; cursor: pointer;">
+                <div class="icon-btn" style="background: #E3F2FD; color: #2196F3; width: 56px; height: 56px;"><i data-lucide="twitter"></i></div>
+                <span style="font-size: 12px;">Twitter</span>
+              </div>
+              <div style="display: flex; flex-direction: column; align-items: center; gap: 8px; cursor: pointer;">
+                <div class="icon-btn" style="background: #FFF3E0; color: #FF9800; width: 56px; height: 56px;"><i data-lucide="mail"></i></div>
+                <span style="font-size: 12px;">Email</span>
+              </div>
+              <div style="display: flex; flex-direction: column; align-items: center; gap: 8px; cursor: pointer;">
+                <div class="icon-btn" style="background: var(--bg-secondary); width: 56px; height: 56px;"><i data-lucide="copy"></i></div>
+                <span style="font-size: 12px;">Copiar link</span>
+              </div>
+            </div>
+          `,
+          footer: null
+        });
+        dynamicSheet.open();
+      });
+
+      // 6. Scroll Largo (Términos)
+      document.getElementById('btn-terms').addEventListener('click', () => {
+        dynamicSheet.configure({
+          headerLeft: '',
+          headerCenter: 'Términos de Servicio',
+          headerRight: closeButtonHTML,
+          content: `
+            <div style="color: var(--text-secondary); line-height: 1.6; font-size: 15px;">
+              <h3 style="color: var(--text-primary); margin-top: 0;">1. Introducción al servicio</h3>
+              <p>Bienvenido a nuestra plataforma. Al acceder y utilizar este servicio, aceptas cumplir con los siguientes términos y condiciones en su totalidad. Por favor, lee detenidamente antes de continuar.</p>
+              
+              <h3 style="color: var(--text-primary);">2. Privacidad de los Datos</h3>
+              <p>Tu privacidad es importante para nosotros. Recopilamos los datos mínimos necesarios para el funcionamiento del servicio. No vendemos tu información a terceros bajo ninguna circunstancia. El uso de cookies está optimizado para garantizar que tu sesión se mantenga segura y fluida.</p>
+              
+              <h3 style="color: var(--text-primary);">3. Obligaciones del Usuario</h3>
+              <p>Como usuario, te comprometes a hacer un uso adecuado de las herramientas proporcionadas. Cualquier uso indebido, intento de ingeniería inversa, o violación de los derechos de otros usuarios resultará en la suspensión inmediata de la cuenta y posibles acciones legales. Eres responsable de mantener la confidencialidad de tus credenciales de acceso.</p>
+              
+              <h3 style="color: var(--text-primary);">4. Limitación de Responsabilidad</h3>
+              <p>El servicio se proporciona "tal cual" y "según disponibilidad". No garantizamos que el servicio sea ininterrumpido, seguro o libre de errores. En ningún caso la empresa será responsable por daños indirectos, incidentales o consecuentes derivados del uso o la incapacidad de usar la plataforma.</p>
+              
+              <h3 style="color: var(--text-primary);">5. Modificaciones y Actualizaciones</h3>
+              <p>Nos reservamos el derecho exclusivo de modificar, suspender o discontinuar cualquier parte del servicio en cualquier momento, con o sin previo aviso. Continuar usando el servicio tras las modificaciones a estos términos constituye la aceptación de dichos cambios.</p>
+            </div>
+          `,
+          footer: `
+            <div style="display: flex; gap: 16px;">
+              <button class="btn-secondary" data-action="close">Rechazar</button>
+              <button class="btn-primary" data-action="close" style="background: var(--brand-dark);">Aceptar todo</button>
+            </div>
+          `
+        });
+        dynamicSheet.open();
+      });
+
+      // 7. NUEVO: Selección de Ubicación
+      document.getElementById('btn-location').addEventListener('click', () => {
+        dynamicSheet.configure({
+          headerLeft: closeButtonHTML,
+          headerCenter: 'Selecciona tu ubicación',
+          headerRight: '',
+          content: `
+            <div class="search-bar" style="margin-bottom: 20px;">
+              <i data-lucide="map-pin" style="width:16px; height:16px; color: var(--text-secondary);"></i>
+              <input type="text" placeholder="Ingresa una dirección o ciudad">
+            </div>
+            
+            <div class="row-item" style="cursor: pointer; border-bottom: none; padding-top: 0; padding-bottom: 8px;">
+              <div style="display:flex; align-items:center; gap:16px;">
+                <div class="icon-btn" style="background: #E3F2FD; color: #2196F3; pointer-events:none;"><i data-lucide="navigation"></i></div>
+                <h4 style="margin:0; color: #2196F3;">Usar mi ubicación actual</h4>
+              </div>
+            </div>
+            
+            <hr style="border: none; border-top: 1px solid var(--border-color); margin: 16px 0;">
+            
+            <h4 style="margin: 0 0 12px 0; color: var(--text-secondary); font-size: 14px;">Búsquedas recientes</h4>
+            <div class="row-item" style="cursor: pointer; padding: 12px 0;" onclick="dynamicSheet.close()">
+              <div style="display:flex; align-items:center; gap:16px;">
+                <div class="icon-btn" style="background: var(--bg-secondary); pointer-events:none;"><i data-lucide="clock"></i></div>
+                <div>
+                  <h4 style="margin:0; font-size: 15px;">Ciudad de México</h4>
+                  <p style="margin:2px 0 0 0; font-size: 13px; color: var(--text-secondary);">México</p>
+                </div>
+              </div>
+            </div>
+            <div class="row-item" style="cursor: pointer; padding: 12px 0; border: none;" onclick="dynamicSheet.close()">
+              <div style="display:flex; align-items:center; gap:16px;">
+                <div class="icon-btn" style="background: var(--bg-secondary); pointer-events:none;"><i data-lucide="clock"></i></div>
+                <div>
+                  <h4 style="margin:0; font-size: 15px;">Madrid</h4>
+                  <p style="margin:2px 0 0 0; font-size: 13px; color: var(--text-secondary);">España</p>
+                </div>
+              </div>
+            </div>
+          `,
+          footer: null
+        });
+        dynamicSheet.open();
+      });
+
+      // 8. NUEVO: Menú de Acciones (Action Sheet)
+      document.getElementById('btn-actions').addEventListener('click', () => {
+        dynamicSheet.configure({
+          headerLeft: '',
+          headerCenter: 'Crear nuevo',
+          headerRight: closeButtonHTML,
+          content: `
+            <div style="display: flex; flex-direction: column; gap: 8px;">
+              <div class="row-item" style="cursor: pointer; padding: 16px; border: 1px solid var(--border-color); border-radius: 16px; transition: background 0.2s;" onmouseover="this.style.background='var(--bg-secondary)'" onmouseout="this.style.background='transparent'">
+                <div style="display:flex; align-items:center; gap:16px;">
+                  <div class="icon-btn" style="background: #FFF0F5; color: #E91E63; pointer-events:none;"><i data-lucide="camera"></i></div>
+                  <h4 style="margin:0;">Tomar foto o video</h4>
+                </div>
+              </div>
+              <div class="row-item" style="cursor: pointer; padding: 16px; border: 1px solid var(--border-color); border-radius: 16px; transition: background 0.2s;" onmouseover="this.style.background='var(--bg-secondary)'" onmouseout="this.style.background='transparent'">
+                <div style="display:flex; align-items:center; gap:16px;">
+                  <div class="icon-btn" style="background: #E8F5E9; color: #4CAF50; pointer-events:none;"><i data-lucide="image"></i></div>
+                  <h4 style="margin:0;">Subir desde la galería</h4>
+                </div>
+              </div>
+              <div class="row-item" style="cursor: pointer; padding: 16px; border: 1px solid var(--border-color); border-radius: 16px; transition: background 0.2s;" onmouseover="this.style.background='var(--bg-secondary)'" onmouseout="this.style.background='transparent'">
+                <div style="display:flex; align-items:center; gap:16px;">
+                  <div class="icon-btn" style="background: #FFF8E1; color: #FFC107; pointer-events:none;"><i data-lucide="folder"></i></div>
+                  <h4 style="margin:0;">Elegir archivo local</h4>
+                </div>
+              </div>
+              <div class="row-item" style="cursor: pointer; padding: 16px; border: 1px solid var(--border-color); border-radius: 16px; transition: background 0.2s;" onmouseover="this.style.background='var(--bg-secondary)'" onmouseout="this.style.background='transparent'">
+                <div style="display:flex; align-items:center; gap:16px;">
+                  <div class="icon-btn" style="background: #F3E5F5; color: #9C27B0; pointer-events:none;"><i data-lucide="mic"></i></div>
+                  <h4 style="margin:0;">Grabar nota de voz</h4>
+                </div>
+              </div>
+            </div>
+          `,
+          footer: null
+        });
+        dynamicSheet.open();
+      });
+
+    });
+  </script>
+</body>
+</html>

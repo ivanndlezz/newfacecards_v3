@@ -1,0 +1,556 @@
+<!-- Plantilla: Linen Card (Warm Neutral Modern) -->
+<!-- data-theme="light" -->
+<style>
+  @import url("https://fonts.googleapis.com/css2?family=Cabinet+Grotesk:wght@400;500;700;800&family=Instrument+Serif:ital@0;1&display=swap");
+
+  /* ── tokens ── */
+  .card--linen {
+    --c-bg:            #faf8f4;
+    --c-surface:       #eeeae2;
+    --c-surface-deep:  #e4e0d6;
+    --c-border:        rgba(50, 40, 30, 0.1);
+    --c-border-mid:    rgba(50, 40, 30, 0.15);
+    --c-ink:           #1a1714;
+    --c-ink-mid:       #4a453f;
+    --c-ink-soft:      #9e9890;
+    --c-ink-ghost:     #b8b2a8;
+    --c-skel-base:     #e8e4dc;
+    --c-skel-shine:    #f0ece4;
+  }
+
+  /* ── card shell ── */
+  .card--linen {
+    display: block;
+    width: 100%;
+    max-width: 400px;
+    background: var(--c-bg);
+    overflow: hidden;
+    position: relative;
+    font-family: "Cabinet Grotesk", sans-serif;
+    border-radius: 28px;
+    box-shadow: 0 2px 40px rgba(0, 0, 0, 0.07);
+  }
+
+  /* ── skeleton animation ── */
+  @keyframes lin-shimmer {
+    0%   { background-position: -400px 0; }
+    100% { background-position:  400px 0; }
+  }
+  .lin__skel {
+    background: linear-gradient(
+      90deg,
+      var(--c-skel-base) 25%,
+      var(--c-skel-shine) 50%,
+      var(--c-skel-base) 75%
+    );
+    background-size: 800px 100%;
+    animation: lin-shimmer 1.4s ease-in-out infinite;
+    border-radius: 6px;
+    flex-shrink: 0;
+  }
+  .lin__skel--circle  { border-radius: 50%; }
+  .lin__skel--pill    { border-radius: 99px; }
+  .lin__skel--rounded { border-radius: 14px; }
+
+  /* ── cover ── */
+  .lin__cover {
+    width: 100%;
+    height: 140px;
+    background-size: cover;
+    background-position: center;
+    background-color: var(--c-surface-deep);
+    display: block;
+    position: relative;
+    overflow: hidden;
+  }
+  .lin__cover::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-image: radial-gradient(
+      circle,
+      rgba(0, 0, 0, 0.07) 1px,
+      transparent 1px
+    );
+    background-size: 16px 16px;
+  }
+  /* cover skeleton: ocupa toda el área cuando no hay imagen bindeada */
+  .lin__cover.lin__skel::after { display: none; }
+
+  /* ── profile row ── */
+  .lin__profile-row {
+    display: flex;
+    align-items: flex-end;
+    gap: 14px;
+    padding: 0 24px;
+    margin-top: -28px;
+    position: relative;
+    z-index: 2;
+  }
+
+  /* avatar-wrap: overlay del skel y el img real en el mismo espacio */
+  .lin__avatar-wrap {
+    position: relative;
+    width: 72px;
+    height: 72px;
+    border-radius: 50%;
+    border: 3px solid var(--c-bg);
+    flex-shrink: 0;
+    overflow: hidden;
+  }
+  .lin__avatar-skel {
+    position: absolute;
+    inset: 0;
+    border-radius: 0; /* hereda del wrap */
+  }
+  .lin__avatar {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    background: var(--c-surface-deep);
+    display: none; /* visible sólo tras hidratación */
+  }
+
+  .lin__identity {
+    padding-bottom: 6px;
+    flex: 1;
+  }
+  .lin__name {
+    font-family: "Instrument Serif", Georgia, serif;
+    font-size: 1.45rem;
+    font-weight: 400;
+    font-style: italic;
+    color: var(--c-ink);
+    line-height: 1.05;
+    letter-spacing: -0.01em;
+    margin: 0;
+  }
+  .lin__meta {
+    font-size: 0.7rem;
+    font-weight: 500;
+    color: var(--c-ink-soft);
+    letter-spacing: 0.04em;
+    margin-top: 3px;
+  }
+  /* skels de texto de identidad */
+  .lin__identity-skel {
+    padding-bottom: 8px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    justify-content: flex-end;
+    transform: translateY(10px);
+  }
+
+  /* ── divider ── */
+  .lin__hr {
+    height: 1px;
+    background: var(--c-surface-deep);
+    margin: 20px 24px 0;
+    border: none;
+  }
+
+  /* ── socials ── */
+  .lin__socials {
+    display: flex;
+    gap: 8px;
+    padding: 16px 24px;
+    flex-wrap: wrap;
+  }
+  .lin__social-icon {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 12px;
+    border-radius: 99px;
+    background: var(--c-surface);
+    border: 1px solid var(--c-border-mid);
+    font-size: 0.68rem;
+    font-weight: 600;
+    color: var(--c-ink-mid);
+    text-decoration: none;
+    letter-spacing: 0.02em;
+    transition: background 0.15s, border-color 0.15s;
+  }
+  .lin__social-icon:hover {
+    background: var(--c-surface-deep);
+    border-color: rgba(50, 40, 30, 0.25);
+  }
+  .lin__social-icon img {
+    width: 14px;
+    height: 14px;
+    filter: brightness(0) opacity(0.5);
+    flex-shrink: 0;
+  }
+  .lin__social-icon svg {
+    width: 13px;
+    height: 13px;
+    stroke: var(--c-ink-mid);
+    fill: none;
+    stroke-width: 2;
+    flex-shrink: 0;
+  }
+
+  /* ── nav ── */
+  .lin__nav {
+    display: flex;
+    padding: 0 24px;
+    gap: 4px;
+  }
+  .lin__nav-link {
+    flex: 1;
+    padding: 9px 8px;
+    border-radius: 10px;
+    font-family: "Cabinet Grotesk", sans-serif;
+    font-size: 0.63rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--c-ink-soft);
+    text-align: center;
+    background: none;
+    border: none;
+    cursor: pointer;
+    text-decoration: none;
+    transition: all 0.15s;
+    display: block;
+  }
+  .lin__nav-link:hover {
+    color: var(--c-ink-mid);
+    background: var(--c-surface);
+  }
+
+  /* ── sections ── */
+  .lin__sections {
+    display: flex;
+    flex-direction: column;
+  }
+  .lin__section {
+    padding: 20px 24px 24px;
+    border-top: 1px solid var(--c-surface-deep);
+  }
+  .lin__section-label {
+    font-size: 0.6rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    color: var(--c-ink-ghost);
+    margin-bottom: 12px;
+  }
+
+  /* skeleton de sección (botones) */
+  .lin__section-skel {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  /* ── buttons ── */
+  .lin__btn {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 11px 14px;
+    border-radius: 14px;
+    background: var(--c-surface);
+    border: 1px solid var(--c-border);
+    font-family: "Cabinet Grotesk", sans-serif;
+    font-size: 0.82rem;
+    font-weight: 500;
+    color: var(--c-ink);
+    margin-bottom: 8px;
+    cursor: pointer;
+    width: 100%;
+    text-align: left;
+    text-decoration: none;
+    transition: background 0.15s, border-color 0.15s;
+  }
+  .lin__btn:hover {
+    background: var(--c-surface-deep);
+    border-color: var(--c-border-mid);
+  }
+  .lin__btn--cta {
+    background: var(--c-ink);
+    border-color: var(--c-ink);
+    color: var(--c-bg);
+  }
+  .lin__btn--cta:hover {
+    background: #2e2925;
+    border-color: #2e2925;
+  }
+  .lin__btn-icon {
+    width: 30px;
+    height: 30px;
+    border-radius: 8px;
+    background: var(--c-bg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+  .lin__btn--cta .lin__btn-icon {
+    background: rgba(255, 255, 255, 0.1);
+  }
+  .lin__btn svg {
+    width: 16px;
+    height: 16px;
+    stroke: var(--c-ink-mid);
+    fill: none;
+    stroke-width: 1.8;
+  }
+  .lin__btn--cta svg {
+    stroke: rgba(255, 255, 255, 0.75);
+  }
+  .lin__btn img {
+    width: 16px;
+    height: 16px;
+    filter: brightness(0) opacity(0.5);
+  }
+  .lin__btn--cta img {
+    filter: brightness(0) invert(1) opacity(0.75);
+  }
+  .lin__btn-label { flex: 1; }
+  .lin__btn-arrow {
+    font-size: 0.8rem;
+    color: var(--c-ink-ghost);
+  }
+  .lin__btn--cta .lin__btn-arrow {
+    color: rgba(255, 255, 255, 0.3);
+  }
+
+  /* ── company ── */
+  .lin__company {
+    display: flex;
+    gap: 14px;
+    align-items: center;
+    padding: 14px;
+    background: var(--c-surface);
+    border: 1px solid var(--c-border);
+    border-radius: 14px;
+    margin-bottom: 14px;
+  }
+  .lin__company img {
+    width: 44px;
+    height: 44px;
+    border-radius: 10px;
+    border: 1px solid var(--c-border);
+    background: var(--c-surface-deep);
+  }
+  .lin__company-name {
+    font-family: "Cabinet Grotesk", sans-serif;
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: var(--c-ink);
+  }
+  .lin__company-tag {
+    font-size: 0.7rem;
+    color: var(--c-ink-soft);
+    letter-spacing: 0.04em;
+    margin-top: 2px;
+  }
+
+  /* ── location ── */
+  .lin__location {
+    border-radius: 14px;
+    overflow: hidden;
+    border: 1px solid var(--c-border);
+    text-decoration: none;
+    display: block;
+  }
+  .lin__location img {
+    width: 100%;
+    height: 80px;
+    object-fit: cover;
+    filter: saturate(0.7) brightness(0.95);
+    display: block;
+  }
+  .lin__location-label {
+    padding: 8px 12px;
+    background: var(--c-surface);
+    font-size: 0.72rem;
+    color: var(--c-ink-mid);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .lin__location-label svg {
+    width: 12px;
+    height: 12px;
+    stroke: var(--c-ink);
+    fill: none;
+    stroke-width: 2;
+  }
+
+  /* ── visibility helpers ── */
+  #linen-contacto:not(:has(a)),
+  #linen-empresa:not(:has(a)),
+  #linen-bottom-social:not(:has(a)) {
+    display: none;
+  }
+
+  /* ── hydration teardown ─────────────────────────────────────────────────
+     #card recibe [data-hydrated] en index.html después de que binder.run()
+     resuelve. Todas las transiciones ocurren puramente en CSS.
+  ── */
+
+  /* 1. Todos los skels apagan su shimmer y desaparecen */
+  #card[data-hydrated] .lin__skel {
+    animation: none;
+    opacity: 0;
+    transition: opacity 0.35s ease;
+    pointer-events: none;
+  }
+
+  /* 2. Cover: para el shimmer pero se mantiene visible
+        (el inline background-image de data-bind-bg tiene mayor precedencia) */
+  #card[data-hydrated] .lin__cover {
+    animation: none !important;
+    opacity: 1 !important;
+    background: var(--c-surface-deep);
+    transition: none !important;
+  }
+
+  /* 3. Avatar: ocultar skel, mostrar img */
+  #card[data-hydrated] .lin__avatar-skel {
+    opacity: 0;
+    pointer-events: none;
+  }
+  #card[data-hydrated] .lin__avatar {
+    display: block;
+  }
+
+  /* 4. Identity: ocultar skels de texto, mostrar contenido real con fade-in */
+  #card[data-hydrated] .lin__identity-skel {
+    display: none;
+  }
+  .lin__identity {
+    display: none;
+    flex: 1;
+    padding-bottom: 8px;
+    flex-direction: column;
+    justify-content: flex-end;
+  }
+  #card[data-hydrated] .lin__identity {
+    display: flex;
+    opacity: 0;
+    animation: lin-content-in 0.4s ease 0.1s forwards;
+  }
+  @keyframes lin-content-in {
+    to { opacity: 1; }
+  }
+</style>
+
+<div class="card--linen" data-theme="light">
+
+  <!-- cover: fondo skeleton hasta que data-bind-bg inyecte la imagen -->
+  <div
+    class="lin__cover lin__skel"
+    data-editable-zone
+    data-editable-cohort="1"
+    data-bind-bg="profile.cover"
+    style="background-size: cover; background-position: center;"
+  ></div>
+
+  <!-- profile row -->
+  <div class="lin__profile-row">
+    <!-- avatar wrap: skel visible antes de hidratar, img real después -->
+    <div
+      class="lin__avatar-wrap"
+      data-editable-zone
+      data-editable-cohort="1"
+    >
+      <div class="lin__avatar-skel lin__skel lin__skel--circle"></div>
+      <img
+        class="lin__avatar"
+        data-bind-src="profile.photo"
+        alt="Foto de perfil"
+      />
+    </div>
+
+    <!-- skels de identidad: visibles antes de hidratar -->
+    <div class="lin__identity-skel" data-editable-zone data-editable-cohort="2">
+      <div class="lin__skel" style="height: 22px; width: 70%;"></div>
+      <div class="lin__skel" style="height: 13px; width: 45%;"></div>
+    </div>
+
+    <!-- identidad real: visible después de hidratar -->
+    <div class="lin__identity" data-editable-zone data-editable-cohort="2">
+      <h1 class="lin__name" data-bind="profile.name"></h1>
+      <p class="lin__meta" data-bind="profile.title"></p>
+    </div>
+  </div>
+
+  <hr class="lin__hr" />
+
+  <!-- redes sociales básicas -->
+  <div class="lin__socials" data-editable-zone data-editable-cohort="5">
+    <div id="social_top_buttons-loader">
+      <!-- skels de pills sociales -->
+      <div style="display:flex; gap:8px;">
+        <div class="lin__skel lin__skel--pill" style="height:29px; width:80px;"></div>
+        <div class="lin__skel lin__skel--pill" style="height:29px; width:72px;"></div>
+        <div class="lin__skel lin__skel--pill" style="height:29px; width:60px;"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- navegación -->
+  <div class="lin__nav">
+    <div id="nav_buttons-loader">
+      <!-- skels de nav -->
+      <div style="display:flex; gap:4px; width:100%;">
+        <div class="lin__skel" style="flex:1; height:34px; border-radius:10px;"></div>
+        <div class="lin__skel" style="flex:1; height:34px; border-radius:10px;"></div>
+        <div class="lin__skel" style="flex:1; height:34px; border-radius:10px;"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- secciones hidratadas -->
+  <div class="lin__sections">
+
+    <!-- contacto -->
+    <section class="lin__section" id="linen-contacto" data-editable-zone data-editable-cohort="3">
+      <p class="lin__section-label">Contacto</p>
+      <div id="contact_section_buttons-loader">
+        <div class="lin__section-skel">
+          <div class="lin__skel lin__skel--rounded" style="height:50px;"></div>
+          <div class="lin__skel lin__skel--rounded" style="height:50px;"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- empresa -->
+    <section class="lin__section" id="linen-empresa" data-editable-zone data-editable-cohort="4">
+      <p class="lin__section-label">Empresa</p>
+      <div class="lin__company">
+        <div id="company_section_buttons-loader">
+          <div style="display:flex; gap:14px; align-items:center; width:100%;">
+            <div class="lin__skel" style="width:44px; height:44px; border-radius:10px; flex-shrink:0;"></div>
+            <div style="display:flex; flex-direction:column; gap:7px; flex:1;">
+              <div class="lin__skel" style="height:14px; width:55%;"></div>
+              <div class="lin__skel" style="height:11px; width:38%;"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- redes sociales -->
+    <section class="lin__section" id="linen-bottom-social" data-editable-zone data-editable-cohort="5">
+      <p class="lin__section-label">Redes Sociales</p>
+      <div class="lin__company">
+        <div id="bottom_section_buttons-loader">
+          <div class="lin__section-skel">
+            <div class="lin__skel lin__skel--rounded" style="height:48px;"></div>
+            <div class="lin__skel lin__skel--rounded" style="height:48px;"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </div>
+</div>

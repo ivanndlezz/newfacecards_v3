@@ -1,33 +1,28 @@
-// bottom-sheet.js — v1
-// Componente dinámico de Bottom Sheet.
-//
-// API PÚBLICA:
-//   constructSheet(presetOrConfig, data?)  — construir y abrir un sheet
-//   registerPreset(name, configFn)         — registrar un preset reutilizable
-//   closeSheet()                           — cerrar el sheet activo
-//
-// CONFIGURACIÓN:
-//   {
-//     title:          string,
-//     scope:          string,          // data-scope en el container
-//     top_actions:    Action[],        // acciones en el header
-//     content:        string|Node,     // HTML string, selector CSS, o nodo DOM
-//     bottom_actions: BottomActions,   // footer con layouts
-//   }
-//
-// Action = {
-//   name:      string,
-//   callback:  string | Function,   // "close" = cierra el sheet
-//   icon_type: "font" | "svg",
-//   icon:      string,              // clase CSS o href del <use>
-// }
-//
-// BottomActions = {
-//   layout:       "single" | "dual" | "dual-with-icon" | null,
-//   primary:      { label, callback, icon? },
-//   secondary:    { label, callback, icon? },
-//   icon_action:  { callback, icon_type, icon, variant? },  // solo "dual-with-icon"
-// }
+// bottom-sheet.js — v2 (Unified Premium Component)
+/*
+ * ==========================================================================
+ * REGLAS DE ARQUITECTURA UI
+ *
+ * Patrones:
+ * - JS cambia estado con atributos data-*.
+ * - CSS define la representacion visual de cada estado.
+ * - El display base de bottom-sheet es flex y debe venir de CSS.
+ * - Usar variables CSS solo para valores dinamicos de runtime.
+ *
+ * Antipatrones:
+ * - No escribir estilos inline hardcoded para comportamiento.
+ * - No usar el.style.display = "block" para mostrar componentes.
+ *   En bottom-sheet rompe display:flex y bloquea scroll/layout interno.
+ * - No manejar hidden/active/open con style="" si existe data-state/data-status.
+ * - No mezclar estado en clases utilitarias cuando data-* lo expresa mejor.
+ *
+ * Ejemplo:
+ * Correcto: footer.dataset.status = "active"
+ * Incorrecto: footer.style.display = "block"
+ * ==========================================================================
+ */
+// Componente dinámico de Bottom Sheet con soporte para gestos y arquitectura modular.
+// Klef Agency & New Face Cards v3
 
 const CSS_HREF = "/shared/components/bottom-sheet/bottom-sheet.css";
 
@@ -179,7 +174,7 @@ function _setStatusStorage(state) {
 
 // ─── CLOSE SHEET ─────────────────────────────────────────────────────────────
 /**
- * Cierra el sheet activo actual.
+ * Cierra el sheet activo actual (dinámico).
  */
 export function closeSheet() {
   if (!_activeOverlay) return;
@@ -217,18 +212,12 @@ export function closeSheet() {
 
 // ─── CONSTRUCT SHEET ─────────────────────────────────────────────────────────
 /**
- * Construye y abre un bottom sheet.
- *
- * @param {string|Object} presetOrConfig  - Nombre de preset registrado o config object completo.
- * @param {Object} [data]                 - Datos opcionales pasados al preset.
- * @returns {HTMLElement} El overlay creado.
+ * Construye y abre un bottom sheet (para compatibilidad).
  */
 export function constructSheet(presetOrConfig, data) {
-  // ── Resolver config ───────────────────────────────────────────────────────
   let config;
 
   if (typeof presetOrConfig === "string") {
-    // Modo preset
     const presetFn = _presets.get(presetOrConfig);
     if (!presetFn) {
       console.error(`[bottom-sheet] Preset "${presetOrConfig}" no registrado.`);
@@ -236,19 +225,16 @@ export function constructSheet(presetOrConfig, data) {
     }
     config = presetFn(data || {});
   } else if (typeof presetOrConfig === "object" && presetOrConfig !== null) {
-    // Modo config directo
     config = presetOrConfig;
   } else {
     console.error("[bottom-sheet] constructSheet requiere un preset (string) o un config (object).");
     return null;
   }
 
-  // ── Cerrar sheet previo si existe ─────────────────────────────────────────
   if (_activeOverlay) {
     closeSheet();
   }
 
-  // ── Construir el DOM ──────────────────────────────────────────────────────
   const overlay = document.createElement("div");
   overlay.className = "bottom-sheet-overlay";
   overlay.setAttribute("data-state", "closed");
@@ -261,24 +247,22 @@ export function constructSheet(presetOrConfig, data) {
 
   overlay.innerHTML = `
     <div class="bottom-sheet-container" data-scope="${scope}">
+      <div class="sheet-handler-area"><div class="sheet-drag-pill"></div></div>
       ${headerHTML}
       <div class="bsheet-content">${contentHTML}</div>
       ${footerHTML}
     </div>
   `;
 
-  // ── Bind: cerrar overlay al click en backdrop ─────────────────────────────
   overlay.addEventListener("click", (e) => {
     if (e.target === overlay) closeSheet();
   });
 
-  // ── Bind: cerrar con botón X ──────────────────────────────────────────────
   const closeBtn = overlay.querySelector("[data-bsheet-close]");
   if (closeBtn) {
     closeBtn.addEventListener("click", () => closeSheet());
   }
 
-  // ── Bind: top actions ─────────────────────────────────────────────────────
   const topActions = config.top_actions || [];
   overlay.querySelectorAll("[data-bsheet-action]").forEach((btn) => {
     const idx = parseInt(btn.dataset.bsheetAction, 10);
@@ -299,7 +283,6 @@ export function constructSheet(presetOrConfig, data) {
     }
   });
 
-  // ── Bind: footer actions ──────────────────────────────────────────────────
   const ba = config.bottom_actions || {};
 
   const primaryBtn = overlay.querySelector('[data-bsheet-footer="primary"]');
@@ -320,17 +303,57 @@ export function constructSheet(presetOrConfig, data) {
     if (fn) iconBtn.addEventListener("click", (e) => fn(e, { scope, config, overlay }));
   }
 
-  // ── Bind: Escape key ─────────────────────────────────────────────────────
   _onEscHandler = (e) => {
     if (e.key === "Escape") closeSheet();
   };
   document.addEventListener("keydown", _onEscHandler);
 
-  // ── Mount ─────────────────────────────────────────────────────────────────
   document.body.appendChild(overlay);
   _activeOverlay = overlay;
 
-  // Trigger open en el siguiente frame para que la animación arranque
+  // Hydrate drag gestures on dynamic container
+  const container = overlay.querySelector(".bottom-sheet-container");
+  if (container) {
+    const handler = overlay.querySelector(".sheet-handler-area");
+    let startY = 0, currentY = 0;
+    
+    const onStart = (e) => {
+      container.setAttribute("data-state", "dragging");
+      startY = e.type.includes("mouse") ? e.pageY : e.touches[0].clientY;
+    };
+    
+    const onMove = (e) => {
+      if (container.getAttribute("data-state") !== "dragging") return;
+      const y = e.type.includes("mouse") ? e.pageY : e.touches[0].clientY;
+      const deltaY = y - startY;
+      if (deltaY > 0) {
+        if (!e.type.includes("mouse")) e.preventDefault();
+        currentY = deltaY;
+        container.style.transform = `translateY(${currentY}px)`;
+      }
+    };
+    
+    const onEnd = () => {
+      if (container.getAttribute("data-state") !== "dragging") return;
+      container.setAttribute("data-state", "open");
+      if (currentY > 120) {
+        closeSheet();
+      } else {
+        container.style.transform = "translateY(0px)";
+      }
+      currentY = 0;
+    };
+
+    if (handler) {
+      handler.addEventListener("touchstart", onStart, { passive: true });
+      handler.addEventListener("touchmove", onMove, { passive: false });
+      handler.addEventListener("touchend", onEnd);
+      handler.addEventListener("mousedown", onStart);
+      window.addEventListener("mousemove", onMove);
+      window.addEventListener("mouseup", onEnd);
+    }
+  }
+
   requestAnimationFrame(() => {
     requestAnimationFrame(() => {
       overlay.setAttribute("data-state", "open");
@@ -346,4 +369,147 @@ export function constructSheet(presetOrConfig, data) {
   });
 
   return overlay;
+}
+
+// ─── CLASS-BASED COMPONENT ───────────────────────────────────────────────────
+/**
+ * Clase BottomSheet para hidratar contenedores estáticos del DOM.
+ */
+export class BottomSheet {
+  constructor(sheetId, backdropId) {
+    this.sheet = document.getElementById(sheetId);
+    this.backdrop = document.getElementById(backdropId);
+    
+    if (!this.sheet || !this.backdrop) {
+      console.warn(`[bottom-sheet] Elementos no encontrados: sheetId="${sheetId}", backdropId="${backdropId}"`);
+      return;
+    }
+
+    this.zones = {
+      headerLeft: this.sheet.querySelector('.sheet-header-left') || this.sheet.querySelector('#sheet-header-left'),
+      headerCenter: this.sheet.querySelector('.sheet-header-center') || this.sheet.querySelector('#sheet-header-center'),
+      headerRight: this.sheet.querySelector('.sheet-header-right') || this.sheet.querySelector('#sheet-header-right'),
+      content: this.sheet.querySelector('.sheet-content-slots') || this.sheet.querySelector('#sheet-content'),
+      footer: this.sheet.querySelector('.sheet-sticky-controls') || this.sheet.querySelector('#sheet-footer')
+    };
+
+    this.handlerArea = this.sheet.querySelector('.sheet-handler-area');
+    this.isOpen = false;
+    this.startY = 0;
+    this.currentY = 0;
+    
+    this.open = this.open.bind(this);
+    this.close = this.close.bind(this);
+    this.onDragStart = this.onDragStart.bind(this);
+    this.onDragMove = this.onDragMove.bind(this);
+    this.onDragEnd = this.onDragEnd.bind(this);
+    this.handleDelegatedClicks = this.handleDelegatedClicks.bind(this);
+  }
+
+  hydrate() {
+    if (!this.sheet) return this;
+
+    this.backdrop.addEventListener('click', this.close);
+    this.sheet.addEventListener('click', this.handleDelegatedClicks);
+
+    if (this.handlerArea) {
+      this.handlerArea.addEventListener('touchstart', this.onDragStart, { passive: true });
+      this.handlerArea.addEventListener('touchmove', this.onDragMove, { passive: false });
+      this.handlerArea.addEventListener('touchend', this.onDragEnd);
+      
+      this.handlerArea.addEventListener('mousedown', this.onDragStart);
+      window.addEventListener('mousemove', this.onDragMove);
+      window.addEventListener('mouseup', this.onDragEnd);
+    }
+
+    return this; 
+  }
+
+  handleDelegatedClicks(e) {
+    const closeBtn = e.target.closest('[data-action="close"]');
+    if (closeBtn) this.close();
+  }
+
+  configure(config) {
+    if (!this.sheet) return;
+
+    if (this.zones.content) {
+      this.zones.content.scrollTop = 0;
+    }
+
+    if (config.headerLeft !== undefined && this.zones.headerLeft) {
+      this.zones.headerLeft.innerHTML = config.headerLeft;
+    }
+    if (config.headerCenter !== undefined && this.zones.headerCenter) {
+      this.zones.headerCenter.innerHTML = `<h2 style="font-size: 18px; margin:0; font-weight: 600;">${config.headerCenter}</h2>`;
+    }
+    if (config.headerRight !== undefined && this.zones.headerRight) {
+      this.zones.headerRight.innerHTML = config.headerRight;
+    }
+    if (config.content !== undefined && this.zones.content) {
+      this.zones.content.innerHTML = config.content;
+    }
+    
+    if (this.zones.footer) {
+      if (config.footer) {
+        this.zones.footer.innerHTML = config.footer;
+        this.zones.footer.dataset.status = 'active';
+      } else if (config.footer === null) {
+        this.zones.footer.dataset.status = 'hidden';
+      }
+    }
+    
+    if (window.lucide) window.lucide.createIcons();
+  }
+
+  open() {
+    if (!this.sheet) return;
+    this.isOpen = true;
+    this.sheet.style.setProperty('--sheet-transform', '0%');
+    this.sheet.setAttribute('data-state', 'open');
+    this.backdrop.setAttribute('data-state', 'open');
+    document.body.style.overflow = 'hidden';
+    _setStatusStorage("showing");
+  }
+
+  close() {
+    if (!this.sheet) return;
+    this.isOpen = false;
+    this.sheet.style.setProperty('--sheet-transform', '100%');
+    this.sheet.setAttribute('data-state', 'closed');
+    this.backdrop.setAttribute('data-state', 'closed');
+    document.body.style.overflow = ''; 
+    _setStatusStorage("hidden");
+    setTimeout(() => { 
+      if (this.sheet) this.sheet.style.transform = ''; 
+    }, 500); 
+  }
+
+  onDragStart(e) {
+    if (!this.isOpen || !this.sheet) return;
+    this.sheet.setAttribute('data-state', 'dragging');
+    this.startY = e.type.includes('mouse') ? e.pageY : e.touches[0].clientY;
+  }
+
+  onDragMove(e) {
+    if (!this.sheet || this.sheet.getAttribute('data-state') !== 'dragging') return;
+    const y = e.type.includes('mouse') ? e.pageY : e.touches[0].clientY;
+    const deltaY = y - this.startY;
+    if (deltaY > 0) {
+      if (!e.type.includes('mouse')) e.preventDefault(); 
+      this.currentY = deltaY;
+      this.sheet.style.transform = `translateY(${this.currentY}px)`;
+    }
+  }
+
+  onDragEnd() {
+    if (!this.sheet || this.sheet.getAttribute('data-state') !== 'dragging') return;
+    this.sheet.setAttribute('data-state', 'open'); 
+    if (this.currentY > 120) {
+      this.close();
+    } else {
+      this.sheet.style.transform = `translateY(0px)`;
+    }
+    this.currentY = 0;
+  }
 }

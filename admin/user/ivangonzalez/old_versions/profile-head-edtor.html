@@ -1,0 +1,1216 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Simulación de Carga + Factory Pattern</title>
+    <style>
+      /* --- Estilos base y de estructura --- */
+      body {
+        background-color: #f3f4f6;
+        display: flex;
+        justify-content: center;
+        padding-top: 40px;
+        margin: 0;
+      }
+
+      :root {
+        --wh: stretch;
+        --min-wh: 100px;
+      }
+
+      .profile-card {
+        background: #ffffff;
+        border-radius: 16px;
+        width: 100%;
+        max-width: 450px;
+        overflow: hidden;
+        font-family: sans-serif;
+        transition: all 0.3s ease;
+      }
+
+      /* --- Portada --- */
+      .cover-wrap {
+        position: relative;
+        width: 100%;
+        height: 120px;
+        background-color: #e5e7eb;
+        display: none;
+        transition: all 0.2s ease; /* Transición para cuando cambien los valores del slider */
+      }
+      .cover-photo {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: none;
+      }
+
+      /* --- Contenido Principal --- */
+      .profile-row {
+        display: flex;
+        align-items: center;
+        gap: 20px;
+        padding: 20px;
+        position: relative;
+        transition: all 0.3s ease;
+      }
+
+      .avatar-wrap {
+        position: relative;
+        width: var(--min-wh);
+        height: var(--min-wh);
+        flex-shrink: 0;
+        transition: all 0.3s ease;
+        border-radius: 50%;
+      }
+
+      .avatar {
+        width: 100%;
+        height: 100%;
+        border-radius: 50%;
+        object-fit: cover;
+        z-index: 1;
+        position: relative;
+      }
+
+      /* --- Efecto Shimmer --- */
+      .cover-skel,
+      .avatar-skel,
+      .lin__skel {
+        background: linear-gradient(
+          90deg,
+          #ecefef 25%,
+          #f4f6f6 50%,
+          #ecefef 75%
+        );
+        background-size: 200% 100%;
+        animation: shimmer 1.5s infinite linear;
+      }
+      .cover-skel {
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        top: 0;
+        left: 0;
+      }
+      .avatar-skel--circle {
+        width: 100px;
+        height: 100px;
+        border-radius: 50%;
+        transition: all 0.3s ease;
+      }
+      .lin__skel {
+        margin-bottom: 8px;
+        border-radius: 4px;
+      }
+
+      @keyframes shimmer {
+        0% {
+          background-position: 200% 0;
+        }
+        100% {
+          background-position: -200% 0;
+        }
+      }
+
+      /* --- Control de visibilidad --- */
+      .avatar,
+      .cover-photo,
+      .lin__identity {
+        display: none;
+      }
+
+      .status-storage[data-general-status="loaded"] .avatar-skel,
+      .status-storage[data-general-status="loaded"] .cover-skel,
+      .status-storage[data-general-status="loaded"] .lin__identity-skel {
+        display: none;
+      }
+      .status-storage[data-general-status="loaded"] .avatar,
+      .status-storage[data-general-status="loaded"] .cover-photo,
+      .status-storage[data-general-status="loaded"] .lin__identity {
+        display: block;
+      }
+
+      /* --- PRESETS SOCIALES --- */
+      .profile-card.preset-classic .cover-wrap {
+        display: block;
+      }
+      .profile-card.preset-classic .profile-row {
+        flex-direction: column;
+        align-items: flex-start;
+        text-align: left;
+        padding-top: 0;
+      }
+      .profile-card.preset-classic .avatar-wrap {
+        margin-top: -50px;
+      }
+
+      .profile-card.preset-centered .cover-wrap {
+        display: block;
+      }
+      .profile-card.preset-centered .profile-row {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        padding-top: 0;
+      }
+      .profile-card.preset-centered .avatar-wrap {
+        margin-top: -50px;
+      }
+
+      .profile-card.preset-horizontal .cover-wrap {
+        display: block;
+      }
+      .profile-card.preset-horizontal .profile-row {
+        flex-direction: row;
+        align-items: center;
+        text-align: left;
+        padding-top: 20px;
+      }
+      .profile-card.preset-horizontal .avatar-wrap {
+        margin-top: 0;
+      }
+
+      /* --- ESTILOS DE PORTADA --- */
+      .profile-card.cover-style-none .cover-wrap {
+        display: none !important;
+      }
+      .profile-card.cover-style-none .profile-row {
+        padding-top: 20px !important;
+      }
+      .profile-card.cover-style-none .avatar-wrap {
+        margin-top: 0 !important;
+      }
+
+      .profile-card.cover-style-full .cover-wrap {
+        display: block !important;
+        margin: 0;
+        width: 100%;
+        border-radius: 0;
+      }
+
+      .profile-card.cover-style-inset .cover-wrap {
+        display: block !important;
+        margin: 16px auto; /* auto para mantenerlo centrado si modificamos el width */
+        width: calc(100% - 32px);
+        border-radius: 12px;
+        overflow: hidden;
+      }
+
+      /* --- MORPHING CONTROLLER SYSTEM --- */
+      .morphing-controller {
+        position: fixed;
+        bottom: 20px;
+        left: 50%;
+        transform: translateX(-50%);
+        z-index: 10000;
+        box-sizing: border-box;
+        transition: all 0.5s cubic-bezier(0.2, 1, 0.2, 1);
+        overflow: hidden;
+        font-family: sans-serif;
+        display: none;
+      }
+
+      .morphing-controller[data-status="pill"] {
+        width: 140px;
+        height: 46px;
+        border-radius: 9999px;
+        background: #09090b;
+        color: #ffffff;
+        padding: 12px 20px;
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+        cursor: pointer;
+        border: 1px solid transparent;
+      }
+      .morphing-controller[data-status="pill"]:hover {
+        background: #27272a;
+        transform: translateX(-50%) scale(1.04);
+      }
+      .morphing-controller[data-status="pill"]:active {
+        transform: translateX(-50%) scale(0.96);
+      }
+
+      .morphing-controller[data-status="main-controller"] {
+        width: 380px;
+        height: 380px; /* Un poco más de altura */
+        border-radius: 16px;
+        background: #ffffff;
+        color: #09090b;
+        padding: 16px;
+        box-shadow: 0 12px 32px rgba(0, 0, 0, 0.15);
+        border: 1px solid #e4e4e7;
+        cursor: default;
+      }
+
+      .pill-content {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        width: 100%;
+        height: 100%;
+        font-size: 14px;
+        font-weight: 600;
+        white-space: nowrap;
+        transition:
+          opacity 0.2s ease,
+          transform 0.2s ease;
+        opacity: 1;
+        transform: scale(1);
+      }
+      .morphing-controller[data-status="main-controller"] .pill-content {
+        opacity: 0;
+        transform: scale(0.8);
+        pointer-events: none;
+        height: 0;
+        overflow: hidden;
+      }
+
+      .panel-content {
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+        opacity: 0;
+        transform: scale(0.95);
+        transition:
+          opacity 0.3s ease,
+          transform 0.3s ease;
+        pointer-events: none;
+        height: 0;
+        overflow: hidden;
+      }
+      .morphing-controller[data-status="main-controller"] .panel-content {
+        opacity: 1;
+        transform: scale(1);
+        pointer-events: auto;
+        height: 100%;
+      }
+
+      .editor-scroll {
+        flex: 1;
+        overflow-y: auto;
+        padding-right: 4px;
+      }
+      .editor-scroll::-webkit-scrollbar {
+        width: 5px;
+      }
+      .editor-scroll::-webkit-scrollbar-thumb {
+        background: #e4e4e7;
+        border-radius: 10px;
+      }
+
+      .fc-header {
+        font-size: 14px;
+        font-weight: 700;
+        margin: 0 0 14px 0;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        color: #09090b;
+        flex-shrink: 0;
+      }
+      .fc-close-btn {
+        background: none;
+        border: none;
+        color: #a1a1aa;
+        font-size: 16px;
+        cursor: pointer;
+        margin-left: auto;
+        padding: 4px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+        transition: all 0.2s;
+      }
+      .fc-close-btn:hover {
+        background: #f4f4f5;
+        color: #18181b;
+      }
+      .control-row {
+        margin-bottom: 16px;
+      }
+      .control-label {
+        display: block;
+        font-size: 12px;
+        font-weight: 600;
+        margin-bottom: 8px;
+        color: #09090b;
+      }
+      .glider-container {
+        display: flex;
+        background: #f4f4f5;
+        border-radius: 8px;
+        padding: 4px;
+        gap: 4px;
+      }
+      .glider-option {
+        flex: 1;
+        text-align: center;
+        padding: 6px;
+        font-size: 11px;
+        cursor: pointer;
+        border-radius: 6px;
+        color: #71717a;
+        transition: all 0.2s;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 500;
+      }
+      .glider-option.active {
+        background: #ffffff;
+        color: #09090b;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        font-weight: 700;
+      }
+      .control-label-wrap {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-size: 12px;
+        font-weight: 600;
+        margin-bottom: 8px;
+        color: #09090b;
+      }
+      .control-value {
+        color: #71717a;
+        font-weight: 400;
+      }
+      .range-input {
+        width: 100%;
+        accent-color: #09090b;
+      }
+      .custom-input {
+        width: 100%;
+        padding: 6px 8px;
+        border-radius: 6px;
+        border: 1px solid #d4d4d8;
+        font-family: sans-serif;
+        font-size: 12px;
+        box-sizing: border-box;
+        background: #fff;
+      }
+      .checkbox-wrap {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 8px;
+      }
+      .divider {
+        height: 1px;
+        background: #e4e4e7;
+        margin: 14px 0;
+      }
+
+      /* --- MOCK BORDER (::before) --- */
+      .avatar-wrap {
+        --mock-border-scale: 1.05;
+        --mock-border-bg: #ffffff;
+      }
+      .avatar-wrap::before {
+        content: "";
+
+        width: var(--wh, 100px);
+        height: var(--wh, 100px);
+
+        display: block;
+        position: absolute;
+        background: var(--mock-border-bg);
+        border-radius: 1000px;
+        transform: scale(var(--mock-border-scale));
+        z-index: 0;
+        transition: transform 0.2s ease;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Contenedor Principal (Storage Node y Master Bind) -->
+    <div data-master-bind="true"></div>
+    <div
+      class="profile-card preset-classic cover-style-full status-storage"
+      id="mainCard"
+      data-general-status="skel-loading"
+    >
+      <!-- Portada (Añadimos ID coverWrap para el Factory) -->
+      <div class="cover-wrap" id="coverWrap">
+        <div class="cover-skel"></div>
+        <img
+          class="cover-photo skeleton-target"
+          id="profileCover"
+          data-bind="user.umCoverUrl"
+          data-bind-type="src"
+          alt="Portada"
+        />
+      </div>
+
+      <div class="profile-row" id="profileContent">
+        <div class="avatar-wrap" id="avatarContainer">
+          <div class="avatar-skel avatar-skel--circle"></div>
+          <img
+            class="avatar skeleton-target"
+            id="profileImg"
+            style="height: var(--wh); width: var(--wh)"
+            data-bind="user.avatar.url"
+            data-bind-type="src"
+            alt="Foto de perfil"
+            onerror="
+              this.onerror = null;
+              this.src =
+                'data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 24 24\' width=\'100\' height=\'100\'><circle cx=\'12\' cy=\'8\' r=\'4\' fill=\'%23ccc\'/><path d=\'M12 14c-6.1 0-8 4-8 4v2h16v-2s-1.9-4-8-4z\' fill=\'%23ccc\'/></svg>';
+            "
+          />
+        </div>
+
+        <div class="lin__identity-skel">
+          <div class="lin__skel" style="height: 22px; width: 140px"></div>
+          <div class="lin__skel" style="height: 13px; width: 90px"></div>
+        </div>
+
+        <div class="lin__identity">
+          <h2
+            style="margin: 0; font-size: 22px"
+            id="profileName"
+            data-bind="user.firstName"
+            data-bind-type="text"
+          ></h2>
+          <p
+            style="margin: 4px 0 0 0; font-size: 13px; color: #666"
+            id="profileRole"
+            data-bind="user.role"
+            data-bind-type="text"
+          ></p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Morphing Controller -->
+    <div
+      class="morphing-controller"
+      id="interactiveController"
+      data-status="pill"
+      onclick="handleControllerClick(event)"
+    >
+      <div class="pill-content"><span>✏️</span> Editar Perfil</div>
+
+      <div class="panel-content">
+        <div class="fc-header">
+          <span>🖼️ Medios (Icono e Imagen)</span>
+          <button class="fc-close-btn" onclick="toggleController(event)">
+            ✕
+          </button>
+        </div>
+
+        <div class="editor-scroll" id="editorScroll"></div>
+      </div>
+    </div>
+
+    <script>
+      // ==========================================
+      // klef-profile-controller.js
+      // Arquitectura declarativa — Klef Agency
+      // ==========================================
+
+      // ==========================================
+      // 1. CONTROL SCHEMA — único lugar de verdad
+      //    Agregar un control = un objeto en este array.
+      //    El motor no necesita ningún cambio.
+      // ==========================================
+      const CONTROLS = [
+        // --- Grupo: avatar ---
+        {
+          id: "ctrl-size",
+          group: "avatar",
+          label: "Tamaño Avatar",
+          type: "range",
+          targetId: "profileContent",
+          unit: "px",
+          min: 40,
+          max: 160,
+          initial: 100,
+          onChange(val, target) {
+            target.setAttribute("style", `--wh: ${val}px;`);
+            const skel = document.querySelector(".avatar-skel--circle");
+            if (skel) {
+              skel.style.width = val + "px";
+              skel.style.height = val + "px";
+            }
+          },
+        },
+
+        {
+          id: "ctrl-margin",
+          group: "avatar",
+          label: "Margen Avatar",
+          type: "range",
+          targetId: "avatarContainer",
+          unit: "px",
+          min: 0,
+          max: 40,
+          initial: 8,
+          onChange(val, target) {
+            const freeOption = document.querySelector(
+              '#presetGlider .glider-option[data-val="free"]',
+            );
+            const horizOption = document.querySelector(
+              '#presetGlider .glider-option[data-val="preset-horizontal"]',
+            );
+            const isPreset = freeOption
+              ? !freeOption.classList.contains("active")
+              : false;
+            const isHoriz = horizOption
+              ? horizOption.classList.contains("active")
+              : false;
+            target.style.margin =
+              isPreset && !isHoriz
+                ? `-50px ${val}px ${val}px ${val}px`
+                : val + "px";
+          },
+        },
+
+        {
+          id: "ctrl-padding",
+          group: "avatar",
+          label: "Padding Avatar",
+          type: "range",
+          targetId: "avatarContainer",
+          unit: "px",
+          min: 0,
+          max: 24,
+          initial: 0,
+          onChange(val, target) {
+            target.style.padding = val + "px";
+            target.style.boxSizing = "border-box";
+          },
+        },
+
+        {
+          id: "ctrl-mock-border-scale",
+          group: "avatar",
+          label: "Mock Border (escala)",
+          type: "range",
+          targetId: "avatarContainer",
+          unit: "",
+          min: 1,
+          max: 1.2,
+          step: 0.01,
+          initial: 1.05,
+          onChange(val, target) {
+            target.style.setProperty("--mock-border-scale", val);
+          },
+        },
+
+        // --- Grupo: cover-inset (solo visible cuando cover-style === 'inset') ---
+        {
+          id: "ctrl-cover-width",
+          group: "cover-inset",
+          label: "Ancho Portada",
+          type: "range",
+          targetId: "coverWrap",
+          cssProp: "width",
+          unit: "%",
+          min: 50,
+          max: 100,
+          initial: 90,
+        },
+
+        {
+          id: "ctrl-cover-height",
+          group: "cover-inset",
+          label: "Alto Portada",
+          type: "range",
+          targetId: "coverWrap",
+          cssProp: "height",
+          unit: "px",
+          min: 60,
+          max: 250,
+          initial: 120,
+        },
+
+        {
+          id: "ctrl-cover-radius",
+          group: "cover-inset",
+          label: "Redondeo Esquinas",
+          type: "range",
+          targetId: "coverWrap",
+          cssProp: "borderRadius",
+          unit: "px",
+          min: 0,
+          max: 40,
+          initial: 12,
+        },
+
+        {
+          id: "ctrl-cover-fit",
+          group: "cover-inset",
+          label: "Ajuste de imagen",
+          type: "select",
+          targetId: "profileCover",
+          cssProp: "objectFit",
+          initial: "cover",
+          options: [
+            { label: "Recortar (Cover)", value: "cover" },
+            { label: "Contener (Contain)", value: "contain" },
+            { label: "Rellenar (Fill)", value: "fill" },
+          ],
+        },
+
+        {
+          id: "ctrl-cover-shadow",
+          group: "cover-inset",
+          label: "Sombra de Portada",
+          type: "checkbox",
+          targetId: "coverWrap",
+          cssProp: "boxShadow",
+          trueValue: "0 8px 24px rgba(0,0,0,0.15)",
+          falseValue: "none",
+          initial: false,
+        },
+      ];
+
+      // ==========================================
+      // 2. CONTROL FACTORY — motor puro
+      //    No conoce ningún control por nombre.
+      //    Solo sabe leer la configuración y actuar.
+      // ==========================================
+      const ControlFactory = {
+        /**
+         * Construye todos los controles de un grupo e inyecta en el contenedor.
+         * @param {string}      group     — nombre del grupo definido en CONTROLS
+         * @param {HTMLElement} container — elemento donde se inyectarán los inputs
+         */
+        buildGroup(group, container) {
+          if (!container) return;
+          CONTROLS.filter((cfg) => cfg.group === group).forEach((cfg) => {
+            const el = this._build(cfg);
+            if (el) container.appendChild(el);
+          });
+        },
+
+        /** Construye y vincula un control individual */
+        _build(cfg) {
+          const target = document.getElementById(cfg.targetId);
+          if (!target) return null;
+
+          const wrap = document.createElement("div");
+          wrap.className = "control-row";
+
+          if (cfg.type === "checkbox") {
+            wrap.innerHTML = `
+        <div class="checkbox-wrap">
+          <span class="control-label" style="margin:0">${cfg.label}</span>
+          ${this._renderInput(cfg)}
+        </div>`;
+          } else {
+            const unit = cfg.unit || "";
+            wrap.innerHTML = `
+        <div class="control-label-wrap">
+          <span class="control-label">${cfg.label}</span>
+          <span class="control-value" id="${cfg.id}-val">
+            ${cfg.type !== "select" ? cfg.initial + unit : ""}
+          </span>
+        </div>
+        ${this._renderInput(cfg)}`;
+          }
+
+          const input = wrap.querySelector("input, select");
+          input.addEventListener("input", (e) => {
+            const raw =
+              cfg.type === "checkbox" ? e.target.checked : e.target.value;
+            this._applyCSS(cfg, target, raw);
+            this._updateDisplay(wrap, cfg, raw);
+            if (cfg.onChange) cfg.onChange(raw, target);
+          });
+
+          return wrap;
+        },
+
+        /** Aplica la propiedad CSS al target si está configurada */
+        _applyCSS(cfg, target, val) {
+          if (!cfg.cssProp) return;
+          if (cfg.type === "checkbox") {
+            target.style[cfg.cssProp] = val
+              ? (cfg.trueValue ?? "")
+              : (cfg.falseValue ?? "none");
+          } else {
+            target.style[cfg.cssProp] = val + (cfg.unit || "");
+          }
+        },
+
+        /** Actualiza el span de valor visible junto al label */
+        _updateDisplay(wrap, cfg, val) {
+          if (cfg.type === "checkbox" || cfg.type === "select") return;
+          const display = wrap.querySelector(`#${cfg.id}-val`);
+          if (display) display.textContent = val + (cfg.unit || "");
+        },
+
+        /** Genera el HTML del input según el tipo */
+        _renderInput(cfg) {
+          const id = `${cfg.id}-input`;
+
+          if (cfg.type === "select") {
+            const opts = (cfg.options || [])
+              .map(
+                (o) =>
+                  `<option value="${o.value}"${o.value === cfg.initial ? " selected" : ""}>${o.label}</option>`,
+              )
+              .join("");
+            return `<select id="${id}" class="custom-input">${opts}</select>`;
+          }
+
+          if (cfg.type === "checkbox") {
+            return `<input type="checkbox" id="${id}"${cfg.initial ? " checked" : ""}
+        style="accent-color:#09090b;width:16px;height:16px;cursor:pointer">`;
+          }
+
+          if (cfg.type === "range") {
+            return `<input type="range" class="range-input" id="${id}"
+        min="${cfg.min ?? 0}"
+        max="${cfg.max ?? 100}"
+        step="${cfg.step ?? 1}"
+        value="${cfg.initial}">`;
+          }
+
+          // Fallback: text, number, email, tel, etc.
+          return `<input type="${cfg.type}" id="${id}" class="custom-input"
+      placeholder="${cfg.placeholder || ""}"
+      value="${cfg.initial || ""}">`;
+        },
+      };
+
+      // ==========================================
+      // 3. CONDITIONAL PANEL MANAGER
+      //    Decide qué grupos se renderizan y cuándo.
+      //    Ya no crea controles — delega en ControlFactory.
+      // ==========================================
+      const ConditionalPanelManager = {
+        // ---- helpers de construcción ----
+
+        /** Crea un <div class="control-row"> con label + glider y lo devuelve */
+        _buildGlider(id, label, options, initialVal) {
+          const row = document.createElement("div");
+          row.className = "control-row";
+
+          const lbl = document.createElement("span");
+          lbl.className = "control-label";
+          lbl.textContent = label;
+          row.appendChild(lbl);
+
+          const glider = document.createElement("div");
+          glider.className = "glider-container";
+          glider.id = id;
+
+          options.forEach(({ label: optLabel, val, handler }) => {
+            const opt = document.createElement("div");
+            opt.className =
+              "glider-option" + (val === initialVal ? " active" : "");
+            opt.dataset.val = val;
+            opt.textContent = optLabel;
+            opt.addEventListener("click", () => handler(val));
+            glider.appendChild(opt);
+          });
+
+          row.appendChild(glider);
+          return row;
+        },
+
+        /** Crea un <div class="divider"> */
+        _divider() {
+          const d = document.createElement("div");
+          d.className = "divider";
+          return d;
+        },
+
+        /** Crea un contenedor de grupo con label */
+        _buildGroup(id, label) {
+          const wrap = document.createElement("div");
+          wrap.id = id;
+          const lbl = document.createElement("span");
+          lbl.className = "control-label";
+          lbl.textContent = label;
+          wrap.appendChild(lbl);
+          return wrap;
+        },
+
+        // ---- init principal ----
+        init() {
+          const controller = document.getElementById("interactiveController");
+          const card = document.getElementById("mainCard");
+          const scroll = document.getElementById("editorScroll");
+          if (!controller || !card || !scroll) return;
+
+          const isMasterActive = !!document.querySelector(
+            '[data-master-bind="true"]',
+          );
+          if (!isMasterActive) {
+            controller.style.display = "none";
+            return;
+          }
+          controller.style.display = "block";
+
+          const hasAvatar = !!document.querySelector(
+            '[data-bind="user.avatar.url"]',
+          );
+          const hasCover = !!document.querySelector(
+            '[data-bind="user.umCoverUrl"]',
+          );
+
+          // --- Sección: Preset de layout ---
+          scroll.appendChild(
+            this._buildGlider(
+              "presetGlider",
+              "Preset de layout",
+              [
+                { label: "Clásico", val: "preset-classic", handler: setPreset },
+                {
+                  label: "Centrado",
+                  val: "preset-centered",
+                  handler: setPreset,
+                },
+                {
+                  label: "Horizontal",
+                  val: "preset-horizontal",
+                  handler: setPreset,
+                },
+                { label: "Libre", val: "free", handler: setPreset },
+              ],
+              "preset-classic",
+            ),
+          );
+
+          // --- Sección: Posición libre ---
+          const posRow = this._buildGlider(
+            "posGlider",
+            "Posición",
+            [
+              { label: "Izq", val: "left", handler: setPos },
+              { label: "Der", val: "right", handler: setPos },
+              { label: "Arriba", val: "top", handler: setPos },
+            ],
+            "left",
+          );
+          posRow.querySelector("#posGlider").style.opacity = "0.5";
+          posRow.querySelector("#posGlider").style.pointerEvents = "none";
+          scroll.appendChild(posRow);
+
+          // --- Grupo: Avatar ---
+          if (hasAvatar) {
+            scroll.appendChild(this._divider());
+            const avatarGroup = this._buildGroup("ctrlGroupAvatar", "Avatar");
+            ControlFactory.buildGroup("avatar", avatarGroup);
+            scroll.appendChild(avatarGroup);
+          }
+
+          // --- Grupo: Portada ---
+          if (hasCover) {
+            scroll.appendChild(this._divider());
+            const coverGroup = this._buildGroup("ctrlGroupCover", "Portada");
+
+            // Glider de estilo de portada
+            coverGroup.appendChild(
+              this._buildGlider(
+                "coverGlider",
+                "Estilo de portada",
+                [
+                  { label: "Sin portada", val: "none", handler: setCoverStyle },
+                  { label: "Completa", val: "full", handler: setCoverStyle },
+                  { label: "Encuadrada", val: "inset", handler: setCoverStyle },
+                ],
+                "full",
+              ),
+            );
+
+            // Controles inset (ocultos hasta seleccionar "Encuadrada")
+            const insetContainer = document.createElement("div");
+            insetContainer.id = "insetControlsContainer";
+            insetContainer.style.display = "none";
+            insetContainer.appendChild(this._divider());
+            ControlFactory.buildGroup("cover-inset", insetContainer);
+            coverGroup.appendChild(insetContainer);
+
+            scroll.appendChild(coverGroup);
+          } else {
+            // Sin portada → forzar cover-style-none
+            card.classList.remove("cover-style-full", "cover-style-inset");
+            card.classList.add("cover-style-none");
+          }
+        },
+      };
+
+      // ==========================================
+      // 4. LÓGICA DE UI E INTERACCIÓN
+      // ==========================================
+      function handleControllerClick() {
+        const controller = document.getElementById("interactiveController");
+        if (controller && controller.getAttribute("data-status") === "pill") {
+          controller.setAttribute("data-status", "main-controller");
+        }
+      }
+
+      function toggleController(event) {
+        if (event) event.stopPropagation();
+        const controller = document.getElementById("interactiveController");
+        if (controller) controller.setAttribute("data-status", "pill");
+      }
+
+      function setPreset(presetName) {
+        const card = document.getElementById("mainCard");
+        const content = document.getElementById("profileContent");
+        if (!card || !content) return;
+
+        document
+          .querySelectorAll("#presetGlider .glider-option")
+          .forEach((el) => el.classList.remove("active"));
+        const activeOption = document.querySelector(
+          `#presetGlider .glider-option[data-val="${presetName}"]`,
+        );
+        if (activeOption) activeOption.classList.add("active");
+
+        content.style.flexDirection = "";
+        content.style.textAlign = "";
+        card.classList.remove(
+          "preset-classic",
+          "preset-centered",
+          "preset-horizontal",
+        );
+
+        const posGlider = document.getElementById("posGlider");
+        if (presetName !== "free") {
+          card.classList.add(presetName);
+          if (posGlider) {
+            posGlider.style.opacity = "0.5";
+            posGlider.style.pointerEvents = "none";
+          }
+        } else {
+          if (posGlider) {
+            posGlider.style.opacity = "1";
+            posGlider.style.pointerEvents = "auto";
+          }
+          setPos("left");
+        }
+      }
+
+      function setPos(direction) {
+        const freeOption = document.querySelector(
+          '#presetGlider .glider-option[data-val="free"]',
+        );
+        if (!freeOption || !freeOption.classList.contains("active")) return;
+
+        document
+          .querySelectorAll("#posGlider .glider-option")
+          .forEach((el) => el.classList.remove("active"));
+        const activeOption = document.querySelector(
+          `#posGlider .glider-option[data-val="${direction}"]`,
+        );
+        if (activeOption) activeOption.classList.add("active");
+
+        const content = document.getElementById("profileContent");
+        if (!content) return;
+        content.style.flexDirection =
+          direction === "left"
+            ? "row"
+            : direction === "right"
+              ? "row-reverse"
+              : "column";
+        content.style.textAlign = direction === "top" ? "center" : "left";
+      }
+
+      function setCoverStyle(styleName) {
+        const card = document.getElementById("mainCard");
+        if (!card) return;
+
+        document
+          .querySelectorAll("#coverGlider .glider-option")
+          .forEach((el) => el.classList.remove("active"));
+        const activeOption = document.querySelector(
+          `#coverGlider .glider-option[data-val="${styleName}"]`,
+        );
+        if (activeOption) activeOption.classList.add("active");
+
+        card.classList.remove(
+          "cover-style-none",
+          "cover-style-full",
+          "cover-style-inset",
+        );
+        card.classList.add(`cover-style-${styleName}`);
+
+        const insetControls = document.getElementById("insetControlsContainer");
+        const coverWrap = document.getElementById("coverWrap");
+
+        if (insetControls) {
+          if (styleName === "inset") {
+            insetControls.style.display = "block";
+          } else {
+            insetControls.style.display = "none";
+            if (coverWrap) {
+              coverWrap.style.width = "";
+              coverWrap.style.height = "";
+              coverWrap.style.borderRadius = "";
+            }
+          }
+        }
+      }
+
+      // ==========================================
+      // 5. MOTOR DECLARATIVO DE HIDRATACIÓN (SOLID)
+      // ==========================================
+      const BindingStrategies = {
+        text: (el, value) => {
+          el.textContent = value;
+        },
+        innerhtml: (el, value) => {
+          el.innerHTML = value;
+        },
+        src: (el, value) => {
+          if (value) el.setAttribute("src", value);
+        },
+        href: (el, value) => {
+          if (value) el.setAttribute("href", value);
+        },
+        alt: (el, value) => {
+          if (value) el.setAttribute("alt", value);
+        },
+        title: (el, value) => {
+          if (value) el.setAttribute("title", value);
+        },
+        value: (el, value) => {
+          if (value) el.setAttribute("value", value);
+        },
+        class: (el, value) => {
+          if (value) el.classList.add(value);
+        },
+        "css-var": (el, value, config) => {
+          if (config.cssVar && value)
+            el.style.setProperty(config.cssVar, value);
+        },
+        "bg-image": (el, value) => {
+          if (value) el.style.backgroundImage = `url('${value}')`;
+        },
+      };
+
+      const DataUtils = {
+        getNestedValue(obj, path) {
+          if (!path || !obj) return undefined;
+          return path.split(".").reduce((acc, part) => acc && acc[part], obj);
+        },
+        formatValue(value, format) {
+          if (!format || value === null || value === undefined || value === "")
+            return value;
+          return format.replace("{value}", value);
+        },
+      };
+
+      class HydrationEngine {
+        constructor(strategies) {
+          this.strategies = strategies;
+        }
+
+        hydrate(rootElement, data) {
+          rootElement.querySelectorAll("[data-bind]").forEach((el) => {
+            const config = this._extractConfig(el);
+            let rawValue = DataUtils.getNestedValue(data, config.path);
+            if (rawValue === null || rawValue === undefined) rawValue = "";
+            const finalValue = DataUtils.formatValue(rawValue, config.format);
+            const strategy = this.strategies[config.bindType];
+            if (strategy) strategy(el, finalValue, config);
+            this._cleanupSkeleton(el);
+          });
+        }
+
+        _extractConfig(el) {
+          return {
+            path: el.getAttribute("data-bind"),
+            bindType: (
+              el.getAttribute("data-bind-type") || "text"
+            ).toLowerCase(),
+            cssVar: el.getAttribute("data-bind-var"),
+            format: el.getAttribute("data-bind-format"),
+          };
+        }
+
+        _cleanupSkeleton(el) {
+          el.classList.remove("skeleton-target");
+          // Solo limpia el width si fue puesto por el skeleton placeholder,
+          // no inyecta --wh en elementos que no son el avatar.
+          if (!el.dataset.bindType || el.dataset.bindType !== "src") {
+            el.style.width = "";
+          }
+        }
+      }
+
+      // ==========================================
+      // 6. USER SERVICE
+      // ==========================================
+      class UserService {
+        constructor(apiUrl) {
+          this.apiUrl = apiUrl;
+        }
+
+        async getUserData() {
+          try {
+            const response = await fetch(this.apiUrl);
+            if (!response.ok) throw new Error("HTTP " + response.status);
+            const data = await response.json();
+            return data?.data || {};
+          } catch {
+            return this._getMockData();
+          }
+        }
+
+        async _getMockData() {
+          await new Promise((resolve) => setTimeout(resolve, 2000));
+          return {
+            user: {
+              firstName: "Alex Developer",
+              role: "Software Engineer",
+              description: "Especialista en interfaces declarativas.",
+              avatar: {
+                url: "https://app.newfacecards.com/nfc/profile-pic/recBOO8H0GO0RZlUU.jpg?timestamp=1723160426&size=1000x1000",
+              },
+              umCoverUrl:
+                "https://my.newfacecards.com/wp-content/uploads/ultimatemember/1/cover_photo.jpg",
+            },
+          };
+        }
+      }
+
+      // ==========================================
+      // 7. APP CONTROLLER — orquesta todo
+      // ==========================================
+      class AppController {
+        constructor() {
+          this.storageEl = document.querySelector(".status-storage");
+          this.userService = new UserService(
+            "https://my.newfacecards.com/nfc/front/get_user.php",
+          );
+          this.hydrator = new HydrationEngine(BindingStrategies);
+        }
+
+        setLoadingState(isLoading) {
+          if (this.storageEl) {
+            this.storageEl.setAttribute(
+              "data-general-status",
+              isLoading ? "skel-loading" : "loaded",
+            );
+          }
+        }
+
+        async init() {
+          this.setLoadingState(true);
+          const data = await this.userService.getUserData();
+          this.hydrator.hydrate(document, data);
+          this.setLoadingState(false);
+          ConditionalPanelManager.init();
+        }
+      }
+
+      // ==========================================
+      // 8. INICIALIZACIÓN
+      // ==========================================
+      document.addEventListener("DOMContentLoaded", () => {
+        const app = new AppController();
+        app.init();
+      });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,673 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Control Sync Sandbox</title>
+    <style>
+      :root {
+        --bg: #f4f4f5;
+        --panel: #ffffff;
+        --ink: #09090b;
+        --muted: #71717a;
+        --line: #e4e4e7;
+        --accent: #0f876c;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        min-height: 100dvh;
+        background: var(--bg);
+        color: var(--ink);
+        font-family:
+          Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
+          "Segoe UI", sans-serif;
+      }
+
+      .app {
+        display: grid;
+        grid-template-rows: auto 1fr;
+        min-height: 100dvh;
+      }
+
+      .top {
+        padding: 20px clamp(16px, 4vw, 32px);
+        background: var(--panel);
+        border-bottom: 1px solid var(--line);
+      }
+
+      h1 {
+        margin: 0 0 8px;
+        font-size: clamp(22px, 3vw, 32px);
+        letter-spacing: 0;
+      }
+
+      .intro {
+        max-width: 980px;
+        margin: 0;
+        color: var(--muted);
+        line-height: 1.5;
+      }
+
+      .grid {
+        display: grid;
+        grid-template-columns: minmax(320px, 0.95fr) minmax(360px, 1.05fr);
+        gap: 16px;
+        padding: 16px;
+        min-height: 0;
+      }
+
+      .panel {
+        min-height: 0;
+        background: var(--panel);
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        overflow: hidden;
+      }
+
+      .editors {
+        display: grid;
+        grid-template-rows: repeat(3, minmax(180px, 1fr));
+      }
+
+      .field {
+        display: grid;
+        grid-template-rows: auto 1fr;
+        min-height: 0;
+        border-bottom: 1px solid var(--line);
+      }
+
+      .field:last-child {
+        border-bottom: 0;
+      }
+
+      .field__head {
+        display: flex;
+        justify-content: space-between;
+        gap: 12px;
+        padding: 12px 14px;
+        border-bottom: 1px solid var(--line);
+      }
+
+      .field__title {
+        font-size: 13px;
+        font-weight: 700;
+      }
+
+      .field__hint {
+        color: var(--muted);
+        font-size: 12px;
+      }
+
+      textarea {
+        width: 100%;
+        min-height: 0;
+        padding: 14px;
+        border: 0;
+        resize: none;
+        outline: none;
+        font: 12px/1.5 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+        color: #18181b;
+        background: #fbfbfc;
+      }
+
+      .stage {
+        display: grid;
+        grid-template-rows: auto minmax(260px, 1fr) minmax(160px, 0.55fr);
+        min-height: 0;
+      }
+
+      .toolbar {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        padding: 12px 14px;
+        border-bottom: 1px solid var(--line);
+      }
+
+      .examples {
+        display: flex;
+        gap: 6px;
+        flex-wrap: wrap;
+      }
+
+      .btn {
+        border: 0;
+        border-radius: 8px;
+        background: var(--accent);
+        color: #fff;
+        font-size: 13px;
+        font-weight: 700;
+        padding: 9px 14px;
+        cursor: pointer;
+      }
+
+      .btn[data-variant="ghost"] {
+        background: #f4f4f5;
+        color: #18181b;
+        border: 1px solid #e4e4e7;
+      }
+
+      .btn[data-status="active"] {
+        background: #18181b;
+        color: #fff;
+      }
+
+      .status {
+        color: var(--muted);
+        font-size: 12px;
+      }
+
+      .preview {
+        min-height: 0;
+        padding: 24px;
+        overflow: auto;
+        background:
+          linear-gradient(#ffffffcc, #ffffffcc),
+          radial-gradient(circle at top left, #0f876c22, transparent 32%),
+          radial-gradient(circle at bottom right, #18181b12, transparent 34%);
+      }
+
+      .out {
+        display: grid;
+        grid-template-rows: auto 1fr;
+        min-height: 0;
+        border-top: 1px solid var(--line);
+      }
+
+      .out__title {
+        padding: 10px 14px;
+        color: var(--muted);
+        font-size: 12px;
+        font-weight: 700;
+        border-bottom: 1px solid var(--line);
+      }
+
+      pre {
+        margin: 0;
+        padding: 14px;
+        overflow: auto;
+        background: #18181b;
+        color: #fafafa;
+        font: 12px/1.5 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      }
+
+      @media (max-width: 900px) {
+        .grid {
+          grid-template-columns: 1fr;
+        }
+
+        .editors {
+          grid-template-rows: repeat(3, 220px);
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main class="app">
+      <header class="top">
+        <h1>Control Sync Sandbox</h1>
+        <p class="intro">
+          Este sandbox separa 3 capas: input custom, SSOT y diseño. Escribe tu
+          propio HTML/CSS, define que valores emite y a que path del estado
+          escribe. El binder aplica ese valor al target visual sin que el input
+          conozca CSS ni storage.
+        </p>
+      </header>
+
+      <section class="grid">
+        <div class="panel editors">
+          <label class="field">
+            <span class="field__head">
+              <span class="field__title">1. HTML + CSS custom</span>
+              <span class="field__hint">Tu UI de input y target visual</span>
+            </span>
+            <textarea id="htmlInput" spellcheck="false"></textarea>
+          </label>
+
+          <label class="field">
+            <span class="field__head">
+              <span class="field__title">2. Control definition</span>
+              <span class="field__hint">Adapter + design binder</span>
+            </span>
+            <textarea id="defInput" spellcheck="false"></textarea>
+          </label>
+
+          <label class="field">
+            <span class="field__head">
+              <span class="field__title">3. SSOT JSON</span>
+              <span class="field__hint">Estado persistible</span>
+            </span>
+            <textarea id="stateInput" spellcheck="false"></textarea>
+          </label>
+        </div>
+
+        <div class="panel stage">
+          <div class="toolbar">
+            <div class="examples">
+              <button class="btn" data-variant="ghost" data-sample="sizeTabs" type="button">
+                Ejemplo 1
+              </button>
+              <button class="btn" data-variant="ghost" data-sample="radiusShapes" type="button">
+                Ejemplo 2
+              </button>
+              <button class="btn" data-variant="ghost" data-sample="rangeSize" type="button">
+                Ejemplo 3
+              </button>
+            </div>
+            <button class="btn" id="runBtn" type="button">Aplicar sandbox</button>
+            <span class="status" id="statusText">Listo</span>
+          </div>
+          <div class="preview" id="preview"></div>
+          <div class="out">
+            <div class="out__title">Estado resultante</div>
+            <pre id="stateOut"></pre>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <script>
+      const samples = {
+        sizeTabs: {
+          label: "Ejemplo 1",
+          html: `<style>
+.demo {
+  --avatar-size: 100px;
+  --avatar-radius: 50px;
+  display: grid;
+  gap: 18px;
+  justify-items: center;
+}
+.avatar {
+  width: var(--avatar-size);
+  height: var(--avatar-size);
+  border-radius: var(--avatar-radius);
+  background: linear-gradient(135deg, #0f876c, #18181b);
+  transition: width .25s ease, height .25s ease, border-radius .25s ease;
+}
+.tabs {
+  display: inline-flex;
+  gap: 6px;
+  padding: 4px;
+  border: 1px solid #e4e4e7;
+  border-radius: 8px;
+  background: #fff;
+}
+.tabs button {
+  border: 0;
+  border-radius: 6px;
+  padding: 8px 12px;
+  background: transparent;
+  cursor: pointer;
+}
+.tabs button[data-status="active"] {
+  background: #0f876c;
+  color: white;
+}
+</style>
+
+<div class="demo">
+  <div class="avatar" id="avatarTarget"></div>
+  <div class="tabs" id="avatarSizeTabs">
+    <button data-value="sm">S</button>
+    <button data-value="md">M</button>
+    <button data-value="lg">L</button>
+  </div>
+</div>`,
+          def: `{
+  "id": "avatar.size",
+  "statePath": "controls.avatar.size",
+  "root": "#avatarSizeTabs",
+  "target": "#avatarTarget",
+  "cssVar": "--avatar-size",
+  "unit": "px",
+  "valueAttr": "value",
+  "activeStatus": "active",
+  "inactiveStatus": "unset",
+  "values": {
+    "sm": 64,
+    "md": 100,
+    "lg": 140
+  }
+}`,
+          state: `{
+  "controls": {
+    "avatar": {
+      "size": 100
+    }
+  }
+}`,
+        },
+        radiusShapes: {
+          label: "Ejemplo 2",
+          html: `<style>
+.demo {
+  --avatar-size: 118px;
+  --avatar-radius: 24px;
+  display: grid;
+  gap: 18px;
+  justify-items: center;
+}
+.avatar {
+  width: var(--avatar-size);
+  height: var(--avatar-size);
+  border-radius: var(--avatar-radius);
+  background:
+    linear-gradient(135deg, #ffffff33, transparent),
+    #18181b;
+  box-shadow: inset 0 0 0 8px #0f876c;
+  transition: border-radius .25s ease, transform .25s ease;
+}
+.shape-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 92px);
+  gap: 8px;
+}
+.shape-grid button {
+  display: grid;
+  place-items: center;
+  gap: 6px;
+  min-height: 72px;
+  border: 1px solid #e4e4e7;
+  border-radius: 8px;
+  background: #fff;
+  cursor: pointer;
+  font: inherit;
+}
+.shape-grid i {
+  width: 28px;
+  height: 28px;
+  background: #0f876c;
+}
+.shape-grid button[data-value="square"] i {
+  border-radius: 0;
+}
+.shape-grid button[data-value="soft"] i {
+  border-radius: 8px;
+}
+.shape-grid button[data-value="circle"] i {
+  border-radius: 999px;
+}
+.shape-grid button[data-status="active"] {
+  border-color: #0f876c;
+  box-shadow: 0 0 0 3px #0f876c22;
+}
+</style>
+
+<div class="demo">
+  <div class="avatar" id="avatarTarget"></div>
+  <div class="shape-grid" id="avatarShapePicker">
+    <button data-value="square"><i></i><span>Square</span></button>
+    <button data-value="soft"><i></i><span>Soft</span></button>
+    <button data-value="circle"><i></i><span>Circle</span></button>
+  </div>
+</div>`,
+          def: `{
+  "id": "avatar.radius",
+  "statePath": "controls.avatar.radius",
+  "root": "#avatarShapePicker",
+  "target": "#avatarTarget",
+  "cssVar": "--avatar-radius",
+  "unit": "px",
+  "valueAttr": "value",
+  "activeStatus": "active",
+  "inactiveStatus": "unset",
+  "values": {
+    "square": 0,
+    "soft": 24,
+    "circle": 59
+  }
+}`,
+          state: `{
+  "controls": {
+    "avatar": {
+      "radius": 24
+    }
+  }
+}`,
+        },
+        rangeSize: {
+          label: "Ejemplo 3",
+          html: `<style>
+.demo {
+  --avatar-size: 100px;
+  display: grid;
+  gap: 18px;
+  justify-items: center;
+}
+.avatar {
+  width: var(--avatar-size);
+  height: var(--avatar-size);
+  border-radius: 50%;
+  background: linear-gradient(135deg, #0f876c, #18181b);
+  transition: width .25s ease, height .25s ease;
+}
+.range-wrap {
+  display: grid;
+  gap: 6px;
+  width: 260px;
+}
+.range-wrap label {
+  display: flex;
+  justify-content: space-between;
+  font-size: 13px;
+  color: #71717a;
+}
+.range-wrap input[type="range"] {
+  -webkit-appearance: none;
+  width: 100%;
+  height: 6px;
+  border-radius: 3px;
+  background: #e4e4e7;
+  outline: none;
+}
+.range-wrap input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: #0f876c;
+  cursor: pointer;
+  box-shadow: 0 2px 6px #0f876c44;
+}
+</style>
+
+<div class="demo">
+  <div class="avatar" id="avatarTarget"></div>
+  <div class="range-wrap">
+    <label>
+      <span>Tamaño</span>
+      <span id="sizeLabel">100px</span>
+    </label>
+    <input type="range" id="avatarSizeRange" min="40" max="200" value="100">
+  </div>
+</div>`,
+          def: `{
+  "id": "avatar.size",
+  "statePath": "controls.avatar.size",
+  "root": "#avatarSizeRange",
+  "target": "#avatarTarget",
+  "cssVar": "--avatar-size",
+  "unit": "px",
+  "event": "input",
+  "onApply": "#sizeLabel :: textContent :: {value}px"
+}`,
+          state: `{
+  "controls": {
+    "avatar": {
+      "size": 100
+    }
+  }
+}`,
+        },
+      };
+
+      const els = {
+        html: document.getElementById("htmlInput"),
+        def: document.getElementById("defInput"),
+        state: document.getElementById("stateInput"),
+        preview: document.getElementById("preview"),
+        out: document.getElementById("stateOut"),
+        status: document.getElementById("statusText"),
+        run: document.getElementById("runBtn"),
+      };
+
+      function loadSample(name) {
+        const sample = samples[name];
+        if (!sample) return;
+        els.html.value = sample.html;
+        els.def.value = sample.def;
+        els.state.value = sample.state;
+        document.querySelectorAll("[data-sample]").forEach((btn) => {
+          btn.dataset.status = btn.dataset.sample === name ? "active" : "unset";
+        });
+        run();
+      }
+
+      const Sync = {
+        state: {},
+        def: null,
+
+        boot() {
+          els.preview.innerHTML = els.html.value;
+          this.state = JSON.parse(els.state.value);
+          this.def = JSON.parse(els.def.value);
+          this.bind();
+          this.applyFromState();
+          this.renderState();
+          els.status.textContent = "Aplicado";
+        },
+
+        isNativeInput(el) {
+          const tag = el.tagName;
+          return tag === "INPUT" || tag === "SELECT" || tag === "TEXTAREA";
+        },
+
+        bind() {
+          const root = els.preview.querySelector(this.def.root);
+          if (!root) throw new Error("No existe root: " + this.def.root);
+
+          // Native input: read .value directly
+          if (this.isNativeInput(root)) {
+            root.addEventListener(this.def.event || "input", () => {
+              const value = this.coerce(root.value);
+              this.write(this.def.statePath, value);
+              this.apply(value);
+              this.renderState();
+            });
+            return;
+          }
+
+          // Custom widget: delegate via data-* attributes
+          root.addEventListener(this.def.event || "click", (e) => {
+            const item = e.target.closest(`[data-${this.def.valueAttr}]`);
+            if (!item || !root.contains(item)) return;
+            const raw = item.dataset[this.dataKey(this.def.valueAttr)];
+            const value = this.resolve(raw);
+            this.write(this.def.statePath, value);
+            this.apply(value);
+            this.markActive(value);
+            this.renderState();
+          });
+        },
+
+        applyFromState() {
+          const value = this.read(this.def.statePath);
+          if (value === undefined) return;
+          this.apply(value);
+
+          // Sync native input value from state
+          const root = els.preview.querySelector(this.def.root);
+          if (root && this.isNativeInput(root)) {
+            root.value = value;
+          } else {
+            this.markActive(value);
+          }
+        },
+
+        apply(value) {
+          const target = els.preview.querySelector(this.def.target);
+          if (!target) throw new Error("No existe target: " + this.def.target);
+          if (this.def.cssVar) {
+            target.style.setProperty(this.def.cssVar, `${value}${this.def.unit || ""}`);
+          }
+          if (this.def.cssProp) {
+            target.style[this.def.cssProp] = `${value}${this.def.unit || ""}`;
+          }
+          // Optional side-effect: update a label or another element
+          if (this.def.onApply) {
+            const [selector, prop, template] = this.def.onApply.split(" :: ");
+            const el = els.preview.querySelector(selector);
+            if (el) el[prop] = template.replace("{value}", value);
+          }
+        },
+
+        markActive(value) {
+          const root = els.preview.querySelector(this.def.root);
+          root.querySelectorAll(`[data-${this.def.valueAttr}]`).forEach((item) => {
+            const raw = item.dataset[this.dataKey(this.def.valueAttr)];
+            const itemValue = this.resolve(raw);
+            item.dataset.status =
+              String(itemValue) === String(value)
+                ? this.def.activeStatus || "active"
+                : this.def.inactiveStatus || "unset";
+          });
+        },
+
+        coerce(val) {
+          const n = Number(val);
+          return isNaN(n) ? val : n;
+        },
+
+        resolve(raw) {
+          return this.def.values && Object.hasOwn(this.def.values, raw)
+            ? this.def.values[raw]
+            : this.coerce(raw);
+        },
+
+        read(path) {
+          return path.split(".").reduce((acc, key) => acc?.[key], this.state);
+        },
+
+        write(path, value) {
+          const parts = path.split(".");
+          const last = parts.pop();
+          const owner = parts.reduce((acc, key) => {
+            acc[key] = acc[key] || {};
+            return acc[key];
+          }, this.state);
+          owner[last] = value;
+        },
+
+        dataKey(attr) {
+          return attr.replace(/-([a-z])/g, (_, char) => char.toUpperCase());
+        },
+
+        renderState() {
+          els.out.textContent = JSON.stringify(this.state, null, 2);
+          els.state.value = JSON.stringify(this.state, null, 2);
+        },
+      };
+
+      function run() {
+        try {
+          Sync.boot();
+        } catch (err) {
+          els.status.textContent = err.message;
+        }
+      }
+
+      els.run.addEventListener("click", run);
+      document.querySelectorAll("[data-sample]").forEach((btn) => {
+        btn.addEventListener("click", () => loadSample(btn.dataset.sample));
+      });
+      loadSample("sizeTabs");
+    </script>
+  </body>
+</html>
