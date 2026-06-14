@@ -1762,6 +1762,32 @@
         font-weight: 700;
       }
 
+      /* Breadcrumb and panel toggling rules */
+      #sheet-header-left[data-status="custom"] .sheet-title {
+        display: none !important;
+      }
+      #sheet-header-left[data-status="custom"] .breadcrumb {
+        display: inline-flex !important;
+      }
+      #main-settings[data-status="hidden"] {
+        display: none !important;
+      }
+      #main-settings[data-status="active"] {
+        display: block !important;
+      }
+      #custom-settings[data-status="hidden"] {
+        display: none !important;
+      }
+      #custom-settings[data-status="active"] {
+        display: block !important;
+      }
+      #custom-settings [data-status="hidden"] {
+        display: none !important;
+      }
+      #custom-settings [data-status="active"] {
+        display: block !important;
+      }
+
       /* --- PRESET HERO --- */
       .profile-card.preset-hero {
         position: relative;
@@ -2048,8 +2074,9 @@
 
       <!-- Header Dividido en 3 zonas -->
       <header class="sheet-header">
-        <div class="sheet-header-left" id="sheet-header-left">
+        <div class="sheet-header-left" id="sheet-header-left" data-status="ready">
           <h2
+            class="sheet-title"
             style="
               font-size: 1.5rem;
               font-weight: 700;
@@ -2059,6 +2086,11 @@
           >
             Perfil y portada
           </h2>
+          <div class="breadcrumb" style="display: none; align-items: center;">
+            <span class="breadcrumb-back"><i class="ti ti-arrow-left"></i> Profile</span>
+            <span class="breadcrumb-separator">›</span>
+            <span class="breadcrumb-current">Personalizar</span>
+          </div>
         </div>
         <div class="sheet-header-center" id="sheet-header-center"></div>
         <div class="sheet-header-right" id="sheet-header-right">
@@ -2089,7 +2121,7 @@
       <div class="sheet-content-slots editor-scroll" id="editorScroll">
         
         <!-- VISTA PRINCIPAL (SELECTOR DE ESTILO) -->
-        <div id="main-settings" style="padding: 20px 0;">
+        <div id="main-settings" data-status="active" style="padding: 20px 0;">
           <div class="profile-container">
             <fieldset class="image-style-fieldset">
               <div class="image-style-grid">
@@ -2149,14 +2181,17 @@
                 class="btn-primary"
                 style="margin-top: 0; width: 100%; height: auto;"
               >
-                Personalizar apariencia Clásica
+                Personalizar
               </button>
             </div>
           </div>
         </div>
 
         <!-- VISTA SECUNDARIA (CONTROLES ESPECÍFICOS) -->
-        <div id="custom-settings" style="display: none; padding: 20px 0;">
+        <div id="custom-settings" data-status="hidden" style="padding: 20px 0;">
+          <h3 id="custom-settings-title" style="font-size: 1.25rem; font-weight: 600; color: #1f2937; margin: 0 0 20px 0;">
+            Personalizar apariencia Clásica
+          </h3>
           <!-- TU CUSTOM - ESTO NO SE TOCA NUNCA POR JS -->
           <div class="control-row custom-layout-row" id="customPresetRow">
             <span class="control-label">Preset de layout</span>
@@ -2213,12 +2248,12 @@
             <div class="control-row">
               <div class="control-label-wrap" style="display: flex; justify-content: space-between; align-items: center;">
                 <span class="control-label">Efecto Freeze Glass (Blur)</span>
-                <span class="control-value" id="ctrl-hero-blur-val">12px</span>
+                <span class="control-value" id="hero-blur-val">12px</span>
               </div>
               <input
                 type="range"
                 class="range-input"
-                id="ctrl-hero-blur-input"
+                id="hero-blur-input"
                 min="0"
                 max="30"
                 value="12"
@@ -2245,12 +2280,12 @@
             <div class="control-row">
               <div class="control-label-wrap" style="display: flex; justify-content: space-between; align-items: center;">
                 <span class="control-label">Altura de la sección</span>
-                <span class="control-value" id="ctrl-hero-height-val">50%</span>
+                <span class="control-value" id="hero-height-val">50%</span>
               </div>
               <input
                 type="range"
                 class="range-input"
-                id="ctrl-hero-height-input"
+                id="hero-height-input"
                 min="30"
                 max="100"
                 value="50"
@@ -2401,9 +2436,67 @@
               setPos(val);
             }
           });
+
+          window.syncEngine.store.subscribe("hero-fit", (val) => {
+            const select = document.getElementById("ctrl-hero-fit-input");
+            if (select && val) select.value = val;
+          });
         }
 
         wireCustomControls();
+
+        // Radio inputs change listener to sync with card and storage
+        document.querySelectorAll('input[name="image_style"]').forEach(radio => {
+          radio.addEventListener('change', (e) => {
+            const val = e.target.value;
+            let preset = "preset-classic";
+            if (val === "hero") {
+              preset = "preset-hero";
+            } else if (val === "with-cover") {
+              preset = "preset-horizontal";
+            }
+            if (typeof setPreset === "function") {
+              setPreset(preset);
+            }
+          });
+        });
+
+        // Personalizar button listener
+        const btnPersonalizar = document.getElementById("btn-personalizar");
+        if (btnPersonalizar) {
+          btnPersonalizar.addEventListener('click', () => {
+            const radioVal = document.querySelector('input[name="image_style"]:checked')?.value || 'classic';
+            if (typeof updateCustomPanelControls === 'function') {
+              updateCustomPanelControls(radioVal);
+            }
+            
+            document.getElementById('main-settings').dataset.status = 'hidden';
+            document.getElementById('custom-settings').dataset.status = 'active';
+            
+            const headerLeft = document.getElementById('sheet-header-left');
+            if (headerLeft) headerLeft.dataset.status = 'custom';
+          });
+        }
+
+        // Breadcrumb back button listener
+        document.querySelector('.breadcrumb-back')?.addEventListener('click', () => {
+          document.getElementById('custom-settings').dataset.status = 'hidden';
+          document.getElementById('main-settings').dataset.status = 'active';
+          
+          const headerLeft = document.getElementById('sheet-header-left');
+          if (headerLeft) headerLeft.dataset.status = 'ready';
+        });
+
+        // Sync Select for objectFit (hero-fit)
+        const heroFitSelect = document.getElementById("ctrl-hero-fit-input");
+        if (heroFitSelect) {
+          heroFitSelect.addEventListener("change", (e) => {
+            const val = e.target.value;
+            if (window.syncEngine) {
+              window.syncEngine.store.set("hero-fit", val);
+            }
+          });
+        }
         // Evento para activar el modo edición
         btnEdit.addEventListener("click", () => {
           pildora.classList.add("is-active");
@@ -2817,8 +2910,9 @@
         init() {
           const controller = document.getElementById("main-sheet");
           const card = document.getElementById("mainCard");
-          const scroll = document.getElementById("editorScroll");
+          const scroll = document.getElementById("dynamicGroupsContainer");
           if (!controller || !card || !scroll) return;
+          scroll.innerHTML = "";
 
           const isMasterActive = !!document.querySelector(
             '[data-master-bind="true"]',
@@ -2855,16 +2949,16 @@
 
           // --- Grupo: Avatar ---
           if (hasAvatar) {
-            scroll.appendChild(this._divider());
             const avatarGroup = this._buildGroup("ctrlGroupAvatar", "Avatar");
+            avatarGroup.insertBefore(this._divider(), avatarGroup.firstChild);
             ControlFactory.buildGroup("avatar", avatarGroup);
             scroll.appendChild(avatarGroup);
           }
 
           // --- Grupo: Portada ---
           if (hasCover) {
-            scroll.appendChild(this._divider());
             const coverGroup = this._buildGroup("ctrlGroupCover", "Portada");
+            coverGroup.insertBefore(this._divider(), coverGroup.firstChild);
 
             // Glider de estilo de portada
             coverGroup.appendChild(
@@ -2909,6 +3003,58 @@
         if (window.appBottomSheet) window.appBottomSheet.close();
       }
 
+      function syncRadioSelector(presetName) {
+        let radioVal = "classic";
+        if (presetName === "preset-hero") {
+          radioVal = "hero";
+        } else if (presetName === "preset-horizontal" || presetName === "preset-centered") {
+          radioVal = "with-cover";
+        }
+        const radio = document.querySelector(`input[name="image_style"][value="${radioVal}"]`);
+        if (radio) {
+          radio.checked = true;
+        }
+      }
+
+      function updateCustomSettingsTitle(styleName) {
+        const titleEl = document.getElementById("custom-settings-title");
+        if (!titleEl) return;
+        if (styleName === "classic") {
+          titleEl.textContent = "Personalizar apariencia Clásica";
+        } else if (styleName === "hero") {
+          titleEl.textContent = "Personalizar apariencia Hero";
+        } else if (styleName === "with-cover") {
+          titleEl.textContent = "Personalizar apariencia de portada";
+        }
+      }
+
+      function updateCustomPanelControls(activeStyle) {
+        updateCustomSettingsTitle(activeStyle);
+
+        const groupAvatar = document.getElementById("ctrlGroupAvatar");
+        const groupCover = document.getElementById("ctrlGroupCover");
+        const groupHero = document.getElementById("ctrlGroupHero");
+        const presetRow = document.getElementById("customPresetRow");
+        const posRow = document.getElementById("customPosRow");
+
+        if (groupAvatar) groupAvatar.dataset.status = "hidden";
+        if (groupCover) groupCover.dataset.status = "hidden";
+        if (groupHero) groupHero.dataset.status = "hidden";
+        if (presetRow) presetRow.dataset.status = "hidden";
+        if (posRow) posRow.dataset.status = "hidden";
+
+        if (activeStyle === "classic") {
+          if (groupAvatar) groupAvatar.dataset.status = "active";
+        } else if (activeStyle === "hero") {
+          if (groupHero) groupHero.dataset.status = "active";
+        } else if (activeStyle === "with-cover") {
+          if (presetRow) presetRow.dataset.status = "active";
+          if (posRow) posRow.dataset.status = "active";
+          if (groupAvatar) groupAvatar.dataset.status = "active";
+          if (groupCover) groupCover.dataset.status = "active";
+        }
+      }
+
       function setPreset(presetName) {
         const card = document.getElementById("mainCard");
         const content = document.getElementById("profileContent");
@@ -2922,6 +3068,7 @@
           "preset-classic",
           "preset-centered",
           "preset-horizontal",
+          "preset-hero",
         );
 
         const posGlider = document.getElementById("posGlider");
@@ -2938,6 +3085,8 @@
           }
           setPos("left");
         }
+
+        syncRadioSelector(presetName);
 
         if (window.appBipartiteStorage) {
           window.appBipartiteStorage.updatePreset(presetName);
