@@ -20,7 +20,7 @@
 //   Config object con keys legacy (satLeft, dotsIcon, data-role en HTML) — ignoradas silenciosamente
 //   HTML con data-role existente en el DOM — sigue funcionando (delegación lo ignora)
 
-const CSS_HREF = "/shared/components/island-menu/island-menu.css";
+const CSS_HREF = new URL('./island-menu.css', import.meta.url).href;
 const TABLER_HREF =
   "https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.x/dist/tabler-icons.min.css";
 

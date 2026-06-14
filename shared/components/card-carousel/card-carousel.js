@@ -4,7 +4,7 @@
 // Supports advanced: true (or data-carousel-advanced) -> dynamic import of 3D renderer (card-carousel-3d.js)
 // Public: initCardCarousel(root, options), also auto-enhances [data-component="card-carousel"]
 
-const CSS_HREF = '/shared/components/card-carousel/card-carousel.css';
+const CSS_HREF = new URL('./card-carousel.css', import.meta.url).href;
 
 (function injectCarouselCSS() {
   if (typeof document === 'undefined') return;

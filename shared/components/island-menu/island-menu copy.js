@@ -2,7 +2,7 @@
 // Zero global IDs. All queries scoped to root. Dispatches CustomEvents. Auto-injects CSS + Tabler.
 // Dual API: <island-menu> (declarative) or <div data-component="island"> + auto or initIsland(el)
 
-const CSS_HREF = '/shared/components/island-menu/island-menu.css';
+const CSS_HREF = new URL('./island-menu.css', import.meta.url).href;
 const TABLER_HREF = 'https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.x/dist/tabler-icons.min.css';
 
 // Auto-inject (once) at module evaluation - best for icons before render + DX ("just drop the script")

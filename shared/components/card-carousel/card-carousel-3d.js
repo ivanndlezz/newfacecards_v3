@@ -6,7 +6,7 @@
 // Emits same 'card-theme-selected' contract; supports same public API surface
 // Reduced-motion: fully disables perspective/rotateY (flattens to 2D)
 
-const PREMIUM_CSS_HREF = '/shared/components/card-carousel/card-carousel-3d.css';
+const PREMIUM_CSS_HREF = new URL('./card-carousel-3d.css', import.meta.url).href;
 
 (function injectPremiumCSS() {
   if (typeof document === 'undefined') return;

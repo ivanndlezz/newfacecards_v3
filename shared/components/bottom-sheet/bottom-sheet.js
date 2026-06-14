@@ -25,7 +25,7 @@
 // Componente dinámico de Bottom Sheet con soporte para gestos y arquitectura modular.
 // Klef Agency & New Face Cards v3
 
-const CSS_HREF = "/shared/components/bottom-sheet/bottom-sheet.css";
+const CSS_HREF = new URL('./bottom-sheet.css', import.meta.url).href;
 
 // ─── Auto-inject CSS (once) ───────────────────────────────────────────────────
 (function injectAssets() {

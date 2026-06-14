@@ -10,7 +10,7 @@
     />
     <link
       rel="stylesheet"
-      href="/shared/components/island-menu/island-menu.css"
+      href="../shared/components/island-menu/island-menu.css"
     />
     <title>NewFace App</title>
     <link rel="stylesheet" href="../shared/styles/buttons.css" />
@@ -2298,7 +2298,7 @@
           imageStyle: "classic",
           panelStyle: "classic",
           title: "Personalizar apariencia Clásica",
-          templates: ["/app/controls/avatar.html"],
+          templates: ["controls/avatar.html"],
           showPresetRow: false,
           showPositionRow: false,
           lockPositionControls: true,
@@ -2317,7 +2317,7 @@
           imageStyle: "hero",
           panelStyle: "hero",
           title: "Personalizar apariencia Hero",
-          templates: ["/app/controls/hero.html"],
+          templates: ["controls/hero.html"],
           showPresetRow: false,
           showPositionRow: false,
           lockPositionControls: true,
@@ -2358,7 +2358,7 @@
           imageStyle: "with-cover",
           panelStyle: "with-cover",
           title: "Personalizar apariencia de portada",
-          templates: ["/app/controls/cover.html", "/app/controls/avatar.html"],
+          templates: ["controls/cover.html", "controls/avatar.html"],
           showPresetRow: true,
           showPositionRow: true,
           lockPositionControls: true,
@@ -2377,7 +2377,7 @@
           imageStyle: "with-cover",
           panelStyle: "with-cover",
           title: "Personalizar apariencia de portada",
-          templates: ["/app/controls/cover.html", "/app/controls/avatar.html"],
+          templates: ["controls/cover.html", "controls/avatar.html"],
           showPresetRow: true,
           showPositionRow: true,
           lockPositionControls: true,
@@ -2396,7 +2396,7 @@
           imageStyle: "with-cover",
           panelStyle: "with-cover",
           title: "Personalizar apariencia de portada",
-          templates: ["/app/controls/cover.html", "/app/controls/avatar.html"],
+          templates: ["controls/cover.html", "controls/avatar.html"],
           showPresetRow: true,
           showPositionRow: true,
           lockPositionControls: false,
@@ -2418,7 +2418,7 @@
         imageStyle: "with-cover",
         panelStyle: "with-cover",
         title: "Personalizar apariencia de portada",
-        templates: ["/app/controls/cover.html", "/app/controls/avatar.html"],
+        templates: ["controls/cover.html", "controls/avatar.html"],
         showPresetRow: true,
         showPositionRow: true,
         lockPositionControls: false,
@@ -2635,11 +2635,11 @@
          */
         const SCOPE_TEMPLATE_MAP = Object.freeze({
           avt__edit: {
-            templates: ["/app/controls/avatar.html"],
+            templates: ["controls/avatar.html"],
             title: "Personalizar Avatar",
           },
           mobile_cover_input: {
-            templates: ["/app/controls/cover.html"],
+            templates: ["controls/cover.html"],
             title: "Personalizar Portada",
           },
         });
@@ -2658,7 +2658,7 @@
         // ═══════════════════════════════════════════════════════════════════════════
 
         const _BSL_MODULE_PATH =
-          "/shared/components/bottom-sheet/bottom-sheet.js";
+          "../shared/components/bottom-sheet/bottom-sheet.js";
         const _BSL_SHEET_ID = "main-sheet";
         const _BSL_BACKDROP_ID = "main-backdrop";
 
@@ -3032,7 +3032,7 @@
           // Scan and register the new inputs dynamically with SyncEngine
           if (window.syncEngine) {
             const { ControlFactory } =
-              await import("/assets/js/core/controls/ControlFactory.js");
+              await import("../assets/js/core/controls/ControlFactory.js");
             container
               .querySelectorAll("[data-control-sync]")
               .forEach((rootEl) => {
@@ -3095,7 +3095,7 @@
 
           // 3. Open on the parent Profile settings panel (MAIN_SETTINGS)
           const { UI_ELEMS, UI_STATUS } =
-            await import("/assets/js/core/config/uiConfig.js");
+            await import("../assets/js/core/config/uiConfig.js");
           const setPanel = (id, status) => {
             const el = document.getElementById(id);
             if (el) el.dataset.status = status;
@@ -3126,7 +3126,7 @@
 
         async function mountSheetNavigator() {
           const { UI_ELEMS, UI_STATUS, SELECTORS, UI_DEFAULTS } =
-            await import("/assets/js/core/config/uiConfig.js");
+            await import("../assets/js/core/config/uiConfig.js");
 
           // ── Private helpers ────────────────────────────────────────────────────
 
@@ -3208,7 +3208,7 @@
       })();
     </script>
     <script type="module">
-      import { UI_DEFAULTS } from "/assets/js/core/config/uiConfig.js";
+      import { UI_DEFAULTS } from "../assets/js/core/config/uiConfig.js";
 
       const PRESET_REGISTRY = window.PresetRegistry;
       const PRESET_DEFAULT_CLASS = PRESET_REGISTRY.defaultClassName;
@@ -4310,6 +4310,6 @@
         app.init();
       }
     </script>
-    <script type="module" src="/assets/js/core/bootSync.js"></script>
+    <script type="module" src="../assets/js/core/bootSync.js"></script>
   </body>
 </html>

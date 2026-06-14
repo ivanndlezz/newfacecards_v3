@@ -1,4 +1,4 @@
-const CSS_HREF = '/shared/components/appearance-editor/appearance-editor.css';
+const CSS_HREF = new URL('./appearance-editor.css', import.meta.url).href;
 function injectCSS() {
   if (typeof document === 'undefined') return;
   if (document.querySelector(`link[href*="${CSS_HREF.split('/').pop()}"]`)) return;
