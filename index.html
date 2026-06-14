@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Redirecting...</title>
+    <script>
+      // Redirects to current path + /app/
+      const currentPath = window.location.pathname;
+      const redirectPath = currentPath.endsWith('/') ? `${currentPath}app/` : `${currentPath}/app/`;
+      window.location.href = window.location.origin + redirectPath + window.location.search + window.location.hash;
+    </script>
+  </head>
+  <body>
+    Redirecting to <a href="./app/">/app/</a>...
+  </body>
+</html>

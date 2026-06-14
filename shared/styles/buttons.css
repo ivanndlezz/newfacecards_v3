@@ -131,20 +131,6 @@
         padding: 0;
       }
 
-      body {
-        font-family:      var(--font-base);
-        font-size:        var(--text-sm);
-        background-color: var(--color-canvas);
-        color:            var(--color-ink-900);
-        min-height:       100vh;
-        overflow-x:       hidden;
-        display:          flex;
-        flex-direction:   column;
-        align-items:      center;
-        justify-content:  center;
-        padding:          var(--sp-6);
-      }
-      @media (min-width: 640px) { body { padding: var(--sp-12); } }
 
       button {
         cursor:      pointer;
