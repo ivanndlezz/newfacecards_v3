@@ -331,6 +331,7 @@
         --radius-sm: 10px;
         --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.04);
         --shadow-md: 0 10px 30px -10px rgba(9, 9, 11, 0.08);
+        --max-width: 440px;
       }
 
       body {
@@ -505,7 +506,7 @@
         justify-content: space-between;
         align-items: center;
         width: var(--w100);
-        margin: 50px 0px 30px 10px;
+        margin: 50px 0px 30px 0px;
         box-sizing: border-box;
         position: sticky;
         top: 30px;
@@ -599,7 +600,7 @@
       }
 
       #publishBtn {
-        min-width: 133px;
+        min-width: 140px;
         z-index: 1;
         justify-content: center;
       }
@@ -612,7 +613,7 @@
         transition: all 0.3s ease;
         margin: 0 auto;
         width: var(--w100);
-        max-width: 500px;
+        max-width: var(--max-width);
       }
 
       [data-top-menu="hidden"] + #app {
@@ -684,21 +685,29 @@
         transition: all 0.5s ease;
         box-shadow: 0 0px 62px rgb(0 0 0 / 25%);
         z-index: 15;
-        max-width: 500px;
+        max-width: var(--max-width);
         margin: 0 auto;
         width: 97%;
         height: var(--w100);
         overflow: clip;
-      }
-
-      .main-content.design-grid {
         background-image:
-          linear-gradient(to right,
-            #ff00ff10 1px, transparent 1px,
-            transparent 15px, #ff00ff10 1px, transparent 1px,
-            transparent 230px, #ff00ff20 1px, transparent 1px,
-            transparent 249px, #ff00ff10 1px, transparent 1px,
-            transparent 482px, #ff00ff10 1px, transparent 1px),
+          linear-gradient(
+            to right,
+            #ff00ff10 1px,
+            transparent 1px,
+            transparent 15px,
+            #ff00ff10 1px,
+            transparent 1px,
+            transparent 230px,
+            #ff00ff20 1px,
+            transparent 1px,
+            transparent 249px,
+            #ff00ff10 1px,
+            transparent 1px,
+            transparent 482px,
+            #ff00ff10 1px,
+            transparent 1px
+          ),
           linear-gradient(to bottom, #00ffff10 1px, transparent 1px);
         background-size: 100% 4px;
         background-position: 0 0;
@@ -1776,12 +1785,88 @@
         display: block !important;
       }
 
-      /* --- PRESET HERO ---
-         Los valores se generan desde PRESETS para evitar duplicar la config. */
+      /* Posicionamiento fijo para cubrir toda la ventana */
+      .grid-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+
+        /* Configuración del grid */
+        display: grid;
+        grid-template-columns: repeat(12, 1fr); /* Ejemplo de 12 columnas */
+        gap: 10px; /* Espaciado entre columnas */
+
+        /* Vital: permite hacer clic a través del overlay */
+        pointer-events: none;
+
+        /* Asegura que esté encima de todo */
+        z-index: 9999;
+      }
+
+      .grid-cell {
+        /* Color visual para ver la rejilla (puedes quitarlo o hacerlo muy tenue) */
+      }
+
+      .preset-classic img.cover-photo,
+      .preset-classic .cover-wrap {
+        opacity: 0;
+        filter: opacity(0);
+      }
+
+      .preset-classic .avt {
+        margin-top: -80px !important;
+      }
+
+      .profile-card.preset-hero .avt {
+        margin-top: 0px !important;
+      }
+
+      [data-card-status="editing"] + #app .header__actions {
+        transform: translateY(-100px);
+      }
+
+      .profile-card.preset-hero .profile-row {
+        backdrop-filter: blur(0px) !important;
+        background: linear-gradient(
+          0deg,
+          #ffffff 10%,
+          #ffffff 26%,
+          transparent
+        );
+        box-shadow: none !important;
+        border: none !important;
+        pointer-events: none !important;
+      }
+
+      #data-status-storage:not([data-card-status="editing"]) + #app .cover-wrap,
+      #data-status-storage:not([data-card-status="editing"])
+        + #app
+        .cover-wrap
+        * {
+        pointer-events: none !important;
+      }
+
+      .preset-hero .cover-wrap {
+        background-image: var(--server-avatar-url);
+        background-size: cover;
+      }
+
+      .preset-hero .cover-photo {
+        opacity: 0;
+      }
+
+      .preset-hero .avt {
+        opacity: 0;
+      }
     </style>
   </head>
 
   <body>
+    <div class="grid-overlay">
+      <div class="grid-cell"></div>
+    </div>
     <div id="data-status-storage">
       <!-- 
     INSTRUCCIONES.
@@ -1814,10 +1899,7 @@
     <div id="app">
       <header class="header">
         <div>
-          <div
-            class="header__actions"
-            style="--scale: 0.941; --blur: -0.10000000000000009px"
-          >
+          <div class="header__actions" style="--scale: 1; --blur: 0px">
             <div class="header__menu">
               <button
                 class="header__back-btn"
@@ -1902,12 +1984,12 @@
             data-general-status="skel-loading"
           >
             <!-- Portada (Añadimos ID coverWrap para el Factory) -->
-            <div class="cover-wrap" id="coverWrap">
-              <span
-                id="mobile_cover_input"
-                class="mobile_input edit-element"
-                data-scope="mobile_cover_input"
-              >
+            <div
+              class="cover-wrap edit-element"
+              id="coverWrap"
+              data-scope="mobile_cover_input"
+            >
+              <span id="mobile_cover_input" class="mobile_input">
                 <span class="icon_cover"> </span>
               </span>
               <div class="cover-skel"></div>
@@ -1921,12 +2003,12 @@
             </div>
 
             <div class="profile-row" id="profileContent">
-              <div class="avt" id="avatarContainer">
-                <span
-                  id="mobile_avatar_input"
-                  class="avt__edit edit-element"
-                  data-scope="avt__edit"
-                >
+              <div
+                class="avt edit-element"
+                id="avatarContainer"
+                data-scope="avt__edit"
+              >
+                <span id="mobile_avatar_input" class="avt__edit">
                   <span class="avt__ico"> </span>
                 </span>
                 <div class="avt__skel"></div>
@@ -2453,7 +2535,10 @@
           const glider = document.getElementById(gliderId);
           if (!glider) return;
           glider.dataset.values = JSON.stringify(gliderValues);
-          glider.innerHTML = [...all.filter((p) => p.showPresetRow), PRESET_FREE]
+          glider.innerHTML = [
+            ...all.filter((p) => p.showPresetRow),
+            PRESET_FREE,
+          ]
             .map(
               (preset) =>
                 `<div class="glider-option" data-val="${preset.className}">${preset.label}</div>`,
@@ -2987,14 +3072,18 @@
         const _EE_DATA_SCOPE_ATTR = "data-scope";
 
         async function _eeHandleClick(e) {
+          console.log("[_eeHandleClick] Click target:", e.target);
           const editBtn = e.target.closest(_EE_EDIT_ELEM_SELECTOR);
+          console.log("[_eeHandleClick] Closest edit-element:", editBtn);
           if (!editBtn) return;
 
           e.preventDefault();
           e.stopPropagation();
 
           const scope = editBtn.getAttribute(_EE_DATA_SCOPE_ATTR);
+          console.log("[_eeHandleClick] Scope:", scope);
           const routeInfo = SCOPE_TEMPLATE_MAP[scope];
+          console.log("[_eeHandleClick] RouteInfo:", routeInfo);
           if (!routeInfo) return;
 
           // 1. Render template dynamically
@@ -3004,20 +3093,20 @@
           const titleEl = document.getElementById("custom-settings-title");
           if (titleEl) titleEl.textContent = routeInfo.title;
 
-          // 3. Move sheet state to custom settings panel
+          // 3. Open on the parent Profile settings panel (MAIN_SETTINGS)
           const { UI_ELEMS, UI_STATUS } =
             await import("/assets/js/core/config/uiConfig.js");
           const setPanel = (id, status) => {
             const el = document.getElementById(id);
             if (el) el.dataset.status = status;
           };
-          setPanel(UI_ELEMS.MAIN_SETTINGS, UI_STATUS.HIDDEN);
-          setPanel(UI_ELEMS.CUSTOM_SETTINGS, UI_STATUS.ACTIVE);
+          setPanel(UI_ELEMS.MAIN_SETTINGS, UI_STATUS.ACTIVE);
+          setPanel(UI_ELEMS.CUSTOM_SETTINGS, UI_STATUS.HIDDEN);
 
           const headerLeft = document.getElementById(
             UI_ELEMS.SHEET_HEADER_LEFT,
           );
-          if (headerLeft) headerLeft.dataset.status = UI_STATUS.CUSTOM;
+          if (headerLeft) headerLeft.dataset.status = UI_STATUS.READY;
 
           // 4. Open bottom sheet
           window.appBottomSheet?.open();
@@ -3687,42 +3776,99 @@
           // Sync state controls with DOM elements (backward-compatible / startup application of controls)
           if (this.state && this.state.controls) {
             const staticControlsMap = [
-              { id: "ctrl-size", target: "#avatarContainer", cssVar: "--avatar-size", unit: "px" },
-              { id: "ctrl-radius", target: "#avatarContainer", cssVar: "--avatar-radius", unit: "px" },
-              { id: "ctrl-mock-border-scale", target: "#avatarContainer", cssVar: "--mock-border-scale", unit: "" },
-              { id: "ctrl-cover-width", target: "#coverWrap", cssVar: "--cover-width", unit: "%" },
-              { id: "ctrl-cover-height", target: "#coverWrap", cssVar: "--cover-height", unit: "px" },
-              { id: "ctrl-cover-radius", target: "#coverWrap", cssVar: "--cover-radius", unit: "px" },
-              { id: "ctrl-cover-fit", target: "#profileCover", cssVar: "--cover-fit", unit: "" },
+              {
+                id: "ctrl-size",
+                target: "#avatarContainer",
+                cssVar: "--avatar-size",
+                unit: "px",
+              },
+              {
+                id: "ctrl-radius",
+                target: "#avatarContainer",
+                cssVar: "--avatar-radius",
+                unit: "px",
+              },
+              {
+                id: "ctrl-mock-border-scale",
+                target: "#avatarContainer",
+                cssVar: "--mock-border-scale",
+                unit: "",
+              },
+              {
+                id: "ctrl-cover-width",
+                target: "#coverWrap",
+                cssVar: "--cover-width",
+                unit: "%",
+              },
+              {
+                id: "ctrl-cover-height",
+                target: "#coverWrap",
+                cssVar: "--cover-height",
+                unit: "px",
+              },
+              {
+                id: "ctrl-cover-radius",
+                target: "#coverWrap",
+                cssVar: "--cover-radius",
+                unit: "px",
+              },
+              {
+                id: "ctrl-cover-fit",
+                target: "#profileCover",
+                cssVar: "--cover-fit",
+                unit: "",
+              },
               {
                 id: "ctrl-cover-shadow",
                 target: "#coverWrap",
                 cssVar: "--cover-shadow",
                 unit: "",
-                booleanMap: { true: "0 8px 24px rgba(0,0,0,0.15)", false: "none" }
+                booleanMap: {
+                  true: "0 8px 24px rgba(0,0,0,0.15)",
+                  false: "none",
+                },
               },
-              { id: "hero-blur", target: "#profileContent", cssVar: "--hero-blur", unit: "px" },
-              { id: "hero-fit", target: "#profileCover", cssVar: "--hero-fit", unit: "" },
-              { id: "hero-height", target: "#mainCard", cssVar: "--hero-height", unit: "%" }
+              {
+                id: "hero-blur",
+                target: "#profileContent",
+                cssVar: "--hero-blur",
+                unit: "px",
+              },
+              {
+                id: "hero-fit",
+                target: "#profileCover",
+                cssVar: "--hero-fit",
+                unit: "",
+              },
+              {
+                id: "hero-height",
+                target: "#mainCard",
+                cssVar: "--hero-height",
+                unit: "%",
+              },
             ];
 
-            staticControlsMap.forEach(({ id, target, cssVar, unit, booleanMap }) => {
-              const value = this.state.controls[id];
-              const el = document.querySelector(target);
-              if (!el) return;
+            staticControlsMap.forEach(
+              ({ id, target, cssVar, unit, booleanMap }) => {
+                const value = this.state.controls[id];
+                const el = document.querySelector(target);
+                if (!el) return;
 
-              const hasValue = value !== undefined && value !== "" && value !== null;
-              if (hasValue) {
-                let finalValue = value;
-                if (typeof value === "boolean" && booleanMap) {
-                  finalValue = value ? booleanMap.true : booleanMap.false;
+                const hasValue =
+                  value !== undefined && value !== "" && value !== null;
+                if (hasValue) {
+                  let finalValue = value;
+                  if (typeof value === "boolean" && booleanMap) {
+                    finalValue = value ? booleanMap.true : booleanMap.false;
+                  }
+                  const finalUnit =
+                    finalValue === "none" || finalValue === "" ? "" : unit;
+                  el.style.setProperty(cssVar, `${finalValue}${finalUnit}`);
+                } else {
+                  el.style.removeProperty(cssVar);
                 }
-                const finalUnit = (finalValue === "none" || finalValue === "") ? "" : unit;
-                el.style.setProperty(cssVar, `${finalValue}${finalUnit}`);
-              } else {
-                el.style.removeProperty(cssVar);
-              }
-            });
+              },
+            );
           }
         }
 
@@ -4030,6 +4176,16 @@
             typeof data.user.avatar === "string"
               ? data.user.avatar
               : data.user.avatar?.url;
+
+          // Save the original server avatar URL in a JS global and CSS variable on :root
+          window.serverAvatarUrl = avatarValue;
+          if (avatarValue) {
+            document.documentElement.style.setProperty(
+              "--server-avatar-url",
+              `url('${avatarValue}')`,
+            );
+          }
+
           data.user.avatar = {};
           data.user.firstName =
             corpus?.name ||
