@@ -1,0 +1,3429 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- Tabler Icons via CDN -->
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.x/dist/tabler-icons.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="/shared/components/island-menu/island-menu.css"
+    />
+    <title>SPA Binder & Style Loader</title>
+    <!-- ========================================================================================= -->
+    <!-- ===== ICONOS ===== -->
+    <!-- ========================================================================================= -->
+    <svg style="display: none">
+      <symbol
+        id="menu"
+        class="module-icon"
+        fill="none"
+        viewBox="0 0 22 22"
+        xmlns="http://www.w3.org/2000/svg"
+        stroke="currentColor"
+      >
+        <line
+          x1="3"
+          y1="6"
+          x2="21"
+          y2="6"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+        ></line>
+        <line
+          x1="3"
+          y1="12"
+          x2="21"
+          y2="12"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+        ></line>
+        <line
+          x1="3"
+          y1="18"
+          x2="21"
+          y2="18"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+        ></line>
+      </symbol>
+
+      <symbol
+        id="share"
+        viewBox="0 0 24 24"
+        width="24"
+        height="24"
+        color="currentColor"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="1.5"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      >
+        <path
+          d="M8 7C8 7 10.1958 4.28386 11.4044 3.23889C11.5987 3.0709 11.8169 2.99152 12.0337 3.00072C12.2282 3.00897 12.4215 3.08844 12.5958 3.23912C13.8041 4.28428 16 7 16 7M12.0337 4L12.0337 15"
+        ></path>
+        <path
+          d="M8 11C6.59987 11 5.8998 11 5.36502 11.2725C4.89462 11.5122 4.51217 11.8946 4.27248 12.365C4 12.8998 4 13.5999 4 15V16C4 18.357 4 19.5355 4.73223 20.2678C5.46447 21 6.64298 21 9 21H15C17.357 21 18.5355 21 19.2678 20.2678C20 19.5355 20 18.357 20 16V15C20 13.5999 20 12.8998 19.7275 12.365C19.4878 11.8946 19.1054 11.5122 18.635 11.2725C18.1002 11 17.4001 11 16 11"
+        ></path>
+      </symbol>
+      <symbol
+        id="profile"
+        class="module-icon"
+        fill="none"
+        viewBox="0 0 22 22"
+        xmlns="http://www.w3.org/2000/svg"
+        stroke="currentColor"
+      >
+        <circle
+          cx="10.8197"
+          cy="8.29508"
+          r="3.32787"
+          stroke="black"
+          stroke-width="2"
+        ></circle>
+        <circle cx="11" cy="11" r="10" stroke="black" stroke-width="2"></circle>
+        <path
+          d="M19.3236 18.3093C17.3723 15.9382 14.4151 14.4262 11.1046 14.4262C7.79407 14.4262 4.83657 15.9381 2.88525 18.3093"
+          stroke="black"
+          stroke-width="2"
+        ></path>
+      </symbol>
+      <symbol
+        id="appearance"
+        class="module-icon"
+        fill="none"
+        viewBox="0 0 27 25"
+        xmlns="http://www.w3.org/2000/svg"
+        stroke="currentColor"
+      >
+        <rect
+          x="1.88"
+          y="1"
+          width="9"
+          height="23"
+          rx="2"
+          stroke="currentColor"
+          stroke-width="2"
+        ></rect>
+        <path
+          d="M16.4 4.98a2 2 0 0 1 2.9.02l2.93 3.14a2 2 0 0 1 0 2.72L11.9 21.93l.22-11.74c.01-.5.21-.98.56-1.34z"
+          stroke="currentColor"
+          stroke-width="2"
+        ></path>
+        <path
+          d="M3.88 24h20a2 2 0 0 0 2-2v-5a2 2 0 0 0-2-2h-5"
+          stroke="currentColor"
+          stroke-width="2"
+        ></path>
+        <circle cx="5.88" cy="20" r="1" fill="currentColor"></circle>
+      </symbol>
+      <symbol id="add-icon" class="plus-icon" viewBox="0 0 24 24" fill="none">
+        <path
+          d="M12 5v14m-7-7h14"
+          stroke="currentColor"
+          stroke-width="2.5"
+          stroke-linecap="round"
+        ></path>
+      </symbol>
+
+      <symbol
+        id="pro-spark"
+        viewBox="0 0 24 24"
+        fill="currentColor"
+        stroke="currentColor"
+        stroke-width="1"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      >
+        <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"></path>
+      </symbol>
+      <symbol
+        id="logo"
+        viewBox="0 0 158 95"
+        fill="currentColor"
+        stroke="currentColor"
+        stroke-width="1"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      >
+        <path
+          d="M134.957 46.4347L157.993 0H139.795L116.613 46.7451L134.957 46.4347Z"
+          fill="currentColor"
+        ></path>
+        <path
+          d="M85.1906 47.2785L78.3378 9.52985C77.4944 4.77978 71.5143 1.77512 63.0451 1.77512H62.6351L62.1665 1.78097C49.5387 1.99768 36.0734 8.704 32.1609 16.7399L16.7158 48.4499L35.1069 48.1395L51.167 15.1702C51.7878 13.8933 53.5918 12.9094 55.3606 12.8801L55.6242 12.8742H55.6828C57.2993 12.8742 58.4473 13.6532 58.6523 14.889L64.5913 47.6416L85.1906 47.2785Z"
+          fill="currentColor"
+        ></path>
+        <path
+          d="M128.966 80.2651L145.202 45.8081L126.834 46.1244L109.989 81.8348C109.369 83.0999 107.576 84.0839 105.813 84.1132L105.409 84.1249H105.327C103.799 84.1249 102.651 83.3166 102.463 82.11L95.3409 46.6281L74.7476 46.9795L82.76 87.4751C83.6386 92.3423 89.8353 95.3763 98.5799 95.2415L99.1656 95.2298C111.717 94.9487 125.083 88.2424 128.96 80.2651"
+          fill="currentColor"
+        ></path>
+        <path
+          d="M23.639 48.0574L0 94.5213H18.2271L42.0243 47.7469L23.639 48.0574Z"
+          fill="currentColor"
+        ></path>
+      </symbol>
+      <symbol
+        id="chevron-arrow"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      >
+        <!-- Chevron down - outline, good for accordions -->
+        <path
+          d="M6 9l6 6 6-6"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        ></path>
+      </symbol>
+      <symbol
+        id="back-arrow"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      >
+        <path
+          d="M12 3v13l7-7m-7 7l-7-7"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        ></path>
+      </symbol>
+      <symbol
+        id="move_indicator"
+        viewBox="0 0 40 60"
+        fill="currentColor"
+        stroke="none"
+      >
+        <!-- Columna izquierda -->
+        <circle cx="10" cy="10" r="5" fill="currentColor"></circle>
+        <circle cx="10" cy="30" r="5" fill="currentColor"></circle>
+        <circle cx="10" cy="50" r="5" fill="currentColor"></circle>
+
+        <!-- Columna derecha -->
+        <circle cx="30" cy="10" r="5" fill="currentColor"></circle>
+        <circle cx="30" cy="30" r="5" fill="currentColor"></circle>
+        <circle cx="30" cy="50" r="5" fill="currentColor"></circle>
+      </symbol>
+      <symbol
+        id="arrow-up"
+        version="1.1"
+        xmlns="http://www.w3.org/2000/svg"
+        xmlns:xlink="http://www.w3.org/1999/xlink"
+        width="26px"
+        height="26px"
+        viewBox="0,0,256,256"
+      >
+        <g
+          fill="currentColor"
+          fill-rule="nonzero"
+          stroke="none"
+          stroke-width="1"
+          stroke-linecap="butt"
+          stroke-linejoin="miter"
+          stroke-miterlimit="10"
+          stroke-dasharray=""
+          stroke-dashoffset="0"
+          font-family="none"
+          font-weight="none"
+          font-size="none"
+          text-anchor="none"
+          style="mix-blend-mode: normal"
+        >
+          <g transform="scale(9.84615,9.84615)">
+            <path
+              d="M5,11.30078c2.80078,-4.19922 7.19922,-8 7.39844,-8.10156c0.10156,-0.09766 0.40234,-0.19922 0.60156,-0.19922c0.19922,0 0.5,0.10156 0.69922,0.19922c0.19922,0.10156 4.60156,4 7.40234,8.10156c0.19922,0.30078 0.19922,0.69922 0.09766,1.09766c-0.19922,0.30078 -0.5,0.60156 -0.89844,0.60156h-3.69922c0,0 -0.5,8.69922 -0.80078,9.10156c-0.5,0.5 -1.69922,0.89844 -2.80078,0.89844c-1.10156,0 -2.19922,-0.39844 -2.60156,-0.89844c-0.19922,-0.40234 -0.89844,-9.10156 -0.89844,-9.10156h-3.69922c-0.40234,0 -0.69922,-0.19922 -0.90234,-0.60156c-0.19922,-0.29687 -0.09766,-0.69922 0.10156,-1.09766z"
+            ></path>
+          </g>
+        </g>
+        <symbol
+          id="pen"
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 16 16"
+          fill="currentColor"
+          class="size-4"
+        >
+          <path
+            d="M13.488 2.513a1.75 1.75 0 0 0-2.475 0L6.75 6.774a2.75 2.75 0 0 0-.596.892l-.848 2.047a.75.75 0 0 0 .98.98l2.047-.848a2.75 2.75 0 0 0 .892-.596l4.261-4.262a1.75 1.75 0 0 0 0-2.474Z"
+          ></path>
+          <path
+            d="M4.75 3.5c-.69 0-1.25.56-1.25 1.25v6.5c0 .69.56 1.25 1.25 1.25h6.5c.69 0 1.25-.56 1.25-1.25V9A.75.75 0 0 1 14 9v2.25A2.75 2.75 0 0 1 11.25 14h-6.5A2.75 2.75 0 0 1 2 11.25v-6.5A2.75 2.75 0 0 1 4.75 2H7a.75.75 0 0 1 0 1.5H4.75Z"
+          ></path>
+        </symbol>
+      </symbol>
+      <symbol
+        id="cover-edit"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      >
+        <g
+          fill="#ffffff"
+          fill-rule="nonzero"
+          stroke="none"
+          stroke-width="1"
+          stroke-linecap="butt"
+          stroke-linejoin="miter"
+          stroke-miterlimit="10"
+          stroke-dasharray=""
+          stroke-dashoffset="0"
+          font-family="none"
+          font-weight="none"
+          font-size="none"
+          text-anchor="none"
+          style="mix-blend-mode: normal"
+        >
+          <g transform="scale(10.66667,10.66667)">
+            <path
+              d="M16,16h-13c-0.6,0 -1,-0.4 -1,-1v-10c0,-0.6 0.4,-1 1,-1h13c0.6,0 1,0.4 1,1v10c0,0.6 -0.4,1 -1,1z"
+              opacity="0.3"
+            />
+            <path
+              d="M16,17h-13c-1.1,0 -2,-0.9 -2,-2v-10c0,-1.1 0.9,-2 2,-2h13c1.1,0 2,0.9 2,2v10c0,1.1 -0.9,2 -2,2zM3,5v10h13v-10z"
+            />
+            <path d="M20,21h-15v-2h15v-12h2v12c0,1.1 -0.9,2 -2,2z" />
+            <path d="M15,13l-3.4,-4.7l-2.8,3.7l-2.1,-2.5l-2.7,3.5z" />
+          </g>
+        </g>
+      </symbol>
+    </svg>
+    <!-- ========================================================================================= -->
+    <!-- ===== ESTILOS BASE ===== -->
+    <!-- ========================================================================================= -->
+    <style>
+      :root {
+        --background-color: #efefef;
+        --font-color: #111111;
+        --w100: -webkit-fill-available;
+        --bg: #f4f4f5;
+        --sheet: #ffffff;
+        --sheet2: #f4f4f5;
+        --sheet3: #e4e4e7;
+        --border: #e4e4e7;
+        --text: #09090b;
+        --text2: #71717a;
+        --text3: #a1a1aa;
+        --accent: #18181b;
+        --accent-hover: #27272a;
+        --radius: 16px;
+        --radius-sm: 10px;
+        --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.04);
+        --shadow-md: 0 10px 30px -10px rgba(9, 9, 11, 0.08);
+      }
+
+      body {
+        font-family:
+          -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        background-color: #e6e6e6; /* Fondo gris claro exterior */
+        color: var(--font-color);
+        margin: 0;
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        scroll-behavior: smooth;
+        transition: blur-start;
+      }
+
+      /* === SYNC STATUS BADGE === */
+      .sync-status-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        padding: 4px 10px;
+        border-radius: 20px;
+        font-size: 11px;
+        font-weight: 600;
+        background: rgba(0, 0, 0, 0.05);
+        color: #666;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        margin-left: 8px;
+        font-family: inherit;
+      }
+      .sync-dot {
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+        background: #10b981;
+        transition: all 0.3s ease;
+      }
+      #data-status-storage[data-sync-status="syncing"]
+        + #app
+        .sync-status-badge {
+        background: rgba(245, 158, 11, 0.1);
+        color: #d97706;
+      }
+      #data-status-storage[data-sync-status="syncing"] + #app .sync-dot {
+        background: transparent;
+        border: 2px solid rgba(245, 158, 11, 0.3);
+        border-top-color: #f59e0b;
+        border-radius: 50%;
+        width: 8px;
+        height: 8px;
+        animation: spin 0.8s linear infinite;
+        box-sizing: border-box;
+      }
+      #data-status-storage[data-sync-status="error"] + #app .sync-status-badge {
+        background: rgba(239, 68, 68, 0.1);
+        color: #dc2626;
+      }
+      #data-status-storage[data-sync-status="error"] + #app .sync-dot {
+        background: #ef4444;
+      }
+      #data-status-storage[data-sync-status="offline"]
+        + #app
+        .sync-status-badge {
+        background: rgba(107, 114, 128, 0.1);
+        color: #4b5563;
+      }
+      #data-status-storage[data-sync-status="offline"] + #app .sync-dot {
+        background: #6b7280;
+      }
+      @keyframes sync-pulse {
+        0% {
+          transform: scale(0.8);
+          opacity: 0.6;
+        }
+        100% {
+          transform: scale(1.2);
+          opacity: 1;
+        }
+      }
+      @keyframes spin {
+        0% {
+          transform: rotate(0deg);
+        }
+        100% {
+          transform: rotate(360deg);
+        }
+      }
+
+      /* === SYNC DETAILS SHEET === */
+      .sync-details-container {
+        padding: 24px;
+        text-align: center;
+        font-family: inherit;
+      }
+      .sync-details-icon {
+        width: 64px;
+        height: 64px;
+        border-radius: 50%;
+        margin: 0 auto 16px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #fff;
+        transition: all 0.3s ease;
+      }
+      .sync-details-icon.synced {
+        background: rgba(16, 185, 129, 0.1);
+        color: #10b981;
+      }
+      .sync-details-icon.syncing {
+        background: rgba(245, 158, 11, 0.1);
+        color: #f59e0b;
+      }
+      .sync-details-icon.syncing svg {
+        animation: spin 1.5s linear infinite;
+      }
+      .sync-details-icon.error {
+        background: rgba(239, 68, 68, 0.1);
+        color: #ef4444;
+      }
+      .sync-details-icon.offline {
+        background: rgba(107, 114, 128, 0.1);
+        color: #6b7280;
+      }
+      .sync-details-title {
+        font-size: 20px;
+        font-weight: 700;
+        color: #09090b;
+        margin-bottom: 8px;
+      }
+      .sync-details-desc {
+        font-size: 14px;
+        color: #71717a;
+        line-height: 1.5;
+        margin-bottom: 24px;
+      }
+      .sync-details-grid {
+        background: #f4f4f5;
+        border-radius: 12px;
+        padding: 16px;
+        text-align: left;
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+      }
+      .sync-detail-item {
+        display: flex;
+        justify-content: space-between;
+        font-size: 13px;
+      }
+      .sync-detail-label {
+        color: #71717a;
+        font-weight: 500;
+      }
+      .sync-detail-val {
+        color: #18181b;
+        font-weight: 600;
+        word-break: break-all;
+      }
+
+      #app {
+        width: var(--w100);
+        display: flex;
+        flex-direction: column;
+        position: relative;
+      }
+
+      /* === HEADER (PIXEL PERFECT) === */
+      .header__actions {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        width: var(--w100);
+        margin: 50px 0px 30px 10px;
+        box-sizing: border-box;
+        position: sticky;
+        top: 30px;
+        transition: all 0.3s ease;
+        transform: scale(var(--scale, 1));
+        filter: blur(var(--blur, 0px));
+      }
+
+      .header__menu {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+
+      .header__back-btn {
+        background: transparent;
+        border: solid 1px #555 !important;
+        color: #333;
+        border: none;
+        padding: 8px 16px 8px 8px;
+        border-radius: 15px;
+        font-size: 18px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+      }
+
+      .header__back-btn svg {
+        transform: rotate(90deg) translateX(3px);
+        --wh: 24px;
+        width: var(--wh);
+        height: var(--wh);
+      }
+
+      .header__title-container {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+      }
+
+      .header__title {
+        font-size: 16px;
+        font-weight: 400;
+        color: #111;
+      }
+
+      .header__module-icon svg {
+        width: 16px;
+        height: 16px;
+        opacity: 0.8;
+        transform: translateY(3px);
+      }
+
+      .header__cta {
+        background: #06896c; /* Verde del botón publish */
+        color: white;
+        border: none;
+        padding: 8px 18px 8px 14px;
+        border-radius: 25px;
+        font-size: 15px;
+        font-weight: 600;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        transition: all 0.3s ease;
+        min-height: 47px;
+      }
+
+      .header__cta svg {
+        width: 18px;
+        height: 18px;
+      }
+
+      .header__cta--cancel {
+        display: none;
+      }
+
+      .header__cta-container:has(#publishBtn) {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 10px 0px 9px 26px;
+        font-size: 18px;
+      }
+
+      .header__cta-container:has(#publishBtn) svg {
+        width: 24px;
+        height: 24px;
+        opacity: 0.8;
+      }
+
+      #publishBtn {
+        min-width: 133px;
+        z-index: 1;
+        justify-content: center;
+      }
+
+      #completePublishBtn {
+        position: absolute;
+      }
+
+      header {
+        transition: all 0.3s ease;
+        margin: 0 auto;
+        width: var(--w100);
+        max-width: 500px;
+      }
+
+      [data-top-menu="hidden"] + #app {
+        header {
+          margin-bottom: -50px;
+          transform: translatey(-110px);
+        }
+      }
+
+      .header__action.handler {
+        display: flex;
+        width: var(--w100);
+        justify-content: center;
+      }
+
+      .handler--drag {
+        padding: 8px 15px;
+        border-radius: 100px;
+        background-color: #fff;
+        margin: 5px;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        cursor: pointer;
+        z-index: 1;
+      }
+
+      .handler--drag:before,
+      .handler--drag:after {
+        content: "";
+        display: block;
+        width: 18px;
+        height: 4px;
+        background: #ccc;
+        border-radius: 2px;
+        transition: all 0.2s;
+      }
+
+      .handler--drag:before {
+        margin-right: -1px;
+      }
+      .handler--drag:after {
+        margin-left: -1px;
+      }
+
+      [data-top-menu="hidden"] + #app .handler--drag:before {
+        transform: rotate(16deg);
+      }
+      [data-top-menu="hidden"] + #app .handler--drag:after {
+        transform: rotate(-16deg);
+      }
+
+      #data-status-storage:not([data-top-menu="hidden"])
+        + #app
+        .handler--drag:before {
+        transform: rotate(-16deg);
+      }
+      #data-status-storage:not([data-top-menu="hidden"])
+        + #app
+        .handler--drag:after {
+        transform: rotate(16deg);
+      }
+
+      /* === MAIN CONTENT (CARD) === */
+      .main-content {
+        background: var(--background-color);
+        min-height: calc(100vh - 160px);
+        position: relative;
+        border-radius: 20px 20px 0px 0px;
+        transition: all 0.5s ease;
+        box-shadow: 0 0px 62px rgb(0 0 0 / 25%);
+        z-index: 15;
+        max-width: 500px;
+        margin: 0 auto;
+        width: 97%;
+        height: var(--w100);
+        overflow: clip;
+      }
+
+      .main-content__top-bar {
+        display: flex;
+        width: var(--w100);
+        justify-content: space-between;
+        margin-bottom: 5px;
+        transition: all 0.5s ease;
+        position: absolute;
+        top: 20px;
+        padding: 20px;
+        padding-bottom: 0px;
+        z-index: 10;
+        pointer-events: none;
+        top: 0px;
+      }
+
+      .logo-chip {
+        --wh: 30px;
+        height: var(--wh);
+        width: calc(var(--wh) * 2);
+        border-radius: 40px;
+        color: #fff;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: #00000055;
+        color: #fff;
+        min-height: 44px;
+        --blur: blur(18px);
+        backdrop-filter: var(--blur);
+        -webkit-backdrop-filter: var(--blur);
+      }
+
+      .logo-chip__icon {
+        width: 24px;
+        height: 24px;
+        fill: white;
+      }
+
+      /* === SKELETON LOADERS === */
+      h1:empty,
+      h2:empty {
+        width: fit-content;
+        min-width: 200px;
+        height: 24px;
+        background-color: #e0e0e0;
+        margin: 10px 0;
+        border-radius: 100px;
+        background-image: linear-gradient(
+          90deg,
+          #00000005 0%,
+          #00000015 50%,
+          #00000005 100%
+        );
+        background-size: 400% 100%;
+        animation: skel-shimmer 2s infinite linear;
+      }
+
+      @keyframes skel-shimmer {
+        0% {
+          background-position: 100% 0;
+        }
+        100% {
+          background-position: -100% 0;
+        }
+      }
+
+      /* === BOTTOM SHEET: CONTROLS === */
+      .controls {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        z-index: 3000;
+        background: #fff;
+        border-radius: 16px 16px 0 0;
+        box-shadow: 0 -8px 24px rgba(0, 0, 0, 0.18);
+        padding: 8px 16px 16px;
+        box-sizing: border-box;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        max-height: 48px; /* collapsed state - only handle visible */
+        overflow: hidden;
+        transition: max-height 0.35s cubic-bezier(0.32, 0.72, 0, 1);
+        border-top: 1px solid #e5e5e5;
+      }
+
+      .controls.expanded {
+        max-height: 320px; /* enough for all fields + textarea */
+        overflow: auto;
+      }
+
+      .controls__handle {
+        width: 100%;
+        height: 20px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        margin-bottom: 4px;
+        flex: 0 0 100%;
+      }
+
+      /* Hide all controls content except the handle when collapsed */
+      .controls:not(.expanded) > *:not(.controls__handle) {
+        display: none;
+      }
+
+      .controls__handle::after {
+        content: "";
+        width: 36px;
+        height: 4px;
+        background: #ccc;
+        border-radius: 2px;
+        transition: all 0.2s;
+      }
+
+      .controls:hover .controls__handle::after {
+        background: #999;
+      }
+
+      .controls__input,
+      .controls__select,
+      .controls__button {
+        border: solid 1px #bbb;
+        padding: 6px 12px;
+        border-radius: 8px;
+        background: white;
+      }
+
+      .controls__editor {
+        width: 100%;
+        height: 70px;
+        margin-top: 4px;
+        border: 1px solid #bbb;
+        border-radius: 8px;
+        padding: 8px;
+        font-family: monospace;
+        flex: 1 1 100%;
+      }
+
+      /**/
+      .main-content__user-card {
+        display: flex;
+        align-items: center;
+        height: 100vh;
+        max-height: var(--w100);
+        background-color: var(--card-background);
+      }
+
+      .main-content__user-card:not(:has([data-status="skel"])) > div {
+        height: var(--w100);
+      }
+
+      /* === COVER & PROFILE PIC === */
+      .cover {
+        position: relative;
+        width: 100%;
+        margin-bottom: 50px;
+      }
+
+      .cover__box {
+        width: 100%;
+        height: 180px;
+        overflow: hidden;
+        border-top-left-radius: 20px;
+        border-top-right-radius: 20px;
+      }
+
+      .cover__image {
+        width: 100%;
+        height: 100%;
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+      }
+
+      .cover__avatar {
+        position: absolute;
+        bottom: -40px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 100px;
+        height: 100px;
+        border-radius: 50%;
+        border: 4px solid var(--background-color);
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+        overflow: hidden;
+        background-color: #fff;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .cover__avatar-img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+
+      #card * {
+        max-width: var(--w100);
+      }
+
+      .header__action.handler:before {
+        content: "";
+        width: var(--w100);
+        position: absolute;
+        min-height: 70px;
+        background-image: linear-gradient(transparent 1%, #e6e6e6 60%, #e6e6e6);
+        border-radius: 19px;
+        transform: translateY(var(--translate));
+      }
+
+      #app:has(.edit-mode-active) header {
+        margin-bottom: -50px;
+        transform: translatey(-110px);
+        height: 85px;
+      }
+
+      #app:has(.edit-mode-active) .handler--drag {
+        transform: scale(0);
+      }
+
+      [data-bottom-sheet="showing"] + #app main {
+        transform: scale(0.9) translate(0px, -50px);
+      }
+
+      h1:empty,
+      h2:empty {
+        width: fit-content;
+        min-width: 13ch;
+        max-height: 30px;
+        background-color: #efefef;
+        margin: 20px auto 0px auto;
+        border-radius: 100px;
+        background-image: linear-gradient(
+          90deg,
+          #00000010 0%,
+          #00000035 50%,
+          #00000010 100%
+        );
+        background-size: 400% 100%;
+        animation: skel-shimmer 2s infinite linear;
+      }
+      @keyframes skel-shimmer {
+        0% {
+          background-position: 100% 0;
+        }
+        100% {
+          background-position: -100% 0;
+        }
+      }
+
+      #card * {
+        max-width: var(--w100);
+      }
+
+      :root {
+        --wh: stretch;
+        --avatar-size: 100px;
+      }
+
+      .profile-card {
+        background: #ffffff;
+        border-radius: 16px;
+        width: 100%;
+        max-width: 450px;
+        overflow: hidden;
+        font-family: sans-serif;
+        transition: all 0.3s ease;
+      }
+
+      /* --- Portada --- */
+      .cover-wrap {
+        position: relative;
+        width: 100%;
+        min-height: 115px;
+        background-color: #e5e7eb;
+        display: none;
+        transition: all 0.2s ease; /* Transición para cuando cambien los valores del slider */
+      }
+      .cover-photo {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: none;
+      }
+
+      /* --- Contenido Principal --- */
+      .profile-row {
+        display: flex;
+        align-items: center;
+        gap: 20px;
+        padding: 20px;
+        position: relative;
+        transition: all 0.3s ease;
+      }
+
+      .avt {
+        --avatar-size: 100px; /* single source of truth for avatar dimensions */
+        --avatar-radius: 50px;
+        display: grid;
+        place-items: center;
+        position: relative;
+        width: var(--avatar-size);
+        height: var(--avatar-size);
+        flex-shrink: 0;
+        transition:
+          width 0.3s ease,
+          height 0.3s ease,
+          margin 0.3s ease;
+        border-radius: var(--avatar-radius);
+        transform-origin: center;
+      }
+
+      .avt__img {
+        width: var(--avatar-size);
+        height: var(--avatar-size);
+        border-radius: var(--avatar-radius);
+        object-fit: cover;
+        z-index: 1;
+        grid-area: 1 / 1;
+        transform-origin: center;
+      }
+
+      /* --- Efecto Shimmer --- */
+      .cover-skel,
+      .avt__skel,
+      .lin__skel {
+        background: linear-gradient(
+          90deg,
+          #ecefef 25%,
+          #f4f6f6 50%,
+          #ecefef 75%
+        );
+        background-size: 200% 100%;
+        animation: shimmer 1.5s infinite linear;
+      }
+      .cover-skel {
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        top: 0;
+        left: 0;
+      }
+      .avt__skel {
+        width: var(--avatar-size, 100px);
+        height: var(--avatar-size, 100px);
+        border-radius: var(--avatar-radius);
+        grid-area: 1 / 1;
+        transition: all 0.3s ease;
+      }
+      .lin__skel {
+        margin-bottom: 8px;
+        border-radius: 4px;
+      }
+
+      @keyframes shimmer {
+        0% {
+          background-position: 200% 0;
+        }
+        100% {
+          background-position: -200% 0;
+        }
+      }
+
+      /* --- Control de visibilidad --- */
+      .avt__img,
+      .cover-photo,
+      .lin__identity {
+        display: none;
+      }
+
+      .status-storage[data-general-status="loaded"] .avt__skel,
+      .status-storage[data-general-status="loaded"] .cover-skel,
+      .status-storage[data-general-status="loaded"] .lin__identity-skel {
+        display: none;
+      }
+      .status-storage[data-general-status="loaded"] .avt__img,
+      .status-storage[data-general-status="loaded"] .cover-photo,
+      .status-storage[data-general-status="loaded"] .lin__identity {
+        display: block;
+      }
+
+      /* --- PRESETS SOCIALES --- */
+      .profile-card.preset-classic .cover-wrap {
+        display: block;
+      }
+      .profile-card.preset-classic .profile-row {
+        flex-direction: column;
+        align-items: flex-start;
+        text-align: left;
+        padding-top: 0;
+      }
+      .profile-card.preset-classic .avt {
+        margin-top: -50px;
+      }
+
+      .profile-card.preset-centered .cover-wrap {
+        display: block;
+      }
+      .profile-card.preset-centered .profile-row {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        padding-top: 0;
+      }
+      .profile-card.preset-centered .avt {
+        margin-top: -50px;
+      }
+
+      .profile-card.preset-horizontal .cover-wrap {
+        display: block;
+      }
+      .profile-card.preset-horizontal .profile-row {
+        flex-direction: row;
+        align-items: center;
+        text-align: left;
+        padding-top: 20px;
+      }
+      .profile-card.preset-horizontal .avt {
+        margin-top: 0;
+      }
+
+      /* --- ESTILOS DE PORTADA --- */
+      .profile-card.cover-style-none .cover-wrap {
+        display: none !important;
+      }
+      .profile-card.cover-style-none .profile-row {
+        padding-top: 20px !important;
+      }
+      .profile-card.cover-style-none .avt {
+        margin-top: 0 !important;
+      }
+
+      .profile-card.cover-style-full .cover-wrap {
+        display: block !important;
+        margin: 0;
+        width: 100%;
+        border-radius: 0;
+      }
+
+      .profile-card.cover-style-inset .cover-wrap {
+        display: block !important;
+        margin: 16px auto; /* auto para mantenerlo centrado si modificamos el width */
+        width: calc(100% - 32px);
+        border-radius: 12px;
+        overflow: hidden;
+      }
+
+      /* --- MORPHING CONTROLLER SYSTEM --- */
+      .morphing-controller {
+        position: fixed;
+        bottom: 20px;
+        left: 50%;
+        transform: translateX(-50%);
+        z-index: 10000;
+        box-sizing: border-box;
+        transition: all 0.5s cubic-bezier(0.2, 1, 0.2, 1);
+        overflow: hidden;
+        font-family: sans-serif;
+        display: none;
+      }
+
+      .morphing-controller[data-status="pill"] {
+        width: 380px;
+        height: 380px;
+        border-radius: 16px;
+        background: transparent;
+        box-shadow: none;
+        pointer-events: none;
+        transform: translate(-50%, 110%);
+        opacity: 0;
+        border: none;
+      }
+      .morphing-controller[data-status="pill"] * {
+        display: none !important;
+      }
+
+      .morphing-controller[data-status="main-controller"] {
+        width: 380px;
+        height: 380px; /* Un poco más de altura */
+        border-radius: 16px;
+        background: #ffffff;
+        color: #09090b;
+        padding: 16px;
+        box-shadow: 0 12px 32px rgba(0, 0, 0, 0.15);
+        border: 1px solid #e4e4e7;
+        cursor: default;
+      }
+
+      .pill-content {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        width: 100%;
+        height: 100%;
+        font-size: 14px;
+        font-weight: 600;
+        white-space: nowrap;
+        transition:
+          opacity 0.2s ease,
+          transform 0.2s ease;
+        opacity: 1;
+        transform: scale(1);
+      }
+      .morphing-controller[data-status="main-controller"] .pill-content {
+        opacity: 0;
+        transform: scale(0.8);
+        pointer-events: none;
+        height: 0;
+        overflow: hidden;
+      }
+
+      .panel-content {
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+        opacity: 0;
+        transform: scale(0.95);
+        transition:
+          opacity 0.3s ease,
+          transform 0.3s ease;
+        pointer-events: none;
+        height: 0;
+        overflow: hidden;
+      }
+      .morphing-controller[data-status="main-controller"] .panel-content {
+        opacity: 1;
+        transform: scale(1);
+        pointer-events: auto;
+        height: 100%;
+      }
+
+      /* ==========================================================================
+         REGLAS DE ARQUITECTURA UI
+
+         Patrones:
+         - La estructura permanente vive en CSS por clase semantica.
+         - Los cambios de estado se expresan con atributos data-*:
+           data-state, data-status, data-card-status, data-bottom-sheet.
+         - JS solo cambia atributos data-* o variables CSS de runtime.
+         - Componentes flex/grid mantienen su display base en CSS.
+
+         Antipatrones:
+         - No usar el atributo style="" para comportamiento o estado.
+         - No usar el atributo style="" para display, visibility, overflow,
+           pointer-events, position, transform o layout del componente.
+         - No usar element.style.display = "block" para mostrar un componente
+           que depende de display:flex o display:grid.
+         - No hardcodear CSS inline desde JS si puede resolverse con data-*.
+
+         Ejemplo:
+         Correcto: el.dataset.status = "active"
+         Incorrecto: el.style.display = "block"
+         ========================================================================== */
+      #main-sheet {
+        height: min(92dvh, 720px);
+      }
+
+      #main-sheet[data-status="hidden"] {
+        display: none;
+      }
+
+      #main-sheet[data-status="ready"] {
+        display: flex;
+      }
+
+      .editor-scroll {
+        flex: 1;
+        min-height: 0;
+        overflow-y: auto;
+        padding-bottom: calc(32px + env(safe-area-inset-bottom));
+        overscroll-behavior: contain;
+        -webkit-overflow-scrolling: touch;
+      }
+      .editor-scroll::-webkit-scrollbar {
+        width: 5px;
+      }
+      .editor-scroll::-webkit-scrollbar-thumb {
+        background: #e4e4e7;
+        border-radius: 10px;
+      }
+
+      .fc-header {
+        font-size: 14px;
+        font-weight: 700;
+        margin: 0 0 14px 0;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        color: #09090b;
+        flex-shrink: 0;
+      }
+      .fc-close-btn {
+        background: none;
+        border: none;
+        color: #a1a1aa;
+        font-size: 16px;
+        cursor: pointer;
+        margin-left: auto;
+        padding: 4px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+        transition: all 0.2s;
+      }
+      .fc-close-btn:hover {
+        background: #f4f4f5;
+        color: #18181b;
+      }
+      .control-row {
+        margin-bottom: 16px;
+      }
+      .control-label {
+        display: block;
+        font-size: 12px;
+        font-weight: 600;
+        margin-bottom: 8px;
+        color: #09090b;
+      }
+      .glider-container {
+        display: flex;
+        background: #f4f4f5;
+        border-radius: 8px;
+        padding: 4px;
+        gap: 4px;
+      }
+      .glider-option {
+        flex: 1;
+        text-align: center;
+        padding: 6px;
+        font-size: 11px;
+        cursor: pointer;
+        border-radius: 6px;
+        color: #71717a;
+        transition: all 0.2s;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 500;
+      }
+      .glider-option.active {
+        background: #ffffff;
+        color: #09090b;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        font-weight: 700;
+      }
+      .control-label-wrap {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-size: 12px;
+        font-weight: 600;
+        margin-bottom: 8px;
+        color: #09090b;
+      }
+      .control-value {
+        color: #71717a;
+        font-weight: 400;
+      }
+      .range-input {
+        width: 100%;
+        accent-color: #09090b;
+      }
+      #insetControlsContainer[data-status="hidden"],
+      .sheet-sticky-controls[data-status="hidden"] {
+        display: none;
+      }
+      #insetControlsContainer[data-status="active"] {
+        display: block;
+      }
+      .sheet-sticky-controls[data-status="active"] {
+        display: block;
+      }
+      .custom-input {
+        width: 100%;
+        padding: 6px 8px;
+        border-radius: 6px;
+        border: 1px solid #d4d4d8;
+        font-family: sans-serif;
+        font-size: 12px;
+        box-sizing: border-box;
+        background: #fff;
+      }
+      .checkbox-wrap {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 8px;
+      }
+      .divider {
+        height: 1px;
+        background: #e4e4e7;
+        margin: 14px 0;
+      }
+
+      /* --- MOCK BORDER (::before) --- */
+      .avt {
+        --mock-border-scale: 1.05;
+        --mock-border-bg: #ffffff;
+      }
+      .avt::before {
+        content: "";
+        grid-area: 1 / 1;
+        width: var(--avatar-size, 100px);
+        height: var(--avatar-size, 100px);
+        display: block;
+        background: var(--mock-border-bg);
+        border-radius: var(--avatar-radius);
+        transform: scale(var(--mock-border-scale));
+        z-index: 0;
+        transition:
+          width 0.3s ease,
+          height 0.3s ease,
+          transform 0.2s ease;
+        transform-origin: center;
+      }
+
+      main:has(.cover-style-none) .main-content__top-bar {
+        flex-direction: row-reverse;
+      }
+
+      /**/
+
+      /* --- ESTRUCTURA SOLICITADA --- */
+      .pill-wrapper {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+
+      /* Contenedor principal estilo Píldora */
+      .buttons-container {
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: transparent;
+        border-radius: 9999px;
+        width: 130px; /* Ancho fijo para mantener la forma durante la animación */
+        height: 48px; /* Alto fijo */
+        overflow: hidden; /* Oculta los botones cuando salen del área */
+        border: 1px solid #0e876d;
+
+        box-shadow: var(--shadow-sm);
+      }
+
+      /* Estilos base compartidos por los botones Editar y Listo */
+      .btn-action {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        border: none;
+        color: white;
+        font-weight: bold;
+        font-size: 1rem;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        transition:
+          transform 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+          opacity 0.4s ease;
+      }
+
+      /* Estado inicial: Botón Editar */
+      .btn-edit {
+        background-color: transparent;
+        transform: translateY(0);
+        opacity: 1;
+        color: #0c886d;
+      }
+
+      /* Estado inicial: Botón Listo (oculto abajo) */
+      .btn-done {
+        background-color: transparent;
+        transform: translateY(100%);
+        opacity: 0;
+      }
+
+      /* Contenedor del Botón Satélite */
+      .satellite-container {
+        transition:
+          transform 0.4s ease,
+          opacity 0.4s ease,
+          width 0.4s ease,
+          margin 0.4s ease;
+        overflow: hidden;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+
+      /* Botón Satélite Circular */
+      .btn-satellite {
+        width: 48px;
+        height: 48px;
+        border-radius: 50%;
+        border: none;
+        background-color: #09090b;
+        color: white;
+        font-size: 1.2rem;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+      }
+
+      .btn-satellite svg {
+        width: 20px;
+      }
+
+      /* =========================================
+       ESTADOS DE ANIMACIÓN (Clase 'is-active')
+       ========================================= */
+
+      /* Editar se mueve hacia arriba y desaparece */
+      .pill-wrapper.is-active .btn-edit {
+        transform: translateY(-100%);
+        opacity: 0;
+      }
+
+      /* Listo sube desde abajo y ocupa el lugar */
+      .pill-wrapper.is-active .btn-done {
+        transform: translateY(0);
+        opacity: 1;
+      }
+
+      /* El botón satélite colapsa y desaparece */
+      .pill-wrapper.is-active .satellite-container {
+        transform: scale(0);
+        opacity: 0;
+        width: 0;
+        margin-left: -12px; /* Cancela visualmente el gap del flexbox */
+      }
+
+      .pill-wrapper-container {
+        display: flex;
+        width: -webkit-fill-available;
+        justify-content: center;
+        position: fixed;
+        bottom: 20px;
+        left: 0px;
+        z-index: 999;
+      }
+
+      .pill-wrapper:not(.is-active) .buttons-container {
+        background-color: #bcdbd4;
+      }
+
+      .pill-wrapper.is-active .buttons-container {
+        background-color: #06896c;
+      }
+
+      /**/
+
+      [data-card-status="editing"] + #app header {
+        margin-bottom: -50px;
+        transform: translatey(-130px);
+        height: 85px;
+      }
+
+      [data-card-status="editing"] + #app .handler--drag {
+        transform: scale(0);
+      }
+
+      .avt__edit {
+        transform: translate(-50%, -50%);
+      }
+
+      [data-card-status="editing"] + #app .mobile_input,
+      [data-card-status="editing"] + #app .avt__edit {
+        display: flex;
+        position: absolute;
+        width: var(--w100);
+        height: var(--w100);
+        max-width: var(--wh);
+        max-height: var(--wh);
+        background-color: #00000044;
+        justify-content: center;
+        align-items: center;
+        cursor: pointer;
+      }
+
+      [data-card-status="editing"] + #app .avt__edit {
+        inset: 50% auto auto 50%;
+        z-index: 2;
+        background-color: #00000070;
+        width: var(--avatar-size);
+        height: var(--avatar-size);
+        max-width: var(--avatar-size);
+        max-height: var(--avatar-size);
+        border-radius: var(--avatar-radius);
+        transform: translate(-50%, -50%);
+        transform-origin: center;
+        position: absolute;
+      }
+
+      [data-card-status="editing"] + #app .icon_cover:before {
+        --wh: 45px;
+        content: "";
+        width: var(--wh);
+        height: var(--wh);
+        background-color: #00000000;
+        display: flex;
+        padding: 0px;
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-position: center;
+        align-items: center;
+        justify-content: center;
+        background-image: url("data:image/svg+xml,%3Csvg version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' width='24px' height='24px' viewBox='0,0,256,256'%3E%3Cg fill='%23ffffff' fill-rule='nonzero' stroke='none' stroke-width='1' stroke-linecap='butt' stroke-linejoin='miter' stroke-miterlimit='10' stroke-dasharray='' stroke-dashoffset='0' font-family='none' font-weight='none' font-size='none' text-anchor='none' style='mix-blend-mode: normal'%3E%3Cg transform='scale(10.66667,10.66667)'%3E%3Cpath d='M16,16h-13c-0.6,0 -1,-0.4 -1,-1v-10c0,-0.6 0.4,-1 1,-1h13c0.6,0 1,0.4 1,1v10c0,0.6 -0.4,1 -1,1z' opacity='0.3'%3E%3C/path%3E%3Cpath d='M16,17h-13c-1.1,0 -2,-0.9 -2,-2v-10c0,-1.1 0.9,-2 2,-2h13c1.1,0 2,0.9 2,2v10c0,1.1 -0.9,2 -2,2zM3,5v10h13v-10z'%3E%3C/path%3E%3Cpath d='M20,21h-15v-2h15v-12h2v12c0,1.1 -0.9,2 -2,2z'%3E%3C/path%3E%3Cpath d='M15,13l-3.4,-4.7l-2.8,3.7l-2.1,-2.5l-2.7,3.5z'%3E%3C/path%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+      }
+
+      [data-card-status="editing"] + #app .avt__ico:before {
+        --wh: 45px;
+        content: "";
+        width: var(--wh);
+        height: var(--wh);
+        background-color: #00000000;
+        display: flex;
+        padding: 0px;
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-position: center;
+        align-items: center;
+        justify-content: center;
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 20 20' fill='none'%3E%3Cg clip-path='url(%23clip0_4_5)'%3E%3Cpath d='M20 10C20 15.5228 15.5228 20 10 20C4.47715 20 0 15.5228 0 10C0 4.47715 4.47715 0 10 0C15.5228 0 20 4.47715 20 10Z' fill='white' fill-opacity='0.5'/%3E%3Ccircle cx='10' cy='8' r='3' fill='white'/%3E%3Crect x='5' y='12' width='10' height='3' rx='1.5' fill='white'/%3E%3C/g%3E%3Cdefs%3E%3CclipPath id='clip0_4_5'%3E%3Crect width='20' height='20' fill='white'/%3E%3C/clipPath%3E%3C/defs%3E%3C/svg%3E");
+      }
+    </style>
+  </head>
+
+  <body>
+    <div id="data-status-storage">
+      <!-- 
+    INSTRUCCIONES.
+    ESTE ELEMENTO HTML SE USARA PARA ALMACENAR ESTADOS DE JS EN ATRIBUTOS data-*something
+    de esta manera permitiremos a la UI cambiar su aspecto dependiendo del atributo y estado designado por medio de cadena de clases css
+
+    ejemplo:
+
+    #data-status-storage[data-status="offline"] + #app{
+        --background-color: #efefef;
+    }
+    #data-status-storage[data-status="online"] + #app{
+        --background-color: #00ff00;
+    }
+
+    ESTADO GLOBAL DE UI (State-Driven CSS)
+
+    Este elemento actúa como un "observador de estado". La lógica de negocio 
+    en JS actualiza únicamente los atributos data-* de este nodo, y el CSS 
+    reacciona de forma declarativa mediante selectores de atributos.
+
+    Mantenimiento:
+    - Evitar lógica compleja aquí; solo estados de alto nivel (ej: auth, theme, status).
+    - Selector: Se usa el adyacente (+) para encapsular cambios en #app.
+    - Ejemplo: 
+    #data-status-storage[data-status="online"] + #app { --color: green; }
+    
+--->
+    </div>
+    <div id="app">
+      <header class="header">
+        <div>
+          <div
+            class="header__actions"
+            style="--scale: 0.941; --blur: -0.10000000000000009px"
+          >
+            <div class="header__menu">
+              <button
+                class="header__back-btn"
+                id="backBtn"
+                data-action="nav:back"
+                aria-label="Atrás"
+              >
+                <svg><use href="#back-arrow"></use></svg>
+              </button>
+              <div class="header__title-container">
+                <span class="header__title">Main hub</span>
+                <div class="sync-status-badge" id="syncStatusBadge">
+                  <span class="sync-dot"></span>
+                  <span class="sync-text">Sincronizado</span>
+                </div>
+                <div class="header__module-icon">
+                  <svg><use href="#chevron-arrow"></use></svg>
+                </div>
+              </div>
+            </div>
+
+            <button
+              id="cancelBtn"
+              data-action="content:cancel"
+              class="header__cta header__cta--cancel"
+            >
+              Cancel
+            </button>
+
+            <span class="header__cta-container">
+              <button
+                id="completePublishBtn"
+                data-action="content:publish"
+                class="header__cta"
+              >
+                <svg><use href="#share"></use></svg>
+                <span class="header__btn-text">Complete</span>
+              </button>
+              <button
+                id="publishBtn"
+                data-action="content:publish"
+                class="header__cta"
+              >
+                <svg><use href="#share"></use></svg>
+                <span class="header__btn-text">Publish</span>
+              </button>
+            </span>
+          </div>
+          <!-- CORREGIDO: antes era un </div> -->
+
+          <div
+            class="header__action handler"
+            aria-label="Arrastrar"
+            style="--translate: -28px"
+          >
+            <span class="header__action__handler handler--drag"></span>
+          </div>
+        </div>
+        <!-- CORREGIDO: antes era un </span> -->
+      </header>
+      <main class="main-content profile-section" data-style="classic">
+        <div class="main-content__top-bar">
+          <div class="logo-chip">
+            <svg class="logo-chip__icon" viewBox="0 0 24 24" fill="none">
+              <use href="#logo"></use>
+            </svg>
+          </div>
+        </div>
+        <div
+          id="card"
+          class="main-content__user-card"
+          data-object="binder-area"
+          data-hydrated=""
+        >
+          <!-- unnmamed template test -->
+          <style></style>
+          <!-- Contenedor Principal (Storage Node y Master Bind) -->
+          <div data-master-bind="true"></div>
+          <div
+            class="profile-card preset-classic cover-style-full status-storage"
+            id="mainCard"
+            data-general-status="skel-loading"
+          >
+            <!-- Portada (Añadimos ID coverWrap para el Factory) -->
+            <div class="cover-wrap" id="coverWrap">
+              <span
+                id="mobile_cover_input"
+                class="mobile_input edit-element"
+                data-scope="mobile_cover_input"
+              >
+                <span class="icon_cover"> </span>
+              </span>
+              <div class="cover-skel"></div>
+              <img
+                class="cover-photo skeleton-target"
+                id="profileCover"
+                data-bind="user.umCoverUrl"
+                data-bind-type="src"
+                alt="Portada"
+              />
+            </div>
+
+            <div class="profile-row" id="profileContent">
+              <div class="avt" id="avatarContainer">
+                <span
+                  id="mobile_avatar_input"
+                  class="avt__edit edit-element"
+                  data-scope="avt__edit"
+                >
+                  <span class="avt__ico"> </span>
+                </span>
+                <div class="avt__skel"></div>
+                <img
+                  class="avt__img skeleton-target"
+                  id="profileImg"
+                  data-bind="user.avatar.url"
+                  data-bind-type="src"
+                  alt="Foto de perfil"
+                  onerror="
+                    this.onerror = null;
+                    this.src =
+                      'data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 24 24\' width=\'100\' height=\'100\'><circle cx=\'12\' cy=\'8\' r=\'4\' fill=\'%23ccc\'/><path d=\'M12 14c-6.1 0-8 4-8 4v2h16v-2s-1.9-4-8-4z\' fill=\'%23ccc\'/></svg>';
+                  "
+                />
+              </div>
+
+              <div class="lin__identity-skel">
+                <div class="lin__skel" style="height: 22px; width: 140px"></div>
+                <div class="lin__skel" style="height: 13px; width: 90px"></div>
+              </div>
+
+              <div class="lin__identity">
+                <h2
+                  style="margin: 0; font-size: 22px"
+                  id="profileName"
+                  data-bind="user.firstName"
+                  data-bind-type="text"
+                ></h2>
+                <p
+                  style="margin: 4px 0 0 0; font-size: 13px; color: #666"
+                  id="profileRole"
+                  data-bind="user.role"
+                  data-bind-type="text"
+                ></p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+    <!-- New Pill Edit BTN -->
+    <div class="pill-wrapper-container" style="">
+      <div class="pill-wrapper" id="mi-pildora">
+        <!-- Contenedor principal estilo Píldora -->
+        <div class="buttons-container">
+          <button class="btn-action btn-edit">
+            <i class="fa-solid fa-pen"></i>
+            <span>Editar</span>
+          </button>
+
+          <button class="btn-action btn-done">
+            <i class="fa-solid fa-check"></i>
+            <span>Listo</span>
+          </button>
+        </div>
+
+        <!-- Botón Satélite Circular -->
+        <div class="satellite-container">
+          <button
+            class="btn-satellite"
+            onclick="simulateAction('Satélite / Añadir')"
+          >
+            <svg
+              viewBox="0 0 24 24"
+              width="100%"
+              height="100%"
+              xmlns="http://w3.org"
+            >
+              <path
+                fill="currentColor"
+                d="M11 2v9H2v2h9v9h2v-9h9v-2h-9V2h-2z"
+              />
+            </svg>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Fondo opaco -->
+    <div class="sheet-backdrop" id="main-backdrop" data-state="closed"></div>
+
+    <!-- Contenedor principal del Bottom Sheet -->
+    <div
+      class="bottom-sheet"
+      id="main-sheet"
+      data-state="closed"
+      data-status="ready"
+      aria-modal="true"
+      role="dialog"
+    >
+      <!-- Zona de arrastre (Pill) -->
+      <div class="sheet-handler-area"><div class="sheet-drag-pill"></div></div>
+
+      <!-- Header Dividido en 3 zonas -->
+      <header class="sheet-header">
+        <div class="sheet-header-left" id="sheet-header-left">
+          <button
+            class="icon-btn"
+            data-action="close"
+            style="
+              background: var(--bg-secondary);
+              border: none;
+              border-radius: 50%;
+              width: 36px;
+              height: 36px;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              cursor: pointer;
+            "
+          >
+            <i
+              class="ti ti-x"
+              style="font-size: 18px; color: var(--text-primary)"
+            ></i>
+          </button>
+        </div>
+        <div class="sheet-header-center" id="sheet-header-center">
+          <h2 style="font-size: 18px; margin: 0; font-weight: 600">
+            Editar Portada y Perfil
+          </h2>
+        </div>
+        <div class="sheet-header-right" id="sheet-header-right"></div>
+      </header>
+
+      <!-- Contenedor principal con scroll independiente. Mantenemos el ID 'editorScroll' para compatibilidad con CONTROLS -->
+      <div class="sheet-content-slots editor-scroll" id="editorScroll"></div>
+
+      <!-- Footer fijo (opcional) -->
+      <div
+        class="sheet-sticky-controls"
+        id="sheet-footer"
+        data-status="hidden"
+      ></div>
+    </div>
+    <div id="root-styles-loader"></div>
+
+    <script>
+      const DOM_CONST = {
+        statusStorage: "#data-status-storage",
+      };
+
+      document.addEventListener("DOMContentLoaded", () => {
+        // Seleccionamos el contenedor principal
+        const pildora = document.getElementById("mi-pildora");
+
+        // Seleccionamos los botones de acción dentro de la píldora
+        const btnEdit = pildora.querySelector(".btn-edit");
+        const btnDone = pildora.querySelector(".btn-done");
+        const btnSatellite = pildora.querySelector(".btn-satellite");
+
+        // Instancia del Bottom Sheet global
+        window.appBottomSheet = null;
+
+        // Importar dinámicamente el componente Bottom Sheet
+        import("/shared/components/bottom-sheet/bottom-sheet.js").then(
+          (mod) => {
+            window.appBottomSheet = new mod.BottomSheet(
+              "main-sheet",
+              "main-backdrop",
+            ).hydrate();
+            window.constructBottomSheet = mod.constructSheet;
+            window.appBottomSheetClose = mod.closeSheet;
+          },
+        );
+
+        // ------------------------------------------------------------
+        // Credential validation – ensure both user ID and API token exist
+        // ------------------------------------------------------------
+        function ensureDevCredentials() {
+          // Check both generic keys and dev‑specific keys
+          const uid =
+            localStorage.getItem("user id") ||
+            localStorage.getItem("devUserId");
+          const token =
+            localStorage.getItem("apiToken") ||
+            localStorage.getItem("devApiKey");
+          if (!uid || !token) {
+            // Build a simple bottom‑sheet content with inputs
+            const sheetContent = `
+              <div class="test-content">
+                <label style="display:block;margin-bottom:8px;">User ID:
+                  <input type="number" id="credUserId" value="${uid ?? ""}" style="width:100%;margin-top:4px;" />
+                </label>
+                <label style="display:block;margin-bottom:12px;">API Token:
+                  <input type="text" id="credApiToken" value="${token ?? ""}" style="width:100%;margin-top:4px;" />
+                </label>
+                <button id="credSaveBtn" style="padding:8px 16px;background:#0f876c;color:white;border:none;border-radius:6px;cursor:pointer;">Guardar</button>
+              </div>`;
+
+            // Open the bottom sheet using the existing construct function
+            if (typeof window.constructBottomSheet === "function") {
+              window.constructBottomSheet({
+                title: "Configuración de Credenciales",
+                scope: "dev-credentials",
+                content: sheetContent,
+                bottom_actions: {
+                  layout: "single",
+                  primary: { label: "Cerrar", callback: "close" },
+                },
+              });
+            }
+
+            // Attach save handler after sheet is rendered
+            setTimeout(() => {
+              const saveBtn = document.getElementById("credSaveBtn");
+              if (saveBtn) {
+                saveBtn.addEventListener("click", () => {
+                  const newUid = document
+                    .getElementById("credUserId")
+                    .value.trim();
+                  const newToken = document
+                    .getElementById("credApiToken")
+                    .value.trim();
+                  if (newUid && newToken) {
+                    localStorage.setItem("devUserId", newUid);
+                    localStorage.setItem("devApiKey", newToken);
+                    // Update the running storage instance if present
+                    if (window.appBipartiteStorage) {
+                      window.appBipartiteStorage.userId = Number(newUid);
+                      window.appBipartiteStorage.apiKey = newToken;
+                    }
+                    // Close the sheet
+                    if (window.appBottomSheetClose)
+                      window.appBottomSheetClose();
+                  }
+                });
+              }
+            }, 0);
+          }
+        }
+
+        // Call the check once the bottom‑sheet module has loaded
+        const maybeInitCredCheck = () => {
+          if (typeof window.constructBottomSheet === "function") {
+            ensureDevCredentials();
+          } else {
+            // Retry shortly if the module is still loading
+            setTimeout(maybeInitCredCheck, 100);
+          }
+        };
+        // Trigger after a short delay to give the import a chance to resolve
+        setTimeout(maybeInitCredCheck, 200);
+        // Evento para activar el modo edición
+        btnEdit.addEventListener("click", () => {
+          pildora.classList.add("is-active");
+          document
+            .querySelector(DOM_CONST.statusStorage)
+            .setAttribute("data-card-status", "editing");
+        });
+
+        // Evento para finalizar la edición (Listo)
+        btnDone.addEventListener("click", () => {
+          pildora.classList.remove("is-active");
+          document
+            .querySelector(DOM_CONST.statusStorage)
+            .setAttribute("data-card-status", "pasive");
+        });
+
+        // Evento para el botón satélite (puedes agregar tu lógica aquí)
+        btnSatellite.addEventListener("click", () => {
+          console.log("Botón satélite clickeado / Añadir");
+        });
+
+        // Evento para abrir el panel de edición al hacer clic en un .edit-element
+        document.addEventListener("click", (e) => {
+          const editBtn = e.target.closest(".edit-element");
+          if (editBtn) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            const scope = editBtn.getAttribute("data-scope");
+
+            if (window.appBottomSheet) {
+              window.appBottomSheet.open();
+            }
+
+            const editorScroll = document.getElementById("editorScroll");
+            if (editorScroll) {
+              let targetEl = null;
+              if (scope === "avt__edit") {
+                targetEl = document.getElementById("ctrlGroupAvatar");
+              } else if (scope === "mobile_cover_input") {
+                targetEl = document.getElementById("ctrlGroupCover");
+              }
+
+              if (targetEl) {
+                setTimeout(() => {
+                  editorScroll.scrollTo({
+                    top: targetEl.offsetTop - 10,
+                    behavior: "smooth",
+                  });
+                }, 150);
+              }
+            }
+          }
+        });
+      });
+    </script>
+    <script>
+      // ==========================================
+      // klef-profile-controller.js
+      // Arquitectura declarativa — Klef Agency
+      // ==========================================
+
+      /*
+       * ==========================================================================
+       * REGLAS DE ARQUITECTURA UI
+       *
+       * Patrones:
+       * - JS expresa estado con atributos data-*.
+       * - CSS decide como se ve cada estado.
+       * - Las variables CSS son validas para valores vivos de controles
+       *   como --avatar-size o --avatar-radius.
+       * - El display base de un componente pertenece al CSS.
+       *
+       * Antipatrones:
+       * - No usar estilos inline hardcoded para comportamiento.
+       * - No usar el.style.display = "block" para mostrar componentes.
+       *   Si el componente es flex/grid, eso rompe su layout interno.
+       * - No esconder/mostrar paneles con style="" cuando puede usarse
+       *   data-status="hidden|active|ready".
+       * - No mezclar estado en class="" si ya existe un atributo data-*.
+       *
+       * Ejemplo:
+       * Correcto: panel.dataset.status = "active"
+       * Incorrecto: panel.style.display = "block"
+       * ==========================================================================
+       */
+
+      // ==========================================
+      // 1. CONTROL SCHEMA — único lugar de verdad
+      //    Agregar un control = un objeto en este array.
+      //    El motor no necesita ningún cambio.
+      // ==========================================
+      const CONTROLS = [
+        // --- Grupo: avatar ---
+        {
+          id: "ctrl-size",
+          group: "avatar",
+          label: "Tamaño Avatar",
+          type: "range",
+          targetId: "profileContent",
+          unit: "px",
+          min: 40,
+          max: 160,
+          initial: 100,
+          onChange(val, target) {
+            const container = document.getElementById("avatarContainer");
+            if (container) {
+              container.style.setProperty("--avatar-size", `${val}px`);
+            }
+            const radiusInput = document.getElementById("ctrl-radius-input");
+            if (radiusInput) {
+              radiusInput.max = val;
+              if (Number(radiusInput.value) > Number(val)) {
+                radiusInput.value = val;
+                radiusInput.dispatchEvent(
+                  new Event("input", { bubbles: true }),
+                );
+              }
+            }
+          },
+        },
+
+        {
+          id: "ctrl-radius",
+          group: "avatar",
+          label: "Radio Avatar",
+          type: "range",
+          targetId: "avatarContainer",
+          unit: "px",
+          min: 0,
+          max: 100,
+          initial: 50,
+          onChange(val, target) {
+            target.style.setProperty("--avatar-radius", `${val}px`);
+          },
+        },
+
+        {
+          id: "ctrl-padding",
+          group: "avatar",
+          label: "Padding Avatar",
+          type: "range",
+          targetId: "avatarContainer",
+          unit: "px",
+          min: 0,
+          max: 24,
+          initial: 0,
+          onChange(val, target) {
+            target.style.padding = val + "px";
+            target.style.boxSizing = "border-box";
+          },
+        },
+
+        {
+          id: "ctrl-mock-border-scale",
+          group: "avatar",
+          label: "Mock Border (escala)",
+          type: "range",
+          targetId: "avatarContainer",
+          unit: "",
+          min: 1,
+          max: 1.2,
+          step: 0.01,
+          initial: 1.05,
+          onChange(val, target) {
+            target.style.setProperty("--mock-border-scale", val);
+          },
+        },
+
+        // --- Grupo: cover-inset (solo visible cuando cover-style === 'inset') ---
+        {
+          id: "ctrl-cover-width",
+          group: "cover-inset",
+          label: "Ancho Portada",
+          type: "range",
+          targetId: "coverWrap",
+          cssProp: "width",
+          unit: "%",
+          min: 50,
+          max: 100,
+          initial: 90,
+        },
+
+        {
+          id: "ctrl-cover-height",
+          group: "cover-inset",
+          label: "Alto Portada",
+          type: "range",
+          targetId: "coverWrap",
+          cssProp: "height",
+          unit: "px",
+          min: 60,
+          max: 250,
+          initial: 120,
+        },
+
+        {
+          id: "ctrl-cover-radius",
+          group: "cover-inset",
+          label: "Redondeo Esquinas",
+          type: "range",
+          targetId: "coverWrap",
+          cssProp: "borderRadius",
+          unit: "px",
+          min: 0,
+          max: 40,
+          initial: 12,
+        },
+
+        {
+          id: "ctrl-cover-fit",
+          group: "cover-inset",
+          label: "Ajuste de imagen",
+          type: "select",
+          targetId: "profileCover",
+          cssProp: "objectFit",
+          initial: "cover",
+          options: [
+            { label: "Recortar (Cover)", value: "cover" },
+            { label: "Contener (Contain)", value: "contain" },
+            { label: "Rellenar (Fill)", value: "fill" },
+          ],
+        },
+
+        {
+          id: "ctrl-cover-shadow",
+          group: "cover-inset",
+          label: "Sombra de Portada",
+          type: "checkbox",
+          targetId: "coverWrap",
+          cssProp: "boxShadow",
+          trueValue: "0 8px 24px rgba(0,0,0,0.15)",
+          falseValue: "none",
+          initial: false,
+        },
+      ];
+
+      // ==========================================
+      // 2. CONTROL FACTORY — motor puro
+      //    No conoce ningún control por nombre.
+      //    Solo sabe leer la configuración y actuar.
+      // ==========================================
+      const ControlFactory = {
+        /**
+         * Construye todos los controles de un grupo e inyecta en el contenedor.
+         * @param {string}      group     — nombre del grupo definido en CONTROLS
+         * @param {HTMLElement} container — elemento donde se inyectarán los inputs
+         */
+        buildGroup(group, container) {
+          if (!container) return;
+          CONTROLS.filter((cfg) => cfg.group === group).forEach((cfg) => {
+            const el = this._build(cfg);
+            if (el) container.appendChild(el);
+          });
+        },
+
+        /** Construye y vincula un control individual */
+        _build(cfg) {
+          const target = document.getElementById(cfg.targetId);
+          if (!target) return null;
+
+          const wrap = document.createElement("div");
+          wrap.className = "control-row";
+
+          if (cfg.type === "checkbox") {
+            wrap.innerHTML = `
+        <div class="checkbox-wrap">
+          <span class="control-label" style="margin:0">${cfg.label}</span>
+          ${this._renderInput(cfg)}
+        </div>`;
+          } else {
+            const unit = cfg.unit || "";
+            wrap.innerHTML = `
+        <div class="control-label-wrap">
+          <span class="control-label">${cfg.label}</span>
+          <span class="control-value" id="${cfg.id}-val">
+            ${cfg.type !== "select" ? cfg.initial + unit : ""}
+          </span>
+        </div>
+        ${this._renderInput(cfg)}`;
+          }
+
+          const input = wrap.querySelector("input, select");
+          input.addEventListener("input", (e) => {
+            const raw =
+              cfg.type === "checkbox" ? e.target.checked : e.target.value;
+            this._applyCSS(cfg, target, raw);
+            this._updateDisplay(wrap, cfg, raw);
+            if (cfg.onChange) cfg.onChange(raw, target);
+            if (window.appBipartiteStorage) {
+              window.appBipartiteStorage.updateControlValue(cfg.id, raw);
+            }
+          });
+
+          return wrap;
+        },
+
+        /** Aplica la propiedad CSS al target si está configurada */
+        _applyCSS(cfg, target, val) {
+          if (!cfg.cssProp) return;
+          if (cfg.type === "checkbox") {
+            target.style[cfg.cssProp] = val
+              ? (cfg.trueValue ?? "")
+              : (cfg.falseValue ?? "none");
+          } else {
+            target.style[cfg.cssProp] = val + (cfg.unit || "");
+          }
+        },
+
+        /** Actualiza el span de valor visible junto al label */
+        _updateDisplay(wrap, cfg, val) {
+          if (cfg.type === "checkbox" || cfg.type === "select") return;
+          const display = wrap.querySelector(`#${cfg.id}-val`);
+          if (display) display.textContent = val + (cfg.unit || "");
+        },
+
+        /** Genera el HTML del input según el tipo */
+        _renderInput(cfg) {
+          const id = `${cfg.id}-input`;
+
+          if (cfg.type === "select") {
+            const opts = (cfg.options || [])
+              .map(
+                (o) =>
+                  `<option value="${o.value}"${o.value === cfg.initial ? " selected" : ""}>${o.label}</option>`,
+              )
+              .join("");
+            return `<select id="${id}" class="custom-input">${opts}</select>`;
+          }
+
+          if (cfg.type === "checkbox") {
+            return `<input type="checkbox" id="${id}"${cfg.initial ? " checked" : ""}
+        style="accent-color:#09090b;width:16px;height:16px;cursor:pointer">`;
+          }
+
+          if (cfg.type === "range") {
+            return `<input type="range" class="range-input" id="${id}"
+        min="${cfg.min ?? 0}"
+        max="${cfg.max ?? 100}"
+        step="${cfg.step ?? 1}"
+        value="${cfg.initial}">`;
+          }
+
+          // Fallback: text, number, email, tel, etc.
+          return `<input type="${cfg.type}" id="${id}" class="custom-input"
+      placeholder="${cfg.placeholder || ""}"
+      value="${cfg.initial || ""}">`;
+        },
+      };
+
+      // ==========================================
+      // 2.1 CONTROL SYNC REGISTRY
+      //    Input Adapter -> SSOT -> Design Binder
+      // ==========================================
+      const ControlSyncRegistry = {
+        defs: new Map(),
+        storage: null,
+
+        connectStorage(storage) {
+          this.storage = storage;
+        },
+
+        define(def) {
+          if (!def?.id) return;
+          const normalized = {
+            event: "click",
+            valueAttr: "value",
+            activeStatus: "active",
+            inactiveStatus: "unset",
+            statePath: `controls.${def.id}`,
+            ...def,
+          };
+          this.defs.set(normalized.id, normalized);
+          if (normalized.root) this.bindInput(normalized.id);
+          return normalized;
+        },
+
+        bindInput(id) {
+          const def = this.defs.get(id);
+          const root = document.querySelector(def.root);
+          if (!root || root.dataset.syncBound === "true") return;
+          root.dataset.syncBound = "true";
+          root.addEventListener(def.event, (e) => {
+            const item = e.target.closest(`[data-${def.valueAttr}]`);
+            if (!item || !root.contains(item)) return;
+            const raw = item.dataset[this._dataKey(def.valueAttr)];
+            this.setValue(id, this.resolveValue(def, raw));
+          });
+        },
+
+        setValue(id, value) {
+          const def = this.defs.get(id);
+          if (!def) return;
+          this.writeState(def, value);
+          this.applyDesign(def, value);
+          this.syncInput(def, value);
+          this.syncDisplay(def, value);
+        },
+
+        applyControl(id, value) {
+          const def = this.defs.get(id);
+          if (!def) return;
+          this.applyDesign(def, value);
+          this.syncInput(def, value);
+          this.syncDisplay(def, value);
+        },
+
+        applyAll(state) {
+          this.defs.forEach((def) => {
+            const value = this.readFromState(state, def.statePath);
+            if (value !== undefined) this.applyControl(def.id, value);
+          });
+        },
+
+        writeState(def, value) {
+          if (this.storage?.state) {
+            if (this.storage.isApplyingState) return;
+            const current = this.readFromState(this.storage.state, def.statePath);
+            if (String(current) === String(value)) return;
+            this.writeToState(this.storage.state, def.statePath, value);
+            this.storage.saveLocal();
+            return;
+          }
+          const root = this.storage?.state || window.appState;
+          if (!root) return;
+          this.writeToState(root, def.statePath, value);
+        },
+
+        applyDesign(def, value) {
+          const target = document.querySelector(def.target);
+          if (!target) return;
+          const designValue = this.resolveValue(def, value);
+          if (def.cssVar) {
+            target.style.setProperty(def.cssVar, `${designValue}${def.unit || ""}`);
+          }
+          if (def.cssProp) {
+            target.style[def.cssProp] = `${designValue}${def.unit || ""}`;
+          }
+          if (typeof def.onApply === "function") def.onApply(designValue, target);
+        },
+
+        syncInput(def, value) {
+          const root = document.querySelector(def.root);
+          if (!root) return;
+          root.querySelectorAll(`[data-${def.valueAttr}]`).forEach((item) => {
+            const raw = item.dataset[this._dataKey(def.valueAttr)];
+            const itemValue = this.resolveValue(def, raw);
+            item.dataset.status =
+              String(itemValue) === String(value)
+                ? def.activeStatus
+                : def.inactiveStatus;
+          });
+        },
+
+        syncDisplay(def, value) {
+          const display = document.getElementById(`${def.id}-val`);
+          if (display) display.textContent = `${value}${def.unit || ""}`;
+        },
+
+        resolveValue(def, raw) {
+          if (def.values && Object.hasOwn(def.values, raw)) return def.values[raw];
+          return raw;
+        },
+
+        readFromState(state, path) {
+          return path.split(".").reduce((acc, key) => acc?.[key], state);
+        },
+
+        writeToState(state, path, value) {
+          const parts = path.split(".");
+          const last = parts.pop();
+          const owner = parts.reduce((acc, key) => {
+            acc[key] = acc[key] || {};
+            return acc[key];
+          }, state);
+          owner[last] = value;
+        },
+
+        _dataKey(attr) {
+          return attr.replace(/-([a-z])/g, (_, char) => char.toUpperCase());
+        },
+      };
+      window.ControlSyncRegistry = ControlSyncRegistry;
+
+      // ==========================================
+      // 3. CONDITIONAL PANEL MANAGER
+      //    Decide qué grupos se renderizan y cuándo.
+      //    Ya no crea controles — delega en ControlFactory.
+      // ==========================================
+      const ConditionalPanelManager = {
+        // ---- helpers de construcción ----
+
+        /** Crea un <div class="control-row"> con label + glider y lo devuelve */
+        _buildGlider(id, label, options, initialVal) {
+          const row = document.createElement("div");
+          row.className = "control-row";
+
+          const lbl = document.createElement("span");
+          lbl.className = "control-label";
+          lbl.textContent = label;
+          row.appendChild(lbl);
+
+          const glider = document.createElement("div");
+          glider.className = "glider-container";
+          glider.id = id;
+
+          options.forEach(({ label: optLabel, val, handler }) => {
+            const opt = document.createElement("div");
+            opt.className =
+              "glider-option" + (val === initialVal ? " active" : "");
+            opt.dataset.val = val;
+            opt.textContent = optLabel;
+            opt.addEventListener("click", () => handler(val));
+            glider.appendChild(opt);
+          });
+
+          row.appendChild(glider);
+          return row;
+        },
+
+        /** Crea un <div class="divider"> */
+        _divider() {
+          const d = document.createElement("div");
+          d.className = "divider";
+          return d;
+        },
+
+        /** Crea un contenedor de grupo con label */
+        _buildGroup(id, label) {
+          const wrap = document.createElement("div");
+          wrap.id = id;
+          const lbl = document.createElement("span");
+          lbl.className = "control-label";
+          lbl.textContent = label;
+          wrap.appendChild(lbl);
+          return wrap;
+        },
+
+        // ---- init principal ----
+        init() {
+          const controller = document.getElementById("main-sheet");
+          const card = document.getElementById("mainCard");
+          const scroll = document.getElementById("editorScroll");
+          if (!controller || !card || !scroll) return;
+
+          const isMasterActive = !!document.querySelector(
+            '[data-master-bind="true"]',
+          );
+          if (!isMasterActive) {
+            controller.dataset.status = "hidden";
+            return;
+          }
+          controller.dataset.status = "ready";
+
+          const hasAvatar = !!document.querySelector(
+            '[data-bind="user.avatar.url"]',
+          );
+          const hasCover = !!document.querySelector(
+            '[data-bind="user.umCoverUrl"]',
+          );
+
+          // --- Sección: Preset de layout ---
+          scroll.appendChild(
+            this._buildGlider(
+              "presetGlider",
+              "Preset de layout",
+              [
+                { label: "Clásico", val: "preset-classic", handler: setPreset },
+                {
+                  label: "Centrado",
+                  val: "preset-centered",
+                  handler: setPreset,
+                },
+                {
+                  label: "Horizontal",
+                  val: "preset-horizontal",
+                  handler: setPreset,
+                },
+                { label: "Libre", val: "free", handler: setPreset },
+              ],
+              "preset-classic",
+            ),
+          );
+
+          // --- Sección: Posición libre ---
+          const posRow = this._buildGlider(
+            "posGlider",
+            "Posición",
+            [
+              { label: "Izq", val: "left", handler: setPos },
+              { label: "Der", val: "right", handler: setPos },
+              { label: "Arriba", val: "top", handler: setPos },
+            ],
+            "left",
+          );
+          posRow.querySelector("#posGlider").style.opacity = "0.5";
+          posRow.querySelector("#posGlider").style.pointerEvents = "none";
+          scroll.appendChild(posRow);
+
+          // --- Grupo: Avatar ---
+          if (hasAvatar) {
+            scroll.appendChild(this._divider());
+            const avatarGroup = this._buildGroup("ctrlGroupAvatar", "Avatar");
+            ControlFactory.buildGroup("avatar", avatarGroup);
+            scroll.appendChild(avatarGroup);
+          }
+
+          // --- Grupo: Portada ---
+          if (hasCover) {
+            scroll.appendChild(this._divider());
+            const coverGroup = this._buildGroup("ctrlGroupCover", "Portada");
+
+            // Glider de estilo de portada
+            coverGroup.appendChild(
+              this._buildGlider(
+                "coverGlider",
+                "Estilo de portada",
+                [
+                  { label: "Sin portada", val: "none", handler: setCoverStyle },
+                  { label: "Completa", val: "full", handler: setCoverStyle },
+                  { label: "Encuadrada", val: "inset", handler: setCoverStyle },
+                ],
+                "full",
+              ),
+            );
+
+            // Controles inset (ocultos hasta seleccionar "Encuadrada")
+            const insetContainer = document.createElement("div");
+            insetContainer.id = "insetControlsContainer";
+            insetContainer.dataset.status = "hidden";
+            insetContainer.appendChild(this._divider());
+            ControlFactory.buildGroup("cover-inset", insetContainer);
+            coverGroup.appendChild(insetContainer);
+
+            scroll.appendChild(coverGroup);
+          } else {
+            // Sin portada → forzar cover-style-none
+            card.classList.remove("cover-style-full", "cover-style-inset");
+            card.classList.add("cover-style-none");
+          }
+        },
+      };
+
+      // ==========================================
+      // 4. LÓGICA DE UI E INTERACCIÓN
+      // ==========================================
+      function handleControllerClick() {
+        if (window.appBottomSheet) window.appBottomSheet.open();
+      }
+
+      function toggleController(event) {
+        if (event) event.stopPropagation();
+        if (window.appBottomSheet) window.appBottomSheet.close();
+      }
+
+      function setPreset(presetName) {
+        const card = document.getElementById("mainCard");
+        const content = document.getElementById("profileContent");
+        if (!card || !content) return;
+
+        document
+          .querySelectorAll("#presetGlider .glider-option")
+          .forEach((el) => el.classList.remove("active"));
+        const activeOption = document.querySelector(
+          `#presetGlider .glider-option[data-val="${presetName}"]`,
+        );
+        if (activeOption) activeOption.classList.add("active");
+
+        content.style.flexDirection = "";
+        content.style.textAlign = "";
+        card.classList.remove(
+          "preset-classic",
+          "preset-centered",
+          "preset-horizontal",
+        );
+
+        const posGlider = document.getElementById("posGlider");
+        if (presetName !== "free") {
+          card.classList.add(presetName);
+          if (posGlider) {
+            posGlider.style.opacity = "0.5";
+            posGlider.style.pointerEvents = "none";
+          }
+        } else {
+          if (posGlider) {
+            posGlider.style.opacity = "1";
+            posGlider.style.pointerEvents = "auto";
+          }
+          setPos("left");
+        }
+
+        if (window.appBipartiteStorage) {
+          window.appBipartiteStorage.updatePreset(presetName);
+        }
+      }
+
+      function setPos(direction) {
+        const freeOption = document.querySelector(
+          '#presetGlider .glider-option[data-val="free"]',
+        );
+        if (!freeOption || !freeOption.classList.contains("active")) return;
+
+        document
+          .querySelectorAll("#posGlider .glider-option")
+          .forEach((el) => el.classList.remove("active"));
+        const activeOption = document.querySelector(
+          `#posGlider .glider-option[data-val="${direction}"]`,
+        );
+        if (activeOption) activeOption.classList.add("active");
+
+        const content = document.getElementById("profileContent");
+        if (!content) return;
+        content.style.flexDirection =
+          direction === "left"
+            ? "row"
+            : direction === "right"
+              ? "row-reverse"
+              : "column";
+        content.style.textAlign = direction === "top" ? "center" : "left";
+
+        if (window.appBipartiteStorage) {
+          window.appBipartiteStorage.updatePosition(direction);
+        }
+      }
+
+      function setCoverStyle(styleName) {
+        const card = document.getElementById("mainCard");
+        if (!card) return;
+
+        document
+          .querySelectorAll("#coverGlider .glider-option")
+          .forEach((el) => el.classList.remove("active"));
+        const activeOption = document.querySelector(
+          `#coverGlider .glider-option[data-val="${styleName}"]`,
+        );
+        if (activeOption) activeOption.classList.add("active");
+
+        card.classList.remove(
+          "cover-style-none",
+          "cover-style-full",
+          "cover-style-inset",
+        );
+        card.classList.add(`cover-style-${styleName}`);
+
+        const insetControls = document.getElementById("insetControlsContainer");
+        const coverWrap = document.getElementById("coverWrap");
+
+        if (insetControls) {
+          if (styleName === "inset") {
+            insetControls.dataset.status = "active";
+          } else {
+            insetControls.dataset.status = "hidden";
+            if (coverWrap) {
+              coverWrap.style.width = "";
+              coverWrap.style.height = "";
+              coverWrap.style.borderRadius = "";
+            }
+          }
+        }
+
+        if (window.appBipartiteStorage) {
+          window.appBipartiteStorage.updateCoverStyle(styleName);
+        }
+      }
+
+      // ==========================================
+      // 5. MOTOR DECLARATIVO DE HIDRATACIÓN (SOLID)
+      // ==========================================
+      const BindingStrategies = {
+        text: (el, value) => {
+          el.textContent = value;
+        },
+        innerhtml: (el, value) => {
+          el.innerHTML = value;
+        },
+        src: (el, value) => {
+          if (value) el.setAttribute("src", value);
+        },
+        href: (el, value) => {
+          if (value) el.setAttribute("href", value);
+        },
+        alt: (el, value) => {
+          if (value) el.setAttribute("alt", value);
+        },
+        title: (el, value) => {
+          if (value) el.setAttribute("title", value);
+        },
+        value: (el, value) => {
+          if (value) el.setAttribute("value", value);
+        },
+        class: (el, value) => {
+          if (value) el.classList.add(value);
+        },
+        "css-var": (el, value, config) => {
+          if (config.cssVar && value)
+            el.style.setProperty(config.cssVar, value);
+        },
+        "bg-image": (el, value) => {
+          if (value) el.style.backgroundImage = `url('${value}')`;
+        },
+      };
+
+      const DataUtils = {
+        getNestedValue(obj, path) {
+          if (!path || !obj) return undefined;
+          return path.split(".").reduce((acc, part) => acc && acc[part], obj);
+        },
+        formatValue(value, format) {
+          if (!format || value === null || value === undefined || value === "")
+            return value;
+          return format.replace("{value}", value);
+        },
+      };
+
+      class HydrationEngine {
+        constructor(strategies) {
+          this.strategies = strategies;
+        }
+
+        hydrate(rootElement, data) {
+          rootElement.querySelectorAll("[data-bind]").forEach((el) => {
+            const config = this._extractConfig(el);
+            let rawValue = DataUtils.getNestedValue(data, config.path);
+            if (rawValue === null || rawValue === undefined) rawValue = "";
+            const finalValue = DataUtils.formatValue(rawValue, config.format);
+            const strategy = this.strategies[config.bindType];
+            if (strategy) strategy(el, finalValue, config);
+            this._cleanupSkeleton(el);
+          });
+        }
+
+        _extractConfig(el) {
+          return {
+            path: el.getAttribute("data-bind"),
+            bindType: (
+              el.getAttribute("data-bind-type") || "text"
+            ).toLowerCase(),
+            cssVar: el.getAttribute("data-bind-var"),
+            format: el.getAttribute("data-bind-format"),
+          };
+        }
+
+        _cleanupSkeleton(el) {
+          el.classList.remove("skeleton-target");
+          // Solo limpia el width si fue puesto por el skeleton placeholder,
+          // no inyecta --wh en elementos que no son el avatar.
+          if (!el.dataset.bindType || el.dataset.bindType !== "src") {
+            el.style.width = "";
+          }
+        }
+      }
+
+      // ==========================================
+      // 5.1 BIPARTITE STORAGE UTILITY (SOLID / DRY)
+      // ==========================================
+      class BipartiteStorage {
+        constructor(options = {}) {
+          this.storageKey = options.storageKey || "nfc_profile_aspect";
+          this.userId =
+            options.userId || localStorage.getItem("devUserId") || 1;
+          this.apiUrl =
+            options.apiUrl ||
+            "https://my.newfacecards.com/nfc/gateway-profile.php";
+          this.apiKey =
+            options.apiKey || localStorage.getItem("devApiKey") || "";
+          this.debounceMs = options.debounceMs || 1500;
+          this.statusStorageEl = document.getElementById("data-status-storage");
+
+          this.debounceTimer = null;
+          this.abortController = null;
+          this.lastSyncedHash = null;
+          this.isApplyingState = false;
+          this.syncState = "synced";
+
+          // Local memory state
+          this.state = {
+            preset: "preset-classic",
+            position: "left",
+            coverStyle: "full",
+            controls: {},
+          };
+
+          // Initialize default controls from schema
+          CONTROLS.forEach((cfg) => {
+            this.state.controls[cfg.id] = cfg.initial;
+          });
+
+          // Bind offline/online recovery
+          window.addEventListener("online", () =>
+            this.handleNetworkChange(true),
+          );
+          window.addEventListener("offline", () =>
+            this.handleNetworkChange(false),
+          );
+
+          // Initial network state check
+          this.handleNetworkChange(navigator.onLine);
+
+          // Add click listener to sync status badge
+          const badgeEl = document.getElementById("syncStatusBadge");
+          if (badgeEl) {
+            badgeEl.style.cursor = "pointer";
+            badgeEl.addEventListener("click", () =>
+              this.showSyncDetailsSheet(),
+            );
+          }
+        }
+
+        handleNetworkChange(isOnline) {
+          if (this.statusStorageEl) {
+            this.statusStorageEl.setAttribute(
+              "data-status",
+              isOnline ? "online" : "offline",
+            );
+            if (!isOnline) {
+              this.setSyncState("offline", "Sin conexión");
+            } else {
+              this.setSyncState("synced", "Sincronizado");
+              this.syncPending();
+            }
+          }
+        }
+
+        setSyncState(status, text) {
+          this.syncState = status;
+          if (this.statusStorageEl) {
+            this.statusStorageEl.setAttribute("data-sync-status", status);
+          }
+          const badgeText = document.querySelector(
+            "#syncStatusBadge .sync-text",
+          );
+          if (badgeText) {
+            badgeText.textContent = text;
+          }
+        }
+
+        showSyncDetailsSheet() {
+          if (typeof window.constructBottomSheet !== "function") {
+            console.error("constructBottomSheet helper is not available yet.");
+            return;
+          }
+
+          let iconColor = "";
+          let iconSVG = "";
+          let titleText = "";
+          let descriptionText = "";
+
+          switch (this.syncState) {
+            case "synced":
+              iconColor = "synced";
+              iconSVG = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="width: 32px; height: 32px;"><path d="M20 6L9 17l-5-5"/></svg>`;
+              titleText = "Sincronizado";
+              descriptionText =
+                "Tus cambios se guardaron de forma segura en la nube (WordPress) y están disponibles en todos tus dispositivos.";
+              break;
+            case "syncing":
+              iconColor = "syncing";
+              iconSVG = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="width: 32px; height: 32px;"><path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"/></svg>`;
+              titleText = "Sincronizando...";
+              descriptionText =
+                "Guardando tus cambios en el servidor cloud. Por favor espera un momento...";
+              break;
+            case "offline":
+              iconColor = "offline";
+              iconSVG = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="width: 32px; height: 32px;"><path d="M1 1l22 22M16.72 11.06A10.94 10.94 0 0 1 19 12.5M5 12.5a10.94 10.94 0 0 1 5.83-2.84M8.5 16a5.5 5.5 0 0 1 7 0M12 20h.01"/></svg>`;
+              titleText = "Modo Sin Conexión";
+              descriptionText =
+                "No tienes conexión a Internet. Las configuraciones están guardadas localmente (LocalStorage) y se sincronizarán automáticamente cuando vuelvas a tener conexión.";
+              break;
+            case "error":
+            default:
+              iconColor = "error";
+              iconSVG = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="width: 32px; height: 32px;"><path d="M18 6L6 18M6 6l12 12"/></svg>`;
+              titleText = "Error de Sincronización";
+              descriptionText =
+                "Hubo un problema al conectar con el servidor cloud. Los cambios se mantienen seguros localmente en tu navegador.";
+              break;
+          }
+
+          const hasPending =
+            localStorage.getItem(`${this.storageKey}_pending`) === "true"
+              ? "Sí"
+              : "No";
+
+          const sheetContent = `
+            <div class="sync-details-container">
+              <div class="sync-details-icon ${iconColor}">
+                ${iconSVG}
+              </div>
+              <div class="sync-details-title">${titleText}</div>
+              <div class="sync-details-desc">${descriptionText}</div>
+              <div class="sync-details-grid">
+                <div class="sync-detail-item">
+                  <span class="sync-detail-label">Servidor Cloud:</span>
+                  <span class="sync-detail-val">my.newfacecards.com</span>
+                </div>
+                <div class="sync-detail-item">
+                  <span class="sync-detail-label">ID Usuario:</span>
+                  <span class="sync-detail-val">${this.userId}</span>
+                </div>
+                <div class="sync-detail-item">
+                  <span class="sync-detail-label">Cambios pendientes:</span>
+                  <span class="sync-detail-val">${hasPending}</span>
+                </div>
+                <div class="sync-detail-item">
+                  <span class="sync-detail-label">Endpoint de guardado:</span>
+                  <span class="sync-detail-val">/nfc/gateway-profile.php</span>
+                </div>
+              </div>
+            </div>
+          `;
+
+          const config = {
+            title: "Detalles de sincronización",
+            scope: "sync-details",
+            content: sheetContent,
+            bottom_actions: {
+              layout: "dual",
+              secondary: {
+                label: "Cerrar",
+                callback: "close",
+              },
+              primary: {
+                label: "Sincronizar ahora",
+                callback: () => {
+                  window.appBipartiteStorage.syncCloud();
+                  if (typeof window.appBottomSheetClose === "function") {
+                    window.appBottomSheetClose();
+                  } else {
+                    const activeOverlay = document.querySelector(
+                      ".bottom-sheet-overlay",
+                    );
+                    if (activeOverlay) {
+                      const closeBtn = activeOverlay.querySelector(
+                        "[data-bsheet-close]",
+                      );
+                      if (closeBtn) closeBtn.click();
+                    }
+                  }
+                },
+              },
+            },
+          };
+
+          window.constructBottomSheet(config);
+        }
+
+        // Apply loaded state back to UI controls and DOM elements
+        applyStateToUI() {
+          this.isApplyingState = true;
+          console.log("Aplicando estado cargado a la interfaz:", this.state);
+
+          try {
+            // 1. Preset
+            if (this.state.preset) {
+              setPreset(this.state.preset);
+            }
+
+            // 2. Position (only applies if free)
+            if (this.state.position) {
+              setPos(this.state.position);
+            }
+
+            // 3. Cover style
+            if (this.state.coverStyle) {
+              setCoverStyle(this.state.coverStyle);
+            }
+
+            // 4. Controls
+            Object.entries(this.state.controls).forEach(([id, value]) => {
+              const cfg = CONTROLS.find((c) => c.id === id);
+              if (!cfg) return;
+
+              // Update DOM element input value
+              const inputEl = document.getElementById(`${cfg.id}-input`);
+              if (inputEl) {
+                if (cfg.type === "checkbox") {
+                  inputEl.checked = !!value;
+                } else {
+                  inputEl.value = value;
+                }
+              }
+
+              // Apply styling only if the group is relevant to the active layout!
+              // For example, cover-inset controls should only apply inline style if coverStyle is "inset"
+              const isRelevant =
+                cfg.group !== "cover-inset" ||
+                this.state.coverStyle === "inset";
+
+              const target = document.getElementById(cfg.targetId);
+              if (target) {
+                if (cfg.cssProp) {
+                  if (isRelevant) {
+                    if (cfg.type === "checkbox") {
+                      target.style[cfg.cssProp] = value
+                        ? (cfg.trueValue ?? "")
+                        : (cfg.falseValue ?? "none");
+                    } else {
+                      target.style[cfg.cssProp] = value + (cfg.unit || "");
+                    }
+                  } else {
+                    // Clear the inline style so it falls back to stylesheet defaults
+                    target.style[cfg.cssProp] = "";
+                  }
+                }
+                if (cfg.onChange && isRelevant) {
+                  cfg.onChange(value, target);
+                }
+              }
+
+              // Update label display value
+              const display = document.getElementById(`${cfg.id}-val`);
+              if (display && cfg.type !== "checkbox" && cfg.type !== "select") {
+                display.textContent = value + (cfg.unit || "");
+              }
+            });
+            if (window.ControlSyncRegistry) {
+              window.ControlSyncRegistry.applyAll(this.state);
+            }
+          } catch (e) {
+            console.error("Error applying state to UI:", e);
+          } finally {
+            this.isApplyingState = false;
+          }
+        }
+
+        // Load state from local storage or cloud
+        loadState(cloudDescription = null) {
+          let localState = null;
+          try {
+            const stored = localStorage.getItem(this.storageKey);
+            if (stored) {
+              localState = JSON.parse(stored);
+            }
+          } catch (e) {
+            console.error("Error reading local aspect state:", e);
+          }
+
+          let cloudState = null;
+          if (cloudDescription) {
+            try {
+              cloudState = JSON.parse(cloudDescription);
+            } catch (e) {
+              console.warn(
+                "La descripción del usuario no es un JSON de aspecto válido:",
+                e,
+              );
+            }
+          }
+
+          // Merge order: Cloud state (source of truth) -> Local storage (offline/in progress) -> Default state
+          if (cloudState && cloudState.controls) {
+            this.state = { ...this.state, ...cloudState };
+            this.lastSyncedHash = JSON.stringify(this.state);
+          }
+
+          if (localState && localState.controls) {
+            // If local state has pending unsynced changes, merge them
+            const isPending =
+              localStorage.getItem(`${this.storageKey}_pending`) === "true";
+            if (isPending || !cloudState) {
+              this.state = { ...this.state, ...localState };
+            }
+          }
+
+          this.applyStateToUI();
+        }
+
+        updatePreset(presetName) {
+          if (this.isApplyingState) return;
+          if (this.state.preset === presetName) return;
+          this.state.preset = presetName;
+          this.saveLocal();
+        }
+
+        updatePosition(direction) {
+          if (this.isApplyingState) return;
+          if (this.state.position === direction) return;
+          this.state.position = direction;
+          this.saveLocal();
+        }
+
+        updateCoverStyle(styleName) {
+          if (this.isApplyingState) return;
+          if (this.state.coverStyle === styleName) return;
+          this.state.coverStyle = styleName;
+          this.saveLocal();
+        }
+
+        updateControlValue(id, value) {
+          if (this.isApplyingState) return;
+          if (this.state.controls[id] === value) return;
+          this.state.controls[id] = value;
+          if (window.ControlSyncRegistry) {
+            window.ControlSyncRegistry.applyControl(id, value);
+          }
+          this.saveLocal();
+        }
+
+        // 1. Local Storage (Immediate)
+        saveLocal() {
+          try {
+            localStorage.setItem(this.storageKey, JSON.stringify(this.state));
+            localStorage.setItem(`${this.storageKey}_pending`, "true");
+
+            // Trigger asynchronous debounced cloud sync
+            this.scheduleSync();
+          } catch (e) {
+            console.error("Error saving aspect to LocalStorage:", e);
+          }
+        }
+
+        // 2. Debounce Trigger
+        async scheduleSync() {
+          if (this.debounceTimer) {
+            clearTimeout(this.debounceTimer);
+          }
+          this.debounceTimer = setTimeout(async () => {
+            await this.syncCloud();
+          }, this.debounceMs);
+        }
+
+        // 3. API Sync (Asynchronous & Idempotent)
+        async syncCloud() {
+          if (!navigator.onLine) {
+            console.warn("Offline: Sincronización encolada.");
+            this.setSyncState("offline", "Sin conexión");
+            return;
+          }
+
+          const currentHash = JSON.stringify(this.state);
+          if (currentHash === this.lastSyncedHash) {
+            console.log(
+              "Idempotencia: Sin cambios desde la última sincronización.",
+            );
+            localStorage.removeItem(`${this.storageKey}_pending`);
+            this.setSyncState("synced", "Sincronizado");
+            return;
+          }
+
+          if (this.abortController) {
+            this.abortController.abort();
+            console.log("Cancelando sincronización anterior.");
+          }
+          this.abortController = new AbortController();
+
+          this.setSyncState("syncing", "Sincronizando...");
+
+          try {
+            const payload = {
+              user_id: this.userId,
+              description: currentHash,
+            };
+
+            const headers = {
+              "Content-Type": "application/json",
+            };
+            if (this.apiKey) {
+              headers["Authorization"] = `Bearer ${this.apiKey}`;
+            }
+
+            const response = await fetch(this.apiUrl, {
+              method: "POST",
+              headers: headers,
+              body: JSON.stringify(payload),
+              signal: this.abortController.signal,
+            });
+
+            if (!response.ok) {
+              throw new Error(`HTTP Error ${response.status}`);
+            }
+
+            const resData = await response.json();
+            if (!resData.success) {
+              throw new Error(resData.message || "La API no devolvió éxito");
+            }
+
+            this.lastSyncedHash = currentHash;
+            localStorage.removeItem(`${this.storageKey}_pending`);
+            this.setSyncState("synced", "Sincronizado");
+            console.log("Sincronización en la nube exitosa!");
+          } catch (err) {
+            if (err.name === "AbortError") {
+              console.log("Sincronización abortada por nuevo cambio.");
+              return;
+            }
+            console.error("Error sincronizando en la nube:", err);
+            this.setSyncState("error", "Error de sincronización");
+          } finally {
+            this.abortController = null;
+          }
+        }
+
+        syncPending() {
+          const isPending =
+            localStorage.getItem(`${this.storageKey}_pending`) === "true";
+          if (isPending) {
+            console.log(
+              "Sincronizando cambios locales pendientes al volver online...",
+            );
+            this.syncCloud();
+          }
+        }
+      }
+
+      // ==========================================
+      // 6. USER SERVICE
+      // ==========================================
+      class UserService {
+        constructor(apiUrl) {
+          this.apiUrl = apiUrl;
+        }
+
+        async getUserData() {
+          try {
+            const response = await fetch(this.apiUrl);
+            if (!response.ok) throw new Error("HTTP " + response.status);
+            const data = await response.json();
+            return data?.data || {};
+          } catch {
+            return this._getMockData();
+          }
+        }
+
+        async _getMockData() {
+          await new Promise((resolve) => setTimeout(resolve, 2000));
+          return {
+            user: {
+              firstName: "Alex Developer",
+              role: "Software Engineer",
+              description: "Especialista en interfaces declarativas.",
+              avatar: {
+                url: "https://app.newfacecards.com/nfc/profile-pic/recBOO8H0GO0RZlUU.jpg?timestamp=1723160426&size=1000x1000",
+              },
+              umCoverUrl:
+                "https://my.newfacecards.com/wp-content/uploads/ultimatemember/1/cover_photo.jpg",
+            },
+          };
+        }
+      }
+
+      // ==========================================
+      // 7. APP CONTROLLER — orquesta todo
+      // ==========================================
+      class AppController {
+        constructor() {
+          this.storageEl = document.querySelector(".status-storage");
+          this.userService = new UserService(
+            "https://my.newfacecards.com/nfc/front/get_user.php",
+          );
+          this.hydrator = new HydrationEngine(BindingStrategies);
+        }
+
+        setLoadingState(isLoading) {
+          if (this.storageEl) {
+            this.storageEl.setAttribute(
+              "data-general-status",
+              isLoading ? "skel-loading" : "loaded",
+            );
+          }
+        }
+
+        async init() {
+          // 1. Inicializar los controles del panel condicional inmediatamente
+          ConditionalPanelManager.init();
+
+          // 2. Instanciar BipartiteStorage con ID por defecto e inicializar con LocalStorage de inmediato
+          window.appBipartiteStorage = new BipartiteStorage({
+            userId: 1,
+            apiKey:
+              "patMGuFVV5CBYL2TU.92aa853aaf30125e860bab7543358d01ef8632ad87081467d9d44e384f5e0ff5",
+          });
+          window.ControlSyncRegistry?.connectStorage(window.appBipartiteStorage);
+          window.ControlSyncRegistry?.define({
+            id: "ctrl-size",
+            root: "[data-control-sync='avatar-size']",
+            target: "#avatarContainer",
+            cssVar: "--avatar-size",
+            unit: "px",
+            values: { sm: 64, md: 100, lg: 140 },
+          });
+          window.appBipartiteStorage.loadState(null);
+
+          // 3. Mostrar estado de carga (skeleton) para los datos del usuario e iniciar la consulta cloud
+          this.setLoadingState(true);
+          const data = await this.userService.getUserData();
+
+          // 4. Hidratar los datos de usuario en el DOM y remover el skeleton
+          this.hydrator.hydrate(document, data);
+          this.setLoadingState(false);
+
+          // 5. Actualizar el ID del usuario y priorizar/sincronizar la configuración desde la nube (descripción/biographical info)
+          if (data?.user?.id) {
+            window.appBipartiteStorage.userId = data.user.id;
+          }
+          window.appBipartiteStorage.loadState(data?.user?.description);
+        }
+      }
+
+      // ==========================================
+      // 8. INICIALIZACIÓN
+      // ==========================================
+      document.addEventListener("DOMContentLoaded", () => {
+        const app = new AppController();
+        app.init();
+      });
+    </script>
+  </body>
+</html>
