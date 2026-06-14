@@ -3,7 +3,11 @@ import { ApplyStrategy } from './ApplyStrategy.js';
 
 export class CssVarStrategy extends ApplyStrategy {
   apply(target, value, def) {
-    const unit = def.unit || '';
-    target.style.setProperty(def.cssVar, `${value}${unit}`);
+    let finalValue = value;
+    if (typeof value === 'boolean') {
+      finalValue = value ? (def.trueValue ?? '') : (def.falseValue ?? 'none');
+    }
+    const finalUnit = (finalValue === 'none' || finalValue === '') ? '' : (def.unit || '');
+    target.style.setProperty(def.cssVar, `${finalValue}${finalUnit}`);
   }
 }

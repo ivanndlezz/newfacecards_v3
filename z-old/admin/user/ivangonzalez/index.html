@@ -992,6 +992,7 @@
       .avt {
         --avatar-size: 100px; /* single source of truth for avatar dimensions */
         --avatar-radius: 50px;
+        box-sizing: border-box;
         display: grid;
         place-items: center;
         position: relative;
@@ -1623,7 +1624,7 @@
         background-position: center;
         align-items: center;
         justify-content: center;
-                background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 20 20' fill='none'%3E%3Cg clip-path='url(%23clip0_4_5)'%3E%3Cpath d='M20 10C20 15.5228 15.5228 20 10 20C4.47715 20 0 15.5228 0 10C0 4.47715 4.47715 0 10 0C15.5228 0 20 4.47715 20 10Z' fill='white' fill-opacity='0.5'/%3E%3Ccircle cx='10' cy='8' r='3' fill='white'/%3E%3Crect x='5' y='12' width='10' height='3' rx='1.5' fill='white'/%3E%3C/g%3E%3Cdefs%3E%3CclipPath id='clip0_4_5'%3E%3Crect width='20' height='20' fill='white'/%3E%3C/clipPath%3E%3C/defs%3E%3C/svg%3E");
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 20 20' fill='none'%3E%3Cg clip-path='url(%23clip0_4_5)'%3E%3Cpath d='M20 10C20 15.5228 15.5228 20 10 20C4.47715 20 0 15.5228 0 10C0 4.47715 4.47715 0 10 0C15.5228 0 20 4.47715 20 10Z' fill='white' fill-opacity='0.5'/%3E%3Ccircle cx='10' cy='8' r='3' fill='white'/%3E%3Crect x='5' y='12' width='10' height='3' rx='1.5' fill='white'/%3E%3C/g%3E%3Cdefs%3E%3CclipPath id='clip0_4_5'%3E%3Crect width='20' height='20' fill='white'/%3E%3C/clipPath%3E%3C/defs%3E%3C/svg%3E");
       }
 
       /* === STYLE SELECTOR GRID === */
@@ -1699,8 +1700,9 @@
       }
       .preview--classic::before {
         content: "";
-        width: 48px;
-        height: 48px;
+        --wh: 64px;
+        width: var(--wh);
+        height: var(--wh);
         border-radius: 999px;
         background: #e5e7eb;
         box-shadow:
@@ -1709,8 +1711,8 @@
       }
       .preview--hero::before {
         content: "";
-        width: 48px;
-        height: 36px;
+        width: 64px;
+        height: 48px;
         border-radius: 8px;
         background: #e5e7eb;
         box-shadow:
@@ -1817,7 +1819,7 @@
         -webkit-backdrop-filter: blur(var(--hero-blur, 12px));
         border-radius: 24px 24px 0 0;
         border-top: 1px solid rgba(255, 255, 255, 0.4);
-        box-shadow: 0 -10px 30px rgba(0,0,0,0.05);
+        box-shadow: 0 -10px 30px rgba(0, 0, 0, 0.05);
         padding: 24px;
         display: flex;
         flex-direction: column;
@@ -1827,7 +1829,7 @@
       .profile-card.preset-hero .avt {
         margin-top: -64px;
         margin-bottom: 12px;
-        box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
       }
     </style>
   </head>
@@ -2074,7 +2076,11 @@
 
       <!-- Header Dividido en 3 zonas -->
       <header class="sheet-header">
-        <div class="sheet-header-left" id="sheet-header-left" data-status="ready">
+        <div
+          class="sheet-header-left"
+          id="sheet-header-left"
+          data-status="ready"
+        >
           <h2
             class="sheet-title"
             style="
@@ -2086,8 +2092,10 @@
           >
             Perfil y portada
           </h2>
-          <div class="breadcrumb" style="display: none; align-items: center;">
-            <span class="breadcrumb-back"><i class="ti ti-arrow-left"></i> Profile</span>
+          <div class="breadcrumb" style="display: none; align-items: center">
+            <span class="breadcrumb-back"
+              ><i class="ti ti-arrow-left"></i> Profile</span
+            >
             <span class="breadcrumb-separator">›</span>
             <span class="breadcrumb-current">Personalizar</span>
           </div>
@@ -2119,9 +2127,8 @@
 
       <!-- Contenedor principal con scroll independiente. Mantenemos el ID 'editorScroll' para compatibilidad con CONTROLS -->
       <div class="sheet-content-slots editor-scroll" id="editorScroll">
-        
         <!-- VISTA PRINCIPAL (SELECTOR DE ESTILO) -->
-        <div id="main-settings" data-status="active" style="padding: 20px 0;">
+        <div id="main-settings" data-status="active" style="padding: 20px 0">
           <div class="profile-container">
             <fieldset class="image-style-fieldset">
               <div class="image-style-grid">
@@ -2132,10 +2139,13 @@
                   id="style-classic"
                   value="classic"
                   checked
-                  style="position: absolute; opacity: 0; pointer-events: none;"
+                  style="position: absolute; opacity: 0; pointer-events: none"
                 />
                 <label class="image-style-card" for="style-classic">
-                  <span class="preview preview--classic" aria-hidden="true"></span>
+                  <span
+                    class="preview preview--classic"
+                    aria-hidden="true"
+                  ></span>
                   <span class="image-style-title">Clásico</span>
                   <span class="checkmark" aria-hidden="true"></span>
                 </label>
@@ -2146,7 +2156,7 @@
                   name="image_style"
                   id="style-hero"
                   value="hero"
-                  style="position: absolute; opacity: 0; pointer-events: none;"
+                  style="position: absolute; opacity: 0; pointer-events: none"
                 />
                 <label class="image-style-card" for="style-hero">
                   <span class="preview preview--hero" aria-hidden="true"></span>
@@ -2160,7 +2170,7 @@
                   name="image_style"
                   id="style-cover"
                   value="with-cover"
-                  style="position: absolute; opacity: 0; pointer-events: none;"
+                  style="position: absolute; opacity: 0; pointer-events: none"
                 />
                 <label class="image-style-card" for="style-cover">
                   <span class="preview preview--cover" aria-hidden="true">
@@ -2179,7 +2189,7 @@
                 id="btn-personalizar"
                 type="button"
                 class="btn-primary"
-                style="margin-top: 0; width: 100%; height: auto;"
+                style="margin-top: 0; width: 100%; height: auto"
               >
                 Personalizar
               </button>
@@ -2188,8 +2198,16 @@
         </div>
 
         <!-- VISTA SECUNDARIA (CONTROLES ESPECÍFICOS) -->
-        <div id="custom-settings" data-status="hidden" style="padding: 20px 0;">
-          <h3 id="custom-settings-title" style="font-size: 1.25rem; font-weight: 600; color: #1f2937; margin: 0 0 20px 0;">
+        <div id="custom-settings" data-status="hidden" style="padding: 20px 0">
+          <h3
+            id="custom-settings-title"
+            style="
+              font-size: 1.25rem;
+              font-weight: 600;
+              color: #1f2937;
+              margin: 0 0 20px 0;
+            "
+          >
             Personalizar apariencia Clásica
           </h3>
           <!-- TU CUSTOM - ESTO NO SE TOCA NUNCA POR JS -->
@@ -2199,7 +2217,7 @@
               class="glider-container"
               id="presetGlider"
               data-control-sync="preset.layout"
-              data-target="mainCard"
+              data-target="#mainCard"
               data-state-path="preset"
               data-value-attr="val"
               data-event="click"
@@ -2208,7 +2226,9 @@
               data-values='{"preset-classic":"preset-classic","preset-centered":"preset-centered","preset-horizontal":"preset-horizontal","free":"free"}'
             >
               <div class="glider-option" data-val="preset-classic">Clásico</div>
-              <div class="glider-option" data-val="preset-centered">Centrado</div>
+              <div class="glider-option" data-val="preset-centered">
+                Centrado
+              </div>
               <div class="glider-option" data-val="preset-horizontal">
                 Horizontal
               </div>
@@ -2222,7 +2242,7 @@
               class="glider-container"
               id="posGlider"
               data-control-sync="preset.position"
-              data-target="profileContent"
+              data-target="#profileContent"
               data-state-path="position"
               data-value-attr="val"
               data-event="click"
@@ -2237,68 +2257,8 @@
             </div>
           </div>
 
-          <!-- CONTROLES ESPECÍFICOS PARA HERO -->
-          <div id="ctrlGroupHero" style="display: none">
-            <div class="divider"></div>
-            <span
-              class="control-label"
-              style="font-size: 16px; margin-bottom: 10px; display: block"
-              >Apariencia Hero</span
-            >
-            <div class="control-row">
-              <div class="control-label-wrap" style="display: flex; justify-content: space-between; align-items: center;">
-                <span class="control-label">Efecto Freeze Glass (Blur)</span>
-                <span class="control-value" id="hero-blur-val">12px</span>
-              </div>
-              <input
-                type="range"
-                class="range-input"
-                id="hero-blur-input"
-                min="0"
-                max="30"
-                value="12"
-                data-control-sync="hero-blur"
-                data-target="profileContent"
-                data-css-var="--hero-blur"
-                data-unit="px"
-              />
-            </div>
-            <div class="control-row">
-              <span class="control-label">Ajuste de Fondo Hero</span>
-              <select
-                class="custom-input"
-                id="ctrl-hero-fit-input"
-                data-control-sync="hero-fit"
-                data-target="profileCover"
-                data-css-prop="objectFit"
-                data-event="change"
-              >
-                <option value="cover" selected>Cover (Rellenar todo)</option>
-                <option value="contain">Contain (Contener)</option>
-              </select>
-            </div>
-            <div class="control-row">
-              <div class="control-label-wrap" style="display: flex; justify-content: space-between; align-items: center;">
-                <span class="control-label">Altura de la sección</span>
-                <span class="control-value" id="hero-height-val">50%</span>
-              </div>
-              <input
-                type="range"
-                class="range-input"
-                id="hero-height-input"
-                min="30"
-                max="100"
-                value="50"
-                data-control-sync="hero-height"
-                data-target="mainCard"
-                data-css-var="--hero-height"
-                data-unit="%"
-              />
-            </div>
-          </div>
 
-          <!-- Contenedor para grupos dinámicos (Avatar, Portada) -->
-          <div id="dynamicGroupsContainer"></div>
+          <div id="dynamicControlsContainer"></div>
         </div>
       </div>
 
@@ -2311,249 +2271,602 @@
     </div>
     <div id="root-styles-loader"></div>
 
-    <script>
-      const DOM_CONST = {
-        statusStorage: "#data-status-storage",
-      };
+    <script type="module">
+      /**
+       * @file index.unified.js
+       * Single-file bundle — all modules inlined in dependency order.
+       *
+       * Merge map:
+       *   constants/pill.js        → CONSTANTS block
+       *   BottomSheetLoader.js     → BottomSheetLoader block
+       *   CredentialManager.js     → CredentialManager block
+       *   PillController.js        → PillController block
+       *   SyncBridge.js            → SyncBridge block
+       *   RadioStyleHandler.js     → RadioStyleHandler block
+       *   SheetNavigator.js        → SheetNavigator block  (still imports uiConfig externally)
+       *   EditElementHandler.js    → EditElementHandler block
+       *   index.js                 → Orchestrator block
+       *
+       * External dependency retained: /assets/js/core/config/uiConfig.js
+       * (project-wide config not included in this bundle)
+       */
 
-      document.addEventListener("DOMContentLoaded", () => {
-        // Seleccionamos el contenedor principal
-        const pildora = document.getElementById("mi-pildora");
+      (async () => {
+        // ═══════════════════════════════════════════════════════════════════════════
+        // CONSTANTS  (constants/pill.js)
+        // SRP: local constants that complement the project-wide uiConfig.
+        // All values are frozen — mutating a constant is a bug, not a feature.
+        // ═══════════════════════════════════════════════════════════════════════════
 
-        // Seleccionamos los botones de acción dentro de la píldora
-        const btnEdit = pildora.querySelector(".btn-edit");
-        const btnDone = pildora.querySelector(".btn-done");
-        const btnSatellite = pildora.querySelector(".btn-satellite");
+        // ── CSS class tokens ──────────────────────────────────────────────────────
 
-        // Instancia del Bottom Sheet global
-        window.appBottomSheet = null;
+        const CSS_CLASSES = Object.freeze({
+          PILL_ACTIVE: "is-active",
+        });
 
-        // Importar dinámicamente el componente Bottom Sheet
-        import("/shared/components/bottom-sheet/bottom-sheet.js").then(
-          (mod) => {
-            window.appBottomSheet = new mod.BottomSheet(
-              "main-sheet",
-              "main-backdrop",
-            ).hydrate();
-            window.constructBottomSheet = mod.constructSheet;
-            window.appBottomSheetClose = mod.closeSheet;
+        // ── data-attribute names ──────────────────────────────────────────────────
+
+        const DATA_ATTRS = Object.freeze({
+          CARD_STATUS: "data-card-status",
+        });
+
+        // ── Card status values ────────────────────────────────────────────────────
+
+        const CARD_STATUS = Object.freeze({
+          EDITING: "editing",
+          PASSIVE: "pasive", // matches existing CSS attribute hook — keep spelling
+        });
+
+        // ── Scope → template-routes map ──────────────────────────────────────────
+        /**
+         * Maps a data-scope attribute value to its HTML template file routes and title.
+         *
+         * @type {Readonly<Record<string, {templates: string[], title: string}>>}
+         */
+        const SCOPE_TEMPLATE_MAP = Object.freeze({
+          avt__edit: {
+            templates: ["/admin/user/ivangonzalez/templates/controls/avatar.html"],
+            title: "Personalizar Avatar"
           },
-        );
+          mobile_cover_input: {
+            templates: ["/admin/user/ivangonzalez/templates/controls/cover.html"],
+            title: "Personalizar Portada"
+          }
+        });
 
-        // ------------------------------------------------------------
-        // Credential validation – ensure both user ID and API token exist
-        // ------------------------------------------------------------
+
+        // ── Image style → preset map ──────────────────────────────────────────────
+        /**
+         * Maps image_style radio value to a preset token.
+         * Falls back to PRESET_DEFAULT for unrecognised values.
+         *
+         * @type {Readonly<Record<string, string>>}
+         */
+        const STYLE_PRESET_MAP = Object.freeze({
+          hero: "preset-hero",
+          "with-cover": "preset-horizontal",
+        });
+
+        const PRESET_DEFAULT = "preset-classic";
+
+        // ═══════════════════════════════════════════════════════════════════════════
+        // BOTTOM SHEET LOADER  (modules/BottomSheetLoader.js)
+        // SRP: load the BottomSheet module and register its globals.
+        //
+        // Awaitable — other modules that depend on constructBottomSheet
+        // must call this first.
+        // ═══════════════════════════════════════════════════════════════════════════
+
+        const _BSL_MODULE_PATH =
+          "/shared/components/bottom-sheet/bottom-sheet.js";
+        const _BSL_SHEET_ID = "main-sheet";
+        const _BSL_BACKDROP_ID = "main-backdrop";
+
+        async function loadBottomSheet() {
+          const mod = await import(_BSL_MODULE_PATH);
+
+          window.appBottomSheet = new mod.BottomSheet(
+            _BSL_SHEET_ID,
+            _BSL_BACKDROP_ID,
+          ).hydrate();
+          window.constructBottomSheet = mod.constructSheet;
+          window.appBottomSheetClose = mod.closeSheet;
+        }
+
+        // ═══════════════════════════════════════════════════════════════════════════
+        // CREDENTIAL MANAGER  (modules/CredentialManager.js)
+        // SRP: read, validate and persist dev credentials (userId + apiToken).
+        //
+        // Depends on: loadBottomSheet() must resolve before calling ensureDevCredentials().
+        // ═══════════════════════════════════════════════════════════════════════════
+
+        // ── Storage keys ──────────────────────────────────────────────────────────
+
+        const _CM_READ_KEYS = Object.freeze({
+          USER_ID: ["user id", "devUserId"],
+          API_TOKEN: ["apiToken", "devApiKey"],
+        });
+
+        const _CM_WRITE_KEYS = Object.freeze({
+          USER_ID: "devUserId",
+          API_TOKEN: "devApiKey",
+        });
+
+        const _CM_ELEM_IDS = Object.freeze({
+          USER_ID: "credUserId",
+          API_TOKEN: "credApiToken",
+          SAVE_BTN: "credSaveBtn",
+        });
+
+        // ── Private helpers ───────────────────────────────────────────────────────
+
+        function _cmReadFirst(keys) {
+          return keys.reduce(
+            (found, key) => found ?? localStorage.getItem(key),
+            null,
+          );
+        }
+
+        function _cmBuildSheetContent(uid, token) {
+          return `
+      <div class="test-content">
+        <label style="display:block;margin-bottom:8px;">User ID:
+          <input type="number" id="${_CM_ELEM_IDS.USER_ID}" value="${uid ?? ""}"
+                 style="width:100%;margin-top:4px;" />
+        </label>
+        <label style="display:block;margin-bottom:12px;">API Token:
+          <input type="text" id="${_CM_ELEM_IDS.API_TOKEN}" value="${token ?? ""}"
+                 style="width:100%;margin-top:4px;" />
+        </label>
+        <button id="${_CM_ELEM_IDS.SAVE_BTN}"
+                style="padding:8px 16px;background:#0f876c;color:white;border:none;border-radius:6px;cursor:pointer;">
+          Guardar
+        </button>
+      </div>`;
+        }
+
+        function _cmPersistCredentials(uid, token) {
+          localStorage.setItem(_CM_WRITE_KEYS.USER_ID, uid);
+          localStorage.setItem(_CM_WRITE_KEYS.API_TOKEN, token);
+
+          if (window.appBipartiteStorage) {
+            window.appBipartiteStorage.userId = Number(uid);
+            window.appBipartiteStorage.apiKey = token;
+          }
+        }
+
+        function _cmAttachSaveHandler() {
+          document
+            .getElementById(_CM_ELEM_IDS.SAVE_BTN)
+            ?.addEventListener("click", () => {
+              const uid = document
+                .getElementById(_CM_ELEM_IDS.USER_ID)
+                ?.value.trim();
+              const token = document
+                .getElementById(_CM_ELEM_IDS.API_TOKEN)
+                ?.value.trim();
+              if (!uid || !token) return;
+
+              _cmPersistCredentials(uid, token);
+              window.appBottomSheetClose?.();
+            });
+        }
+
+        // ── Public API ────────────────────────────────────────────────────────────
+
+        /**
+         * Checks that both userId and apiToken are stored.
+         * Opens a BottomSheet credential form if either is missing.
+         */
         function ensureDevCredentials() {
-          // Check both generic keys and dev‑specific keys
-          const uid =
-            localStorage.getItem("user id") ||
-            localStorage.getItem("devUserId");
-          const token =
-            localStorage.getItem("apiToken") ||
-            localStorage.getItem("devApiKey");
-          if (!uid || !token) {
-            // Build a simple bottom‑sheet content with inputs
-            const sheetContent = `
-              <div class="test-content">
-                <label style="display:block;margin-bottom:8px;">User ID:
-                  <input type="number" id="credUserId" value="${uid ?? ""}" style="width:100%;margin-top:4px;" />
-                </label>
-                <label style="display:block;margin-bottom:12px;">API Token:
-                  <input type="text" id="credApiToken" value="${token ?? ""}" style="width:100%;margin-top:4px;" />
-                </label>
-                <button id="credSaveBtn" style="padding:8px 16px;background:#0f876c;color:white;border:none;border-radius:6px;cursor:pointer;">Guardar</button>
-              </div>`;
+          const uid = _cmReadFirst(_CM_READ_KEYS.USER_ID);
+          const token = _cmReadFirst(_CM_READ_KEYS.API_TOKEN);
+          if (uid && token) return;
 
-            // Open the bottom sheet using the existing construct function
-            if (typeof window.constructBottomSheet === "function") {
-              window.constructBottomSheet({
-                title: "Configuración de Credenciales",
-                scope: "dev-credentials",
-                content: sheetContent,
-                bottom_actions: {
-                  layout: "single",
-                  primary: { label: "Cerrar", callback: "close" },
-                },
-              });
-            }
+          window.constructBottomSheet?.({
+            title: "Configuración de Credenciales",
+            scope: "dev-credentials",
+            content: _cmBuildSheetContent(uid, token),
+            bottom_actions: {
+              layout: "single",
+              primary: { label: "Cerrar", callback: "close" },
+            },
+          });
 
-            // Attach save handler after sheet is rendered
-            setTimeout(() => {
-              const saveBtn = document.getElementById("credSaveBtn");
-              if (saveBtn) {
-                saveBtn.addEventListener("click", () => {
-                  const newUid = document
-                    .getElementById("credUserId")
-                    .value.trim();
-                  const newToken = document
-                    .getElementById("credApiToken")
-                    .value.trim();
-                  if (newUid && newToken) {
-                    localStorage.setItem("devUserId", newUid);
-                    localStorage.setItem("devApiKey", newToken);
-                    // Update the running storage instance if present
-                    if (window.appBipartiteStorage) {
-                      window.appBipartiteStorage.userId = Number(newUid);
-                      window.appBipartiteStorage.apiKey = newToken;
-                    }
-                    // Close the sheet
-                    if (window.appBottomSheetClose)
-                      window.appBottomSheetClose();
-                  }
-                });
+          // Attach handler on next tick — sheet DOM must be rendered first
+          setTimeout(_cmAttachSaveHandler, 0);
+        }
+
+        // ═══════════════════════════════════════════════════════════════════════════
+        // PILL CONTROLLER  (modules/PillController.js)
+        // SRP: pill UI state machine — edit / done / satellite buttons.
+        //
+        // Private arrow-function class fields keep handlers bound and
+        // allow clean addEventListener / removeEventListener pairing.
+        // ═══════════════════════════════════════════════════════════════════════════
+
+        const _PC_SELECTORS = Object.freeze({
+          STATUS_STORAGE: "#data-status-storage",
+          BTN_EDIT: ".btn-edit",
+          BTN_DONE: ".btn-done",
+          BTN_SATELLITE: ".btn-satellite",
+        });
+
+        const _PC_SATELLITE_EVENT = "pill:satellite";
+
+        class PillController {
+          // ── Private state ────────────────────────────────────────────────────────
+
+          #pill;
+          #storage;
+          #btnEdit;
+          #btnDone;
+          #btnSatellite;
+
+          /** @param {HTMLElement} pillEl */
+          constructor(pillEl) {
+            this.#pill = pillEl;
+            this.#storage = document.querySelector(
+              _PC_SELECTORS.STATUS_STORAGE,
+            );
+            this.#btnEdit = pillEl.querySelector(_PC_SELECTORS.BTN_EDIT);
+            this.#btnDone = pillEl.querySelector(_PC_SELECTORS.BTN_DONE);
+            this.#btnSatellite = pillEl.querySelector(
+              _PC_SELECTORS.BTN_SATELLITE,
+            );
+          }
+
+          // ── Private helpers ──────────────────────────────────────────────────────
+
+          #setCardStatus(status) {
+            this.#storage?.setAttribute(DATA_ATTRS.CARD_STATUS, status);
+          }
+
+          // ── Private handlers (arrow fields = auto-bound, safe for add/removeEventListener) ──
+
+          #onEdit = () => {
+            this.#pill.classList.add(CSS_CLASSES.PILL_ACTIVE);
+            this.#setCardStatus(CARD_STATUS.EDITING);
+          };
+
+          #onDone = () => {
+            this.#pill.classList.remove(CSS_CLASSES.PILL_ACTIVE);
+            this.#setCardStatus(CARD_STATUS.PASSIVE);
+          };
+
+          /**
+           * Dispatches a bubbling custom event instead of a console.log stub.
+           * Parent scopes can listen for "pill:satellite" to extend behaviour.
+           */
+          #onSatellite = () => {
+            this.#pill.dispatchEvent(
+              new CustomEvent(_PC_SATELLITE_EVENT, { bubbles: true }),
+            );
+          };
+
+          // ── Lifecycle ────────────────────────────────────────────────────────────
+
+          mount() {
+            this.#btnEdit?.addEventListener("click", this.#onEdit);
+            this.#btnDone?.addEventListener("click", this.#onDone);
+            this.#btnSatellite?.addEventListener("click", this.#onSatellite);
+            return this;
+          }
+
+          unmount() {
+            this.#btnEdit?.removeEventListener("click", this.#onEdit);
+            this.#btnDone?.removeEventListener("click", this.#onDone);
+            this.#btnSatellite?.removeEventListener("click", this.#onSatellite);
+            return this;
+          }
+        }
+
+        // ═══════════════════════════════════════════════════════════════════════════
+        // SYNC BRIDGE  (modules/SyncBridge.js)
+        // SRP: wire syncEngine store subscriptions to DOM / global setters.
+        //
+        // SUBSCRIPTIONS is the single place to add new store-key handlers.
+        // mountSyncBridge() polls until syncEngine is available, then registers all.
+        // ═══════════════════════════════════════════════════════════════════════════
+
+        const _SB_POLL_INTERVAL_MS = 100;
+        const _SB_POLL_TIMEOUT_MS = 10_000;
+
+        // ── Subscription registry ─────────────────────────────────────────────────
+        /**
+         * Each entry: { key: string, handler: (val: any) => void }
+         *
+         * Add a new store subscription here — zero changes needed elsewhere.
+         *
+         * @type {ReadonlyArray<{ key: string, handler: (val: unknown) => void }>}
+         */
+        const _SB_SUBSCRIPTIONS = Object.freeze([
+          {
+            key: "preset",
+            handler: (val) => val && window.setPreset?.(val),
+          },
+          {
+            key: "position",
+            handler: (val) => val && window.setPos?.(val),
+          },
+          {
+            key: "hero-fit",
+            handler: (val) => {
+              if (!val) return;
+              const el = document.getElementById("ctrl-hero-fit-input");
+              if (el) el.value = val;
+            },
+          },
+          {
+            key: "coverStyle",
+            handler: (val) => val && window.setCoverStyle?.(val),
+          },
+          {
+            key: "controls.ctrl-size",
+            handler: (val) => {
+              const radiusInput = document.getElementById("ctrl-radius-input");
+              if (!radiusInput || val == null) return;
+              radiusInput.max = val;
+              const current = window.syncEngine?.store.get(
+                "controls.ctrl-radius",
+              );
+              if (Number(current) > Number(val)) {
+                window.syncEngine?.write("ctrl-radius", val);
               }
-            }, 0);
-          }
-        }
+            },
+          },
+        ]);
 
-        // Call the check once the bottom‑sheet module has loaded
-        const maybeInitCredCheck = () => {
-          if (typeof window.constructBottomSheet === "function") {
-            ensureDevCredentials();
-          } else {
-            // Retry shortly if the module is still loading
-            setTimeout(maybeInitCredCheck, 100);
-          }
-        };
-        // Trigger after a short delay to give the import a chance to resolve
-        setTimeout(maybeInitCredCheck, 200);
+        // ── Helpers ───────────────────────────────────────────────────────────────
 
-        // ===== WIRE: conectar data-control-sync con lógica existente =====
-        function wireCustomControls() {
-          if (!window.syncEngine) {
-            setTimeout(wireCustomControls, 100);
-            return;
-          }
+        function _sbWaitForSyncEngine() {
+          return new Promise((resolve, reject) => {
+            if (window.syncEngine) return resolve(window.syncEngine);
 
-          window.syncEngine.store.subscribe("preset", (val) => {
-            if (val && typeof setPreset === "function") {
-              setPreset(val);
-            }
-          });
-
-          window.syncEngine.store.subscribe("position", (val) => {
-            if (val && typeof setPos === "function") {
-              setPos(val);
-            }
-          });
-
-          window.syncEngine.store.subscribe("hero-fit", (val) => {
-            const select = document.getElementById("ctrl-hero-fit-input");
-            if (select && val) select.value = val;
+            const start = Date.now();
+            const poll = setInterval(() => {
+              if (window.syncEngine) {
+                clearInterval(poll);
+                resolve(window.syncEngine);
+              } else if (Date.now() - start > _SB_POLL_TIMEOUT_MS) {
+                clearInterval(poll);
+                reject(
+                  new Error(
+                    "[SyncBridge] syncEngine unavailable after timeout",
+                  ),
+                );
+              }
+            }, _SB_POLL_INTERVAL_MS);
           });
         }
 
-        wireCustomControls();
+        // ── Public API ────────────────────────────────────────────────────────────
 
-        // Radio inputs change listener to sync with card and storage
-        document.querySelectorAll('input[name="image_style"]').forEach(radio => {
-          radio.addEventListener('change', (e) => {
-            const val = e.target.value;
-            let preset = "preset-classic";
-            if (val === "hero") {
-              preset = "preset-hero";
-            } else if (val === "with-cover") {
-              preset = "preset-horizontal";
-            }
-            if (typeof setPreset === "function") {
-              setPreset(preset);
-            }
-          });
-        });
-
-        // Personalizar button listener
-        const btnPersonalizar = document.getElementById("btn-personalizar");
-        if (btnPersonalizar) {
-          btnPersonalizar.addEventListener('click', () => {
-            const radioVal = document.querySelector('input[name="image_style"]:checked')?.value || 'classic';
-            if (typeof updateCustomPanelControls === 'function') {
-              updateCustomPanelControls(radioVal);
-            }
-            
-            document.getElementById('main-settings').dataset.status = 'hidden';
-            document.getElementById('custom-settings').dataset.status = 'active';
-            
-            const headerLeft = document.getElementById('sheet-header-left');
-            if (headerLeft) headerLeft.dataset.status = 'custom';
-          });
+        /**
+         * Waits for syncEngine, then registers all _SB_SUBSCRIPTIONS.
+         * Non-blocking from the caller's perspective — fire-and-forget with .catch().
+         *
+         * @returns {Promise<void>}
+         */
+        async function mountSyncBridge() {
+          const engine = await _sbWaitForSyncEngine();
+          _SB_SUBSCRIPTIONS.forEach(({ key, handler }) =>
+            engine.store.subscribe(key, handler),
+          );
         }
 
-        // Breadcrumb back button listener
-        document.querySelector('.breadcrumb-back')?.addEventListener('click', () => {
-          document.getElementById('custom-settings').dataset.status = 'hidden';
-          document.getElementById('main-settings').dataset.status = 'active';
-          
-          const headerLeft = document.getElementById('sheet-header-left');
-          if (headerLeft) headerLeft.dataset.status = 'ready';
-        });
+        // ═══════════════════════════════════════════════════════════════════════════
+        // RADIO STYLE HANDLER  (modules/RadioStyleHandler.js)
+        // SRP: image_style radio inputs and hero-fit select → preset / store updates.
+        // ═══════════════════════════════════════════════════════════════════════════
 
-        // Sync Select for objectFit (hero-fit)
-        const heroFitSelect = document.getElementById("ctrl-hero-fit-input");
-        if (heroFitSelect) {
-          heroFitSelect.addEventListener("change", (e) => {
-            const val = e.target.value;
-            if (window.syncEngine) {
-              window.syncEngine.store.set("hero-fit", val);
-            }
-          });
+        const _RS_RADIO_NAME = "image_style";
+        const _RS_HERO_FIT_SEL_ID = "ctrl-hero-fit-input";
+
+        // ── Handlers ──────────────────────────────────────────────────────────────
+
+        function _rsOnRadioChange(e) {
+          const preset = STYLE_PRESET_MAP[e.target.value] ?? PRESET_DEFAULT;
+          window.setPreset?.(preset);
         }
-        // Evento para activar el modo edición
-        btnEdit.addEventListener("click", () => {
-          pildora.classList.add("is-active");
+
+        function _rsOnHeroFitChange(e) {
+          window.syncEngine?.store.set("hero-fit", e.target.value);
+        }
+
+        // ── Public API ────────────────────────────────────────────────────────────
+
+        function mountRadioStyleHandler() {
           document
-            .querySelector(DOM_CONST.statusStorage)
-            .setAttribute("data-card-status", "editing");
-        });
+            .querySelectorAll(`input[name="${_RS_RADIO_NAME}"]`)
+            .forEach((radio) =>
+              radio.addEventListener("change", _rsOnRadioChange),
+            );
 
-        // Evento para finalizar la edición (Listo)
-        btnDone.addEventListener("click", () => {
-          pildora.classList.remove("is-active");
           document
-            .querySelector(DOM_CONST.statusStorage)
-            .setAttribute("data-card-status", "pasive");
-        });
+            .getElementById(_RS_HERO_FIT_SEL_ID)
+            ?.addEventListener("change", _rsOnHeroFitChange);
+        }
 
-        // Evento para el botón satélite (puedes agregar tu lógica aquí)
-        btnSatellite.addEventListener("click", () => {
-          console.log("Botón satélite clickeado / Añadir");
-        });
+        // ── Dynamic template rendering helper ─────────────────────────────────────
+        async function renderOnSheet(routes) {
+          const container = document.getElementById("dynamicControlsContainer");
+          if (!container) return;
 
-        // Evento para abrir el panel de edición al hacer clic en un .edit-element
-        document.addEventListener("click", (e) => {
-          const editBtn = e.target.closest(".edit-element");
-          if (editBtn) {
-            e.preventDefault();
-            e.stopPropagation();
+          // Unregister existing controls from the syncEngine to prevent memory leaks and collision
+          if (window.syncEngine) {
+            container.querySelectorAll("[data-control-sync]").forEach((el) => {
+              const id = el.dataset.controlSync;
+              if (id) window.syncEngine.controls.delete(id);
+            });
+          }
 
-            const scope = editBtn.getAttribute("data-scope");
-
-            if (window.appBottomSheet) {
-              window.appBottomSheet.open();
-            }
-
-            const editorScroll = document.getElementById("editorScroll");
-            if (editorScroll) {
-              let targetEl = null;
-              if (scope === "avt__edit") {
-                targetEl = document.getElementById("ctrlGroupAvatar");
-              } else if (scope === "mobile_cover_input") {
-                targetEl = document.getElementById("ctrlGroupCover");
-              }
-
-              if (targetEl) {
-                setTimeout(() => {
-                  editorScroll.scrollTo({
-                    top: targetEl.offsetTop - 10,
-                    behavior: "smooth",
-                  });
-                }, 150);
-              }
+          // Fetch and combine all specified template HTML files
+          let combinedHtml = "";
+          for (const route of routes) {
+            const resp = await fetch(route);
+            if (resp.ok) {
+              combinedHtml += await resp.text();
             }
           }
-        });
-      });
+          container.innerHTML = combinedHtml;
+
+          // Scan and register the new inputs dynamically with SyncEngine
+          if (window.syncEngine) {
+            const { ControlFactory } = await import(
+              "/assets/js/core/controls/ControlFactory.js"
+            );
+            container.querySelectorAll("[data-control-sync]").forEach((rootEl) => {
+              const ctrl = ControlFactory.create(rootEl, window.syncEngine);
+              if (ctrl) window.syncEngine.register(ctrl);
+            });
+          }
+        }
+        window.renderOnSheet = renderOnSheet;
+
+        // ═══════════════════════════════════════════════════════════════════════════
+        // EDIT ELEMENT HANDLER  (modules/EditElementHandler.js)
+        // SRP: delegated click handler for .edit-element overlays.
+        //
+        // Scope routing is purely data-driven via SCOPE_TEMPLATE_MAP.
+        // ═══════════════════════════════════════════════════════════════════════════
+
+        const _EE_EDIT_ELEM_SELECTOR = ".edit-element";
+        const _EE_DATA_SCOPE_ATTR = "data-scope";
+
+        async function _eeHandleClick(e) {
+          const editBtn = e.target.closest(_EE_EDIT_ELEM_SELECTOR);
+          if (!editBtn) return;
+
+          e.preventDefault();
+          e.stopPropagation();
+
+          const scope = editBtn.getAttribute(_EE_DATA_SCOPE_ATTR);
+          const routeInfo = SCOPE_TEMPLATE_MAP[scope];
+          if (!routeInfo) return;
+
+          // 1. Render template dynamically
+          await renderOnSheet(routeInfo.templates);
+
+          // 2. Update custom settings title
+          const titleEl = document.getElementById("custom-settings-title");
+          if (titleEl) titleEl.textContent = routeInfo.title;
+
+          // 3. Move sheet state to custom settings panel
+          const { UI_ELEMS, UI_STATUS } = await import("/assets/js/core/config/uiConfig.js");
+          const setPanel = (id, status) => {
+            const el = document.getElementById(id);
+            if (el) el.dataset.status = status;
+          };
+          setPanel(UI_ELEMS.MAIN_SETTINGS, UI_STATUS.HIDDEN);
+          setPanel(UI_ELEMS.CUSTOM_SETTINGS, UI_STATUS.ACTIVE);
+
+          const headerLeft = document.getElementById(UI_ELEMS.SHEET_HEADER_LEFT);
+          if (headerLeft) headerLeft.dataset.status = UI_STATUS.CUSTOM;
+
+          // 4. Open bottom sheet
+          window.appBottomSheet?.open();
+        }
+
+        function mountEditElementHandler() {
+          document.addEventListener("click", _eeHandleClick);
+          return () => document.removeEventListener("click", _eeHandleClick);
+        }
+
+        // ═══════════════════════════════════════════════════════════════════════════
+        // SHEET NAVIGATOR  (modules/SheetNavigator.js)
+        // SRP: sheet panel transitions — main settings ↔ custom settings.
+        //
+        // NOTE: uiConfig is a project-wide external module — imported at runtime.
+        // ═══════════════════════════════════════════════════════════════════════════
+
+        async function mountSheetNavigator() {
+          const { UI_ELEMS, UI_STATUS, SELECTORS, UI_DEFAULTS } =
+            await import("/assets/js/core/config/uiConfig.js");
+
+          // ── Private helpers ────────────────────────────────────────────────────
+
+          function setPanel(panelId, status) {
+            const el = document.getElementById(panelId);
+            if (el) el.dataset.status = status;
+          }
+
+          function setHeaderStatus(status) {
+            const el = document.getElementById(UI_ELEMS.SHEET_HEADER_LEFT);
+            if (el) el.dataset.status = status;
+          }
+
+          function resolveRadioValue() {
+            return (
+              document.querySelector(SELECTORS.IMAGE_STYLE_CHECKED)?.value ??
+              UI_DEFAULTS.IMAGE_STYLE
+            );
+          }
+
+          // ── Handlers ──────────────────────────────────────────────────────────
+
+          function onPersonalizar() {
+            window.updateCustomPanelControls?.(resolveRadioValue());
+
+            setPanel(UI_ELEMS.MAIN_SETTINGS, UI_STATUS.HIDDEN);
+            setPanel(UI_ELEMS.CUSTOM_SETTINGS, UI_STATUS.ACTIVE);
+            setHeaderStatus(UI_STATUS.CUSTOM);
+          }
+
+          function onBreadcrumbBack() {
+            setPanel(UI_ELEMS.CUSTOM_SETTINGS, UI_STATUS.HIDDEN);
+            setPanel(UI_ELEMS.MAIN_SETTINGS, UI_STATUS.ACTIVE);
+            setHeaderStatus(UI_STATUS.READY);
+          }
+
+          // ── Register listeners ─────────────────────────────────────────────────
+
+          document
+            .getElementById(UI_ELEMS.BTN_PERSONALIZAR)
+            ?.addEventListener("click", onPersonalizar);
+
+          document
+            .querySelector(SELECTORS.BREADCRUMB_BACK)
+            ?.addEventListener("click", onBreadcrumbBack);
+        }
+
+
+        // ═══════════════════════════════════════════════════════════════════════════
+        // ORCHESTRATOR  (index.js)
+        // Mounts all modules in dependency order.
+        //
+        // Contains zero logic of its own. If you find yourself adding
+        // conditionals here, extract a new module instead.
+        // ═══════════════════════════════════════════════════════════════════════════
+
+        const _PILL_ELEM_ID = "mi-pildora";
+
+        // 1. BottomSheet must be ready before anything that calls constructBottomSheet
+        await loadBottomSheet();
+
+        // 2. Pill state machine (edit / done / satellite)
+        const pillEl = document.getElementById(_PILL_ELEM_ID);
+        if (pillEl) new PillController(pillEl).mount();
+
+        // 3. Dev credential check — runs synchronously after sheet is available
+        ensureDevCredentials();
+
+        // 4. SyncEngine bridge — polls until engine is ready; intentionally non-blocking
+        mountSyncBridge().catch(console.error);
+
+        // 5. Radio style → preset + hero-fit select
+        mountRadioStyleHandler();
+
+        // 6. Sheet panel navigation (Personalizar ↔ breadcrumb back)
+        mountSheetNavigator();
+
+        // 7. Delegated .edit-element click handler with scope-map routing
+        mountEditElementHandler();
+      })();
     </script>
-    <script>
+    <script type="module">
+      import { UI_DEFAULTS } from "/assets/js/core/config/uiConfig.js";
+
       // ==========================================
       // klef-profile-controller.js
       // Arquitectura declarativa — Klef Agency
@@ -2585,334 +2898,21 @@
        */
 
       // ==========================================
-      // 1. CONTROL SCHEMA — único lugar de verdad
-      //    Agregar un control = un objeto en este array.
-      //    El motor no necesita ningún cambio.
-      // ==========================================
-      const CONTROLS = [
-        // --- Grupo: avatar ---
-        {
-          id: "ctrl-size",
-          group: "avatar",
-          label: "Tamaño Avatar",
-          type: "range",
-          targetId: "profileContent",
-          unit: "px",
-          min: 40,
-          max: 160,
-          initial: 100,
-          onChange(val, target) {
-            const container = document.getElementById("avatarContainer");
-            if (container) {
-              container.style.setProperty("--avatar-size", `${val}px`);
-            }
-            const radiusInput = document.getElementById("ctrl-radius-input");
-            if (radiusInput) {
-              radiusInput.max = val;
-              if (Number(radiusInput.value) > Number(val)) {
-                radiusInput.value = val;
-                radiusInput.dispatchEvent(
-                  new Event("input", { bubbles: true }),
-                );
-              }
-            }
-          },
-        },
-
-        {
-          id: "ctrl-radius",
-          group: "avatar",
-          label: "Radio Avatar",
-          type: "range",
-          targetId: "avatarContainer",
-          unit: "px",
-          min: 0,
-          max: 100,
-          initial: 50,
-          onChange(val, target) {
-            target.style.setProperty("--avatar-radius", `${val}px`);
-          },
-        },
-
-        {
-          id: "ctrl-padding",
-          group: "avatar",
-          label: "Padding Avatar",
-          type: "range",
-          targetId: "avatarContainer",
-          unit: "px",
-          min: 0,
-          max: 24,
-          initial: 0,
-          onChange(val, target) {
-            target.style.padding = val + "px";
-            target.style.boxSizing = "border-box";
-          },
-        },
-
-        {
-          id: "ctrl-mock-border-scale",
-          group: "avatar",
-          label: "Mock Border (escala)",
-          type: "range",
-          targetId: "avatarContainer",
-          unit: "",
-          min: 1,
-          max: 1.2,
-          step: 0.01,
-          initial: 1.05,
-          onChange(val, target) {
-            target.style.setProperty("--mock-border-scale", val);
-          },
-        },
-
-        // --- Grupo: cover-inset (solo visible cuando cover-style === 'inset') ---
-        {
-          id: "ctrl-cover-width",
-          group: "cover-inset",
-          label: "Ancho Portada",
-          type: "range",
-          targetId: "coverWrap",
-          cssProp: "width",
-          unit: "%",
-          min: 50,
-          max: 100,
-          initial: 90,
-        },
-
-        {
-          id: "ctrl-cover-height",
-          group: "cover-inset",
-          label: "Alto Portada",
-          type: "range",
-          targetId: "coverWrap",
-          cssProp: "height",
-          unit: "px",
-          min: 60,
-          max: 250,
-          initial: 120,
-        },
-
-        {
-          id: "ctrl-cover-radius",
-          group: "cover-inset",
-          label: "Redondeo Esquinas",
-          type: "range",
-          targetId: "coverWrap",
-          cssProp: "borderRadius",
-          unit: "px",
-          min: 0,
-          max: 40,
-          initial: 12,
-        },
-
-        {
-          id: "ctrl-cover-fit",
-          group: "cover-inset",
-          label: "Ajuste de imagen",
-          type: "select",
-          targetId: "profileCover",
-          cssProp: "objectFit",
-          initial: "cover",
-          options: [
-            { label: "Recortar (Cover)", value: "cover" },
-            { label: "Contener (Contain)", value: "contain" },
-            { label: "Rellenar (Fill)", value: "fill" },
-          ],
-        },
-
-        {
-          id: "ctrl-cover-shadow",
-          group: "cover-inset",
-          label: "Sombra de Portada",
-          type: "checkbox",
-          targetId: "coverWrap",
-          cssProp: "boxShadow",
-          trueValue: "0 8px 24px rgba(0,0,0,0.15)",
-          falseValue: "none",
-          initial: false,
-        },
-      ];
-
-      // ==========================================
-      // 2. CONTROL FACTORY — motor puro
-      //    No conoce ningún control por nombre.
-      //    Solo sabe leer la configuración y actuar.
-      // ==========================================
-      const ControlFactory = {
-        /**
-         * Construye todos los controles de un grupo e inyecta en el contenedor.
-         * @param {string}      group     — nombre del grupo definido en CONTROLS
-         * @param {HTMLElement} container — elemento donde se inyectarán los inputs
-         */
-        buildGroup(group, container) {
-          if (!container) return;
-          CONTROLS.filter((cfg) => cfg.group === group).forEach((cfg) => {
-            const el = this._build(cfg);
-            if (el) container.appendChild(el);
-          });
-        },
-
-        /** Construye y vincula un control individual */
-        _build(cfg) {
-          const target = document.getElementById(cfg.targetId);
-          if (!target) return null;
-
-          const wrap = document.createElement("div");
-          wrap.className = "control-row";
-
-          if (cfg.type === "checkbox") {
-            wrap.innerHTML = `
-        <div class="checkbox-wrap">
-          <span class="control-label" style="margin:0">${cfg.label}</span>
-          ${this._renderInput(cfg)}
-        </div>`;
-          } else {
-            const unit = cfg.unit || "";
-            wrap.innerHTML = `
-        <div class="control-label-wrap">
-          <span class="control-label">${cfg.label}</span>
-          <span class="control-value" id="${cfg.id}-val">
-            ${cfg.type !== "select" ? cfg.initial + unit : ""}
-          </span>
-        </div>
-        ${this._renderInput(cfg)}`;
-          }
-
-          const input = wrap.querySelector("input, select");
-          input.addEventListener("input", (e) => {
-            const raw =
-              cfg.type === "checkbox" ? e.target.checked : e.target.value;
-            this._applyCSS(cfg, target, raw);
-            this._updateDisplay(wrap, cfg, raw);
-            if (cfg.onChange) cfg.onChange(raw, target);
-            if (window.appBipartiteStorage) {
-              window.appBipartiteStorage.updateControlValue(cfg.id, raw);
-            }
-          });
-
-          return wrap;
-        },
-
-        /** Aplica la propiedad CSS al target si está configurada */
-        _applyCSS(cfg, target, val) {
-          if (!cfg.cssProp) return;
-          if (cfg.type === "checkbox") {
-            target.style[cfg.cssProp] = val
-              ? (cfg.trueValue ?? "")
-              : (cfg.falseValue ?? "none");
-          } else {
-            target.style[cfg.cssProp] = val + (cfg.unit || "");
-          }
-        },
-
-        /** Actualiza el span de valor visible junto al label */
-        _updateDisplay(wrap, cfg, val) {
-          if (cfg.type === "checkbox" || cfg.type === "select") return;
-          const display = wrap.querySelector(`#${cfg.id}-val`);
-          if (display) display.textContent = val + (cfg.unit || "");
-        },
-
-        /** Genera el HTML del input según el tipo */
-        _renderInput(cfg) {
-          const id = `${cfg.id}-input`;
-
-          if (cfg.type === "select") {
-            const opts = (cfg.options || [])
-              .map(
-                (o) =>
-                  `<option value="${o.value}"${o.value === cfg.initial ? " selected" : ""}>${o.label}</option>`,
-              )
-              .join("");
-            return `<select id="${id}" class="custom-input">${opts}</select>`;
-          }
-
-          if (cfg.type === "checkbox") {
-            return `<input type="checkbox" id="${id}"${cfg.initial ? " checked" : ""}
-        style="accent-color:#09090b;width:16px;height:16px;cursor:pointer">`;
-          }
-
-          if (cfg.type === "range") {
-            return `<input type="range" class="range-input" id="${id}"
-        min="${cfg.min ?? 0}"
-        max="${cfg.max ?? 100}"
-        step="${cfg.step ?? 1}"
-        value="${cfg.initial}">`;
-          }
-
-          // Fallback: text, number, email, tel, etc.
-          return `<input type="${cfg.type}" id="${id}" class="custom-input"
-      placeholder="${cfg.placeholder || ""}"
-      value="${cfg.initial || ""}">`;
-        },
-      };
-
-      // ==========================================
-      // 2.1 CONTROL SYNC REGISTRY
-      //    (Modular SyncEngine is loaded asynchronously via bootSync.js)
+      // 1. DECLARATIVE CONTROLS REFACTOR
+      //    All control parameters (sizes, boundaries, strategies)
+      //    are defined directly on the HTML elements in the DOM.
+      //    The SyncEngine automatically discovers and binds them on boot.
       // ==========================================
 
       // ==========================================
       // 3. CONDITIONAL PANEL MANAGER
-      //    Decide qué grupos se renderizan y cuándo.
-      //    Ya no crea controles — delega en ControlFactory.
+      //    Decides visibility of control groups statically on load.
       // ==========================================
       const ConditionalPanelManager = {
-        // ---- helpers de construcción ----
-
-        /** Crea un <div class="control-row"> con label + glider y lo devuelve */
-        _buildGlider(id, label, options, initialVal) {
-          const row = document.createElement("div");
-          row.className = "control-row";
-
-          const lbl = document.createElement("span");
-          lbl.className = "control-label";
-          lbl.textContent = label;
-          row.appendChild(lbl);
-
-          const glider = document.createElement("div");
-          glider.className = "glider-container";
-          glider.id = id;
-
-          options.forEach(({ label: optLabel, val, handler }) => {
-            const opt = document.createElement("div");
-            opt.className =
-              "glider-option" + (val === initialVal ? " active" : "");
-            opt.dataset.val = val;
-            opt.textContent = optLabel;
-            opt.addEventListener("click", () => handler(val));
-            glider.appendChild(opt);
-          });
-
-          row.appendChild(glider);
-          return row;
-        },
-
-        /** Crea un <div class="divider"> */
-        _divider() {
-          const d = document.createElement("div");
-          d.className = "divider";
-          return d;
-        },
-
-        /** Crea un contenedor de grupo con label */
-        _buildGroup(id, label) {
-          const wrap = document.createElement("div");
-          wrap.id = id;
-          const lbl = document.createElement("span");
-          lbl.className = "control-label";
-          lbl.textContent = label;
-          wrap.appendChild(lbl);
-          return wrap;
-        },
-
-        // ---- init principal ----
         init() {
           const controller = document.getElementById("main-sheet");
           const card = document.getElementById("mainCard");
-          const scroll = document.getElementById("dynamicGroupsContainer");
-          if (!controller || !card || !scroll) return;
-          scroll.innerHTML = "";
+          if (!controller || !card) return;
 
           const isMasterActive = !!document.querySelector(
             '[data-master-bind="true"]',
@@ -2923,68 +2923,11 @@
           }
           controller.dataset.status = "ready";
 
-          const hasAvatar = !!document.querySelector(
-            '[data-bind="user.avatar.url"]',
-          );
           const hasCover = !!document.querySelector(
             '[data-bind="user.umCoverUrl"]',
           );
 
-          // --- Sección: Preset de layout ---
-          // REEMPLAZADO POR HTML CUSTOM EN #editorScroll
-          // scroll.appendChild(
-          //   this._buildGlider(
-          //     "presetGlider",
-          //     "Preset de layout",
-          //     ...
-          //   ),
-          // );
-
-          // --- Sección: Posición libre ---
-          // REEMPLAZADO POR HTML CUSTOM EN #editorScroll
-          // const posRow = this._buildGlider(...);
-          // posRow.querySelector("#posGlider").style.opacity = "0.5";
-          // posRow.querySelector("#posGlider").style.pointerEvents = "none";
-          // scroll.appendChild(posRow);
-
-          // --- Grupo: Avatar ---
-          if (hasAvatar) {
-            const avatarGroup = this._buildGroup("ctrlGroupAvatar", "Avatar");
-            avatarGroup.insertBefore(this._divider(), avatarGroup.firstChild);
-            ControlFactory.buildGroup("avatar", avatarGroup);
-            scroll.appendChild(avatarGroup);
-          }
-
-          // --- Grupo: Portada ---
-          if (hasCover) {
-            const coverGroup = this._buildGroup("ctrlGroupCover", "Portada");
-            coverGroup.insertBefore(this._divider(), coverGroup.firstChild);
-
-            // Glider de estilo de portada
-            coverGroup.appendChild(
-              this._buildGlider(
-                "coverGlider",
-                "Estilo de portada",
-                [
-                  { label: "Sin portada", val: "none", handler: setCoverStyle },
-                  { label: "Completa", val: "full", handler: setCoverStyle },
-                  { label: "Encuadrada", val: "inset", handler: setCoverStyle },
-                ],
-                "full",
-              ),
-            );
-
-            // Controles inset (ocultos hasta seleccionar "Encuadrada")
-            const insetContainer = document.createElement("div");
-            insetContainer.id = "insetControlsContainer";
-            insetContainer.dataset.status = "hidden";
-            insetContainer.appendChild(this._divider());
-            ControlFactory.buildGroup("cover-inset", insetContainer);
-            coverGroup.appendChild(insetContainer);
-
-            scroll.appendChild(coverGroup);
-          } else {
-            // Sin portada → forzar cover-style-none
+          if (!hasCover) {
             card.classList.remove("cover-style-full", "cover-style-inset");
             card.classList.add("cover-style-none");
           }
@@ -3004,13 +2947,18 @@
       }
 
       function syncRadioSelector(presetName) {
-        let radioVal = "classic";
+        let radioVal = UI_DEFAULTS.IMAGE_STYLE;
         if (presetName === "preset-hero") {
           radioVal = "hero";
-        } else if (presetName === "preset-horizontal" || presetName === "preset-centered") {
+        } else if (
+          presetName === "preset-horizontal" ||
+          presetName === "preset-centered"
+        ) {
           radioVal = "with-cover";
         }
-        const radio = document.querySelector(`input[name="image_style"][value="${radioVal}"]`);
+        const radio = document.querySelector(
+          `input[name="image_style"][value="${radioVal}"]`,
+        );
         if (radio) {
           radio.checked = true;
         }
@@ -3028,30 +2976,33 @@
         }
       }
 
-      function updateCustomPanelControls(activeStyle) {
+      async function updateCustomPanelControls(activeStyle) {
         updateCustomSettingsTitle(activeStyle);
 
-        const groupAvatar = document.getElementById("ctrlGroupAvatar");
-        const groupCover = document.getElementById("ctrlGroupCover");
-        const groupHero = document.getElementById("ctrlGroupHero");
         const presetRow = document.getElementById("customPresetRow");
         const posRow = document.getElementById("customPosRow");
 
-        if (groupAvatar) groupAvatar.dataset.status = "hidden";
-        if (groupCover) groupCover.dataset.status = "hidden";
-        if (groupHero) groupHero.dataset.status = "hidden";
         if (presetRow) presetRow.dataset.status = "hidden";
         if (posRow) posRow.dataset.status = "hidden";
 
+        const baseDir = "/admin/user/ivangonzalez/templates/controls";
+        let templates = [];
+
         if (activeStyle === "classic") {
-          if (groupAvatar) groupAvatar.dataset.status = "active";
+          templates = [`${baseDir}/avatar.html`];
         } else if (activeStyle === "hero") {
-          if (groupHero) groupHero.dataset.status = "active";
+          templates = [`${baseDir}/hero.html`];
         } else if (activeStyle === "with-cover") {
           if (presetRow) presetRow.dataset.status = "active";
           if (posRow) posRow.dataset.status = "active";
-          if (groupAvatar) groupAvatar.dataset.status = "active";
-          if (groupCover) groupCover.dataset.status = "active";
+          templates = [
+            `${baseDir}/cover.html`,
+            `${baseDir}/avatar.html`
+          ];
+        }
+
+        if (typeof window.renderOnSheet === "function") {
+          await window.renderOnSheet(templates);
         }
       }
 
@@ -3149,6 +3100,7 @@
               coverWrap.style.width = "";
               coverWrap.style.height = "";
               coverWrap.style.borderRadius = "";
+              coverWrap.style.margin = "0px auto";
             }
           }
         }
@@ -3157,6 +3109,12 @@
           window.appBipartiteStorage.updateCoverStyle(styleName);
         }
       }
+
+      // Expose globally for module access
+      window.setPreset = setPreset;
+      window.setPos = setPos;
+      window.setCoverStyle = setCoverStyle;
+      window.updateCustomPanelControls = updateCustomPanelControls;
 
       // ==========================================
       // 5. MOTOR DECLARATIVO DE HIDRATACIÓN (SOLID)
@@ -3272,13 +3230,21 @@
             preset: "preset-classic",
             position: "left",
             coverStyle: "full",
-            controls: {},
+            controls: {
+              "ctrl-size": 100,
+              "ctrl-radius": 50,
+              "ctrl-padding": 0,
+              "ctrl-mock-border-scale": 1.05,
+              "ctrl-cover-width": 100,
+              "ctrl-cover-height": 120,
+              "ctrl-cover-radius": 12,
+              "ctrl-cover-fit": "cover",
+              "ctrl-cover-shadow": false,
+              "hero-blur": 12,
+              "hero-fit": "cover",
+              "hero-height": 50,
+            },
           };
-
-          // Initialize default controls from schema
-          CONTROLS.forEach((cfg) => {
-            this.state.controls[cfg.id] = cfg.initial;
-          });
 
           // Bind offline/online recovery
           window.addEventListener("online", () =>
@@ -3461,54 +3427,7 @@
               setCoverStyle(this.state.coverStyle);
             }
 
-            // 4. Controls
-            Object.entries(this.state.controls).forEach(([id, value]) => {
-              const cfg = CONTROLS.find((c) => c.id === id);
-              if (!cfg) return;
-
-              // Update DOM element input value
-              const inputEl = document.getElementById(`${cfg.id}-input`);
-              if (inputEl) {
-                if (cfg.type === "checkbox") {
-                  inputEl.checked = !!value;
-                } else {
-                  inputEl.value = value;
-                }
-              }
-
-              // Apply styling only if the group is relevant to the active layout!
-              // For example, cover-inset controls should only apply inline style if coverStyle is "inset"
-              const isRelevant =
-                cfg.group !== "cover-inset" ||
-                this.state.coverStyle === "inset";
-
-              const target = document.getElementById(cfg.targetId);
-              if (target) {
-                if (cfg.cssProp) {
-                  if (isRelevant) {
-                    if (cfg.type === "checkbox") {
-                      target.style[cfg.cssProp] = value
-                        ? (cfg.trueValue ?? "")
-                        : (cfg.falseValue ?? "none");
-                    } else {
-                      target.style[cfg.cssProp] = value + (cfg.unit || "");
-                    }
-                  } else {
-                    // Clear the inline style so it falls back to stylesheet defaults
-                    target.style[cfg.cssProp] = "";
-                  }
-                }
-                if (cfg.onChange && isRelevant) {
-                  cfg.onChange(value, target);
-                }
-              }
-
-              // Update label display value
-              const display = document.getElementById(`${cfg.id}-val`);
-              if (display && cfg.type !== "checkbox" && cfg.type !== "select") {
-                display.textContent = value + (cfg.unit || "");
-              }
-            });
+            // 4. Sync controls via registry
             if (window.ControlSyncRegistry) {
               window.ControlSyncRegistry.applyAll(this.state);
             }
@@ -3768,14 +3687,6 @@
           window.ControlSyncRegistry?.connectStorage(
             window.appBipartiteStorage,
           );
-          window.ControlSyncRegistry?.define({
-            id: "ctrl-size",
-            root: "[data-control-sync='avatar-size']",
-            target: "#avatarContainer",
-            cssVar: "--avatar-size",
-            unit: "px",
-            values: { sm: 64, md: 100, lg: 140 },
-          });
           window.appBipartiteStorage.loadState(null);
 
           // 3. Mostrar estado de carga (skeleton) para los datos del usuario e iniciar la consulta cloud
@@ -3797,10 +3708,15 @@
       // ==========================================
       // 8. INICIALIZACIÓN
       // ==========================================
-      document.addEventListener("DOMContentLoaded", () => {
+      if (document.readyState === "loading") {
+        document.addEventListener("DOMContentLoaded", () => {
+          const app = new AppController();
+          app.init();
+        });
+      } else {
         const app = new AppController();
         app.init();
-      });
+      }
     </script>
     <script type="module" src="/assets/js/core/bootSync.js"></script>
   </body>

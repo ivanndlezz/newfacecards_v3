@@ -1,0 +1,327 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Botones Clean UI - Light Mode (16 Ejemplos)</title>
+    <link rel="stylesheet" href="../shared/styles/buttons.css" />
+  </head>
+  <body>
+    <!-- Blobs decorativos de fondo -->
+    <div class="blob blob--top-left" aria-hidden="true"></div>
+    <div class="blob blob--bottom-right" aria-hidden="true"></div>
+
+    <div class="catalog">
+      <header class="catalog__header">
+        <h1 class="catalog__title">Catálogo Botones 2026</h1>
+        <p class="catalog__subtitle">
+          16 variaciones del "Light Mode" realista. Minimalismo radical,
+          interacciones sutiles y bordes precisos.
+        </p>
+      </header>
+
+      <div class="catalog__grid">
+        <!-- 1. Google / Gemini -->
+        <div class="card">
+          <div class="card__label">
+            <span class="card__label-name">Google / Gemini</span>
+            <span class="card__label-desc">Tonal suave, SVG corregido</span>
+          </div>
+          <button class="btn btn--gemini">
+            <svg
+              class="btn__icon"
+              viewBox="0 0 24 24"
+              fill="currentColor"
+              aria-hidden="true"
+              style="color: #3b82f6"
+            >
+              <path
+                d="M11.25 2.25L13.13 8.87L19.75 10.75L13.13 12.63L11.25 19.25L9.37 12.63L2.75 10.75L9.37 8.87L11.25 2.25Z"
+              />
+            </svg>
+            Resumir texto
+          </button>
+        </div>
+
+        <!-- 2. Anthropic / Claude -->
+        <div class="card">
+          <div class="card__label">
+            <span class="card__label-name">Anthropic / Claude</span>
+            <span class="card__label-desc">Borde fino, alto contraste</span>
+          </div>
+          <button class="btn btn--anthropic">Nuevo Chat</button>
+        </div>
+
+        <!-- 3. Apple Light Glass -->
+        <div class="card">
+          <div class="card__label">
+            <span class="card__label-name">Apple Light Glass</span>
+            <span class="card__label-desc">Translúcido y desenfocado</span>
+          </div>
+          <button class="btn btn--apple">Compartir</button>
+        </div>
+
+        <!-- 4. Premium Tonal (Magic Border) -->
+        <div class="card">
+          <div class="card__label">
+            <span class="card__label-name">Premium Tonal</span>
+            <span class="card__label-desc">Borde mágico en fondo blanco</span>
+          </div>
+          <button class="btn--magic" aria-label="Upgrade">
+            <span class="btn--magic__inner">
+              <svg
+                class="btn__icon"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+                aria-hidden="true"
+                style="color: #c084fc"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M13 10V3L4 14h7v7l9-11h-7z"
+                />
+              </svg>
+              Upgrade
+            </span>
+          </button>
+        </div>
+
+        <!-- 5. Soft Depth -->
+        <div class="card">
+          <div class="card__label">
+            <span class="card__label-name">Soft Depth</span>
+            <span class="card__label-desc">Sombra 3D muy sutil</span>
+          </div>
+          <button class="btn btn--depth">Ajustes</button>
+        </div>
+
+        <!-- 6. Magnetic Minimal -->
+        <div class="card">
+          <div class="card__label">
+            <span class="card__label-name">Magnetic Minimal</span>
+            <span class="card__label-desc">Física reactiva al cursor</span>
+          </div>
+          <button class="btn btn--magnetic" id="js-magnetic">
+            <span class="btn--magnetic__text" id="js-magnetic-text"
+              >Arrastrar</span
+            >
+          </button>
+        </div>
+
+        <!-- 7. Material 3 Tonal -->
+        <div class="card">
+          <div class="card__label">
+            <span class="card__label-name">Material 3 Tonal</span>
+            <span class="card__label-desc">Color secundario M3</span>
+          </div>
+          <button class="btn btn--m3-tonal">Guardar</button>
+        </div>
+
+        <!-- 8. Vercel / Linear -->
+        <div class="card">
+          <div class="card__label">
+            <span class="card__label-name">Vercel / Linear</span>
+            <span class="card__label-desc">Ultra nítido, borde #eaeaea</span>
+          </div>
+          <button class="btn btn--linear">Deploy</button>
+        </div>
+
+        <!-- 9. OpenAI Primary -->
+        <div class="card">
+          <div class="card__label">
+            <span class="card__label-name">OpenAI Primary</span>
+            <span class="card__label-desc">El contraste absoluto</span>
+          </div>
+          <button class="btn btn--openai">Generar</button>
+        </div>
+
+        <!-- 10. Ghost Nav -->
+        <div class="card">
+          <div class="card__label">
+            <span class="card__label-name">Ghost Nav</span>
+            <span class="card__label-desc">Solo texto, fondo al hover</span>
+          </div>
+          <button class="btn btn--ghost">Explorar</button>
+        </div>
+
+        <!-- 11. App Store "Get" -->
+        <div class="card">
+          <div class="card__label">
+            <span class="card__label-name">App Store "Get"</span>
+            <span class="card__label-desc">Gris mate, texto azul vivo</span>
+          </div>
+          <button class="btn--appstore">Obtener</button>
+        </div>
+
+        <!-- 12. Dashed Dropzone -->
+        <div class="card">
+          <div class="card__label">
+            <span class="card__label-name">Dashed Dropzone</span>
+            <span class="card__label-desc">Borde punteado para añadir</span>
+          </div>
+          <button class="btn btn--dashed">
+            <svg
+              class="btn__icon"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+              aria-hidden="true"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M12 4v16m8-8H4"
+              />
+            </svg>
+            Añadir Bloque
+          </button>
+        </div>
+
+        <!-- 13. Expandable FAB -->
+        <div class="card">
+          <div class="card__label">
+            <span class="card__label-name">Expandable FAB</span>
+            <span class="card__label-desc">Expande ancho al hover</span>
+          </div>
+          <button class="btn btn--expand" aria-label="Buscar archivo">
+            <span class="btn--expand__icon-area" aria-hidden="true">
+              <svg
+                class="btn__icon"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+                />
+              </svg>
+            </span>
+            <span class="btn--expand__label">Buscar archivo</span>
+          </button>
+        </div>
+
+        <!-- 14. Toggle Inset (Pressed) -->
+        <div class="card">
+          <div class="card__label">
+            <span class="card__label-name">Toggle Inset</span>
+            <span class="card__label-desc">Estado activo (presionado)</span>
+          </div>
+          <button class="btn btn--pressed">
+            <svg
+              class="btn__icon"
+              fill="currentColor"
+              viewBox="0 0 20 20"
+              aria-hidden="true"
+            >
+              <path
+                fill-rule="evenodd"
+                d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                clip-rule="evenodd"
+              />
+            </svg>
+            Filtrado
+          </button>
+        </div>
+
+        <!-- 15. Two-Tone Split -->
+        <div class="card">
+          <div class="card__label">
+            <span class="card__label-name">Two-Tone Split</span>
+            <span class="card__label-desc">Contenedor flex dividido</span>
+          </div>
+          <button class="btn--twotone">
+            <span class="btn--twotone__icon-zone" aria-hidden="true">
+              <svg
+                class="btn__icon"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M8 7v8a2 2 0 002 2h6M8 7V5a2 2 0 012-2h4.586a1 1 0 01.707.293l4.414 4.414a1 1 0 01.293.707V15a2 2 0 01-2 2h-2M8 7H6a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2v-2"
+                />
+              </svg>
+            </span>
+            <span class="btn--twotone__label">Copiar ID</span>
+          </button>
+        </div>
+
+        <!-- 16. Processing / Loading -->
+        <div class="card">
+          <div class="card__label">
+            <span class="card__label-name">Processing State</span>
+            <span class="card__label-desc">Spinner nativo integrado</span>
+          </div>
+          <button class="btn btn--loading" disabled>
+            <svg
+              class="btn--loading__spinner"
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              aria-hidden="true"
+            >
+              <circle
+                style="opacity: 0.25"
+                cx="12"
+                cy="12"
+                r="10"
+                stroke="currentColor"
+                stroke-width="4"
+              />
+              <path
+                style="opacity: 0.75"
+                fill="currentColor"
+                d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+              />
+            </svg>
+            Procesando...
+          </button>
+        </div>
+      </div>
+      <!-- /catalog__grid -->
+    </div>
+    <!-- /catalog -->
+
+    <script>
+      (function () {
+        "use strict";
+
+        // ── Magnetic Button ──────────────────────────────
+        var btn = document.getElementById("js-magnetic");
+        var text = document.getElementById("js-magnetic-text");
+
+        if (btn && text) {
+          btn.addEventListener("mousemove", function (e) {
+            var rect = btn.getBoundingClientRect();
+            var cx = rect.left + rect.width / 2;
+            var cy = rect.top + rect.height / 2;
+            var dx = e.clientX - cx;
+            var dy = e.clientY - cy;
+
+            btn.classList.add("is-magnetizing");
+            btn.style.transform =
+              "translate(" + dx / 4 + "px, " + dy / 4 + "px)";
+            text.style.transform =
+              "translate(" + dx / 3 + "px, " + dy / 3 + "px)";
+          });
+
+          btn.addEventListener("mouseleave", function () {
+            btn.classList.remove("is-magnetizing");
+            btn.style.transform = "translate(0,0)";
+            text.style.transform = "translate(0,0)";
+          });
+        }
+      })();
+    </script>
+  </body>
+</html>

@@ -11,11 +11,19 @@ export class RangeControl extends BaseControl {
   }
 
   apply(value) {
+    const hasValue = value !== undefined && value !== null && value !== '';
+    const fallbackValue = this.root.getAttribute('value') || '';
+    const finalVal = hasValue ? value : fallbackValue;
+
     if (this.target) {
-      super.apply(value);
+      if (hasValue && this.def.cssVar) {
+        super.apply(value);
+      } else if (this.def.cssVar) {
+        this.target.style.removeProperty(this.def.cssVar);
+      }
     }
-    if (String(this.root.value) !== String(value)) {
-      this.root.value = value;
+    if (String(this.root.value) !== String(finalVal)) {
+      this.root.value = finalVal;
     }
     
     // Sync display elements
@@ -23,7 +31,7 @@ export class RangeControl extends BaseControl {
       ? this.previewRoot.querySelector(`#${this.def.id}-val`) 
       : null;
     if (display) {
-      display.textContent = `${value}${this.def.unit || ''}`;
+      display.textContent = hasValue ? `${value}${this.def.unit || ''}` : '';
     }
   }
 }

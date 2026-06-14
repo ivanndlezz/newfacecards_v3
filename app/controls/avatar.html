@@ -1,0 +1,166 @@
+<div class="divider"></div>
+<span
+  class="control-label"
+  style="font-size: 16px; margin-bottom: 10px; display: block"
+  >Avatar</span
+>
+
+<div
+  class="control-row avatar-size-control"
+  data-control-sync="ctrl-size"
+  data-target="#avatarContainer"
+  data-css-var="--avatar-size"
+  data-unit="px"
+  data-value-attr="value"
+  data-active-status="active"
+  data-inactive-status="unset"
+  data-values='{"sm":80,"md":109,"lg":140}'
+>
+  <div
+    class="control-label-wrap"
+    style="display: flex; justify-content: space-between; align-items: center"
+  >
+    <span class="control-label">Tamaño Avatar</span>
+    <span
+      class="control-value"
+      id="ctrl-size-val"
+      data-control-view-value="ctrl-size"
+      data-unit="px"
+      ></span
+    >
+  </div>
+  <div class="avatar-size-control__body">
+    <div
+      class="tabs"
+      id="avatarSizeTabs"
+      data-control-view="ctrl-size"
+      data-value-attr="value"
+      data-active-status="active"
+      data-inactive-status="unset"
+      data-unit="px"
+      data-preview-target="#avatarTarget"
+
+      data-values='{"sm":80,"md":109,"lg":140}'
+    >
+      <button
+        class="btn--anthropic"
+        type="button"
+        data-value="sm"
+        data-status="unset"
+      >
+        S
+      </button>
+      <button
+        class="btn--anthropic"
+        type="button"
+        data-value="md"
+        data-status="unset"
+      >
+        M
+      </button>
+      <button
+        class="btn--anthropic"
+        type="button"
+        data-value="lg"
+        data-status="unset"
+      >
+        L
+      </button>
+    </div>
+    <input
+      type="range"
+      class="range-input"
+      id="ctrl-size-input"
+      min="40"
+      max="160"
+      value=""
+      data-control-view="ctrl-size"
+      data-unit="px"
+      data-preview-target="#avatarTarget"
+
+    />
+  </div>
+</div>
+
+<div class="control-row avatar-size-control">
+  <div
+    class="control-label-wrap"
+    style="display: flex; justify-content: space-between; align-items: center"
+  >
+    <span class="control-label">Redondez</span>
+    <span class="control-value" id="ctrl-radius-val">50px</span>
+  </div>
+  <div class="avatar-size-control__body">
+    <div
+      class="tabs"
+      id="avatarRadiusTabs"
+      data-control-view="ctrl-radius"
+      data-value-attr="value"
+      data-active-status="active"
+      data-inactive-status="unset"
+      data-unit="px"
+      data-preview-target="#avatarTarget"
+
+      data-values='{"sm":0,"md":34,"lg":100}'
+    >
+      <button
+        class="btn--anthropic"
+        type="button"
+        data-value="sm"
+        data-status="unset"
+      >
+        S
+      </button>
+      <button
+        class="btn--anthropic"
+        type="button"
+        data-value="md"
+        data-status="unset"
+      >
+        M
+      </button>
+      <button
+        class="btn--anthropic"
+        type="button"
+        data-value="lg"
+        data-status="unset"
+      >
+        L
+      </button>
+    </div>
+    <input
+      type="range"
+      class="range-input"
+      id="ctrl-radius-input"
+      min="0"
+      max="100"
+      value="50"
+      data-control-sync="ctrl-radius"
+      data-target="#avatarContainer"
+      data-css-var="--avatar-radius"
+      data-unit="px"
+    />
+  </div>
+</div>
+
+<div class="control-row">
+  <div
+    class="control-label-wrap"
+    style="display: flex; justify-content: space-between; align-items: center"
+  >
+    <span class="control-label">Mock Border (escala)</span>
+    <span class="control-value" id="ctrl-mock-border-scale-val"></span>
+  </div>
+  <input
+    type="range"
+    class="range-input"
+    id="ctrl-mock-border-scale-input"
+    min="1"
+    max="1.2"
+    step="0.01"
+    value=""
+    data-control-sync="ctrl-mock-border-scale"
+    data-target="#avatarContainer"
+    data-css-var="--mock-border-scale"
+  />
+</div>

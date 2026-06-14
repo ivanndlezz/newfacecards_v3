@@ -1,5 +1,6 @@
 import { ButtonControl } from './ButtonControl.js';
 import { RangeControl } from './RangeControl.js';
+import { NativeInputControl } from './NativeInputControl.js';
 
 export class ControlFactory {
   /**
@@ -15,8 +16,13 @@ export class ControlFactory {
    * Create a control instance from a DOM element and a definition object
    */
   static createFromDef(rootEl, def, store, previewRoot) {
-    if (rootEl.tagName === 'INPUT' && rootEl.type === 'range') {
-      return new RangeControl(rootEl, def, store, previewRoot);
+    const tag = rootEl.tagName;
+    const isNative = tag === 'SELECT' || tag === 'TEXTAREA' || (tag === 'INPUT' && rootEl.type !== 'button' && rootEl.type !== 'submit');
+    if (isNative) {
+      if (rootEl.type === 'range') {
+        return new RangeControl(rootEl, def, store, previewRoot);
+      }
+      return new NativeInputControl(rootEl, def, store, previewRoot);
     }
     return new ButtonControl(rootEl, def, store, previewRoot);
   }
@@ -47,6 +53,8 @@ export class ControlFactory {
       activeStatus: el.dataset.activeStatus ?? 'active',
       inactiveStatus: el.dataset.inactiveStatus ?? 'unset',
       statePath: el.dataset.statePath || `controls.${id}`,
+      trueValue: el.dataset.trueValue,
+      falseValue: el.dataset.falseValue,
       values
     };
   }

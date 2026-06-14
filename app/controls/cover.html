@@ -1,0 +1,56 @@
+<div class="divider"></div>
+<span class="control-label" style="font-size: 16px; margin-bottom: 10px; display: block">Portada</span>
+
+<div class="control-row">
+  <span class="control-label">Estilo de portada</span>
+  <div class="glider-container" id="coverGlider" data-control-sync="cover.style" data-target="#mainCard" data-state-path="coverStyle" data-value-attr="val" data-event="click" data-active-status="active" data-inactive-status="unset" data-values='{"none":"none","full":"full","inset":"inset"}'>
+    <div class="glider-option" data-val="none">Sin portada</div>
+    <div class="glider-option" data-val="full">Completa</div>
+    <div class="glider-option" data-val="inset">Encuadrada</div>
+  </div>
+</div>
+
+<!-- Controles inset (ocultos hasta seleccionar "Encuadrada") -->
+<div id="insetControlsContainer" data-status="hidden">
+  <div class="divider"></div>
+
+  <div class="control-row">
+    <div class="control-label-wrap" style="display: flex; justify-content: space-between; align-items: center;">
+      <span class="control-label">Ancho Portada</span>
+      <span class="control-value" id="ctrl-cover-width-val">100%</span>
+    </div>
+    <input type="range" class="range-input" id="ctrl-cover-width-input" min="50" max="100" value="100" data-control-sync="ctrl-cover-width" data-target="#coverWrap" data-css-var="--cover-width" data-unit="%">
+  </div>
+
+  <div class="control-row">
+    <div class="control-label-wrap" style="display: flex; justify-content: space-between; align-items: center;">
+      <span class="control-label">Alto Portada</span>
+      <span class="control-value" id="ctrl-cover-height-val">120px</span>
+    </div>
+    <input type="range" class="range-input" id="ctrl-cover-height-input" min="60" max="250" value="120" data-control-sync="ctrl-cover-height" data-target="#coverWrap" data-css-var="--cover-height" data-unit="px">
+  </div>
+
+  <div class="control-row">
+    <div class="control-label-wrap" style="display: flex; justify-content: space-between; align-items: center;">
+      <span class="control-label">Redondeo Esquinas</span>
+      <span class="control-value" id="ctrl-cover-radius-val">12px</span>
+    </div>
+    <input type="range" class="range-input" id="ctrl-cover-radius-input" min="0" max="40" value="12" data-control-sync="ctrl-cover-radius" data-target="#coverWrap" data-css-var="--cover-radius" data-unit="px">
+  </div>
+
+  <div class="control-row">
+    <span class="control-label">Ajuste de imagen</span>
+    <select class="custom-input" id="ctrl-cover-fit-input" data-control-sync="ctrl-cover-fit" data-target="#profileCover" data-css-var="--cover-fit" data-event="change">
+      <option value="cover" selected>Recortar (Cover)</option>
+      <option value="contain">Contener (Contain)</option>
+      <option value="fill">Rellenar (Fill)</option>
+    </select>
+  </div>
+
+  <div class="control-row">
+    <div class="checkbox-wrap" style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
+      <span class="control-label" style="margin: 0">Sombra de Portada</span>
+      <input type="checkbox" id="ctrl-cover-shadow-input" data-control-sync="ctrl-cover-shadow" data-target="#coverWrap" data-css-var="--cover-shadow" data-true-value="0 8px 24px rgba(0,0,0,0.15)" data-false-value="none" style="accent-color: #09090b; width: 16px; height: 16px; cursor: pointer;">
+    </div>
+  </div>
+</div>

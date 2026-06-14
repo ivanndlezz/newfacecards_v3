@@ -11,6 +11,7 @@
  *
  * Antipatrones:
  * - No escribir estilos inline hardcoded para comportamiento.
+ * - No colocar ningún valor inline en el atributo style="" del HTML (hardcodear aspecto) a menos que sean variables de paso/almacenamiento de datos de runtime (ej. style="--avt-size: var(--avatar-size)"). Todos los aspectos deben ser definidos desde data-aspect o desde variables.
  * - No usar el.style.display = "block" para mostrar componentes.
  *   En bottom-sheet rompe display:flex y bloquea scroll/layout interno.
  * - No manejar hidden/active/open con style="" si existe data-state/data-status.

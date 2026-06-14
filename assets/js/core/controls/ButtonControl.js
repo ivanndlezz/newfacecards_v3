@@ -25,8 +25,13 @@ export class ButtonControl extends BaseControl {
   }
 
   apply(value) {
+    const hasValue = value !== undefined && value !== null && value !== '';
     if (this.target) {
-      super.apply(value);
+      if (hasValue && this.def.cssVar) {
+        super.apply(value);
+      } else if (this.def.cssVar) {
+        this.target.style.removeProperty(this.def.cssVar);
+      }
     }
     
     // Sync active status on button elements
@@ -38,7 +43,7 @@ export class ButtonControl extends BaseControl {
     this.root.querySelectorAll(`[data-${attr}]`).forEach((item) => {
       const raw = item.dataset[key];
       const itemValue = this.resolveValue(raw);
-      const isSelected = String(itemValue) === String(value);
+      const isSelected = hasValue && String(itemValue) === String(value);
       
       item.dataset.status = isSelected ? active : inactive;
       
@@ -55,7 +60,7 @@ export class ButtonControl extends BaseControl {
       ? this.previewRoot.querySelector(`#${this.def.id}-val`) 
       : null;
     if (display) {
-      display.textContent = `${value}${this.def.unit || ''}`;
+      display.textContent = hasValue ? `${value}${this.def.unit || ''}` : '';
     }
   }
 }
