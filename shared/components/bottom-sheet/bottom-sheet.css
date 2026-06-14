@@ -18,6 +18,7 @@
    - No usar el atributo style="" para comportamiento o estado.
    - No usar el atributo style="" para display, visibility, overflow,
      pointer-events, position, transform o layout del componente.
+   - No colocar ningún valor inline en el atributo style="" del HTML (hardcodear aspecto) a menos que sean variables de paso/almacenamiento de datos de runtime (ej. style="--avt-size: var(--avatar-size)"). Todos los aspectos deben ser definidos desde data-aspect o desde variables.
    - No usar element.style.display = "block" para mostrar un componente
      que depende de display:flex o display:grid.
    - No hardcodear CSS inline desde JS si puede resolverse con data-*.

@@ -1,0 +1,40 @@
+.avatar-size-control__body {
+
+  display: grid;
+  gap: 18px;
+
+}
+
+.avatar-size-control .avatar {
+  width: var(--avatar-size);
+  height: var(--avatar-size);
+  border-radius: var(--avatar-radius);
+  background: linear-gradient(135deg, #0f876c, #18181b);
+  transition:
+    width 0.25s ease,
+    height 0.25s ease,
+    border-radius 0.25s ease;
+}
+
+.avatar-size-control .tabs {
+  display: inline-flex;
+  gap: 6px;
+  padding: 4px;
+  border: 1px solid #e4e4e7;
+  border-radius: 8px;
+  background: #fff;
+  justify-content: center;
+}
+
+.avatar-size-control .tabs button {
+  
+  border-radius: 6px;
+  padding: 8px 12px;
+  background: #f4f4f5;
+  cursor: pointer;
+}
+
+.avatar-size-control .tabs button[data-status="active"] {
+  background: #0f876c;
+  color: white;
+}

@@ -1,0 +1,65 @@
+.ctrl-page[data-control-page="cover"] {
+  display: grid;
+  gap: 16px;
+}
+
+.segmented {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  border: 1px solid #ded8cf;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.segmented button {
+  border: 0;
+  border-right: 1px solid #ded8cf;
+  background: #fffdf8;
+  color: #6d6a63;
+  min-height: 42px;
+  padding: 0 8px;
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.segmented button:last-child {
+  border-right: 0;
+}
+
+.segmented button[data-status="active"] {
+  background: #0f766e;
+  color: white;
+}
+
+.inset-fields {
+  display: grid;
+  gap: 16px;
+}
+
+.inset-fields[data-status="hidden"] {
+  display: none;
+}
+
+.switch-field {
+  min-height: 42px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  border: 1px solid #ded8cf;
+  border-radius: 8px;
+  background: #fffdf8;
+  padding: 0 12px;
+}
+
+.switch-field span {
+  color: #3d3932;
+  font-size: 13px;
+  font-weight: 800;
+}
+
+.switch-field input {
+  width: 18px;
+  height: 18px;
+  accent-color: #0f766e;
+}

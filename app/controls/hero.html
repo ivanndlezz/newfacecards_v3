@@ -1,0 +1,26 @@
+<div class="divider"></div>
+<span class="control-label" style="font-size: 16px; margin-bottom: 10px; display: block">Apariencia Hero</span>
+
+<div class="control-row">
+  <div class="control-label-wrap" style="display: flex; justify-content: space-between; align-items: center;">
+    <span class="control-label">Efecto Freeze Glass (Blur)</span>
+    <span class="control-value" id="hero-blur-val">12px</span>
+  </div>
+  <input type="range" class="range-input" id="hero-blur-input" min="0" max="30" value="12" data-control-sync="hero-blur" data-target="#profileContent" data-css-var="--hero-blur" data-unit="px">
+</div>
+
+<div class="control-row">
+  <span class="control-label">Ajuste de Fondo Hero</span>
+  <select class="custom-input" id="ctrl-hero-fit-input" data-control-sync="hero-fit" data-target="#profileCover" data-css-var="--hero-fit" data-event="change">
+    <option value="cover" selected>Cover (Rellenar todo)</option>
+    <option value="contain">Contain (Contener)</option>
+  </select>
+</div>
+
+<div class="control-row">
+  <div class="control-label-wrap" style="display: flex; justify-content: space-between; align-items: center;">
+    <span class="control-label">Altura de la sección</span>
+    <span class="control-value" id="hero-height-val">50%</span>
+  </div>
+  <input type="range" class="range-input" id="hero-height-input" min="30" max="100" value="50" data-control-sync="hero-height" data-target="#mainCard" data-css-var="--hero-height" data-unit="%">
+</div>

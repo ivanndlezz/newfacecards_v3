@@ -1,0 +1,673 @@
+/*
+ * ==========================================================================
+ * LIBRERÍA DE BOTONES MICRO-BEM (2026 Clean UI)
+ * ==========================================================================
+ * Esta librería utiliza un enfoque "Token-First". Todo el diseño visual
+ * está mapeado a variables CSS para facilitar la creación de temas (theming).
+ * * Metodología Micro-BEM:
+ * - Bloque: .btn (La estructura base)
+ * - Elementos: .btn__icon, .btn__text (Partes internas del botón)
+ * - Modificadores: .btn--primary, .btn--sm, .btn--loading (Variantes de estilo o estado)
+ * * Ejemplo de uso HTML:
+ * <button class="btn btn--primary btn--md">
+ * <svg class="btn__icon">...</svg>
+ * <span class="btn__text">Guardar</span>
+ * </button>
+ * ==========================================================================
+ */
+
+/* --------------------------------------------------------------------------
+ * 1. DESIGN TOKENS (Variables Globales)
+ * --------------------------------------------------------------------------
+ * Sobrescribe estos valores en tu tema oscuro o en selectores específicos
+ * para cambiar instantáneamente el aspecto de todos los botones.
+ */
+ 
+ /* ─────────────────────────────────────────
+       DESIGN TOKENS GLOBALES
+      ───────────────────────────────────────── */
+      :root {
+        /* Palette */
+        --color-canvas:       #f8fafc;
+        --color-white:        #ffffff;
+        --color-ink-900:      #0f172a;
+        --color-ink-800:      #1e293b;
+        --color-ink-700:      #334155;
+        --color-ink-600:      #475569;
+        --color-ink-400:      #94a3b8;
+        --color-ink-300:      #cbd5e1;
+        --color-ink-200:      #e2e8f0;
+        --color-ink-100:      #f1f5f9;
+        --color-ink-50:       #f8fafc;
+
+        --color-border-soft:  #e5e7eb;
+        --color-border-crisp: #eaeaea;
+        --color-border-mid:   #d1d5db;
+
+        /* Brand accents */
+        --color-blue-200:     #bfdbfe;
+        --color-blue-400:     #60a5fa;
+        --color-blue-500:     #3b82f6;
+        --color-blue-ios:     #007aff;
+        --color-purple-400:   #c084fc;
+        --color-purple-500:   #a855f7;
+        --color-m3-tonal:     #e8def8;
+        --color-m3-tonal-ink: #1d192b;
+        --color-m3-hover:     #e0d4f5;
+        --color-m3-active:    #d1c4e9;
+        --color-openai-bg:    #101112;
+        --color-openai-hover: #2d2e2f;
+        --color-openai-act:   #404142;
+        --color-appstore-bg:  #f2f2f7;
+
+        /* Blobs decorativos */
+        --blob-blue:  rgba(191, 219, 254, 0.4);
+        --blob-slate: rgba(203, 213, 225, 0.4);
+
+        /* Tipografia */
+        --font-base:          "Inter", system-ui, -apple-system, sans-serif;
+        --text-xs:            0.75rem;
+        --text-sm:            0.875rem;
+        --text-lg:            1.125rem;
+        --text-4xl:           2.25rem;
+        --text-5xl:           3rem;
+        --fw-normal:          400;
+        --fw-medium:          500;
+        --fw-semibold:        600;
+        --fw-bold:            700;
+        --tracking-tight:     -0.025em;
+        --tracking-tightest:  -0.01em;
+
+        /* Espaciado */
+        --sp-1:  0.25rem;
+        --sp-2:  0.5rem;
+        --sp-3:  0.75rem;
+        --sp-4:  1rem;
+        --sp-5:  1.25rem;
+        --sp-6:  1.5rem;
+        --sp-8:  2rem;
+        --sp-12: 3rem;
+        --sp-16: 4rem;
+        --sp-20: 5rem;
+        --sp-64: 16rem;
+
+        /* Radio */
+        --radius-full: 9999px;
+
+        /* Sombras */
+        --shadow-xs:          0 1px 2px rgba(0,0,0,.03);
+        --shadow-sm:          0 1px 3px rgba(0,0,0,.05);
+        --shadow-md:          0 2px 4px rgba(0,0,0,.06);
+        --shadow-lg:          0 4px 10px rgba(0,0,0,.08);
+        --shadow-fab:         0 2px 5px rgba(0,0,0,.05);
+        --shadow-apple-rest:  0 4px 15px rgba(0,0,0,.04), inset 0 1px 0 rgba(255,255,255,1);
+        --shadow-apple-hover: 0 6px 20px rgba(0,0,0,.06), inset 0 1px 0 rgba(255,255,255,1);
+        --shadow-neuro-rest:  4px 4px 10px rgba(0,0,0,.03), -4px -4px 10px rgba(255,255,255,1);
+        --shadow-neuro-hover: 6px 6px 12px rgba(0,0,0,.04), -6px -6px 12px rgba(255,255,255,1);
+        --shadow-neuro-press: inset 3px 3px 6px rgba(0,0,0,.03), inset -3px -3px 6px rgba(255,255,255,1);
+        --shadow-pressed:     inset 0 2px 4px rgba(0,0,0,.04);
+        --shadow-magnetic:    0 4px 10px rgba(0,0,0,.04);
+
+        /* Curvas */
+        --ease-spring: cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        --ease-smooth: cubic-bezier(0.25, 1, 0.5, 1);
+        --ease-m3:     cubic-bezier(0.2, 0, 0, 1);
+        --ease-fab:    cubic-bezier(0.4, 0, 0.2, 1);
+
+        /* Magic border — @property para animacion de gradiente */
+        @property --bg-angle {
+          syntax: "<angle>";
+          inherits: true;
+          initial-value: 0deg;
+        }
+      }
+
+      /* ─────────────────────────────────────────
+       RESET & BASE
+      ───────────────────────────────────────── */
+      *, *::before, *::after {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      body {
+        font-family:      var(--font-base);
+        font-size:        var(--text-sm);
+        background-color: var(--color-canvas);
+        color:            var(--color-ink-900);
+        min-height:       100vh;
+        overflow-x:       hidden;
+        display:          flex;
+        flex-direction:   column;
+        align-items:      center;
+        justify-content:  center;
+        padding:          var(--sp-6);
+      }
+      @media (min-width: 640px) { body { padding: var(--sp-12); } }
+
+      button {
+        cursor:      pointer;
+        font-family: inherit;
+        border:      none;
+        background:  none;
+      }
+      button:focus { outline: none; }
+
+      /* ─────────────────────────────────────────
+       BLOQUE: .blob
+       Modifiers de posicion unicos, sin hijos propios.
+      ───────────────────────────────────────── */
+      .blob {
+        position:       fixed;
+        width:          var(--sp-64);
+        height:         var(--sp-64);
+        border-radius:  var(--radius-full);
+        mix-blend-mode: multiply;
+        filter:         blur(48px);
+        z-index:        -1;
+        pointer-events: none;
+      }
+      .blob--top-left     { top: var(--sp-20); left: var(--sp-20);     background: var(--blob-blue);  }
+      .blob--bottom-right { bottom: var(--sp-20); right: var(--sp-20); background: var(--blob-slate); }
+
+
+      /* ═════════════════════════════════════════
+         BLOQUE: .catalog
+         Tokens: --catalog-gap, --catalog-header-mb
+         Elementos: __header, __title, __subtitle, __grid
+      ═════════════════════════════════════════ */
+      .catalog {
+        --catalog-gap:       3rem var(--sp-8);
+        --catalog-header-mb: var(--sp-16);
+
+        max-width: 90rem;
+        width:     100%;
+        margin:    0 auto;
+      }
+
+      .catalog__header {
+        text-align:    center;
+        padding-top:   var(--sp-8);
+        margin-bottom: var(--catalog-header-mb);
+      }
+
+      .catalog__title {
+        font-size:      var(--text-4xl);
+        font-weight:    var(--fw-bold);
+        color:          var(--color-ink-800);
+        letter-spacing: var(--tracking-tight);
+        line-height:    1.1;
+      }
+      @media (min-width: 768px) { .catalog__title { font-size: var(--text-5xl); } }
+
+      .catalog__subtitle {
+        color:       var(--color-ink-600);
+        max-width:   42rem;
+        margin:      var(--sp-4) auto 0;
+        font-size:   var(--text-lg);
+        line-height: 1.6;
+      }
+
+      .catalog__grid {
+        display:               grid;
+        grid-template-columns: 1fr;
+        gap:                   var(--catalog-gap);
+        justify-items:         center;
+      }
+      @media (min-width: 640px)  { .catalog__grid { grid-template-columns: repeat(2, 1fr); } }
+      @media (min-width: 1024px) { .catalog__grid { grid-template-columns: repeat(3, 1fr); } }
+      @media (min-width: 1280px) { .catalog__grid { grid-template-columns: repeat(4, 1fr); } }
+
+
+      /* ═════════════════════════════════════════
+         BLOQUE: .card
+         Tokens: --card-gap
+         Elemento: __label  (no tiene sentido fuera de .card)
+         Subelementos aplanados: __label-name, __label-desc
+         — "name" y "desc" existen solo como etiqueta de card
+           en este UI, por eso se modelan como subelementos
+           aplanados con guion simple (nunca __label__name).
+      ═════════════════════════════════════════ */
+      .card {
+        --card-gap: var(--sp-4);
+
+        display:        flex;
+        flex-direction: column;
+        align-items:    center;
+        gap:            var(--card-gap);
+        width:          100%;
+      }
+
+      .card__label { text-align: center; }
+
+      .card__label-name {
+        display:     block;
+        font-size:   var(--text-sm);
+        font-weight: var(--fw-semibold);
+        color:       var(--color-ink-700);
+      }
+
+      .card__label-desc {
+        display:   block;
+        font-size: var(--text-xs);
+        color:     var(--color-ink-400);
+      }
+
+
+      /* ═════════════════════════════════════════
+         BLOQUE: .btn
+         Tokens scoped: --btn-gap, --btn-pad-x, --btn-pad-y,
+                        --btn-radius, --btn-fw, --btn-fs
+         Elemento: __icon  (solo tiene sentido dentro del boton)
+         Modifiers: variantes y estados via .btn--*
+         Regla de estado: el estado siempre va en el bloque,
+           nunca como modifier del elemento.
+           .btn--pressed .btn__icon { ... }   CORRECTO
+           .btn__icon--active { ... }          INCORRECTO
+      ═════════════════════════════════════════ */
+      .btn {
+        --btn-gap:    var(--sp-2);
+        --btn-pad-x:  var(--sp-8);
+        --btn-pad-y:  0.625rem;
+        --btn-radius: var(--radius-full);
+        --btn-fw:     var(--fw-medium);
+        --btn-fs:     var(--text-sm);
+
+        display:         inline-flex;
+        align-items:     center;
+        justify-content: center;
+        gap:             var(--btn-gap);
+        padding:         var(--btn-pad-y) var(--btn-pad-x);
+        border-radius:   var(--btn-radius);
+        font-weight:     var(--btn-fw);
+        font-size:       var(--btn-fs);
+        line-height:     1;
+        white-space:     nowrap;
+        transition:      all 0.2s ease;
+      }
+
+      /* Elemento __icon — hijo inseparable del boton */
+      .btn__icon {
+        width:       1rem;
+        height:      1rem;
+        flex-shrink: 0;
+      }
+
+
+      /* ─────────────────────────────────────────
+         MODIFIER: .btn--gemini
+         Tokens scoped propios para aislar sus colores.
+      ───────────────────────────────────────── */
+      .btn--gemini {
+        --btn-gemini-bg:        #f0f4f9;
+        --btn-gemini-bg-hover:  #e4e9f1;
+        --btn-gemini-bg-active: #dbe0e8;
+        --btn-gemini-icon:      var(--color-blue-500);
+        --btn-pad-x:            var(--sp-6);  /* override token de bloque */
+
+        background-color: var(--btn-gemini-bg);
+        color:            #1f1f1f;
+      }
+      .btn--gemini:focus  { box-shadow: 0 0 0 2px var(--color-blue-200); }
+      .btn--gemini:hover  { background-color: var(--btn-gemini-bg-hover); box-shadow: var(--shadow-sm); }
+      .btn--gemini:active { background-color: var(--btn-gemini-bg-active); transform: scale(0.98); }
+      /* Estado en bloque → elemento */
+      .btn--gemini .btn__icon { color: var(--btn-gemini-icon); }
+
+
+      /* ─────────────────────────────────────────
+         MODIFIER: .btn--anthropic
+      ───────────────────────────────────────── */
+      .btn--anthropic {
+        --btn-anthropic-bg:        var(--color-white);
+        --btn-anthropic-bg-hover:  #fafafa;
+        --btn-anthropic-bg-active: #f4f4f5;
+
+        background-color: var(--btn-anthropic-bg);
+        color:      #111111;
+        border:     1px solid var(--color-border-soft);
+        box-shadow: var(--shadow-xs);
+        transition: all 0.15s ease-in-out;
+      }
+      .btn--anthropic:hover  { background-color: var(--btn-anthropic-bg-hover); border-color: var(--color-border-mid); box-shadow: var(--shadow-md); }
+      .btn--anthropic:active { background-color: var(--btn-anthropic-bg-active); transform: scale(0.98); }
+
+
+      /* ─────────────────────────────────────────
+         MODIFIER: .btn--apple
+      ───────────────────────────────────────── */
+      .btn--apple {
+        background:               rgba(255,255,255,0.6);
+        border:                   1px solid rgba(255,255,255,0.8);
+        box-shadow:               var(--shadow-apple-rest);
+        backdrop-filter:          blur(20px);
+        -webkit-backdrop-filter:  blur(20px);
+        color:                    var(--color-ink-800);
+        transition:               all 0.3s var(--ease-smooth);
+      }
+      .btn--apple:hover  { background: rgba(255,255,255,0.9); transform: scale(1.02); box-shadow: var(--shadow-apple-hover); }
+      .btn--apple:active { transform: scale(0.97); background: rgba(255,255,255,0.5); }
+
+
+      /* ─────────────────────────────────────────
+         MODIFIER: .btn--magic  (Magic Border)
+         Elemento: __inner — inseparable del truco visual
+         del gradiente; no existe fuera de .btn--magic.
+      ───────────────────────────────────────── */
+      @keyframes spin-gradient { to { --bg-angle: 360deg; } }
+
+      .btn--magic {
+        --btn-magic-inner-bg:       var(--color-white);
+        --btn-magic-inner-bg-hover: #f8fafc;
+        --btn-magic-icon:           var(--color-purple-400);
+
+        position:      relative;
+        background:    var(--color-white);
+        z-index:       1;
+        padding:       2px;
+        border-radius: var(--radius-full);
+        transition:    transform 0.2s ease;
+      }
+      .btn--magic::before {
+        content:        "";
+        position:       absolute;
+        inset:          0;
+        border-radius:  var(--radius-full);
+        padding:        2px;
+        background:     conic-gradient(from var(--bg-angle, 0deg), #93c5fd, #c4b5fd, #f9a8d4, #93c5fd);
+        -webkit-mask:   linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+        -webkit-mask-composite: xor;
+        mask-composite: exclude;
+        z-index:        -1;
+        animation:      spin-gradient 4s linear infinite;
+      }
+      .btn--magic:active { transform: scale(0.95); }
+
+      /* Elemento __inner */
+      .btn--magic__inner {
+        background:      var(--btn-magic-inner-bg);
+        border-radius:   var(--radius-full);
+        color:           var(--color-ink-800);
+        font-weight:     var(--fw-medium);
+        font-size:       var(--text-sm);
+        padding:         0.5rem var(--sp-6);
+        display:         inline-flex;
+        align-items:     center;
+        gap:             var(--sp-2);
+        transition:      background 0.3s ease;
+      }
+      .btn--magic:hover .btn--magic__inner { background: var(--btn-magic-inner-bg-hover); }
+      /* Estado en bloque → elemento */
+      .btn--magic .btn__icon { color: var(--btn-magic-icon); }
+
+
+      /* ─────────────────────────────────────────
+         MODIFIER: .btn--depth  (Neumorphism)
+      ───────────────────────────────────────── */
+      .btn--depth {
+        background: var(--color-canvas);
+        color:      var(--color-ink-600);
+        box-shadow: var(--shadow-neuro-rest);
+      }
+      .btn--depth:hover  { color: var(--color-ink-900); box-shadow: var(--shadow-neuro-hover); transform: translateY(-1px); }
+      .btn--depth:active { box-shadow: var(--shadow-neuro-press); transform: translateY(1px); }
+
+
+      /* ─────────────────────────────────────────
+         MODIFIER: .btn--magnetic
+         Elemento: __text — necesita transform independiente
+         del contenedor para el efecto parallax.
+         Estado JS: .is-magnetizing en el bloque.
+      ───────────────────────────────────────── */
+      .btn--magnetic {
+        background:  var(--color-white);
+        border:      1px solid var(--color-ink-200);
+        color:       var(--color-ink-900);
+        transition:  transform 0.3s var(--ease-spring);
+        box-shadow:  0 1px 3px rgba(0,0,0,.02);
+      }
+      .btn--magnetic.is-magnetizing { transition: none; box-shadow: var(--shadow-magnetic); }
+
+      /* Elemento __text */
+      .btn--magnetic__text {
+        display:        inline-block;
+        transition:     transform 0.3s var(--ease-spring);
+        pointer-events: none;
+      }
+
+
+      /* ─────────────────────────────────────────
+         MODIFIER: .btn--m3-tonal  (Material 3)
+      ───────────────────────────────────────── */
+      .btn--m3-tonal {
+        background: var(--color-m3-tonal);
+        color:      var(--color-m3-tonal-ink);
+        transition: all 0.2s var(--ease-m3);
+      }
+      .btn--m3-tonal:hover  { background: var(--color-m3-hover); box-shadow: 0 1px 2px rgba(0,0,0,.1); }
+      .btn--m3-tonal:active { background: var(--color-m3-active); transform: scale(0.95); }
+
+
+      /* ─────────────────────────────────────────
+         MODIFIER: .btn--linear  (Vercel / Linear)
+      ───────────────────────────────────────── */
+      .btn--linear {
+        background:  var(--color-white);
+        color:       #000;
+        border:      1px solid var(--color-border-crisp);
+        box-shadow:  0 1px 2px rgba(0,0,0,.04);
+        transition:  border-color 0.2s ease, box-shadow 0.2s ease;
+      }
+      .btn--linear:hover  { border-color: #ccc; box-shadow: var(--shadow-md); }
+      .btn--linear:active { background: #fafafa; transform: scale(0.99); }
+
+
+      /* ─────────────────────────────────────────
+         MODIFIER: .btn--openai
+      ───────────────────────────────────────── */
+      .btn--openai {
+        background: var(--color-openai-bg);
+        color:      var(--color-white);
+        transition: background 0.2s ease, transform 0.1s ease;
+      }
+      .btn--openai:hover  { background: var(--color-openai-hover); }
+      .btn--openai:active { background: var(--color-openai-act); transform: scale(0.97); }
+
+
+      /* ─────────────────────────────────────────
+         MODIFIER: .btn--ghost
+      ───────────────────────────────────────── */
+      .btn--ghost {
+        background: transparent;
+        color:      var(--color-ink-600);
+        transition: background 0.15s ease, color 0.15s ease;
+      }
+      .btn--ghost:hover  { background: var(--color-ink-100); color: var(--color-ink-900); }
+      .btn--ghost:active { background: var(--color-ink-200); transform: scale(0.98); }
+
+
+      /* ─────────────────────────────────────────
+         BLOQUE AUTONOMO: .btn--appstore
+         No extiende .btn: padding, fs y fw propios;
+         modelado como bloque independiente porque
+         diverge demasiado de la base compartida.
+         Tokens: --btn-appstore-pad-x, --btn-appstore-pad-y
+      ───────────────────────────────────────── */
+      .btn--appstore {
+        --btn-appstore-pad-x: var(--sp-6);
+        --btn-appstore-pad-y: 0.375rem;
+
+        display:         inline-flex;
+        align-items:     center;
+        justify-content: center;
+        border-radius:   var(--radius-full);
+        background:      var(--color-appstore-bg);
+        color:           var(--color-blue-ios);
+        font-family:     var(--font-base);
+        font-weight:     var(--fw-semibold);
+        font-size:       var(--text-xs);
+        letter-spacing:  var(--tracking-tightest);
+        padding:         var(--btn-appstore-pad-y) var(--btn-appstore-pad-x);
+        text-transform:  uppercase;
+        cursor:          pointer;
+        border:          none;
+        transition:      filter 0.2s ease, transform 0.1s ease;
+      }
+      .btn--appstore:hover  { filter: brightness(0.95); }
+      .btn--appstore:active { filter: brightness(0.9); transform: scale(0.95); }
+
+
+      /* ─────────────────────────────────────────
+         MODIFIER: .btn--dashed
+         Tokens: override de --btn-pad-x, --btn-pad-y
+      ───────────────────────────────────────── */
+      .btn--dashed {
+        --btn-pad-x: var(--sp-6);
+        --btn-pad-y: 0.5rem;
+
+        background: transparent;
+        border:     2px dashed var(--color-ink-300);
+        color:      var(--color-ink-600);
+      }
+      .btn--dashed:hover  { border-color: var(--color-ink-400); color: var(--color-ink-700); background: rgba(241,245,249,.5); }
+      .btn--dashed:active { transform: scale(0.98); }
+
+
+      /* ─────────────────────────────────────────
+         MODIFIER: .btn--expand  (Expandable FAB)
+         Tokens: --btn-expand-size, --btn-expand-size-hover
+         Elementos: __icon-area, __label
+         — Inseparables del truco de expansion;
+           no existen fuera de este bloque.
+      ───────────────────────────────────────── */
+      .btn--expand {
+        --btn-expand-size:       3rem;
+        --btn-expand-size-hover: 10rem;
+
+        width:         var(--btn-expand-size);
+        height:        var(--btn-expand-size);
+        border-radius: var(--radius-full);
+        background:    var(--color-white);
+        border:        1px solid var(--color-ink-200);
+        box-shadow:    var(--shadow-fab);
+        overflow:      hidden;
+        white-space:   nowrap;
+        display:       flex;
+        align-items:   center;
+        padding:       0;
+        gap:           0;
+        transition:    width 0.3s var(--ease-fab), box-shadow 0.2s;
+      }
+      .btn--expand:hover { width: var(--btn-expand-size-hover); box-shadow: var(--shadow-lg); }
+
+      /* Elemento __icon-area */
+      .btn--expand__icon-area {
+        flex-shrink:     0;
+        width:           var(--btn-expand-size);
+        height:          var(--btn-expand-size);
+        display:         flex;
+        align-items:     center;
+        justify-content: center;
+        color:           var(--color-ink-600);
+      }
+
+      /* Elemento __label */
+      .btn--expand__label {
+        opacity:       0;
+        font-weight:   var(--fw-medium);
+        color:         var(--color-ink-700);
+        padding-right: var(--sp-4);
+        font-size:     var(--text-sm);
+        transition:    opacity 0.2s ease 0s;
+      }
+      .btn--expand:hover .btn--expand__label { opacity: 1; transition-delay: 0.1s; }
+
+
+      /* ─────────────────────────────────────────
+         MODIFIER: .btn--pressed  (Toggle Inset)
+         Estado perpetuo "presionado".
+         Icono via .btn__icon; color desde el bloque.
+      ───────────────────────────────────────── */
+      .btn--pressed {
+        background: var(--color-ink-100);
+        color:      var(--color-ink-700);
+        border:     1px solid var(--color-ink-200);
+        box-shadow: var(--shadow-pressed);
+      }
+      .btn--pressed:hover { background: var(--color-ink-200); }
+      /* Estado en bloque → elemento (no modifier en elemento) */
+      .btn--pressed .btn__icon { color: var(--color-ink-400); }
+
+
+      /* ─────────────────────────────────────────
+         MODIFIER: .btn--twotone  (Two-Tone Split Pill)
+         Tokens: --btn-twotone-zone-bg, --btn-twotone-zone-bg-hover
+         Elementos: __icon-zone, __label
+         — El patron de division cromatica los hace
+           inseparables de este modifier.
+      ───────────────────────────────────────── */
+      .btn--twotone {
+        --btn-twotone-zone-bg:       var(--color-ink-50);
+        --btn-twotone-zone-bg-hover: var(--color-ink-100);
+
+        display:       inline-flex;
+        align-items:   center;
+        border-radius: var(--radius-full);
+        border:        1px solid var(--color-ink-200);
+        overflow:      hidden;
+        background:    var(--color-white);
+        padding:       0;
+        gap:           0;
+        cursor:        pointer;
+        font-family:   var(--font-base);
+        transition:    transform 0.1s ease, box-shadow 0.2s ease;
+      }
+      .btn--twotone:hover  { box-shadow: 0 2px 6px rgba(0,0,0,.05); }
+      .btn--twotone:active { transform: scale(0.98); }
+
+      /* Elemento __icon-zone */
+      .btn--twotone__icon-zone {
+        background:   var(--btn-twotone-zone-bg);
+        padding:      var(--sp-3);
+        border-right: 1px solid var(--color-ink-100);
+        color:        var(--color-ink-600);
+        transition:   background 0.15s ease;
+      }
+      .btn--twotone:hover .btn--twotone__icon-zone { background: var(--btn-twotone-zone-bg-hover); }
+
+      /* Elemento __label — subelemento aplanado (guion simple) */
+      .btn--twotone__label {
+        padding:     0 var(--sp-5);
+        font-weight: var(--fw-medium);
+        color:       var(--color-ink-700);
+        font-size:   var(--text-sm);
+      }
+
+
+      /* ─────────────────────────────────────────
+         MODIFIER: .btn--loading
+         Tokens: override de --btn-pad-x
+         Elemento: __spinner — inseparable del estado de carga.
+         El estado disabled lo gestiona el atributo HTML;
+         el cursor y el color van en el bloque.
+      ───────────────────────────────────────── */
+      @keyframes spin { to { transform: rotate(360deg); } }
+
+      .btn--loading {
+        --btn-pad-x: var(--sp-6);
+
+        background: var(--color-white);
+        border:     1px solid var(--color-ink-200);
+        color:      var(--color-ink-400);
+        cursor:     not-allowed;
+      }
+
+      /* Elemento __spinner */
+      .btn--loading__spinner {
+        width:       1rem;
+        height:      1rem;
+        flex-shrink: 0;
+        animation:   spin 1s linear infinite;
+        color:       var(--color-ink-400);
+      }

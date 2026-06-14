@@ -42,5 +42,8 @@ export class BaseControl {
   writeState(value) {
     this.store.set(this.def.statePath, value);
     this.apply(value);
+    if (window.appBipartiteStorage && typeof window.appBipartiteStorage.saveLocal === 'function') {
+      window.appBipartiteStorage.saveLocal();
+    }
   }
 }
