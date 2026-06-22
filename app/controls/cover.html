@@ -1,56 +1,101 @@
-<div class="divider"></div>
-<span class="control-label" style="font-size: 16px; margin-bottom: 10px; display: block">Portada</span>
-
-<div class="control-row">
-  <span class="control-label">Estilo de portada</span>
-  <div class="glider-container" id="coverGlider" data-control-sync="cover.style" data-target="#mainCard" data-state-path="coverStyle" data-value-attr="val" data-event="click" data-active-status="active" data-inactive-status="unset" data-values='{"none":"none","full":"full","inset":"inset"}'>
-    <div class="glider-option" data-val="none">Sin portada</div>
-    <div class="glider-option" data-val="full">Completa</div>
-    <div class="glider-option" data-val="inset">Encuadrada</div>
-  </div>
-</div>
-
-<!-- Controles inset (ocultos hasta seleccionar "Encuadrada") -->
-<div id="insetControlsContainer" data-status="hidden">
-  <div class="divider"></div>
-
-  <div class="control-row">
-    <div class="control-label-wrap" style="display: flex; justify-content: space-between; align-items: center;">
-      <span class="control-label">Ancho Portada</span>
-      <span class="control-value" id="ctrl-cover-width-val">100%</span>
+<section class="ctrl-page ctrl-page--cover" data-control-page="cover">
+  <div class="ctrl-group" data-cover-preset-picker>
+    <div class="ctrl-group__header">
+      <span class="ctrl-group__label">
+        <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <rect x="4" y="5" width="16" height="9" rx="2.5" stroke="currentColor" stroke-width="2"/>
+          <circle cx="12" cy="17" r="3" stroke="currentColor" stroke-width="2"/>
+        </svg>
+        Posición de avatar
+      </span>
     </div>
-    <input type="range" class="range-input" id="ctrl-cover-width-input" min="50" max="100" value="100" data-control-sync="ctrl-cover-width" data-target="#coverWrap" data-css-var="--cover-width" data-unit="%">
-  </div>
 
-  <div class="control-row">
-    <div class="control-label-wrap" style="display: flex; justify-content: space-between; align-items: center;">
-      <span class="control-label">Alto Portada</span>
-      <span class="control-value" id="ctrl-cover-height-val">120px</span>
-    </div>
-    <input type="range" class="range-input" id="ctrl-cover-height-input" min="60" max="250" value="120" data-control-sync="ctrl-cover-height" data-target="#coverWrap" data-css-var="--cover-height" data-unit="px">
-  </div>
+    <div class="option-chips option-chips--position">
+      <button class="option-chip" type="button" data-cover-preset="preset-centered" data-status="unset" aria-label="Avatar centrado">
+        <svg class="option-chip__icon" viewBox="0 0 46 30" fill="none" aria-hidden="true">
+          <rect x="7" y="4" width="32" height="13" rx="4" fill="currentColor" fill-opacity=".08" stroke="currentColor" stroke-width="1.7"/>
+          <circle cx="23" cy="21" r="4.5" fill="currentColor" fill-opacity=".14" stroke="currentColor" stroke-width="1.7"/>
+        </svg>
+        <span class="option-chip__label">Centrado</span>
+      </button>
 
-  <div class="control-row">
-    <div class="control-label-wrap" style="display: flex; justify-content: space-between; align-items: center;">
-      <span class="control-label">Redondeo Esquinas</span>
-      <span class="control-value" id="ctrl-cover-radius-val">12px</span>
-    </div>
-    <input type="range" class="range-input" id="ctrl-cover-radius-input" min="0" max="40" value="12" data-control-sync="ctrl-cover-radius" data-target="#coverWrap" data-css-var="--cover-radius" data-unit="px">
-  </div>
+      <button class="option-chip" type="button" data-cover-preset="preset-horizontal" data-status="unset" aria-label="Avatar lateral">
+        <svg class="option-chip__icon" viewBox="0 0 46 30" fill="none" aria-hidden="true">
+          <rect x="7" y="4" width="32" height="12" rx="4" fill="currentColor" fill-opacity=".08" stroke="currentColor" stroke-width="1.7"/>
+          <circle cx="14" cy="22" r="4.5" fill="currentColor" fill-opacity=".14" stroke="currentColor" stroke-width="1.7"/>
+          <path d="M22 21h14M22 25h10" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" opacity=".55"/>
+        </svg>
+        <span class="option-chip__label">Lateral</span>
+      </button>
 
-  <div class="control-row">
-    <span class="control-label">Ajuste de imagen</span>
-    <select class="custom-input" id="ctrl-cover-fit-input" data-control-sync="ctrl-cover-fit" data-target="#profileCover" data-css-var="--cover-fit" data-event="change">
-      <option value="cover" selected>Recortar (Cover)</option>
-      <option value="contain">Contener (Contain)</option>
-      <option value="fill">Rellenar (Fill)</option>
-    </select>
-  </div>
+      <button class="option-chip" type="button" data-cover-preset="preset-cover" data-status="unset" aria-label="Avatar sobre portada">
+        <svg class="option-chip__icon" viewBox="0 0 46 30" fill="none" aria-hidden="true">
+          <rect x="7" y="4" width="32" height="18" rx="4" fill="currentColor" fill-opacity=".08" stroke="currentColor" stroke-width="1.7"/>
+          <circle cx="23" cy="21" r="4.5" fill="currentColor" fill-opacity=".14" stroke="currentColor" stroke-width="1.7"/>
+        </svg>
+        <span class="option-chip__label">Superior</span>
+      </button>
 
-  <div class="control-row">
-    <div class="checkbox-wrap" style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
-      <span class="control-label" style="margin: 0">Sombra de Portada</span>
-      <input type="checkbox" id="ctrl-cover-shadow-input" data-control-sync="ctrl-cover-shadow" data-target="#coverWrap" data-css-var="--cover-shadow" data-true-value="0 8px 24px rgba(0,0,0,0.15)" data-false-value="none" style="accent-color: #09090b; width: 16px; height: 16px; cursor: pointer;">
+      <button class="option-chip" type="button" data-cover-preset="free" data-status="unset" aria-label="Avatar libre">
+        <svg class="option-chip__icon" viewBox="0 0 46 30" fill="none" aria-hidden="true">
+          <rect x="7" y="4" width="32" height="18" rx="4" fill="currentColor" fill-opacity=".08" stroke="currentColor" stroke-width="1.7"/>
+          <path d="M15 22h16M23 14v16" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+          <circle cx="23" cy="22" r="4.5" fill="currentColor" fill-opacity=".14" stroke="currentColor" stroke-width="1.7"/>
+        </svg>
+        <span class="option-chip__label">Libre</span>
+      </button>
     </div>
   </div>
-</div>
+
+  <div
+    class="ctrl-group"
+    data-control-sync="cover.style"
+    data-target="#mainCard"
+    data-state-path="coverStyle"
+    data-value-attr="value"
+    data-event="click"
+    data-active-status="active"
+    data-inactive-status="unset"
+    data-values='{"full":"full","framed":"inset"}'
+  >
+    <div class="ctrl-group__header">
+      <span class="ctrl-group__label">
+        <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <rect x="4" y="6" width="16" height="12" rx="3" stroke="currentColor" stroke-width="2.1"/>
+          <path d="M4 11h16" stroke="currentColor" stroke-width="1.8" opacity=".45"/>
+        </svg>
+        Aspecto de portada
+      </span>
+    </div>
+
+    <div
+      class="option-chips option-chips--cover"
+      data-control-view="cover.style"
+      data-state-path="coverStyle"
+      data-value-attr="value"
+      data-active-status="active"
+      data-inactive-status="unset"
+      data-values='{"full":"full","framed":"inset"}'
+    >
+      <input type="radio" name="cover_style" id="cs-full" value="full" class="chip-radio" checked>
+      <label class="option-chip" for="cs-full" data-value="full" data-status="unset">
+        <svg class="option-chip__icon" width="40" height="28" viewBox="0 0 44 30" fill="none" aria-hidden="true">
+          <rect x="3" y="3" width="38" height="24" rx="4" fill="currentColor" fill-opacity="0.1" stroke="currentColor" stroke-width="1.4"></rect>
+          <path d="M3 12 Q11 6 19 11 Q27 16 41 9" stroke="currentColor" stroke-width="1.2" stroke-opacity="0.4" fill="none"></path>
+          <circle cx="22" cy="18" r="5" fill="currentColor" fill-opacity="0.15" stroke="currentColor" stroke-width="1.4"></circle>
+        </svg>
+        <span class="option-chip__label">Completa</span>
+      </label>
+
+      <input type="radio" name="cover_style" id="cs-framed" value="framed" class="chip-radio">
+      <label class="option-chip" for="cs-framed" data-value="framed" data-status="unset">
+        <svg class="option-chip__icon" width="40" height="28" viewBox="0 0 44 30" fill="none" aria-hidden="true">
+          <rect x="7" y="3" width="30" height="18" rx="4" fill="currentColor" fill-opacity="0.1" stroke="currentColor" stroke-width="1.4"></rect>
+          <path d="M7 12 Q15 7 22 11 Q29 15 37 9" stroke="currentColor" stroke-width="1.2" stroke-opacity="0.4" fill="none"></path>
+          <circle cx="22" cy="24" r="5" fill="currentColor" fill-opacity="0.15" stroke="currentColor" stroke-width="1.4"></circle>
+        </svg>
+        <span class="option-chip__label">Encuadrada</span>
+      </label>
+    </div>
+  </div>
+</section>

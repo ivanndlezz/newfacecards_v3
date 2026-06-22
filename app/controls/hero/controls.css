@@ -1,18 +1,43 @@
-#dynamicControlsContainer {
-  --control-accent: #09090b;
+.ctrl-page--hero {
+  color: #303036;
 }
 
-#dynamicControlsContainer .control-row {
-  animation: controlFadeIn 160ms ease-out;
+.hero-empty {
+  min-height: 92px;
+  display: grid;
+  place-items: center;
+  gap: 6px;
+  padding: 16px;
+  border: 1px solid #e5e7eb;
+  border-radius: 14px;
+  background: #f7f7f8;
+  text-align: center;
 }
 
-@keyframes controlFadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(4px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+.hero-empty__icon {
+  width: 32px;
+  height: 32px;
+  color: #8581ff;
+}
+
+.hero-empty__icon svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.hero-empty__title,
+.hero-empty__text {
+  margin: 0;
+}
+
+.hero-empty__title {
+  font-size: 15px;
+  font-weight: 750;
+}
+
+.hero-empty__text {
+  color: #71717a;
+  font-size: 12px;
+  line-height: 1.35;
 }

@@ -153,6 +153,7 @@ export function bindControlViews(container) {
   container.addEventListener("input", (event) => {
     const view = event.target.closest("[data-control-view]");
     if (!view || !container.contains(view)) return;
+    if (event.target.matches(".chip-radio") && event.target !== view) return;
     const id = view.dataset.controlView;
     const value = readViewValue(view);
     writeControlValue(id, view, value);
@@ -162,6 +163,7 @@ export function bindControlViews(container) {
   container.addEventListener("change", (event) => {
     const view = event.target.closest("[data-control-view]");
     if (!view || !container.contains(view)) return;
+    if (event.target.matches(".chip-radio") && event.target !== view) return;
     const id = view.dataset.controlView;
     const value = readViewValue(view);
     writeControlValue(id, view, value);

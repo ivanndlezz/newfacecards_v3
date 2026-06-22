@@ -291,6 +291,7 @@ try {
     // 4. Evaluar Autenticación
     $auth = new Authenticator($config['auth_token']);
     if (!$auth->authenticate()) {
+        $cors->sendHeaders();
         HttpResponder::json(401, false, "Acceso denegado. Se requiere Token API o Sesión activa.");
     }
 

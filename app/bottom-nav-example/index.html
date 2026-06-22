@@ -1,0 +1,287 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+    />
+    <title>Bottom Nav Example</title>
+    <link rel="stylesheet" href="./style.css" />
+  </head>
+  <body>
+    <div class="scrim" id="scrim"></div>
+
+    <main class="example-stage" aria-label="Bottom navigation preview">
+      <nav
+        class="bottom-nav"
+        id="bottomNav"
+        data-sheet-state="closed"
+        aria-label="Navegacion principal"
+      >
+        <button
+          class="handler-area"
+          id="handlerArea"
+          type="button"
+          aria-label="Cambiar altura del panel"
+        >
+          <span class="handler-indicator"></span>
+        </button>
+
+        <div class="module-content">
+          <button
+            class="module-item"
+            id="Menu"
+            type="button"
+            aria-label="Abrir menu"
+            aria-expanded="false"
+          >
+            <svg
+              class="module-icon module-icon--menu"
+              fill="none"
+              viewBox="0 0 22 22"
+              xmlns="http://www.w3.org/2000/svg"
+              stroke="currentColor"
+              aria-hidden="true"
+            >
+              <line
+                class="hamburger-line hamburger-line--top"
+                x1="3"
+                y1="6"
+                x2="21"
+                y2="6"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+              ></line>
+              <line
+                class="hamburger-line hamburger-line--middle"
+                x1="3"
+                y1="12"
+                x2="21"
+                y2="12"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+              ></line>
+              <line
+                class="hamburger-line hamburger-line--bottom"
+                x1="3"
+                y1="18"
+                x2="21"
+                y2="18"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+              ></line>
+            </svg>
+            <span class="module-label">Menu</span>
+          </button>
+
+          <button class="module-item" id="appearance" type="button">
+            <svg
+              class="module-icon"
+              fill="none"
+              viewBox="0 0 22 22"
+              xmlns="http://www.w3.org/2000/svg"
+              stroke="currentColor"
+            >
+              <circle
+                cx="10.8197"
+                cy="8.29508"
+                r="3.32787"
+                stroke="currentColor"
+                stroke-width="2"
+              ></circle>
+              <circle
+                cx="11"
+                cy="11"
+                r="10"
+                stroke="currentColor"
+                stroke-width="2"
+              ></circle>
+              <path
+                d="M19.3236 18.3093C17.3723 15.9382 14.4151 14.4262 11.1046 14.4262C7.79407 14.4262 4.83657 15.9381 2.88525 18.3093"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="butt"
+              ></path>
+            </svg>
+            <span class="module-label">Aspecto</span>
+          </button>
+
+          <button class="module-item" id="style" type="button">
+            <svg
+              class="module-icon module-icon--style"
+              fill="none"
+              viewBox="0 0 27 25"
+              xmlns="http://www.w3.org/2000/svg"
+              stroke="currentColor"
+              aria-hidden="true"
+            >
+              <rect
+                x="1.88"
+                y="1"
+                width="9"
+                height="23"
+                rx="2"
+                stroke="currentColor"
+                stroke-width="2"
+              ></rect>
+              <path
+                d="M16.4 4.98a2 2 0 0 1 2.9.02l2.93 3.14a2 2 0 0 1 0 2.72L11.9 21.93l.22-11.74c.01-.5.21-.98.56-1.34z"
+                stroke="currentColor"
+                stroke-width="2"
+              ></path>
+              <path
+                d="M3.88 24h20a2 2 0 0 0 2-2v-5a2 2 0 0 0-2-2h-5"
+                stroke="currentColor"
+                stroke-width="2"
+              ></path>
+              <circle cx="5.88" cy="20" r="1" fill="currentColor"></circle>
+            </svg>
+            <span class="module-label">Tema</span>
+          </button>
+
+          <button class="module-item" id="addlink" type="button">
+            <span class="plus-icon-container" aria-hidden="true">
+              <svg class="plus-icon" viewBox="0 0 24 24" fill="none">
+                <path
+                  d="M12 5v14m-7-7h14"
+                  stroke="currentColor"
+                  stroke-width="2.5"
+                  stroke-linecap="round"
+                ></path>
+              </svg>
+            </span>
+            <span class="module-label">Link</span>
+          </button>
+        </div>
+
+        <section class="sheet-body" aria-label="Contenido del menu">
+          <div class="sheet-panel">
+            <button class="sheet-action" type="button">Editar perfil</button>
+            <button class="sheet-action" type="button">Apariencia</button>
+            <button class="sheet-action" type="button">
+              Compartir tarjeta
+            </button>
+            <button class="sheet-action" type="button">Configuracion</button>
+          </div>
+        </section>
+      </nav>
+    </main>
+
+    <script>
+      const bottomNav = document.getElementById("bottomNav");
+      const menuButton = document.getElementById("Menu");
+      const appearanceButton = document.getElementById("appearance");
+      const styleButton = document.getElementById("style");
+      const handlerArea = document.getElementById("handlerArea");
+      const scrim = document.getElementById("scrim");
+
+      const states = ["closed", "small", "full"];
+      const scopeActions = {
+        appearance: [
+          "Avatar",
+          "Cover",
+          "Layout",
+          "Shape",
+          "Spacing",
+          "Motion",
+        ],
+      };
+
+      function setSheetState(state) {
+        bottomNav.dataset.sheetState = state;
+        menuButton.setAttribute("aria-expanded", state !== "closed");
+      }
+
+      function hydrateScopeActions(scope) {
+        bottomNav
+          .querySelectorAll("[data-scope-action]")
+          .forEach((button) => button.remove());
+
+        const actions = scopeActions[scope] || [];
+        actions.forEach((label) => {
+          const button = document.createElement("button");
+          button.className = "module-item scope-action";
+          button.type = "button";
+          button.dataset.scopeAction = label.toLowerCase();
+          button.innerHTML = `<span class="scope-action-dot"></span><span class="module-label">${label}</span>`;
+          bottomNav.querySelector(".module-content").append(button);
+        });
+      }
+
+      function setScope(scope) {
+        if (bottomNav.dataset.scope === scope) {
+          delete bottomNav.dataset.scope;
+          hydrateScopeActions(null);
+          return;
+        }
+
+        bottomNav.dataset.scope = scope;
+        hydrateScopeActions(scope);
+      }
+
+      function toggleMenu() {
+        const nextState =
+          bottomNav.dataset.sheetState === "closed" ? "small" : "closed";
+        setSheetState(nextState);
+      }
+
+      function cycleOpenState() {
+        const currentIndex = states.indexOf(bottomNav.dataset.sheetState);
+        const nextState = states[Math.min(currentIndex + 1, states.length - 1)];
+        setSheetState(nextState === "closed" ? "small" : nextState);
+      }
+
+      menuButton.addEventListener("click", () => {
+        toggleMenu();
+      });
+      appearanceButton.addEventListener("click", () => {
+        setScope("appearance");
+      });
+      styleButton.addEventListener("click", () => {
+        setScope("theme");
+      });
+      handlerArea.addEventListener("click", cycleOpenState);
+      scrim.addEventListener("click", () => setSheetState("closed"));
+
+      let startY = 0;
+
+      function handleSwipe(endY) {
+        const diff = startY - endY;
+        const state = bottomNav.dataset.sheetState;
+
+        if (diff > 45 && state === "small") setSheetState("full");
+        if (diff < -45 && state === "full") setSheetState("small");
+        if (diff < -45 && state === "small") setSheetState("closed");
+      }
+
+      handlerArea.addEventListener(
+        "touchstart",
+        (event) => {
+          startY = event.touches[0].clientY;
+        },
+        { passive: true },
+      );
+
+      handlerArea.addEventListener(
+        "touchend",
+        (event) => {
+          handleSwipe(event.changedTouches[0].clientY);
+        },
+        { passive: true },
+      );
+
+      handlerArea.addEventListener("mousedown", (event) => {
+        startY = event.clientY;
+        const onMouseUp = (mouseEvent) => {
+          handleSwipe(mouseEvent.clientY);
+          document.removeEventListener("mouseup", onMouseUp);
+        };
+        document.addEventListener("mouseup", onMouseUp);
+      });
+    </script>
+  </body>
+</html>

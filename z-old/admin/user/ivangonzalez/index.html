@@ -3210,12 +3210,18 @@
         constructor(options = {}) {
           this.storageKey = options.storageKey || "nfc_profile_aspect";
           this.userId =
-            options.userId || localStorage.getItem("devUserId") || 1;
+            localStorage.getItem("devUserId") ||
+            localStorage.getItem("user id") ||
+            options.userId ||
+            1;
           this.apiUrl =
             options.apiUrl ||
             "https://my.newfacecards.com/nfc/gateway-profile.php";
           this.apiKey =
-            options.apiKey || localStorage.getItem("devApiKey") || "";
+            localStorage.getItem("devApiKey") ||
+            localStorage.getItem("apiToken") ||
+            options.apiKey ||
+            "";
           this.debounceMs = options.debounceMs || 1500;
           this.statusStorageEl = document.getElementById("data-status-storage");
 

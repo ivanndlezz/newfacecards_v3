@@ -1,0 +1,371 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+    />
+    <title>Bio Profile Card Editor</title>
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <style>
+      /* Patrón de fondo personalizado para uno de los temas */
+      .bg-pattern {
+        background-color: #f8fafc;
+        background-image: radial-gradient(#cbd5e1 1.5px, transparent 1.5px);
+        background-size: 24px 24px;
+      }
+
+      /* Ocultar scrollbar en la lista de presets */
+      .no-scrollbar::-webkit-scrollbar {
+        display: none;
+      }
+      .no-scrollbar {
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+      }
+
+      /* Transiciones suaves para la hoja inferior */
+      #bottom-sheet {
+        transition: transform 0.4s cubic-bezier(0.32, 0.72, 0, 1);
+      }
+    </style>
+  </head>
+  <body
+    id="main-body"
+    class="min-h-screen flex items-center justify-center p-4 transition-colors duration-700 font-sans relative overflow-hidden bg-gray-950"
+  >
+    <!-- Tarjeta Principal -->
+    <div
+      id="bio-card"
+      class="relative w-full max-w-sm rounded-[2.5rem] p-8 pb-10 transition-all duration-700 flex flex-col items-center z-10 mb-16 sm:mb-0"
+    >
+      <!-- Etiqueta del Tema Actual -->
+      <div
+        id="theme-label"
+        class="absolute top-6 right-6 text-[0.65rem] font-bold tracking-[0.2em] uppercase opacity-40 transition-opacity"
+      >
+        GLASSMORPHISM
+      </div>
+
+      <!-- Avatar (DiceBear API) -->
+      <div
+        class="w-24 h-24 rounded-full overflow-hidden mb-5 shrink-0 transition-all duration-500 flex items-center justify-center"
+        id="avatar-container"
+      >
+        <img
+          src="https://api.dicebear.com/7.x/notionists/svg?seed=Alex&backgroundColor=transparent"
+          alt="Alex Rivera"
+          class="w-[120%] h-[120%] object-cover mt-2"
+        />
+      </div>
+
+      <!-- Información del Usuario -->
+      <h1 class="text-3xl font-bold mb-1 tracking-tight">Alex Rivera</h1>
+      <p class="text-sm opacity-80 mb-2 font-medium">
+        Creative Developer & UI/UX
+      </p>
+      <div
+        class="flex items-center gap-1.5 text-xs opacity-60 mb-8 font-medium"
+      >
+        <i data-lucide="map-pin" class="w-3.5 h-3.5"></i> Madrid, ES
+      </div>
+
+      <!-- Botones de Enlaces -->
+      <div class="w-full flex flex-col gap-3.5">
+        <button
+          class="link-btn w-full py-4 rounded-2xl flex items-center justify-center gap-3 transition-all duration-300 font-medium text-sm"
+        >
+          <i data-lucide="globe" class="w-5 h-5"></i> Portfolio
+        </button>
+        <button
+          class="link-btn w-full py-4 rounded-2xl flex items-center justify-center gap-3 transition-all duration-300 font-medium text-sm"
+        >
+          <i data-lucide="github" class="w-5 h-5"></i> GitHub
+        </button>
+        <button
+          class="link-btn w-full py-4 rounded-2xl flex items-center justify-center gap-3 transition-all duration-300 font-medium text-sm"
+        >
+          <i data-lucide="linkedin" class="w-5 h-5"></i> LinkedIn
+        </button>
+      </div>
+    </div>
+
+    <!-- Botón Flotante (FAB) para Editar -->
+    <button
+      id="fab-btn"
+      class="fixed bottom-8 left-1/2 -translate-x-1/2 bg-[#2a2a2a] text-white border border-white/10 rounded-full px-6 py-3.5 flex items-center gap-2.5 shadow-2xl hover:bg-[#333] hover:scale-105 active:scale-95 transition-all z-30 font-medium text-sm"
+    >
+      <i data-lucide="pen" class="w-4 h-4 fill-current"></i> Editar Diseño
+    </button>
+
+    <!-- Overlay oscuro para el Bottom Sheet -->
+    <div
+      id="sheet-overlay"
+      class="fixed inset-0 bg-black/60 z-40 opacity-0 pointer-events-none transition-opacity duration-300"
+    ></div>
+
+    <!-- Bottom Sheet (Editor de Presets) -->
+    <div
+      id="bottom-sheet"
+      class="fixed bottom-0 left-0 right-0 bg-white dark:bg-gray-900 rounded-t-[2rem] z-50 transform translate-y-full p-6 pb-10 w-full max-w-md mx-auto h-[75vh] flex flex-col shadow-[0_-10px_40px_rgba(0,0,0,0.2)]"
+    >
+      <!-- Indicador de arrastre (Visual) -->
+      <div
+        class="w-12 h-1.5 bg-gray-300 dark:bg-gray-700 rounded-full mx-auto mb-6"
+      ></div>
+
+      <div class="flex justify-between items-center mb-6">
+        <h2 class="text-xl font-bold dark:text-white">Estilos de Tarjeta</h2>
+        <button
+          id="close-sheet-btn"
+          class="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 text-gray-500 dark:text-gray-400 transition-colors"
+        >
+          <i data-lucide="x" class="w-5 h-5"></i>
+        </button>
+      </div>
+
+      <!-- Buscador -->
+      <div class="relative mb-6 shrink-0">
+        <i
+          data-lucide="search"
+          class="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400"
+        ></i>
+        <!-- Se cambió text-sm a text-base (16px) para evitar auto-zoom en iOS -->
+        <input
+          type="text"
+          id="search-input"
+          placeholder="Buscar estilo..."
+          class="w-full bg-gray-100 dark:bg-gray-800 dark:text-white rounded-2xl py-3.5 pl-11 pr-4 border border-transparent focus:border-blue-500 focus:bg-white dark:focus:bg-gray-900 focus:outline-none transition-all placeholder-gray-400 text-base"
+        />
+      </div>
+
+      <!-- Lista de Presets (Grid Cuadrado) -->
+      <div
+        id="preset-list"
+        class="flex-1 overflow-y-auto no-scrollbar grid grid-cols-2 sm:grid-cols-3 gap-4 pb-4 content-start"
+      >
+        <!-- Los items se generarán con JavaScript -->
+      </div>
+    </div>
+
+    <script>
+      // Configuración de los temas (Presets)
+      const themes = [
+        {
+          id: "glass",
+          name: "Glassmorphism",
+          bodyClass: "bg-[#111111]",
+          cardClass:
+            "bg-white/5 backdrop-blur-2xl border border-white/10 text-white shadow-2xl",
+          btnClass:
+            "bg-white/10 hover:bg-white/20 border border-transparent text-white shadow-sm",
+          avatarBorder: "border-white/20 border-2 bg-[#2a2a2a]",
+        },
+        {
+          id: "flat",
+          name: "Flat Dark",
+          bodyClass: "bg-gray-900",
+          cardClass: "bg-gray-800 text-white shadow-xl border-transparent",
+          btnClass:
+            "bg-gray-700 hover:bg-gray-600 border-transparent text-white",
+          avatarBorder: "border-transparent border-0 bg-gray-700",
+        },
+        {
+          id: "brutal",
+          name: "Border & Flat",
+          bodyClass: "bg-[#ffde59]",
+          cardClass:
+            "bg-white border-4 border-black text-black shadow-[8px_8px_0px_0px_rgba(0,0,0,1)]",
+          btnClass:
+            "bg-white hover:bg-gray-100 border-[3px] border-black text-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] active:translate-x-1 active:translate-y-1 active:shadow-none",
+          avatarBorder: "border-black border-4 bg-[#ffde59]",
+        },
+        {
+          id: "gradient",
+          name: "Linear Gradient",
+          bodyClass: "bg-slate-100",
+          cardClass:
+            "bg-gradient-to-br from-violet-600 to-indigo-600 text-white shadow-2xl border-transparent",
+          btnClass:
+            "bg-white/20 hover:bg-white/30 backdrop-blur-md border border-white/20 text-white",
+          avatarBorder: "border-white/30 border-2 bg-black/20",
+        },
+        {
+          id: "pattern",
+          name: "Bg Pattern",
+          bodyClass: "bg-pattern",
+          cardClass: "bg-white border border-gray-200 text-gray-800 shadow-xl",
+          btnClass:
+            "bg-gray-50 hover:bg-gray-100 border border-gray-200 text-gray-700 shadow-sm",
+          avatarBorder: "border-gray-200 border-2 bg-gray-100",
+        },
+        {
+          id: "soft",
+          name: "Soft Light",
+          bodyClass: "bg-gray-100",
+          cardClass:
+            "bg-white rounded-[3rem] text-gray-800 shadow-[0_20px_50px_-12px_rgba(0,0,0,0.1)] border-transparent",
+          btnClass:
+            "bg-blue-50 hover:bg-blue-100 text-blue-700 border-transparent",
+          avatarBorder:
+            "border-transparent border-0 ring-4 ring-gray-50 bg-white",
+        },
+      ];
+
+      // Referencias del DOM
+      const els = {
+        body: document.getElementById("main-body"),
+        card: document.getElementById("bio-card"),
+        btns: document.querySelectorAll(".link-btn"),
+        themeLabel: document.getElementById("theme-label"),
+        avatar: document.getElementById("avatar-container"),
+        fab: document.getElementById("fab-btn"),
+        sheet: document.getElementById("bottom-sheet"),
+        overlay: document.getElementById("sheet-overlay"),
+        closeBtn: document.getElementById("close-sheet-btn"),
+        presetList: document.getElementById("preset-list"),
+        searchInput: document.getElementById("search-input"),
+      };
+
+      let currentThemeId = "glass";
+
+      function applyTheme(themeId) {
+        const theme = themes.find((t) => t.id === themeId);
+        if (!theme) return;
+
+        els.body.className = `min-h-screen flex items-center justify-center p-4 transition-colors duration-700 font-sans relative overflow-hidden ${theme.bodyClass}`;
+        els.card.className = `relative w-full max-w-sm rounded-[2.5rem] p-8 pb-10 transition-all duration-700 flex flex-col items-center z-10 mb-16 sm:mb-0 ${theme.cardClass}`;
+        els.themeLabel.textContent = theme.name.toUpperCase();
+        els.avatar.className = `w-24 h-24 rounded-full overflow-hidden mb-5 shrink-0 transition-all duration-500 flex items-center justify-center ${theme.avatarBorder}`;
+
+        els.btns.forEach((btn) => {
+          btn.className = `link-btn w-full py-4 rounded-2xl flex items-center justify-center gap-3 transition-all duration-300 font-medium text-sm ${theme.btnClass}`;
+        });
+
+        currentThemeId = themeId;
+        updateListSelection();
+      }
+
+      function renderPresets(filter = "") {
+        els.presetList.innerHTML = "";
+
+        const filteredThemes = themes.filter((t) =>
+          t.name.toLowerCase().includes(filter.toLowerCase()),
+        );
+
+        if (filteredThemes.length === 0) {
+          els.presetList.innerHTML = `
+                    <div class="col-span-full text-center py-8 text-gray-400 dark:text-gray-500 text-sm">
+                        No se encontraron estilos.
+                    </div>
+                `;
+          return;
+        }
+
+        filteredThemes.forEach((theme) => {
+          const isSelected = theme.id === currentThemeId;
+          const item = document.createElement("div");
+          item.className = `preset-item relative cursor-pointer p-4 rounded-[1.5rem] border-2 transition-all flex flex-col items-center justify-center gap-3 text-center aspect-square ${
+            isSelected
+              ? "border-blue-500 bg-blue-50/50 dark:bg-blue-900/20 shadow-md"
+              : "border-gray-100 hover:border-gray-200 dark:border-gray-800 dark:hover:border-gray-700 bg-transparent"
+          }`;
+          item.dataset.id = theme.id;
+
+          // Agregamos la clase 'check-icon' para referenciarlo después de que Lucide procese el DOM
+          item.innerHTML = `
+                    <div class="absolute top-3 right-3 z-10">
+                        <i data-lucide="check-circle-2" class="check-icon w-5 h-5 text-blue-500 transition-transform ${isSelected ? "scale-100" : "scale-0"} bg-white dark:bg-gray-900 rounded-full"></i>
+                    </div>
+                    <div class="w-14 h-14 rounded-[1rem] shadow-sm border border-black/10 flex items-center justify-center overflow-hidden shrink-0 relative">
+                       <div class="absolute inset-0 ${theme.bodyClass} opacity-90"></div>
+                       <div class="w-6 h-8 rounded-md bg-white/20 backdrop-blur-sm shadow-sm relative z-10 border border-white/30"></div>
+                    </div>
+                    <div>
+                        <h3 class="font-bold text-gray-900 dark:text-white text-[0.8rem] leading-tight">${theme.name}</h3>
+                    </div>
+                `;
+
+          item.addEventListener("click", () => applyTheme(theme.id));
+          els.presetList.appendChild(item);
+        });
+
+        // Volvemos a generar los íconos de Lucide en los elementos recién inyectados
+        lucide.createIcons();
+      }
+
+      function updateListSelection() {
+        document.querySelectorAll(".preset-item").forEach((item) => {
+          // Seleccionamos por la clase 'check-icon' en lugar de 'i', ya que Lucide convierte la 'i' en un 'svg'
+          const icon = item.querySelector(".check-icon");
+          if (item.dataset.id === currentThemeId) {
+            item.classList.add(
+              "border-blue-500",
+              "bg-blue-50/50",
+              "dark:bg-blue-900/20",
+              "shadow-md",
+            );
+            item.classList.remove(
+              "border-gray-100",
+              "hover:border-gray-200",
+              "dark:border-gray-800",
+              "dark:hover:border-gray-700",
+            );
+            if (icon) icon.classList.replace("scale-0", "scale-100");
+          } else {
+            item.classList.remove(
+              "border-blue-500",
+              "bg-blue-50/50",
+              "dark:bg-blue-900/20",
+              "shadow-md",
+            );
+            item.classList.add(
+              "border-gray-100",
+              "hover:border-gray-200",
+              "dark:border-gray-800",
+              "dark:hover:border-gray-700",
+            );
+            if (icon) icon.classList.replace("scale-100", "scale-0");
+          }
+        });
+      }
+
+      function openSheet() {
+        els.overlay.classList.remove("opacity-0", "pointer-events-none");
+        els.sheet.classList.remove("translate-y-full");
+        //els.searchInput.focus();
+        els.fab.style.transform = "translate(-50%, 150%)";
+      }
+
+      function closeSheet() {
+        els.overlay.classList.add("opacity-0", "pointer-events-none");
+        els.sheet.classList.add("translate-y-full");
+        els.searchInput.value = "";
+        renderPresets();
+        els.fab.style.transform = "translate(-50%, 0)";
+        els.searchInput.blur(); // Quitar foco al cerrar
+      }
+
+      // Event Listeners
+      els.fab.addEventListener("click", openSheet);
+      els.closeBtn.addEventListener("click", closeSheet);
+      els.overlay.addEventListener("click", closeSheet);
+
+      els.searchInput.addEventListener("input", (e) => {
+        renderPresets(e.target.value);
+      });
+
+      // Inicialización
+      lucide.createIcons();
+      renderPresets();
+      applyTheme(currentThemeId);
+    </script>
+  </body>
+</html>
