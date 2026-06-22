@@ -398,6 +398,8 @@ export class BottomSheet {
     this.isOpen = false;
     this.startY = 0;
     this.currentY = 0;
+    this.startOffset = 0;
+    this.dragOccurred = false;
     
     this.open = this.open.bind(this);
     this.close = this.close.bind(this);
@@ -421,6 +423,19 @@ export class BottomSheet {
       this.handlerArea.addEventListener('mousedown', this.onDragStart);
       window.addEventListener('mousemove', this.onDragMove);
       window.addEventListener('mouseup', this.onDragEnd);
+
+      this.handlerArea.addEventListener('click', () => {
+        if (this.dragOccurred) {
+          this.dragOccurred = false;
+          return;
+        }
+        const state = this.sheet.getAttribute('data-state');
+        if (state === 'small') {
+          this.setState('full');
+        } else if (state === 'full') {
+          this.setState('small');
+        }
+      });
     }
 
     return this; 
@@ -463,14 +478,24 @@ export class BottomSheet {
     if (window.lucide) window.lucide.createIcons();
   }
 
+  setState(state) {
+    if (!this.sheet) return;
+    if (state === 'closed') {
+      this.close();
+    } else {
+      this.isOpen = true;
+      const transformValue = state === 'small' ? '50%' : '0%';
+      this.sheet.style.setProperty('--sheet-transform', transformValue);
+      this.sheet.setAttribute('data-state', state);
+      this.backdrop.setAttribute('data-state', 'open');
+      document.body.style.overflow = 'hidden';
+      _setStatusStorage("showing");
+    }
+  }
+
   open() {
     if (!this.sheet) return;
-    this.isOpen = true;
-    this.sheet.style.setProperty('--sheet-transform', '0%');
-    this.sheet.setAttribute('data-state', 'open');
-    this.backdrop.setAttribute('data-state', 'open');
-    document.body.style.overflow = 'hidden';
-    _setStatusStorage("showing");
+    this.setState('full');
   }
 
   close() {
@@ -490,26 +515,43 @@ export class BottomSheet {
     if (!this.isOpen || !this.sheet) return;
     this.sheet.setAttribute('data-state', 'dragging');
     this.startY = e.type.includes('mouse') ? e.pageY : e.touches[0].clientY;
+    
+    const state = this.sheet.getAttribute('data-state');
+    this.startOffset = state === 'small' ? this.sheet.offsetHeight * 0.5 : 0;
+    this.dragOccurred = false;
   }
 
   onDragMove(e) {
     if (!this.sheet || this.sheet.getAttribute('data-state') !== 'dragging') return;
     const y = e.type.includes('mouse') ? e.pageY : e.touches[0].clientY;
     const deltaY = y - this.startY;
-    if (deltaY > 0) {
-      if (!e.type.includes('mouse')) e.preventDefault(); 
-      this.currentY = deltaY;
-      this.sheet.style.transform = `translateY(${this.currentY}px)`;
+    
+    let currentTranslate = this.startOffset + deltaY;
+    currentTranslate = Math.max(0, Math.min(this.sheet.offsetHeight, currentTranslate));
+    
+    if (Math.abs(deltaY) > 5) {
+      this.dragOccurred = true;
     }
+    
+    if (!e.type.includes('mouse')) e.preventDefault(); 
+    this.currentY = currentTranslate;
+    this.sheet.style.transform = `translateY(${this.currentY}px)`;
   }
 
   onDragEnd() {
     if (!this.sheet || this.sheet.getAttribute('data-state') !== 'dragging') return;
-    this.sheet.setAttribute('data-state', 'open'); 
-    if (this.currentY > 120) {
-      this.close();
+    this.sheet.style.transform = '';
+    
+    const height = this.sheet.offsetHeight;
+    const thresholdSmall = height * 0.25;
+    const thresholdClosed = height * 0.75;
+    
+    if (this.currentY < thresholdSmall) {
+      this.setState('full');
+    } else if (this.currentY < thresholdClosed) {
+      this.setState('small');
     } else {
-      this.sheet.style.transform = `translateY(0px)`;
+      this.close();
     }
     this.currentY = 0;
   }

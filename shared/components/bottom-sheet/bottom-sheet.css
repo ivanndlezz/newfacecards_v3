@@ -107,8 +107,18 @@
 .bottom-sheet-overlay[data-state="open"] .bottom-sheet-container {
   --sheet-transform: 0%;
 }
-.bottom-sheet[data-state="open"] {
+.bottom-sheet[data-state="open"],
+.bottom-sheet[data-state="full"],
+.bottom-sheet-container[data-state="full"] {
   --sheet-transform: 0%;
+}
+.bottom-sheet[data-state="small"],
+.bottom-sheet-container[data-state="small"] {
+  --sheet-transform: 50%;
+}
+.bottom-sheet[data-state="closed"],
+.bottom-sheet-container[data-state="closed"] {
+  --sheet-transform: 100%;
 }
 
 .bottom-sheet[data-state="dragging"],
