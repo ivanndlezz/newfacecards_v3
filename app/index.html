@@ -1432,6 +1432,21 @@
       /**/
 
       /* --- Bottom navigation --- */
+      .bottom-nav-scrim {
+        position: fixed;
+        inset: 0;
+        z-index: 998;
+        background: rgba(17, 18, 20, 0.14);
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 360ms ease;
+      }
+
+      body:has(.bottom-nav:not([data-sheet-state="closed"])) .bottom-nav-scrim {
+        opacity: 1;
+        pointer-events: auto;
+      }
+
       .pill-wrapper-container {
         --nav-bg: rgba(255, 255, 255, 0.94);
         --icon-color: #9f9f9f;
@@ -2683,6 +2698,9 @@
         </div>
       </main>
     </div>
+    <!-- Bottom nav scrim -->
+    <div class="bottom-nav-scrim" id="bottom-nav-scrim"></div>
+
     <!-- Bottom navigation -->
     <div class="pill-wrapper-container">
       <nav
@@ -3638,6 +3656,8 @@
           #btnMenu;
           #btnHandler;
           #moduleContent;
+          #scrim;
+          #startY = 0;
 
           /** @param {HTMLElement} pillEl */
           constructor(pillEl) {
@@ -3658,6 +3678,7 @@
             this.#moduleContent = pillEl.querySelector(
               _PC_SELECTORS.MODULE_CONTENT,
             );
+            this.#scrim = document.getElementById("bottom-nav-scrim");
           }
 
           // ── Private helpers ──────────────────────────────────────────────────────
@@ -3805,6 +3826,36 @@
             this.#setSheetState(nextState === "closed" ? "small" : nextState);
           };
 
+          #handleSwipe = (endY) => {
+            const diff = this.#startY - endY;
+            const state = this.#pill.dataset.sheetState;
+
+            if (diff > 45 && state === "small") this.#setSheetState("full");
+            if (diff < -45 && state === "full") this.#setSheetState("small");
+            if (diff < -45 && state === "small") this.#setSheetState("closed");
+          };
+
+          #onTouchStart = (event) => {
+            this.#startY = event.touches[0].clientY;
+          };
+
+          #onTouchEnd = (event) => {
+            this.#handleSwipe(event.changedTouches[0].clientY);
+          };
+
+          #onMouseDown = (event) => {
+            this.#startY = event.clientY;
+            const onMouseUp = (mouseEvent) => {
+              this.#handleSwipe(mouseEvent.clientY);
+              document.removeEventListener("mouseup", onMouseUp);
+            };
+            document.addEventListener("mouseup", onMouseUp);
+          };
+
+          #onScrimClick = () => {
+            this.#setSheetState("closed");
+          };
+
           #onScopeAction = (event) => {
             const action = event.target.closest(_PC_SELECTORS.SCOPE_ACTION);
             if (!action || !this.#pill.contains(action)) return;
@@ -3849,6 +3900,10 @@
             this.#btnAppearance?.addEventListener("click", this.#onAppearance);
             this.#btnMenu?.addEventListener("click", this.#onMenu);
             this.#btnHandler?.addEventListener("click", this.#onHandler);
+            this.#btnHandler?.addEventListener("touchstart", this.#onTouchStart, { passive: true });
+            this.#btnHandler?.addEventListener("touchend", this.#onTouchEnd, { passive: true });
+            this.#btnHandler?.addEventListener("mousedown", this.#onMouseDown);
+            this.#scrim?.addEventListener("click", this.#onScrimClick);
             this.#pill.addEventListener("click", this.#onScopeAction);
             window.addEventListener(
               _PC_STYLE_STATE_EVENT,
@@ -3867,6 +3922,10 @@
             );
             this.#btnMenu?.removeEventListener("click", this.#onMenu);
             this.#btnHandler?.removeEventListener("click", this.#onHandler);
+            this.#btnHandler?.removeEventListener("touchstart", this.#onTouchStart);
+            this.#btnHandler?.removeEventListener("touchend", this.#onTouchEnd);
+            this.#btnHandler?.removeEventListener("mousedown", this.#onMouseDown);
+            this.#scrim?.removeEventListener("click", this.#onScrimClick);
             this.#pill.removeEventListener("click", this.#onScopeAction);
             window.removeEventListener(
               _PC_STYLE_STATE_EVENT,
