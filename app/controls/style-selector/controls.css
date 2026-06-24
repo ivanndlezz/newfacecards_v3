@@ -40,6 +40,12 @@
   position: absolute
 }
 
+.style-selector:not([data-browsing="true"])
+.style-selector__dropdown {
+    display: flex;
+    width: -webkit-fill-available;
+}
+
 
 .style-selector .editor-pill-tab {
   height: fit-content;
@@ -56,7 +62,7 @@
   font-weight: 720;
   cursor: pointer;
   transition: all 180ms ease;
-  padding: 0.5rem 1rem;
+  padding: 0.7rem 1rem;
 }
 
 .style-selector .editor-pill-tab[data-status="active"] {
@@ -144,7 +150,7 @@
 }
 
 .style-selector .option-chips--position {
-  grid-template-columns: repeat(4, minmax(0, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(0, 1fr));
 }
 
 .style-selector .chip-radio {

@@ -317,6 +317,9 @@
       :root {
         --background-color: #efefef;
         --font-color: #111111;
+        --main-accent-color: #06896c;
+        --add-bg: var(--main-accent-color);
+        --add-bg-pressed: #087d68;
         --w100: -webkit-fill-available;
         --bg: #f4f4f5;
         --sheet: #ffffff;
@@ -1025,6 +1028,7 @@
         gap: 20px;
         padding: 20px;
         position: relative;
+        min-width: 0;
         transition: all 0.3s ease;
       }
 
@@ -1113,6 +1117,21 @@
       .status-storage[data-general-status="loaded"] .cover-photo,
       .status-storage[data-general-status="loaded"] .lin__identity {
         display: block;
+      }
+
+      .lin__edit-field {
+        display: contents;
+      }
+
+      .lin__edit-addon {
+        display: none;
+      }
+
+      .lin-description {
+        margin: 6px 0 0;
+        font-size: 12px;
+        line-height: 1.35;
+        color: #555;
       }
 
       /* --- PRESETS SOCIALES ---
@@ -1968,6 +1987,191 @@
         transform: scale(0);
       }
 
+      [data-card-status="editing"] + #app .lin__identity {
+        position: relative;
+        border-radius: 14px;
+        cursor: pointer;
+        outline: 0;
+        transition:
+          background-color 0.22s ease,
+          box-shadow 0.22s ease,
+          transform 0.22s ease;
+      }
+
+      [data-card-status="editing"] + #app .lin__identity /* no colocar :hover*/,
+      [data-card-status="editing"]
+        + #app
+        .lin__identity[data-editing-popover="true"] {
+        background: rgba(6, 137, 108, 0.07);
+        box-shadow:
+          inset 0 0 0 1px rgba(6, 137, 108, 0.18),
+          0 0 0 4px rgba(6, 137, 108, 0.08);
+        transform: translateY(-1px);
+        padding: 10px;
+        padding-top: 17px;
+      }
+
+      [data-card-status="editing"]
+        + #app
+        .lin__identity[data-editable="true"]::after {
+        content: "Edit identity";
+        position: absolute;
+        right: 6px;
+        top: -18px;
+        padding: 2px 7px;
+        border-radius: 999px;
+        color: var(--add-bg);
+        background: rgba(255, 255, 255, 0.94);
+        box-shadow: 0 0 0 1px rgba(6, 137, 108, 0.14);
+        font-size: 11px;
+        font-weight: 700;
+        line-height: 1.2;
+        opacity: 0;
+        pointer-events: none;
+        transform: translateY(3px);
+        transition:
+          opacity 0.2s ease,
+          transform 0.2s ease;
+      }
+
+      [data-card-status="editing"]
+        + #app
+        .lin__identity[data-editable="true"]::after /* no colocar: hover*/,
+      [data-card-status="editing"]
+        + #app
+        .lin__identity[data-editing-popover="true"]::after {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      .lin__identity {
+        min-width: 400px;
+      }
+
+      [data-card-status="editing"] + #app .lin__identity .lin-description {
+        min-height: 40px;
+      }
+
+      /*
+      [data-card-status="editing"] + #app .lin__edit-control {
+        text-decoration: underline;
+        text-decoration-color: rgba(6, 137, 108, 0.34);
+        text-decoration-thickness: 1px;
+        text-underline-offset: 5px;
+      }*/
+
+      [data-card-status="editing"]
+        + #app
+        .lin__edit-control[data-empty="true"] {
+        color: #64748b !important;
+      }
+
+      [data-card-status="editing"]
+        + #app
+        .lin__edit-control[data-empty="true"]::after {
+        content: attr(data-empty-label);
+      }
+
+      .lin-edit-popover {
+        position: fixed;
+        z-index: 5000;
+        width: min(380px, calc(100vw - 32px));
+        border: 1px solid rgba(15, 23, 42, 0.14);
+        border-radius: 16px;
+        background: rgba(255, 255, 255, 0.98);
+        box-shadow:
+          0 18px 48px rgba(15, 23, 42, 0.18),
+          0 0 0 1px rgba(255, 255, 255, 0.8) inset;
+        padding: 12px;
+      }
+
+      .lin-edit-popover__stack {
+        display: grid;
+        gap: 12px;
+      }
+
+      .lin-edit-popover__field {
+        position: relative;
+        display: flex;
+        align-items: stretch;
+        min-height: 52px;
+        border: 1px solid rgba(15, 23, 42, 0.16);
+        border-radius: 14px;
+        background: #fff;
+      }
+
+      .lin-edit-popover__field:focus-within {
+        border-color: var(--add-bg);
+        box-shadow: 0 0 0 4px rgba(6, 137, 108, 0.14);
+      }
+
+      .lin-edit-popover__addon {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        flex: 0 0 44px;
+        border-right: 1px solid rgba(15, 23, 42, 0.1);
+        border-radius: 13px 0 0 13px;
+        color: var(--add-bg);
+        background: rgba(6, 137, 108, 0.08);
+        font-size: 18px;
+      }
+
+      .lin-edit-popover__label {
+        position: absolute;
+        left: 52px;
+        top: 0;
+        padding: 0 5px;
+        color: var(--add-bg);
+        background: #fff;
+        font-size: 12px;
+        font-weight: 650;
+        line-height: 1;
+        transform: translateY(-50%);
+      }
+
+      .lin-edit-popover__input {
+        flex: 1 1 auto;
+        min-width: 0;
+        border: 0;
+        border-radius: 0 13px 13px 0;
+        padding: 17px 12px 9px;
+        color: #0f172a;
+        background: transparent;
+        font: inherit;
+        font-size: 16px;
+        line-height: 1.35;
+        outline: 0;
+        resize: vertical;
+      }
+
+      .lin-edit-popover__input--textarea {
+        min-height: 90px;
+      }
+
+      .lin-edit-popover__actions {
+        display: flex;
+        justify-content: flex-end;
+        gap: 8px;
+        margin-top: 10px;
+      }
+
+      .lin-edit-popover__button {
+        border: 0;
+        border-radius: 999px;
+        padding: 8px 14px;
+        color: #334155;
+        background: #f1f5f9;
+        font-size: 13px;
+        font-weight: 700;
+        cursor: pointer;
+      }
+
+      .lin-edit-popover__button--primary {
+        color: #fff;
+        background: var(--add-bg);
+      }
+
       .avt__edit {
         transform: translate(-50%, -50%);
       }
@@ -2042,7 +2246,8 @@
         align-items: center;
         gap: 10px;
         width: 100%;
-        padding: 10px 14px;
+        padding: 6px 5px;
+        padding-right: 10px;
         border: 2px solid #e5e7eb;
         border-radius: 14px;
         background: #fff;
@@ -2679,19 +2884,74 @@
                 <div class="lin__skel" style="height: 13px; width: 90px"></div>
               </div>
 
-              <div class="lin__identity">
-                <h2
-                  style="margin: 0; font-size: 22px"
-                  id="profileName"
-                  data-bind="user.name"
-                  data-bind-type="text"
-                ></h2>
-                <p
-                  style="margin: 4px 0 0 0; font-size: 13px; color: #666"
-                  id="profileRole"
-                  data-bind="user.role"
-                  data-bind-type="text"
-                ></p>
+              <div
+                class="lin__identity"
+                data-edit-label="lin__identity"
+                data-editable="false"
+                tabindex="-1"
+                role="button"
+                aria-label="Identity"
+              >
+                <div
+                  class="lin__edit-field lin__edit-field--name"
+                  data-edit-label="Name"
+                >
+                  <span class="lin__edit-addon" aria-hidden="true">
+                    <i class="ti ti-user"></i>
+                  </span>
+                  <h2
+                    class="lin__edit-control"
+                    style="margin: 0; font-size: 22px"
+                    id="profileName"
+                    data-bind="user.name"
+                    data-bind-type="text"
+                    data-edit-field="name"
+                    data-edit-label="Name"
+                    data-empty-label="Name"
+                    contenteditable="false"
+                    spellcheck="false"
+                  ></h2>
+                </div>
+                <div
+                  class="lin__edit-field lin__edit-field--role"
+                  data-edit-label="Role"
+                >
+                  <span class="lin__edit-addon" aria-hidden="true">
+                    <i class="ti ti-briefcase"></i>
+                  </span>
+                  <p
+                    class="lin__edit-control"
+                    style="margin: 4px 0 0 0; font-size: 13px; color: #666"
+                    id="profileRole"
+                    data-bind="user.description.role"
+                    data-bind-type="text"
+                    data-edit-field="role"
+                    data-edit-label="Role"
+                    data-empty-label="Role"
+                    contenteditable="false"
+                    spellcheck="false"
+                  ></p>
+                </div>
+                <div
+                  class="lin__edit-field lin__edit-field--bio"
+                  data-edit-label="Bio"
+                  data-empty-label="Add a bio"
+                >
+                  <span class="lin__edit-addon" aria-hidden="true">
+                    <i class="ti ti-circle-plus"></i>
+                  </span>
+                  <p
+                    class="lin-description lin__edit-control"
+                    data-bind="user.description.bio"
+                    data-bind-type="text"
+                    data-edit-field="bio"
+                    data-edit-label="Bio"
+                    data-empty-label="Add a bio"
+                    data-empty-prefix=""
+                    contenteditable="false"
+                    spellcheck="false"
+                  ></p>
+                </div>
               </div>
             </div>
           </div>
@@ -3247,17 +3507,6 @@
       });
 
       const PRESET_DEFAULT = "centered";
-      const PRESET_FREE = Object.freeze({
-        className: "free",
-        label: "Libre",
-        imageStyle: "with-cover",
-        panelStyle: "with-cover",
-        title: "Personalizar apariencia de portada",
-        templates: ["controls/cover.html", "controls/avatar.html"],
-        showPresetRow: true,
-        showPositionRow: true,
-        lockPositionControls: false,
-      });
 
       const PresetRegistry = (() => {
         const all = Object.freeze(Object.values(PRESETS));
@@ -3269,7 +3518,7 @@
         );
         const classNames = Object.freeze(all.map((preset) => preset.className));
         const gliderValues = Object.freeze(
-          [...all, PRESET_FREE].reduce((acc, preset) => {
+          all.reduce((acc, preset) => {
             acc[preset.className] = preset.className;
             return acc;
           }, {}),
@@ -3370,10 +3619,8 @@
           const glider = document.getElementById(gliderId);
           if (!glider) return;
           glider.dataset.values = JSON.stringify(gliderValues);
-          glider.innerHTML = [
-            ...all.filter((p) => p.showPresetRow),
-            PRESET_FREE,
-          ]
+          glider.innerHTML = all
+            .filter((p) => p.showPresetRow)
             .map(
               (preset) =>
                 `<div class="glider-option" data-val="${preset.className}">${preset.label}</div>`,
@@ -3386,7 +3633,6 @@
           byClassName,
           classNames,
           defaultClassName: PRESETS[PRESET_DEFAULT].className,
-          free: PRESET_FREE,
           gliderValues,
           hydrateGlider,
           injectStyles,
@@ -3900,8 +4146,14 @@
             this.#btnAppearance?.addEventListener("click", this.#onAppearance);
             this.#btnMenu?.addEventListener("click", this.#onMenu);
             this.#btnHandler?.addEventListener("click", this.#onHandler);
-            this.#btnHandler?.addEventListener("touchstart", this.#onTouchStart, { passive: true });
-            this.#btnHandler?.addEventListener("touchend", this.#onTouchEnd, { passive: true });
+            this.#btnHandler?.addEventListener(
+              "touchstart",
+              this.#onTouchStart,
+              { passive: true },
+            );
+            this.#btnHandler?.addEventListener("touchend", this.#onTouchEnd, {
+              passive: true,
+            });
             this.#btnHandler?.addEventListener("mousedown", this.#onMouseDown);
             this.#scrim?.addEventListener("click", this.#onScrimClick);
             this.#pill.addEventListener("click", this.#onScopeAction);
@@ -3922,9 +4174,15 @@
             );
             this.#btnMenu?.removeEventListener("click", this.#onMenu);
             this.#btnHandler?.removeEventListener("click", this.#onHandler);
-            this.#btnHandler?.removeEventListener("touchstart", this.#onTouchStart);
+            this.#btnHandler?.removeEventListener(
+              "touchstart",
+              this.#onTouchStart,
+            );
             this.#btnHandler?.removeEventListener("touchend", this.#onTouchEnd);
-            this.#btnHandler?.removeEventListener("mousedown", this.#onMouseDown);
+            this.#btnHandler?.removeEventListener(
+              "mousedown",
+              this.#onMouseDown,
+            );
             this.#scrim?.removeEventListener("click", this.#onScrimClick);
             this.#pill.removeEventListener("click", this.#onScopeAction);
             window.removeEventListener(
@@ -4471,9 +4729,6 @@
       }
 
       function getPresetConfig(presetName) {
-        if (presetName === PRESET_REGISTRY.free.className) {
-          return PRESET_REGISTRY.free;
-        }
         return (
           PRESET_REGISTRY.getByClassName(presetName) ||
           PRESET_REGISTRY.getByClassName(PRESET_DEFAULT_CLASS)
@@ -4501,8 +4756,13 @@
           radio.checked = true;
         }
         if (window.styleSelector) {
+          const currentState = window.styleSelector.getState?.();
+          const shouldPreserveCurrentTab =
+            currentState?.aspect === radioVal && !requestedTab;
           window.styleSelector.updateAspect(radioVal, {
-            tab: requestedTab || undefined,
+            tab:
+              requestedTab ||
+              (shouldPreserveCurrentTab ? currentState.tab : undefined),
             emit: false,
           });
           return;
@@ -4631,13 +4891,8 @@
         content.style.setProperty("--profile-align-items", "");
         card.classList.remove(...PRESET_REGISTRY.classNames);
 
-        if (preset.className !== PRESET_REGISTRY.free.className) {
-          card.classList.add(preset.className);
-          setPositionControlsEnabled(!preset.lockPositionControls);
-        } else {
-          setPositionControlsEnabled(true);
-          setPos("left");
-        }
+        card.classList.add(preset.className);
+        setPositionControlsEnabled(!preset.lockPositionControls);
 
         if (!options.fromStyleSelector) {
           syncRadioSelector(preset.className, options.editorTab || null);
@@ -4649,12 +4904,11 @@
       }
 
       function setPos(direction) {
-        // NOTA: La validación de "free" y la clase .active en .glider-option
-        // la maneja data-control-sync. Aquí solo aplicamos el posicionamiento.
-        const freeOption = document.querySelector(
-          '#presetGlider .glider-option[data-val="free"]',
+        // Only apply positioning if the current preset allows it
+        const preset = getPresetConfig(
+          window.appBipartiteStorage?.state?.preset || "centered",
         );
-        if (!freeOption || !freeOption.classList.contains("active")) return;
+        if (preset?.lockPositionControls) return;
 
         // NOTA: La clase .active en .glider-option la maneja data-control-sync
         // No modificar clases manualmente aquí.
@@ -5045,6 +5299,8 @@
             avatar: "",
             name: "",
             lastname: "",
+            role: "",
+            bio: "",
             controls: {
               "ctrl-size": "",
               "ctrl-padding": 0,
@@ -5214,13 +5470,20 @@
 
         applyCorpusToProfile() {
           const nameEl = document.getElementById("profileName");
-          const taglineEl = document.getElementById("profileRole");
+          const roleEl = document.getElementById("profileRole");
+          const bioEl = document.querySelector(".lin-description");
           const avatarEl = document.getElementById("profileImg");
           const coverEl = document.getElementById("profileCover");
+          const syncEmptyState = (el) => {
+            if (el?.dataset.editField) {
+              el.dataset.empty = String(!el.textContent.trim());
+            }
+          };
 
           if (nameEl && this.state.name) nameEl.textContent = this.state.name;
-          if (taglineEl && this.state.lastname)
-            taglineEl.textContent = this.state.lastname;
+          if (roleEl && this.state.role) roleEl.textContent = this.state.role;
+          if (bioEl && this.state.bio) bioEl.textContent = this.state.bio;
+          [nameEl, roleEl, bioEl].forEach(syncEmptyState);
           if (avatarEl && this.state.avatar) avatarEl.src = this.state.avatar;
           if (coverEl && this.state.cover) coverEl.src = this.state.cover;
 
@@ -5299,9 +5562,11 @@
           };
 
           if (includeIdentity) {
-            ["name", "lastname", "avatar", "cover"].forEach((key) => {
-              if (next[key]) merged[key] = next[key];
-            });
+            ["name", "lastname", "role", "bio", "avatar", "cover"].forEach(
+              (key) => {
+                if (next[key]) merged[key] = next[key];
+              },
+            );
           }
 
           this.state = {
@@ -5332,10 +5597,214 @@
             user.lastname ||
             user.lastName ||
             user.last_name ||
-            user.role ||
             this.state.lastname;
+          this.state.role =
+            user.description?.role || user.role || this.state.role;
+          this.state.bio = user.description?.bio || user.bio || this.state.bio;
           this.state.avatar = avatarUrl || this.state.avatar;
           this.state.cover = coverUrl || this.state.cover;
+        }
+
+        bindEditableIdentity() {
+          const editableFields = document.querySelectorAll("[data-edit-field]");
+          const identityEl = document.querySelector(".lin__identity");
+          let activePopover = null;
+
+          const closePopover = () => {
+            identityEl?.removeAttribute("data-editing-popover");
+            activePopover?.remove();
+            activePopover = null;
+          };
+
+          const setFieldValue = (field, value) => {
+            const el = document.querySelector(`[data-edit-field="${field}"]`);
+            if (!el) return;
+            const cleanValue = value.trim();
+            this.state[field] = cleanValue;
+            el.textContent = cleanValue;
+            el.dataset.empty = String(!cleanValue);
+          };
+
+          const positionPopover = (popover, target) => {
+            const rect = target.getBoundingClientRect();
+            const gap = 10;
+            const width = popover.offsetWidth;
+            const left = Math.min(
+              Math.max(16, rect.left),
+              window.innerWidth - width - 16,
+            );
+            const preferredTop = rect.bottom + gap;
+            const overflowBottom =
+              preferredTop + popover.offsetHeight > window.innerHeight - 16;
+            const top = overflowBottom
+              ? Math.max(16, rect.top - popover.offsetHeight - gap)
+              : preferredTop;
+            popover.style.left = `${left}px`;
+            popover.style.top = `${top}px`;
+          };
+
+          const getField = (field) =>
+            document.querySelector(`[data-edit-field="${field}"]`);
+
+          const openPopover = () => {
+            if (identityEl?.dataset.editable !== "true") return;
+            closePopover();
+
+            const popover = document.createElement("div");
+            popover.className = "lin-edit-popover";
+            popover.dataset.editPopover = "lin__identity";
+            popover.innerHTML = `
+              <div class="lin-edit-popover__stack">
+                <label class="lin-edit-popover__field">
+                  <span class="lin-edit-popover__addon" aria-hidden="true">
+                    <i class="ti ti-user"></i>
+                  </span>
+                  <span class="lin-edit-popover__label">Name</span>
+                  <input class="lin-edit-popover__input" type="text" data-popover-field="name" />
+                </label>
+                <label class="lin-edit-popover__field">
+                  <span class="lin-edit-popover__addon" aria-hidden="true">
+                    <i class="ti ti-briefcase"></i>
+                  </span>
+                  <span class="lin-edit-popover__label">Role</span>
+                  <input class="lin-edit-popover__input" type="text" data-popover-field="role" />
+                </label>
+                <label class="lin-edit-popover__field">
+                  <span class="lin-edit-popover__addon" aria-hidden="true">
+                    <i class="ti ti-circle-plus"></i>
+                  </span>
+                  <span class="lin-edit-popover__label">Bio</span>
+                  <textarea class="lin-edit-popover__input lin-edit-popover__input--textarea" rows="3" data-popover-field="bio"></textarea>
+                </label>
+              </div>
+              <div class="lin-edit-popover__actions">
+                <button class="lin-edit-popover__button" type="button" data-popover-cancel>Cancel</button>
+                <button class="lin-edit-popover__button lin-edit-popover__button--primary" type="button" data-popover-save>Done</button>
+              </div>
+            `;
+
+            document.body.append(popover);
+            activePopover = popover;
+            identityEl?.setAttribute("data-editing-popover", "true");
+
+            ["name", "role", "bio"].forEach((field) => {
+              const input = popover.querySelector(
+                `[data-popover-field="${field}"]`,
+              );
+              const source = getField(field);
+              if (input && source) input.value = source.textContent.trim();
+            });
+
+            const saveAndClose = () => {
+              ["name", "role", "bio"].forEach((field) => {
+                const input = popover.querySelector(
+                  `[data-popover-field="${field}"]`,
+                );
+                if (input) setFieldValue(field, input.value);
+              });
+              this.saveLocal();
+              closePopover();
+            };
+
+            popover
+              .querySelector("[data-popover-save]")
+              ?.addEventListener("click", saveAndClose);
+            popover
+              .querySelector("[data-popover-cancel]")
+              ?.addEventListener("click", closePopover);
+            popover.addEventListener("keydown", (event) => {
+              if (event.key === "Escape") {
+                event.preventDefault();
+                closePopover();
+              }
+              if (event.key === "Enter" && (event.metaKey || event.ctrlKey)) {
+                event.preventDefault();
+                saveAndClose();
+              }
+            });
+
+            positionPopover(popover, identityEl);
+            const firstInput = popover.querySelector(
+              '[data-popover-field="name"]',
+            );
+            firstInput?.focus();
+            firstInput?.select?.();
+          };
+
+          const syncEditableState = () => {
+            const isEditing =
+              this.statusStorageEl?.getAttribute("data-card-status") ===
+              "editing";
+
+            editableFields.forEach((el) => {
+              el.dataset.empty = String(!el.textContent.trim());
+              el.setAttribute("contenteditable", "false");
+              el.setAttribute("aria-readonly", "true");
+            });
+
+            if (identityEl) {
+              identityEl.dataset.editable = String(isEditing);
+              identityEl.setAttribute("tabindex", isEditing ? "0" : "-1");
+              identityEl.setAttribute(
+                "aria-label",
+                isEditing ? "Open identity editor" : "Identity",
+              );
+              if (!isEditing) {
+                identityEl.blur();
+                closePopover();
+              }
+            }
+          };
+
+          document.querySelectorAll("[data-edit-field]").forEach((el) => {
+            if (el.dataset.editBound === "true") return;
+            el.dataset.editBound = "true";
+            el.setAttribute("role", "textbox");
+            el.setAttribute(
+              "aria-multiline",
+              String(el.dataset.editField === "bio"),
+            );
+          });
+
+          if (identityEl?.dataset.editBound !== "true") {
+            identityEl.dataset.editBound = "true";
+            identityEl.addEventListener("click", (event) => {
+              event.preventDefault();
+              openPopover();
+            });
+            identityEl.addEventListener("keydown", (event) => {
+              if (event.key === "Enter" || event.key === " ") {
+                event.preventDefault();
+                openPopover();
+              }
+            });
+          }
+
+          document.addEventListener("click", (event) => {
+            if (!activePopover) return;
+            const clickedIdentity = event.target.closest(".lin__identity");
+            if (
+              activePopover.contains(event.target) ||
+              clickedIdentity?.dataset.editable === "true"
+            ) {
+              return;
+            }
+            closePopover();
+          });
+
+          window.addEventListener("resize", closePopover);
+          window.addEventListener("scroll", closePopover, true);
+
+          syncEditableState();
+          if (this.statusStorageEl) {
+            new MutationObserver(syncEditableState).observe(
+              this.statusStorageEl,
+              {
+                attributes: true,
+                attributeFilter: ["data-card-status"],
+              },
+            );
+          }
         }
 
         // Apply loaded state back to UI controls and DOM elements
@@ -5388,7 +5857,10 @@
           let cloudState = null;
           if (cloudDescription) {
             try {
-              cloudState = JSON.parse(cloudDescription);
+              cloudState =
+                typeof cloudDescription === "string"
+                  ? JSON.parse(cloudDescription)
+                  : cloudDescription;
             } catch (e) {
               console.warn(
                 "La descripción del usuario no es un JSON de aspecto válido:",
@@ -5408,7 +5880,7 @@
             const isPending =
               localStorage.getItem(`${this.storageKey}_pending`) === "true";
             if (isPending || !cloudState) {
-              this.mergeCorpusState(localState, { includeIdentity: false });
+              this.mergeCorpusState(localState, { includeIdentity: true });
             }
           }
 
@@ -5604,6 +6076,19 @@
           }
 
           data.user.avatar = {};
+          data.user.description = corpus || {};
+          data.user.name =
+            [corpus?.name, corpus?.lastname].filter(Boolean).join(" ") ||
+            data.user.name ||
+            data.user.displayName ||
+            data.user.display_name ||
+            "";
+          data.user.lastname =
+            corpus?.lastname ||
+            data.user.lastname ||
+            data.user.lastName ||
+            data.user.last_name ||
+            "";
           data.user.firstName =
             corpus?.name ||
             data.user.name ||
@@ -5613,12 +6098,16 @@
             data.user.display_name ||
             "";
           data.user.role =
-            corpus?.lastname ||
+            corpus?.role ||
             data.user.lastname ||
             data.user.lastName ||
             data.user.last_name ||
             data.user.role ||
             "";
+          data.user.description.role =
+            data.user.description.role || data.user.role;
+          data.user.description.bio =
+            data.user.description.bio || data.user.bio || "";
           data.user.avatar.url =
             corpus?.avatar ||
             avatarValue ||
@@ -5646,9 +6135,13 @@
           await new Promise((resolve) => setTimeout(resolve, 300));
           return {
             user: {
+              name: "Ivan Gonzalez",
               firstName: "Ivan",
-              role: "Gonzalez",
-              description: "Especialista en interfaces declarativas.",
+              role: "Founder at Klef",
+              description: {
+                role: "Founder at Klef",
+                bio: "Emprendedor en Los Cabos 🌵 | Asesor de MKT Digital 📈 | Desarrollo de App y Web 📲",
+              },
               avatar: {
                 url: "https://app.newfacecards.com/nfc/profile-pic/recBOO8H0GO0RZlUU.jpg?timestamp=1723160426&size=1000x1000",
               },
@@ -5690,6 +6183,7 @@
             apiKey:
               "patMGuFVV5CBYL2TU.92aa853aaf30125e860bab7543358d01ef8632ad87081467d9d44e384f5e0ff5",
           });
+          window.appBipartiteStorage.bindEditableIdentity();
           window.ControlSyncRegistry?.connectStorage(
             window.appBipartiteStorage,
           );

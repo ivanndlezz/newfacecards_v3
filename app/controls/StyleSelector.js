@@ -190,7 +190,7 @@ export class StyleSelector {
         previewHtml: "",
       },
       "with-cover": {
-        label: "Con portada",
+        label: "Portada",
         previewClass: "mini-preview--with-cover",
         previewHtml:
           '<span class="cover-bg-mini"></span><span class="avatar-mini"></span>',
@@ -259,7 +259,7 @@ export class StyleSelector {
               <div class="image-style-grid">
                 ${this.aspectCard("classic", "Clásico", "preview--classic")}
                 ${this.aspectCard("hero", "Hero", "preview--hero")}
-                ${this.aspectCard("with-cover", "Con portada", "preview--cover")}
+                ${this.aspectCard("with-cover", "Portada", "preview--cover")}
               </div>
             </fieldset>
           </div>
@@ -377,8 +377,8 @@ export class StyleSelector {
 
         <div class="option-chips">
           ${this.radioChip("avatarRadius", "0", "rd-none", this.radiusIcon(0))}
-          ${this.radioChip("avatarRadius", "8", "rd-md", this.radiusIcon(5))}
-          ${this.radioChip("avatarRadius", "16", "rd-full", this.radiusIcon(9))}
+          ${this.radioChip("avatarRadius", "10", "rd-md", this.radiusIcon(5))}
+          ${this.radioChip("avatarRadius", "100", "rd-full", this.radiusIcon(9))}
           ${this.sliderButton("avatarRadius", "Personalizar redondez")}
         </div>
         ${this.fineRange("avatarRadius", 0, 100, 1)}
@@ -427,7 +427,6 @@ export class StyleSelector {
             ${this.chipButton("coverPreset", "preset-centered", this.coverPresetIcon("center"), "Centrado")}
             ${this.chipButton("coverPreset", "preset-horizontal", this.coverPresetIcon("side"), "Lateral")}
             ${this.chipButton("coverPreset", "preset-cover", this.coverPresetIcon("top"), "Superior")}
-            ${this.chipButton("coverPreset", "free", this.coverPresetIcon("free"), "Libre")}
           </div>
         </div>
 
@@ -520,8 +519,8 @@ export class StyleSelector {
         aria-label="${label}"
         aria-expanded="${this.state.fineControl === key ? "true" : "false"}"
       >
-        <svg width="18" height="18" viewBox="0 0 20 20" fill="none" aria-hidden="true">
-          <path d="M3 5H17M6 10H14M9 15H11" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"></path>
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-settings2-icon lucide-settings-2"><path d="M14 17H5"/><path d="M19 7h-9"/>
+          <circle cx="17" cy="17" r="3"/><circle cx="7" cy="7" r="3"/>
         </svg>
       </button>
     `;
@@ -611,9 +610,6 @@ export class StyleSelector {
 
   coverPresetIcon(type) {
     const avatarX = type === "side" ? 14 : 23;
-    const plus = type === "free"
-      ? '<path d="M15 22h16M23 14v16" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>'
-      : "";
     const lines =
       type === "side"
         ? '<path d="M22 21h14M22 25h10" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" opacity=".55"/>'
@@ -622,7 +618,6 @@ export class StyleSelector {
     return `
       <svg class="option-chip__icon" viewBox="0 0 46 30" fill="none" aria-hidden="true">
         <rect x="7" y="4" width="32" height="${height}" rx="4" fill="currentColor" fill-opacity=".08" stroke="currentColor" stroke-width="1.7"/>
-        ${plus}
         <circle cx="${avatarX}" cy="21" r="4.5" fill="currentColor" fill-opacity=".14" stroke="currentColor" stroke-width="1.7"/>
         ${lines}
       </svg>
