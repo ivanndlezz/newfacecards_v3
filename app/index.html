@@ -336,15 +336,14 @@
         --radius-sm: 10px;
         --shadow-sm: 0 2px 8px var(--shadow-color-soft);
         --shadow-md: 0 10px 30px -10px var(--shadow-color-medium);
-        --max-width: 440px;
+        --max-width: 500px;
+        --cover-bg-minicard: linear-gradient(180deg, #e9d5ff, #dbeafe);
       }
 
       body {
         font-family:
           -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-        background-color: var(
-          --app-shell-background
-        ); /* Fondo gris claro exterior */
+        background-color: #e6e6e6; /* Fondo gris claro exterior */
         color: var(--font-color);
         margin: 0;
         min-height: 100vh;
@@ -363,7 +362,7 @@
         width: 28px;
         height: 28px;
         border: 0;
-        border-radius: 10px;
+        border-radius: 100px;
         background: var(--sync-status-bg, var(--status-success-bg));
         color: var(--sync-status-color, var(--status-success));
         box-shadow: inset 0 0 0 1px
@@ -526,10 +525,14 @@
         filter: blur(var(--blur, 0px));
       }
 
+      .header__actions button {
+        transform: scale(var(--scale, 1));
+      }
+
       .header__menu {
         display: flex;
         align-items: center;
-        gap: 12px;
+        gap: 0px;
       }
 
       .header__back-btn {
@@ -537,7 +540,7 @@
         border: solid 1px var(--gray-primary) !important;
         color: var(--text-primary);
         border: none;
-        padding: 8px 16px 8px 8px;
+        padding: 0px;
         border-radius: 15px;
         font-size: 18px;
         font-weight: 600;
@@ -552,8 +555,8 @@
       }
 
       .header__back-btn svg {
-        transform: rotate(90deg) translateX(3px);
-        --wh: 24px;
+        transform: rotate(90deg) translateY(3px);
+        --wh: 21px;
         width: var(--wh);
         height: var(--wh);
       }
@@ -568,6 +571,7 @@
         font-size: 16px;
         font-weight: 400;
         color: var(--app-text-strong);
+        margin-left: 12px;
       }
 
       .header__module-icon svg {
@@ -575,6 +579,7 @@
         height: 16px;
         opacity: 0.8;
         transform: translateY(3px);
+        color: #a8a8a8;
       }
 
       .header__cta {
@@ -620,10 +625,6 @@
         min-width: 140px;
         z-index: 1;
         justify-content: center;
-      }
-
-      #completePublishBtn {
-        position: absolute;
       }
 
       header {
@@ -695,10 +696,11 @@
 
       /* === MAIN CONTENT (CARD) === */
       .main-content {
-        background: var(--background-color);
+        background: var(--user-selected-background);
         min-height: calc(100vh - 160px);
         position: relative;
-        border-radius: 20px 20px 0px 0px;
+        --border-rad: 30px;
+        border-radius: var(--border-rad) var(--border-rad) 0px 0px;
         transition: all 0.5s ease;
         box-shadow: 0 0px 62px
           color-mix(in srgb, var(--app-text) 25%, transparent);
@@ -708,29 +710,6 @@
         width: 97%;
         height: var(--w100);
         overflow: clip;
-        background-image:
-          linear-gradient(
-            to right,
-            color-mix(in srgb, var(--color-secondary) 8%, transparent) 1px,
-            transparent 1px,
-            transparent 15px,
-            color-mix(in srgb, var(--color-secondary) 8%, transparent) 1px,
-            transparent 1px,
-            transparent 230px,
-            color-mix(in srgb, var(--color-secondary) 13%, transparent) 1px,
-            transparent 1px,
-            transparent 249px,
-            color-mix(in srgb, var(--color-secondary) 8%, transparent) 1px,
-            transparent 1px,
-            transparent 482px,
-            color-mix(in srgb, var(--color-secondary) 8%, transparent) 1px,
-            transparent 1px
-          ),
-          linear-gradient(
-            to bottom,
-            color-mix(in srgb, var(--color-primary) 8%, transparent) 1px,
-            transparent 1px
-          );
         background-size: 100% 4px;
         background-position: 0 0;
         background-repeat: repeat;
@@ -947,8 +926,8 @@
         min-height: 70px;
         background-image: linear-gradient(
           transparent 1%,
-          var(--app-shell-background) 60%,
-          var(--app-shell-background)
+          #e6e6e6c9 60%,
+          #e6e6e6
         );
         border-radius: 19px;
         transform: translateY(var(--translate));
@@ -1004,7 +983,7 @@
       }
 
       .profile-card {
-        background: var(--text-inverse);
+        background: var(--user-selected-background);
         border-radius: 16px;
         width: 100%;
         max-width: 450px;
@@ -1648,7 +1627,10 @@
 
       .pill-wrapper-container
         .bottom-nav[data-scope="appearance"]
-        .module-item:not(#appearance):not([data-scope-action]) {
+        .module-item:not(#appearance):not([data-scope-action]),
+      .pill-wrapper-container
+        .bottom-nav[data-scope="theme"]
+        .module-item:not(#style):not([data-scope-action]) {
         width: 0;
         min-width: 0;
         flex-basis: 0;
@@ -1658,7 +1640,8 @@
         pointer-events: none;
       }
 
-      .pill-wrapper-container .bottom-nav[data-scope="appearance"] #appearance {
+      .pill-wrapper-container .bottom-nav[data-scope="appearance"] #appearance,
+      .pill-wrapper-container .bottom-nav[data-scope="theme"] #style {
         flex: 0 0 78px;
         position: sticky;
         left: 0;
@@ -1711,6 +1694,10 @@
       .pill-wrapper-container
         .bottom-nav[data-scope="appearance"]
         #appearance
+        .module-icon,
+      .pill-wrapper-container
+        .bottom-nav[data-scope="theme"]
+        #style
         .module-icon,
       .pill-wrapper-container .module-item:hover .module-icon {
         color: var(--color-primary);
@@ -1945,13 +1932,13 @@
         cursor: pointer;
       }
 
-      @media (max-width: 640px) {
-        .sheet-header {
-          padding: 1rem;
-          padding-top: 0px;
-          padding-bottom: 0.5rem;
-        }
+      .sheet-header {
+        padding: 1rem;
+        padding-top: 0px;
+        padding-bottom: 0.5rem;
+      }
 
+      @media (max-width: 640px) {
         .header__actions {
           --m-lr: 1rem;
           margin-left: var(--m-lr);
@@ -1995,7 +1982,10 @@
         .pill-wrapper-container .bottom-nav[data-scope] .module-item,
         .pill-wrapper-container
           .bottom-nav[data-scope="appearance"]
-          #appearance {
+          #appearance,
+        .pill-wrapper-container
+          .bottom-nav[data-scope="theme"]
+          #style {
           flex-basis: 76px;
         }
       }
@@ -2440,11 +2430,7 @@
       .mini-preview--with-cover .cover-bg-mini {
         position: absolute;
         inset: 0 0 40% 0;
-        background: linear-gradient(
-          180deg,
-          var(--bg-brand-soft),
-          var(--bg-secondary)
-        );
+        background: var(--cover-bg-minicard);
       }
 
       .mini-preview--with-cover .avatar-mini {
@@ -2558,11 +2544,7 @@
       .preview--cover .cover-bg {
         position: absolute;
         inset: 0 0 40% 0;
-        background: linear-gradient(
-          180deg,
-          var(--bg-brand-soft),
-          var(--bg-secondary)
-        );
+        background: var(--cover-bg-minicard);
       }
       .preview--cover .avatar {
         position: absolute;
@@ -2770,6 +2752,10 @@
         pointer-events: none !important;
       }
 
+      .profile-card.preset-hero .profile-row .lin__identity {
+        pointer-events: auto !important;
+      }
+
       #data-status-storage:not([data-card-status="editing"]) + #app .cover-wrap,
       #data-status-storage:not([data-card-status="editing"])
         + #app
@@ -2809,6 +2795,107 @@
 
       .preset-hero .avt {
         opacity: 0;
+      }
+
+      /* ==========================================
+         PUBLISH FLOW STYLES
+         ========================================== */
+      .publish .header__menu {
+        display: none;
+      }
+
+      .publish .header__cta.header__cta--cancel {
+        display: flex;
+        background: #6c757d;
+      }
+
+      .publish header {
+        gap: 10px;
+        animation: publishWidth 0.4s forwards;
+      }
+
+      #app:not(.publish) header {
+        animation: publishWidthCancel 0.4s forwards;
+      }
+
+      @keyframes publishWidth {
+        0% {
+          width: 100%;
+          max-width: var(--max-width);
+        }
+        100% {
+          width: 500px;
+          max-width: -webkit-fill-available;
+        }
+      }
+
+      @keyframes publishWidthCancel {
+        0% {
+          max-width: -webkit-fill-available;
+          width: 500px;
+        }
+        99% {
+          width: 100%;
+        }
+        100% {
+          width: -webkit-fill-available;
+        }
+      }
+
+      .main-content {
+        transition:
+          transform 0.4s ease,
+          border-radius 0.4s ease;
+      }
+      .publish .main-content {
+        transform: scale(0.9) translate(0px, -50px);
+        border-radius: 20px;
+      }
+
+      .bottom-nav {
+        transition: transform 0.4s ease;
+      }
+      .publish + div + .pill-wrapper-container .bottom-nav {
+        transform: translateY(150px);
+      }
+
+      #completePublishBtn {
+        display: none !important;
+      }
+      .publish #completePublishBtn {
+        display: flex !important;
+      }
+      .publish #publishBtn {
+        display: none !important;
+      }
+
+      .header__cta.loading {
+        background: #036a53 !important;
+        pointer-events: none;
+      }
+      .header__cta.success {
+        background: #27a31e !important;
+      }
+      .header__cta.error {
+        background: #d92e2e !important;
+      }
+
+      .header__cta i {
+        font-size: 18px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      @keyframes spin {
+        100% {
+          transform: rotate(360deg);
+        }
+      }
+      .header__cta.loading svg,
+      .header__cta.loading i {
+        animation: spin 0.8s linear infinite;
+        display: inline-block;
       }
     </style>
   </head>
@@ -3994,6 +4081,7 @@
           BTN_DONE: ".btn-done",
           BTN_SATELLITE: "#addlink, .btn-satellite",
           BTN_APPEARANCE: "#appearance",
+          BTN_STYLE: "#style",
           BTN_MENU: "#Menu",
           BTN_HANDLER: "#handlerArea",
           MODULE_CONTENT: ".module-content",
@@ -4015,6 +4103,7 @@
           #btnDone;
           #btnSatellite;
           #btnAppearance;
+          #btnStyle;
           #btnMenu;
           #btnHandler;
           #moduleContent;
@@ -4035,6 +4124,7 @@
             this.#btnAppearance = pillEl.querySelector(
               _PC_SELECTORS.BTN_APPEARANCE,
             );
+            this.#btnStyle = pillEl.querySelector(_PC_SELECTORS.BTN_STYLE);
             this.#btnMenu = pillEl.querySelector(_PC_SELECTORS.BTN_MENU);
             this.#btnHandler = pillEl.querySelector(_PC_SELECTORS.BTN_HANDLER);
             this.#moduleContent = pillEl.querySelector(
@@ -4061,12 +4151,29 @@
             this.#btnAppearance?.setAttribute("aria-pressed", String(isActive));
 
             if (isActive) {
+              this.#btnStyle?.setAttribute("aria-pressed", "false");
               this.#pill.dataset.scope = "appearance";
               this.#hydrateScopeActions();
               return;
             }
 
             if (this.#pill.dataset.scope === "appearance") {
+              delete this.#pill.dataset.scope;
+            }
+            this.#clearScopeActions();
+          }
+
+          #setThemeState(isActive) {
+            this.#btnStyle?.setAttribute("aria-pressed", String(isActive));
+
+            if (isActive) {
+              this.#btnAppearance?.setAttribute("aria-pressed", "false");
+              this.#pill.dataset.scope = "theme";
+              this.#hydrateScopeActions();
+              return;
+            }
+
+            if (this.#pill.dataset.scope === "theme") {
               delete this.#pill.dataset.scope;
             }
             this.#clearScopeActions();
@@ -4093,6 +4200,14 @@
             return actions;
           }
 
+          #themeScopeActions() {
+            return [
+              { id: "classic", label: "Clásico" },
+              { id: "hero", label: "Hero" },
+              { id: "with-cover", label: "Portada" },
+            ];
+          }
+
           #clearScopeActions() {
             this.#moduleContent
               ?.querySelectorAll(_PC_SELECTORS.SCOPE_ACTION)
@@ -4101,17 +4216,31 @@
 
           #hydrateScopeActions() {
             this.#clearScopeActions();
-            const activeTab = window.styleSelector?.getState?.()?.tab;
+            const scope = this.#pill.dataset.scope;
 
-            this.#appearanceScopeActions().forEach(({ id, label }) => {
-              const button = document.createElement("button");
-              button.className = "module-item scope-action";
-              button.type = "button";
-              button.dataset.scopeAction = id;
-              button.dataset.status = id === activeTab ? "active" : "unset";
-              button.innerHTML = `<span class="scope-action-dot"></span><span class="module-label">${label}</span>`;
-              this.#moduleContent?.append(button);
-            });
+            if (scope === "appearance") {
+              const activeTab = window.styleSelector?.getState?.()?.tab;
+              this.#appearanceScopeActions().forEach(({ id, label }) => {
+                const button = document.createElement("button");
+                button.className = "module-item scope-action";
+                button.type = "button";
+                button.dataset.scopeAction = id;
+                button.dataset.status = id === activeTab ? "active" : "unset";
+                button.innerHTML = `<span class="scope-action-dot"></span><span class="module-label">${label}</span>`;
+                this.#moduleContent?.append(button);
+              });
+            } else if (scope === "theme") {
+              const activeAspect = this.#getCurrentAspect();
+              this.#themeScopeActions().forEach(({ id, label }) => {
+                const button = document.createElement("button");
+                button.className = "module-item scope-action";
+                button.type = "button";
+                button.dataset.scopeAction = id;
+                button.dataset.status = id === activeAspect ? "active" : "unset";
+                button.innerHTML = `<span class="scope-action-dot"></span><span class="module-label">${label}</span>`;
+                this.#moduleContent?.append(button);
+              });
+            }
           }
 
           #openEditorSheet() {
@@ -4156,6 +4285,7 @@
           #onDone = () => {
             this.#pill.classList.remove(CSS_CLASSES.PILL_ACTIVE);
             this.#setAppearanceState(false);
+            this.#setThemeState(false);
             this.#setCardStatus(CARD_STATUS.PASSIVE);
           };
 
@@ -4163,12 +4293,36 @@
             const isActive = this.#pill.classList.contains(
               CSS_CLASSES.PILL_ACTIVE,
             );
-            if (isActive) {
+            const isAppearanceScope = this.#pill.dataset.scope === "appearance";
+
+            if (isActive && isAppearanceScope) {
               this.#onDone();
               return;
             }
 
-            this.#onEdit();
+            if (!isActive) {
+              this.#pill.classList.add(CSS_CLASSES.PILL_ACTIVE);
+              this.#setCardStatus(CARD_STATUS.EDITING);
+            }
+            this.#setAppearanceState(true);
+          };
+
+          #onStyle = () => {
+            const isActive = this.#pill.classList.contains(
+              CSS_CLASSES.PILL_ACTIVE,
+            );
+            const isThemeScope = this.#pill.dataset.scope === "theme";
+
+            if (isActive && isThemeScope) {
+              this.#onDone();
+              return;
+            }
+
+            if (!isActive) {
+              this.#pill.classList.add(CSS_CLASSES.PILL_ACTIVE);
+              this.#setCardStatus(CARD_STATUS.EDITING);
+            }
+            this.#setThemeState(true);
           };
 
           #onMenu = () => {
@@ -4222,23 +4376,43 @@
             const action = event.target.closest(_PC_SELECTORS.SCOPE_ACTION);
             if (!action || !this.#pill.contains(action)) return;
 
-            if (action.dataset.scopeAction === "avatar") {
-              this.#selectStyleTab("avatar");
-              return;
-            }
+            const scope = this.#pill.dataset.scope;
+            const scopeAction = action.dataset.scopeAction;
 
-            if (action.dataset.scopeAction === "cover") {
-              this.#selectStyleTab("cover");
-              return;
-            }
+            if (scope === "appearance") {
+              if (scopeAction === "avatar") {
+                this.#selectStyleTab("avatar");
+                return;
+              }
 
-            if (action.dataset.scopeAction === "layout") {
-              this.#showLayoutPicker();
+              if (scopeAction === "cover") {
+                this.#selectStyleTab("cover");
+                return;
+              }
+
+              if (scopeAction === "layout") {
+                this.#showLayoutPicker();
+              }
+            } else if (scope === "theme") {
+              this.#selectThemeAspect(scopeAction);
             }
           };
 
+          #selectThemeAspect(aspectName) {
+            this.#openEditorSheet();
+            if (window.styleSelector) {
+              window.styleSelector.updateAspect(aspectName);
+              const radio = document.querySelector(
+                `input[name="image_style"][value="${aspectName}"]`,
+              );
+              if (radio) radio.checked = true;
+            }
+            this.#hydrateScopeActions();
+          }
+
           #onStyleSelectorStateChange = () => {
-            if (this.#pill.dataset.scope === "appearance") {
+            const scope = this.#pill.dataset.scope;
+            if (scope === "appearance" || scope === "theme") {
               this.#hydrateScopeActions();
             }
           };
@@ -4260,6 +4434,7 @@
             this.#btnDone?.addEventListener("click", this.#onDone);
             this.#btnSatellite?.addEventListener("click", this.#onSatellite);
             this.#btnAppearance?.addEventListener("click", this.#onAppearance);
+            this.#btnStyle?.addEventListener("click", this.#onStyle);
             this.#btnMenu?.addEventListener("click", this.#onMenu);
             this.#btnHandler?.addEventListener("click", this.#onHandler);
             this.#btnHandler?.addEventListener(
@@ -4288,6 +4463,7 @@
               "click",
               this.#onAppearance,
             );
+            this.#btnStyle?.removeEventListener("click", this.#onStyle);
             this.#btnMenu?.removeEventListener("click", this.#onMenu);
             this.#btnHandler?.removeEventListener("click", this.#onHandler);
             this.#btnHandler?.removeEventListener(
@@ -6370,6 +6546,181 @@
         const app = new AppController();
         app.init();
       }
+
+      // ==========================================
+      // 9. HEADER: CLICK TOGGLE & SCROLL COMPRESSION
+      // ==========================================
+      (function () {
+        document.addEventListener("DOMContentLoaded", () => {
+          const storage = document.getElementById("data-status-storage");
+          const handler = document.querySelector(".handler");
+          const actions = document.querySelector(".header__actions");
+          const nextHandler = document.querySelector(".header__action.handler");
+
+          if (!storage || !handler) return;
+
+          function setTopMenuState(state) {
+            storage.setAttribute("data-top-menu", state);
+          }
+
+          handler.addEventListener("click", () => {
+            const current = storage.getAttribute("data-top-menu");
+            setTopMenuState(current === "hidden" ? "showing" : "hidden");
+          });
+
+          if (!actions) return;
+
+          const MAX_SCROLL_DEPTH = 220;
+          const MIN_SCALE = 0.7;
+          const MAX_BLUR = 7;
+
+          let ticking = false;
+
+          function updateHeaderEffect() {
+            const scrollY = window.scrollY || 0;
+            const progress = Math.min(
+              Math.max(scrollY / MAX_SCROLL_DEPTH, 0),
+              1,
+            );
+
+            const scale = (1 - (1 - MIN_SCALE) * progress).toFixed(3);
+            const blur = (MAX_BLUR * progress).toFixed(1);
+            const newBlur = blur - 1.5;
+
+            actions.style.setProperty("--scale", scale);
+            actions.style.setProperty(
+              "--blur",
+              `${newBlur < 0 ? 0 : newBlur}px`,
+            );
+
+            if (nextHandler) {
+              nextHandler.style.setProperty("--translate", `${blur * -20}px`);
+            }
+
+            ticking = false;
+          }
+
+          function onScroll() {
+            if (!ticking) {
+              requestAnimationFrame(() => {
+                updateHeaderEffect();
+                ticking = false;
+              });
+              ticking = true;
+            }
+          }
+
+          window.addEventListener("scroll", onScroll, { passive: true });
+
+          // Initialize on load (handles restored scroll position)
+          updateHeaderEffect();
+        });
+      })();
+
+      // ==========================================
+      // 10. HEADER: PUBLISH FLOW (SIMULATED API)
+      // ==========================================
+      (function () {
+        document.addEventListener("DOMContentLoaded", () => {
+          const app = document.getElementById("app");
+          const publishBtn = document.getElementById("publishBtn");
+          const completePublishBtn =
+            document.getElementById("completePublishBtn");
+          const cancelBtn = document.getElementById("cancelBtn");
+
+          if (!app || !publishBtn || !completePublishBtn || !cancelBtn) return;
+
+          function setPublishButtonState(btn, state, text) {
+            const btnText = btn.querySelector(".header__btn-text");
+            if (btnText) btnText.textContent = text;
+
+            const icon = btn.querySelector("svg, i");
+            if (icon) icon.remove();
+
+            if (state === "loading") {
+              btn.className = "header__cta loading";
+              const i = document.createElement("i");
+              i.className = "ti ti-loader-2";
+              btn.insertBefore(i, btnText);
+            } else if (state === "success") {
+              btn.className = "header__cta success";
+              const i = document.createElement("i");
+              i.className = "ti ti-circle-check";
+              btn.insertBefore(i, btnText);
+            } else if (state === "error") {
+              btn.className = "header__cta error";
+              const i = document.createElement("i");
+              i.className = "ti ti-circle-x";
+              btn.insertBefore(i, btnText);
+            } else {
+              btn.className = "header__cta";
+              const svg = document.createElementNS(
+                "http://www.w3.org/2000/svg",
+                "svg",
+              );
+              const use = document.createElementNS(
+                "http://www.w3.org/2000/svg",
+                "use",
+              );
+              use.setAttribute("href", "#share");
+              svg.appendChild(use);
+              btn.insertBefore(svg, btnText);
+            }
+          }
+
+          // Step 1: Click "Publish" -> Enter Publish Preview Mode
+          publishBtn.addEventListener("click", () => {
+            app.classList.add("publish");
+          });
+
+          // Step 1 Cancel: Click "Cancel" -> Exit Publish Preview Mode
+          cancelBtn.addEventListener("click", () => {
+            app.classList.remove("publish");
+          });
+
+          // Step 2: Click "Complete" -> Trigger simulated publish call
+          completePublishBtn.addEventListener("click", () => {
+            setPublishButtonState(
+              completePublishBtn,
+              "loading",
+              "Publishing...",
+            );
+
+            setTimeout(() => {
+              const success = Math.random() > 0.5;
+
+              if (success) {
+                setPublishButtonState(
+                  completePublishBtn,
+                  "success",
+                  "Published",
+                );
+
+                // Exit publish preview mode on success after 1.5 seconds
+                setTimeout(() => {
+                  app.classList.remove("publish");
+                  setPublishButtonState(
+                    completePublishBtn,
+                    "default",
+                    "Complete",
+                  );
+                }, 1500);
+              } else {
+                setPublishButtonState(completePublishBtn, "error", "Try again");
+
+                // Reset error state back to default "Complete" after 2 seconds
+                setTimeout(() => {
+                  setPublishButtonState(
+                    completePublishBtn,
+                    "default",
+                    "Complete",
+                  );
+                }, 2000);
+              }
+            }, 2000);
+          });
+        });
+      })();
     </script>
     <script type="module" src="../assets/js/core/bootSync.js"></script>
   </body>

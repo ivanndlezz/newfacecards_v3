@@ -7,7 +7,6 @@
       content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
     />
     <title>Digital Business Card - Dynamic Themes</title>
-    <script src="https://cdn.tailwindcss.com"></script>
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
@@ -16,27 +15,115 @@
       @import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@500;700&family=JetBrains+Mono:wght@400;700&display=swap");
 
       :root {
-        --bg-color: #09090b; /* Zinc 950 */
+        --app-bg-color: #09090b;
+        --app-text-color: #ffffff;
+        --app-shell-max-width: 80rem;
+        --app-spacing: 1rem;
+        --app-stage-height: 550px;
+        --card-width: 320px;
+        --card-height: 480px;
+        --card-radius: 24px;
+        --card-padding: 32px 24px;
+        --card-avatar-size: 96px;
+        --action-bg: rgba(255, 255, 255, 0.1);
+        --action-bg-hover: rgba(255, 255, 255, 0.2);
+        --action-border: rgba(255, 255, 255, 0.1);
+        --action-color: #ffffff;
+        --action-font-weight: 500;
+        --action-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.25);
+      }
+
+      * {
+        box-sizing: border-box;
       }
 
       body {
-        background-color: var(--bg-color);
-        color: #fff;
+        margin: 0;
+        min-height: 100vh;
+        width: 100%;
+        background-color: var(--app-bg-color);
+        color: var(--app-text-color);
         font-family: "Inter", sans-serif;
         overflow: hidden;
         touch-action: pan-y; /* Previene scroll horizontal nativo en móviles */
       }
 
+      a {
+        color: inherit;
+        text-decoration: none;
+      }
+
+      button {
+        font: inherit;
+      }
+
+      .app {
+        position: relative;
+        display: flex;
+        min-height: 100vh;
+        width: 100%;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .app__ambient {
+        position: absolute;
+        inset: 0;
+        z-index: 0;
+        overflow: hidden;
+        pointer-events: none;
+      }
+
+      .app__glow {
+        position: absolute;
+        width: 40%;
+        height: 40%;
+        border-radius: 999px;
+        filter: blur(120px);
+      }
+
+      .app__glow--primary {
+        top: -10%;
+        left: -10%;
+        background: rgba(79, 70, 229, 0.1);
+      }
+
+      .app__glow--secondary {
+        right: -10%;
+        bottom: -10%;
+        background: rgba(147, 51, 234, 0.1);
+      }
+
+      .app__main {
+        position: relative;
+        z-index: 10;
+        display: flex;
+        flex: 1;
+        width: 100%;
+        max-width: var(--app-shell-max-width);
+        margin: 0 auto;
+        padding: 0 var(--app-spacing);
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+      }
+
       /* Contenedor del Carrusel 3D */
       .carousel-viewport {
+        display: flex;
+        width: 100%;
+        height: var(--app-stage-height);
+        align-items: center;
+        justify-content: center;
         perspective: 1200px;
         transform-style: preserve-3d;
       }
 
       .card-track {
         position: relative;
-        width: 320px;
-        height: 480px;
+        width: var(--card-width);
+        height: var(--card-height);
         transform-style: preserve-3d;
       }
 
@@ -46,24 +133,175 @@
         left: 0;
         width: 100%;
         height: 100%;
-        border-radius: 24px;
-        padding: 32px 24px;
-        box-sizing: border-box;
+        display: flex;
+        flex-direction: column;
+        padding: var(--card-padding);
+        border: var(--card-border);
+        border-radius: var(--card-radius);
+        background: var(--card-bg);
+        color: var(--card-text-main);
+        box-shadow: var(--card-shadow);
+        font-family: var(--card-font-family);
+        -webkit-backdrop-filter: var(--card-backdrop-filter);
+        backdrop-filter: var(--card-backdrop-filter);
         will-change: transform, opacity;
         transition:
           transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1),
           opacity 0.6s ease,
           filter 0.6s ease;
-        display: flex;
-        flex-direction: column;
         user-select: none;
+      }
+
+      .bio-card__profile {
+        display: flex;
+        flex: 1;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+      }
+
+      .bio-card__avatar {
+        width: var(--card-avatar-size);
+        height: var(--card-avatar-size);
+        margin-bottom: 1rem;
+        padding: 0.5rem;
+        overflow: hidden;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 999px;
+        background: rgba(0, 0, 0, 0.2);
+        backdrop-filter: blur(4px);
+      }
+
+      .bio-card__avatar-image {
+        display: block;
+        width: 100%;
+        height: 100%;
+        border-radius: 999px;
+        object-fit: cover;
+      }
+
+      .bio-card__name {
+        margin: 0 0 0.25rem;
+        color: var(--card-text-main);
+        font-size: 1.5rem;
+        font-weight: var(--card-title-weight);
+        line-height: 1.2;
+        text-transform: var(--card-title-transform);
+        letter-spacing: var(--card-title-letter-spacing);
+      }
+
+      .bio-card__role {
+        margin: 0 0 0.25rem;
+        color: var(--card-text-subtle);
+        font-size: 0.875rem;
+        font-weight: 500;
+        line-height: 1.4;
+      }
+
+      .bio-card__location {
+        display: flex;
+        margin: 0;
+        align-items: center;
+        gap: 0.25rem;
+        color: var(--card-text-subtle);
+        font-size: 0.75rem;
+        line-height: 1.4;
+        opacity: 0.8;
+      }
+
+      .bio-card__links {
+        display: flex;
+        width: 100%;
+        margin-top: 1.5rem;
+        flex-direction: column;
+        gap: 0.75rem;
+      }
+
+      .bio-card__link {
+        display: flex;
+        width: 100%;
+        min-height: 3rem;
+        align-items: center;
+        justify-content: center;
+        gap: 0.75rem;
+        padding: 0.75rem 1rem;
+        border: var(--card-link-border);
+        border-radius: 0.75rem;
+        background: var(--card-link-bg);
+        color: var(--card-link-color);
+        font-size: 0.875rem;
+        font-weight: 500;
+        -webkit-backdrop-filter: var(--card-link-backdrop-filter);
+        backdrop-filter: var(--card-link-backdrop-filter);
+        transition:
+          background-color 0.25s ease,
+          transform 0.25s ease;
+      }
+
+      .bio-card__link:hover {
+        background: var(--card-link-bg-hover);
+      }
+
+      .bio-card__label {
+        position: absolute;
+        top: 1rem;
+        right: 1rem;
+        color: var(--card-text-main);
+        font-size: 0.625rem;
+        font-weight: 700;
+        line-height: 1;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        opacity: 0.3;
+      }
+
+      .more-card {
+        align-items: center;
+        justify-content: center;
+        border: 1px solid rgba(255, 255, 255, 0.18);
+        background: rgba(255, 255, 255, 0.08);
+        color: #ffffff;
+        box-shadow: 0 20px 35px -18px rgba(0, 0, 0, 0.65);
+        font-family: "Inter", sans-serif;
+        -webkit-backdrop-filter: blur(32px);
+        backdrop-filter: blur(32px);
+        cursor: pointer;
+      }
+
+      .more-card__icon {
+        display: grid;
+        width: 4rem;
+        height: 4rem;
+        margin-bottom: 1rem;
+        place-items: center;
+        border: 1px solid rgba(255, 255, 255, 0.18);
+        border-radius: 999px;
+        background: rgba(255, 255, 255, 0.1);
+        font-size: 1.5rem;
+      }
+
+      .more-card__title {
+        margin: 0 0 0.35rem;
+        font-size: 1.35rem;
+        font-weight: 700;
+        line-height: 1.2;
+      }
+
+      .more-card__copy {
+        max-width: 14rem;
+        margin: 0;
+        color: rgba(255, 255, 255, 0.68);
+        font-size: 0.875rem;
+        line-height: 1.45;
+        text-align: center;
       }
 
       /* ===========================================
        ESTADOS DEL MODO EDICIÓN (CARRUSEL)
      ===========================================
     */
-      body.edit-mode .card.active {
+      body.app--edit-mode .card--active {
         transform: translateX(0) translateZ(0) scale(1);
         opacity: 1;
         z-index: 10;
@@ -71,7 +309,7 @@
         box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
       }
 
-      body.edit-mode .card.prev {
+      body.app--edit-mode .card--prev {
         transform: translateX(-70%) translateZ(-150px) scale(0.85);
         opacity: 0.4;
         z-index: 5;
@@ -79,7 +317,7 @@
         cursor: pointer;
       }
 
-      body.edit-mode .card.next {
+      body.app--edit-mode .card--next {
         transform: translateX(70%) translateZ(-150px) scale(0.85);
         opacity: 0.4;
         z-index: 5;
@@ -87,7 +325,7 @@
         cursor: pointer;
       }
 
-      body.edit-mode .card.hidden-card {
+      body.app--edit-mode .card--hidden {
         transform: translateX(0) translateZ(-300px) scale(0.6);
         opacity: 0;
         z-index: 1;
@@ -98,7 +336,7 @@
        ESTADOS DEL MODO VISTA (SELECCIONADO)
      ===========================================
     */
-      body.view-mode .card.active {
+      body.app--view-mode .card--active {
         transform: translateX(0) translateZ(40px) scale(1.05);
         opacity: 1;
         z-index: 10;
@@ -109,7 +347,7 @@
       }
 
       /* Ocultar absolutamente todas las demás tarjetas poniéndolas atrás y transparentes */
-      body.view-mode .card:not(.active) {
+      body.app--view-mode .card:not(.card--active) {
         transform: translateX(0) translateZ(-200px) scale(0.8);
         opacity: 0;
         z-index: 1;
@@ -118,71 +356,494 @@
       }
 
       /* Utilidades de Transición para los Dots */
-      .dots-transition {
+      .carousel-dots {
+        display: flex;
+        height: 1.5rem;
+        margin-top: 1rem;
+        align-items: center;
+        gap: 0.75rem;
         transition:
           opacity 0.4s ease,
           transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
       }
 
-      body.view-mode #dots-container {
+      .carousel-dots__dot {
+        width: 0.5rem;
+        height: 0.5rem;
+        padding: 0;
+        border: 0;
+        border-radius: 999px;
+        background: rgba(255, 255, 255, 0.3);
+        cursor: pointer;
+        transition:
+          width 0.3s ease,
+          background-color 0.3s ease;
+      }
+
+      .carousel-dots__dot--active {
+        width: 1.5rem;
+        background: #ffffff;
+      }
+
+      body.app--view-mode #dots-container {
         opacity: 0;
         pointer-events: none;
         transform: translateY(15px);
       }
 
-      body.edit-mode #dots-container {
+      body.app--edit-mode #dots-container {
         opacity: 1;
         pointer-events: auto;
         transform: translateY(0);
       }
+
+      .action-bar {
+        position: absolute;
+        bottom: 2.5rem;
+        z-index: 20;
+        display: flex;
+        width: 100%;
+        justify-content: center;
+        padding: 0 1.5rem;
+        transition:
+          opacity 0.24s ease,
+          transform 0.24s ease;
+      }
+
+      .action-button {
+        position: relative;
+        display: flex;
+        min-height: 3.25rem;
+        align-items: center;
+        gap: 0.75rem;
+        overflow: hidden;
+        padding: 0.875rem 2rem;
+        border: 1px solid var(--action-border);
+        border-radius: 999px;
+        background: var(--action-bg);
+        color: var(--action-color);
+        box-shadow: var(--action-shadow);
+        font-weight: var(--action-font-weight);
+        cursor: pointer;
+        backdrop-filter: blur(24px);
+        transition:
+          background-color 0.3s ease,
+          box-shadow 0.3s ease,
+          transform 0.3s ease;
+      }
+
+      .action-button:hover {
+        background: var(--action-bg-hover);
+      }
+
+      .action-button:active {
+        transform: scale(0.95);
+      }
+
+      .action-button__icon {
+        font-size: 0.875rem;
+      }
+
+      .action-button--save {
+        --action-bg: #10b981;
+        --action-bg-hover: #34d399;
+        --action-border: transparent;
+        --action-color: #022c22;
+        --action-font-weight: 700;
+        --action-shadow: 0 0 30px rgba(16, 185, 129, 0.3);
+      }
+
+      .action-bar--hidden {
+        opacity: 0;
+        pointer-events: none;
+        transform: translateY(1rem) scale(0.96);
+      }
+
+      .sheet-overlay {
+        position: fixed;
+        inset: 0;
+        z-index: 40;
+        background: linear-gradient(
+          0deg,
+          rgba(0, 0, 0, 0.42),
+          transparent 40%,
+          transparent
+        );
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.28s ease;
+      }
+
+      .sheet-overlay--open {
+        opacity: 1;
+        pointer-events: auto;
+      }
+
+      .theme-sheet {
+        position: fixed;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        z-index: 50;
+        display: flex;
+        width: 100%;
+        max-width: 28rem;
+        max-height: 40vh;
+        margin: 0 auto;
+        padding: 1.5rem 1.5rem 2rem;
+        flex-direction: column;
+        border-radius: 2.5rem 2.5rem 0 0;
+        background: #ffffff;
+        color: #111827;
+        box-shadow: 0 -10px 40px rgba(0, 0, 0, 0.25);
+        transform: translateY(110%);
+        transition: transform 0.34s cubic-bezier(0.34, 1, 0.64, 1);
+      }
+
+      .theme-sheet--open {
+        transform: translateY(0);
+      }
+
+      .theme-sheet__handle {
+        width: 3rem;
+        height: 0.375rem;
+        margin: 0 auto 1.25rem;
+        flex-shrink: 0;
+        border-radius: 999px;
+        background: #d1d5db;
+      }
+
+      .theme-sheet__header {
+        display: flex;
+        margin-bottom: 1.5rem;
+        align-items: center;
+        justify-content: space-between;
+        gap: 1rem;
+        flex-shrink: 0;
+      }
+
+      .theme-sheet__title {
+        margin: 0;
+        color: #111827;
+        font-size: 2rem;
+        font-weight: 800;
+        line-height: 1;
+      }
+
+      .theme-sheet__close {
+        display: grid;
+        width: 2.5rem;
+        height: 2.5rem;
+        place-items: center;
+        border: 0;
+        border-radius: 999px;
+        background: transparent;
+        color: #6b7280;
+        cursor: pointer;
+        transition:
+          background-color 0.2s ease,
+          color 0.2s ease;
+      }
+
+      .theme-sheet__close:hover {
+        background: #f3f4f6;
+        color: #111827;
+      }
+
+      .theme-sheet__content {
+        flex: 1;
+        overflow-y: auto;
+        padding-right: 0.25rem;
+        padding-bottom: 1rem;
+        scrollbar-width: none;
+      }
+
+      .theme-sheet__content::-webkit-scrollbar,
+      .theme-strip::-webkit-scrollbar {
+        display: none;
+      }
+
+      .theme-sheet__section {
+        margin-bottom: 2rem;
+      }
+
+      .theme-sheet__section-title {
+        margin: 0 0 1rem;
+        color: #1f2937;
+        font-size: 1.125rem;
+        font-weight: 600;
+      }
+
+      .theme-sheet__search {
+        position: relative;
+        margin-bottom: 2rem;
+      }
+
+      .theme-sheet__search-icon {
+        position: absolute;
+        top: 50%;
+        left: 1rem;
+        color: #4b5563;
+        transform: translateY(-50%);
+      }
+
+      .theme-sheet__input {
+        width: 100%;
+        padding: 0.875rem 1rem 0.875rem 3rem;
+        border: 2px solid transparent;
+        border-radius: 999px;
+        outline: 0;
+        background: rgba(229, 231, 235, 0.8);
+        color: #111827;
+        font-size: 1rem;
+        font-weight: 500;
+        transition: border-color 0.2s ease;
+      }
+
+      .theme-sheet__input:focus {
+        border-color: #9ca3af;
+      }
+
+      .theme-strip {
+        display: flex;
+        gap: 1rem;
+        margin: 0 -0.5rem;
+        padding: 0.5rem;
+        overflow-x: auto;
+        scrollbar-width: none;
+      }
+
+      .theme-grid {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 1rem;
+      }
+
+      .theme-option {
+        position: relative;
+        display: flex;
+        min-width: 95px;
+        overflow: hidden;
+        flex-direction: column;
+        justify-content: space-between;
+        padding: 0.75rem 0.5rem 1rem;
+        border: 3px solid transparent;
+        border-radius: 1rem;
+        background: var(--option-bg);
+        color: var(--option-color);
+        cursor: pointer;
+        transition:
+          border-color 0.2s ease,
+          background-color 0.2s ease,
+          transform 0.2s ease;
+      }
+
+      .theme-option:hover {
+        transform: translateY(-2px);
+      }
+
+      .theme-option--owned {
+        width: 95px;
+        aspect-ratio: 9 / 16;
+        flex-shrink: 0;
+      }
+
+      .theme-option--market {
+        aspect-ratio: 4 / 5;
+      }
+
+      .theme-option--selected {
+        border-color: #111827;
+        transform: scale(1.02);
+      }
+
+      .theme-option__radio {
+        position: absolute;
+        top: 0.625rem;
+        right: 0.625rem;
+        display: grid;
+        width: 1.5rem;
+        height: 1.5rem;
+        place-items: center;
+        border: 2.5px solid currentColor;
+        border-radius: 999px;
+      }
+
+      .theme-option__dot {
+        width: 0.75rem;
+        height: 0.75rem;
+        border-radius: 999px;
+        background: currentColor;
+        opacity: 0;
+      }
+
+      .theme-option--selected .theme-option__dot {
+        opacity: 1;
+      }
+
+      .theme-option__spacer {
+        flex: 1;
+      }
+
+      .theme-option__name {
+        width: 100%;
+        font-size: 0.8rem;
+        font-weight: 600;
+        line-height: 1.2;
+        text-align: center;
+      }
+
+      .theme-option__price {
+        margin-top: 0.35rem;
+        color: currentColor;
+        font-size: 0.7rem;
+        font-weight: 700;
+        opacity: 0.6;
+        text-align: center;
+      }
+
+      .theme-sheet__empty {
+        display: none;
+        margin: 0;
+        padding: 1rem;
+        border-radius: 1rem;
+        background: #f3f4f6;
+        color: #6b7280;
+        font-size: 0.9rem;
+        text-align: center;
+      }
+
+      .theme-sheet__empty--visible {
+        display: block;
+      }
+
+      @media (prefers-color-scheme: dark) {
+        .theme-sheet {
+          background: #111827;
+          color: #ffffff;
+        }
+
+        .theme-sheet__handle {
+          background: #374151;
+        }
+
+        .theme-sheet__title {
+          color: #ffffff;
+        }
+
+        .theme-sheet__close {
+          color: #9ca3af;
+        }
+
+        .theme-sheet__close:hover {
+          background: #1f2937;
+          color: #ffffff;
+        }
+
+        .theme-sheet__section-title {
+          color: #e5e7eb;
+        }
+
+        .theme-sheet__input {
+          background: #1f2937;
+          color: #ffffff;
+        }
+
+        .theme-sheet__input:focus {
+          border-color: #4b5563;
+        }
+
+        .theme-option--selected {
+          border-color: #ffffff;
+        }
+
+        .theme-sheet__empty {
+          background: #1f2937;
+          color: #9ca3af;
+        }
+      }
     </style>
   </head>
-  <body
-    class="view-mode h-screen w-full flex flex-col items-center justify-center relative"
-  >
+  <body class="app app--view-mode">
     <!-- Fondo animado sutil -->
-    <div class="absolute inset-0 z-0 overflow-hidden pointer-events-none">
-      <div
-        class="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] rounded-full bg-indigo-600/10 blur-[120px]"
-      ></div>
-      <div
-        class="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] rounded-full bg-purple-600/10 blur-[120px]"
-      ></div>
+    <div class="app__ambient">
+      <div class="app__glow app__glow--primary"></div>
+      <div class="app__glow app__glow--secondary"></div>
     </div>
 
     <!-- Contenedor Principal Carrusel -->
-    <main
-      class="w-full max-w-7xl mx-auto px-4 flex flex-col items-center justify-center relative z-10 flex-1"
-    >
-      <div
-        class="carousel-viewport w-full flex justify-center items-center h-[550px]"
-        id="carousel-viewport"
-      >
+    <main class="app__main">
+      <div class="carousel-viewport" id="carousel-viewport">
         <div class="card-track" id="stage">
           <!-- Las tarjetas se inyectarán aquí por JS -->
         </div>
       </div>
 
       <!-- Puntos indicadores (Dots) -->
-      <div
-        id="dots-container"
-        class="dots-transition flex items-center gap-3 mt-4 h-6"
-      >
+      <div id="dots-container" class="carousel-dots">
         <!-- Los dots se inyectan por JS -->
       </div>
     </main>
 
     <!-- Botón de Acción Persistente (Inferior central) -->
-    <div class="absolute bottom-10 z-20 flex justify-center w-full px-6">
-      <button
-        id="action-btn"
-        class="group relative px-8 py-3.5 rounded-full bg-white/10 text-white font-medium hover:bg-white/20 transition-all duration-300 border border-white/10 backdrop-blur-xl shadow-lg active:scale-95 flex items-center gap-3 overflow-hidden"
-      >
+    <div class="action-bar">
+      <button id="action-btn" class="action-button">
         <!-- El contenido del botón cambia dinámicamente -->
-        <span id="action-icon"><i class="fa-solid fa-pen text-sm"></i></span>
+        <span class="action-button__icon" id="action-icon"
+          ><i class="fa-solid fa-pen"></i
+        ></span>
         <span id="action-text">Editar Diseño</span>
       </button>
     </div>
+
+    <div class="sheet-overlay" id="sheet-overlay" hidden></div>
+
+    <section
+      class="theme-sheet"
+      id="theme-sheet"
+      aria-labelledby="theme-sheet-title"
+      aria-modal="true"
+      hidden
+      role="dialog"
+    >
+      <div class="theme-sheet__handle"></div>
+      <header class="theme-sheet__header">
+        <h2 class="theme-sheet__title" id="theme-sheet-title">Appearance</h2>
+        <button
+          class="theme-sheet__close"
+          id="close-sheet-btn"
+          type="button"
+          aria-label="Cerrar panel de temas"
+        >
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </header>
+
+      <div class="theme-sheet__content">
+        <section class="theme-sheet__section">
+          <h3 class="theme-sheet__section-title">My themes</h3>
+          <div class="theme-strip" id="acquired-themes-list"></div>
+        </section>
+
+        <div class="theme-sheet__search">
+          <i class="fa-solid fa-magnifying-glass theme-sheet__search-icon"></i>
+          <input
+            class="theme-sheet__input"
+            id="search-input"
+            placeholder="Theme search"
+            type="text"
+          />
+        </div>
+
+        <section class="theme-sheet__section">
+          <h3 class="theme-sheet__section-title">Explore themes</h3>
+          <div class="theme-grid" id="preset-list"></div>
+          <p class="theme-sheet__empty" id="theme-empty-state">
+            No themes found.
+          </p>
+        </section>
+      </div>
+    </section>
 
     <script>
       // 1. DATA: Origen de la verdad
@@ -204,51 +865,266 @@
         {
           id: "theme-glass",
           name: "Glassmorphism",
-          containerClass:
-            "bg-white/10 border border-white/20 backdrop-blur-2xl shadow-xl",
-          textMainClass: "text-white font-semibold",
-          textSubClass: "text-zinc-300",
-          btnClass:
-            "bg-white/10 hover:bg-white/20 border border-white/10 text-white",
+          variables: {
+            "--card-bg": "rgba(255, 255, 255, 0.1)",
+            "--card-border": "1px solid rgba(255, 255, 255, 0.2)",
+            "--card-shadow": "0 20px 25px -5px rgba(0, 0, 0, 0.25)",
+            "--card-backdrop-filter": "blur(40px)",
+            "--card-font-family": '"Inter", sans-serif',
+            "--card-text-main": "#ffffff",
+            "--card-text-subtle": "#d4d4d8",
+            "--card-title-weight": "600",
+            "--card-title-transform": "none",
+            "--card-title-letter-spacing": "0",
+            "--card-link-bg": "rgba(255, 255, 255, 0.1)",
+            "--card-link-bg-hover": "rgba(255, 255, 255, 0.2)",
+            "--card-link-border": "1px solid rgba(255, 255, 255, 0.1)",
+            "--card-link-color": "#ffffff",
+            "--card-link-backdrop-filter": "none",
+          },
         },
         {
           id: "theme-cyber",
           name: "Cyberpunk",
-          containerClass:
-            "bg-zinc-900 border-2 border-yellow-400 shadow-[0_0_30px_rgba(250,204,21,0.2)] font-['Space_Grotesk']",
-          textMainClass: "text-yellow-400 font-bold uppercase tracking-wide",
-          textSubClass: "text-zinc-400",
-          btnClass:
-            "bg-yellow-400/10 hover:bg-yellow-400/20 border border-yellow-400/50 text-yellow-400",
+          variables: {
+            "--card-bg": "#18181b",
+            "--card-border": "2px solid #facc15",
+            "--card-shadow": "0 0 30px rgba(250, 204, 21, 0.2)",
+            "--card-backdrop-filter": "none",
+            "--card-font-family": '"Space Grotesk", sans-serif',
+            "--card-text-main": "#facc15",
+            "--card-text-subtle": "#a1a1aa",
+            "--card-title-weight": "700",
+            "--card-title-transform": "uppercase",
+            "--card-title-letter-spacing": "0.025em",
+            "--card-link-bg": "rgba(250, 204, 21, 0.1)",
+            "--card-link-bg-hover": "rgba(250, 204, 21, 0.2)",
+            "--card-link-border": "1px solid rgba(250, 204, 21, 0.5)",
+            "--card-link-color": "#facc15",
+            "--card-link-backdrop-filter": "none",
+          },
         },
         {
           id: "theme-minimal",
           name: "Minimal Light",
-          containerClass: "bg-zinc-100 border border-zinc-200 shadow-2xl",
-          textMainClass: "text-zinc-900 font-bold",
-          textSubClass: "text-zinc-500",
-          btnClass:
-            "bg-zinc-200 hover:bg-zinc-300 border border-transparent text-zinc-800",
+          variables: {
+            "--card-bg": "#f4f4f5",
+            "--card-border": "1px solid #e4e4e7",
+            "--card-shadow": "0 25px 50px -12px rgba(0, 0, 0, 0.25)",
+            "--card-backdrop-filter": "none",
+            "--card-font-family": '"Inter", sans-serif',
+            "--card-text-main": "#18181b",
+            "--card-text-subtle": "#71717a",
+            "--card-title-weight": "700",
+            "--card-title-transform": "none",
+            "--card-title-letter-spacing": "0",
+            "--card-link-bg": "#e4e4e7",
+            "--card-link-bg-hover": "#d4d4d8",
+            "--card-link-border": "1px solid transparent",
+            "--card-link-color": "#27272a",
+            "--card-link-backdrop-filter": "none",
+          },
         },
         {
           id: "theme-hacker",
           name: "Terminal",
-          containerClass:
-            "bg-black border border-green-500 shadow-[0_0_20px_rgba(34,197,94,0.1)] font-['JetBrains_Mono']",
-          textMainClass: "text-green-500 font-bold",
-          textSubClass: "text-green-700",
-          btnClass:
-            "bg-green-500/10 hover:bg-green-500/20 border border-green-500/50 text-green-500",
+          variables: {
+            "--card-bg": "#000000",
+            "--card-border": "1px solid #22c55e",
+            "--card-shadow": "0 0 20px rgba(34, 197, 94, 0.1)",
+            "--card-backdrop-filter": "none",
+            "--card-font-family": '"JetBrains Mono", monospace',
+            "--card-text-main": "#22c55e",
+            "--card-text-subtle": "#15803d",
+            "--card-title-weight": "700",
+            "--card-title-transform": "none",
+            "--card-title-letter-spacing": "0",
+            "--card-link-bg": "rgba(34, 197, 94, 0.1)",
+            "--card-link-bg-hover": "rgba(34, 197, 94, 0.2)",
+            "--card-link-border": "1px solid rgba(34, 197, 94, 0.5)",
+            "--card-link-color": "#22c55e",
+            "--card-link-backdrop-filter": "none",
+          },
         },
         {
           id: "theme-sunset",
           name: "Sunset Gradient",
-          containerClass:
-            "bg-gradient-to-br from-orange-500 to-pink-600 border border-white/20 shadow-2xl shadow-orange-500/20",
-          textMainClass: "text-white font-bold",
-          textSubClass: "text-orange-100",
-          btnClass:
-            "bg-black/20 hover:bg-black/30 border border-white/20 text-white backdrop-blur-md",
+          variables: {
+            "--card-bg": "linear-gradient(135deg, #f97316, #db2777)",
+            "--card-border": "1px solid rgba(255, 255, 255, 0.2)",
+            "--card-shadow": "0 25px 50px -12px rgba(249, 115, 22, 0.2)",
+            "--card-backdrop-filter": "none",
+            "--card-font-family": '"Inter", sans-serif',
+            "--card-text-main": "#ffffff",
+            "--card-text-subtle": "#ffedd5",
+            "--card-title-weight": "700",
+            "--card-title-transform": "none",
+            "--card-title-letter-spacing": "0",
+            "--card-link-bg": "rgba(0, 0, 0, 0.2)",
+            "--card-link-bg-hover": "rgba(0, 0, 0, 0.3)",
+            "--card-link-border": "1px solid rgba(255, 255, 255, 0.2)",
+            "--card-link-color": "#ffffff",
+            "--card-link-backdrop-filter": "blur(12px)",
+          },
+        },
+      ];
+
+      const marketplaceThemesData = [
+        {
+          id: "theme-oled",
+          name: "OLED Noir",
+          price: "$2.99",
+          variables: {
+            "--card-bg": "linear-gradient(160deg, #020617, #0f172a)",
+            "--card-border": "1px solid rgba(226, 232, 240, 0.22)",
+            "--card-shadow": "0 30px 50px -18px rgba(2, 6, 23, 0.85)",
+            "--card-backdrop-filter": "none",
+            "--card-font-family": '"Inter", sans-serif',
+            "--card-text-main": "#e2e8f0",
+            "--card-text-subtle": "#94a3b8",
+            "--card-title-weight": "700",
+            "--card-title-transform": "none",
+            "--card-title-letter-spacing": "0",
+            "--card-link-bg": "rgba(226, 232, 240, 0.08)",
+            "--card-link-bg-hover": "rgba(226, 232, 240, 0.14)",
+            "--card-link-border": "1px solid rgba(226, 232, 240, 0.18)",
+            "--card-link-color": "#e2e8f0",
+            "--card-link-backdrop-filter": "none",
+          },
+          preview: {
+            "--option-bg": "linear-gradient(160deg, #020617, #0f172a)",
+            "--option-color": "#e2e8f0",
+          },
+        },
+        {
+          id: "theme-brutal",
+          name: "Brutalist",
+          price: "$1.99",
+          variables: {
+            "--card-bg": "linear-gradient(160deg, #fef3c7, #facc15)",
+            "--card-border": "3px solid #111827",
+            "--card-shadow": "12px 12px 0 rgba(17, 24, 39, 0.9)",
+            "--card-backdrop-filter": "none",
+            "--card-font-family": '"Space Grotesk", sans-serif',
+            "--card-text-main": "#111827",
+            "--card-text-subtle": "#374151",
+            "--card-title-weight": "700",
+            "--card-title-transform": "uppercase",
+            "--card-title-letter-spacing": "0.025em",
+            "--card-link-bg": "rgba(17, 24, 39, 0.08)",
+            "--card-link-bg-hover": "rgba(17, 24, 39, 0.14)",
+            "--card-link-border": "2px solid #111827",
+            "--card-link-color": "#111827",
+            "--card-link-backdrop-filter": "none",
+          },
+          preview: {
+            "--option-bg": "linear-gradient(160deg, #fef3c7, #facc15)",
+            "--option-color": "#111827",
+          },
+        },
+        {
+          id: "theme-soft",
+          name: "Soft Pastel",
+          price: "$1.99",
+          variables: {
+            "--card-bg": "linear-gradient(160deg, #fde2e4, #cdb4db)",
+            "--card-border": "1px solid rgba(59, 7, 100, 0.14)",
+            "--card-shadow": "0 25px 50px -18px rgba(205, 180, 219, 0.75)",
+            "--card-backdrop-filter": "blur(18px)",
+            "--card-font-family": '"Inter", sans-serif',
+            "--card-text-main": "#3b0764",
+            "--card-text-subtle": "#7e22ce",
+            "--card-title-weight": "700",
+            "--card-title-transform": "none",
+            "--card-title-letter-spacing": "0",
+            "--card-link-bg": "rgba(255, 255, 255, 0.36)",
+            "--card-link-bg-hover": "rgba(255, 255, 255, 0.48)",
+            "--card-link-border": "1px solid rgba(59, 7, 100, 0.12)",
+            "--card-link-color": "#3b0764",
+            "--card-link-backdrop-filter": "blur(10px)",
+          },
+          preview: {
+            "--option-bg": "linear-gradient(160deg, #fde2e4, #cdb4db)",
+            "--option-color": "#3b0764",
+          },
+        },
+        {
+          id: "theme-prism",
+          name: "Prism",
+          price: "$3.99",
+          variables: {
+            "--card-bg": "linear-gradient(135deg, #22d3ee, #a78bfa, #fb7185)",
+            "--card-border": "1px solid rgba(255, 255, 255, 0.28)",
+            "--card-shadow": "0 30px 60px -20px rgba(167, 139, 250, 0.8)",
+            "--card-backdrop-filter": "none",
+            "--card-font-family": '"Inter", sans-serif',
+            "--card-text-main": "#ffffff",
+            "--card-text-subtle": "rgba(255, 255, 255, 0.78)",
+            "--card-title-weight": "800",
+            "--card-title-transform": "none",
+            "--card-title-letter-spacing": "0",
+            "--card-link-bg": "rgba(255, 255, 255, 0.16)",
+            "--card-link-bg-hover": "rgba(255, 255, 255, 0.24)",
+            "--card-link-border": "1px solid rgba(255, 255, 255, 0.22)",
+            "--card-link-color": "#ffffff",
+            "--card-link-backdrop-filter": "blur(12px)",
+          },
+          preview: {
+            "--option-bg": "linear-gradient(135deg, #22d3ee, #a78bfa, #fb7185)",
+            "--option-color": "#ffffff",
+          },
+        },
+        {
+          id: "theme-forest",
+          name: "Forest",
+          price: "$2.99",
+          variables: {
+            "--card-bg": "linear-gradient(160deg, #052e16, #16a34a)",
+            "--card-border": "1px solid rgba(220, 252, 231, 0.22)",
+            "--card-shadow": "0 25px 50px -18px rgba(5, 46, 22, 0.85)",
+            "--card-backdrop-filter": "none",
+            "--card-font-family": '"Inter", sans-serif',
+            "--card-text-main": "#dcfce7",
+            "--card-text-subtle": "#86efac",
+            "--card-title-weight": "700",
+            "--card-title-transform": "none",
+            "--card-title-letter-spacing": "0",
+            "--card-link-bg": "rgba(220, 252, 231, 0.1)",
+            "--card-link-bg-hover": "rgba(220, 252, 231, 0.18)",
+            "--card-link-border": "1px solid rgba(220, 252, 231, 0.2)",
+            "--card-link-color": "#dcfce7",
+            "--card-link-backdrop-filter": "none",
+          },
+          preview: {
+            "--option-bg": "linear-gradient(160deg, #052e16, #16a34a)",
+            "--option-color": "#dcfce7",
+          },
+        },
+        {
+          id: "theme-ink",
+          name: "Ink Wash",
+          price: "$1.99",
+          variables: {
+            "--card-bg": "linear-gradient(160deg, #e5e7eb, #64748b)",
+            "--card-border": "1px solid rgba(17, 24, 39, 0.18)",
+            "--card-shadow": "0 25px 50px -18px rgba(15, 23, 42, 0.55)",
+            "--card-backdrop-filter": "none",
+            "--card-font-family": '"JetBrains Mono", monospace',
+            "--card-text-main": "#111827",
+            "--card-text-subtle": "#334155",
+            "--card-title-weight": "700",
+            "--card-title-transform": "none",
+            "--card-title-letter-spacing": "0",
+            "--card-link-bg": "rgba(17, 24, 39, 0.08)",
+            "--card-link-bg-hover": "rgba(17, 24, 39, 0.14)",
+            "--card-link-border": "1px solid rgba(17, 24, 39, 0.18)",
+            "--card-link-color": "#111827",
+            "--card-link-backdrop-filter": "none",
+          },
+          preview: {
+            "--option-bg": "linear-gradient(160deg, #e5e7eb, #64748b)",
+            "--option-color": "#111827",
+          },
         },
       ];
 
@@ -256,69 +1132,234 @@
       // LÓGICA DE APLICACIÓN Y CARRUSEL
       // ==========================================
 
+      const RECENT_THEMES_STORAGE_KEY = "select-theme-1:recent-theme-ids";
+      const DEFAULT_RECENT_THEME_IDS = [
+        "theme-glass",
+        "theme-cyber",
+        "theme-minimal",
+      ];
       const stage = document.getElementById("stage");
       const dotsContainer = document.getElementById("dots-container");
+      const sheetOverlay = document.getElementById("sheet-overlay");
+      const themeSheet = document.getElementById("theme-sheet");
+      const closeSheetBtn = document.getElementById("close-sheet-btn");
+      const acquiredThemesList = document.getElementById(
+        "acquired-themes-list",
+      );
+      const presetList = document.getElementById("preset-list");
+      const searchInput = document.getElementById("search-input");
+      const themeEmptyState = document.getElementById("theme-empty-state");
       let cards = [];
       let dots = [];
-      let currentIndex = 0;
+      let currentIndex = 1;
       let isTransitioning = false;
+      let recentThemeIds = getStoredRecentThemeIds();
+      let selectedThemeId = recentThemeIds[0];
 
       // Estado Global (Falso = Modo Vista, Verdadero = Modo Edición)
       let isEditMode = false;
 
-      // Renderizar las tarjetas
-      function renderCards() {
-        stage.innerHTML = "";
-        dotsContainer.innerHTML = "";
+      function isSelectedThemeOwned() {
+        return Boolean(getThemeById(selectedThemeId));
+      }
 
-        themesData.forEach((theme, index) => {
-          // Crear Tarjeta
-          const cardEl = document.createElement("div");
-          cardEl.className = `card ${theme.containerClass}`;
+      function isCurrentCardMore() {
+        return cards[currentIndex]?.dataset.cardType === "more";
+      }
 
-          // Inyectar HTML combinando DATA y CLASES DEL TEMA
-          cardEl.innerHTML = `
-          <div class="flex flex-col items-center justify-center flex-1 text-center">
-            <div class="w-24 h-24 rounded-full bg-black/20 mb-4 p-2 backdrop-blur-sm border border-white/10">
-              <img src="${BIO_PROFILE_DATA.avatar}" alt="Avatar" class="w-full h-full object-cover rounded-full">
+      function syncActionButtonState() {
+        actionBar.classList.toggle("action-bar--hidden", isCurrentCardMore());
+
+        if (isEditMode) {
+          actionBtn.classList.add("action-button--save");
+
+          if (isSelectedThemeOwned()) {
+            actionIcon.innerHTML = '<i class="fa-solid fa-check"></i>';
+            actionText.innerText = "Guardar Selección";
+          } else {
+            actionIcon.innerHTML = '<i class="fa-solid fa-bag-shopping"></i>';
+            actionText.innerText = "Comprar";
+          }
+        } else {
+          actionBtn.classList.remove("action-button--save");
+          actionIcon.innerHTML = '<i class="fa-solid fa-pen"></i>';
+          actionText.innerText = "Editar Diseño";
+        }
+      }
+
+      function getThemeById(themeId) {
+        return themesData.find((theme) => theme.id === themeId);
+      }
+
+      function getMarketplaceThemeById(themeId) {
+        return marketplaceThemesData.find((theme) => theme.id === themeId);
+      }
+
+      function getSelectableThemeById(themeId) {
+        return getThemeById(themeId) || getMarketplaceThemeById(themeId);
+      }
+
+      function getStoredRecentThemeIds() {
+        let storedThemeIds = [];
+
+        try {
+          storedThemeIds =
+            JSON.parse(localStorage.getItem(RECENT_THEMES_STORAGE_KEY)) || [];
+        } catch (error) {
+          storedThemeIds = [];
+        }
+
+        const validThemeIds = themesData.map((theme) => theme.id);
+        const uniqueStoredIds = storedThemeIds.filter(
+          (themeId, index, list) =>
+            validThemeIds.includes(themeId) && list.indexOf(themeId) === index,
+        );
+
+        const filledThemeIds = [
+          ...uniqueStoredIds,
+          ...DEFAULT_RECENT_THEME_IDS.filter(
+            (themeId) => !uniqueStoredIds.includes(themeId),
+          ),
+        ];
+
+        return filledThemeIds.slice(0, 3);
+      }
+
+      function persistRecentThemeIds() {
+        localStorage.setItem(
+          RECENT_THEMES_STORAGE_KEY,
+          JSON.stringify(recentThemeIds),
+        );
+      }
+
+      function getRecentThemes() {
+        return recentThemeIds.map(getThemeById).filter(Boolean);
+      }
+
+      function getVisibleThemes() {
+        const selectedTheme = getSelectableThemeById(selectedThemeId);
+        const recentThemes = getRecentThemes().filter(
+          (theme) => theme.id !== selectedThemeId,
+        );
+
+        return [selectedTheme || getRecentThemes()[0], ...recentThemes]
+          .filter(Boolean)
+          .slice(0, 3);
+      }
+
+      function applyThemeVariables(element, variables) {
+        Object.entries(variables).forEach(([property, value]) => {
+          element.style.setProperty(property, value);
+        });
+      }
+
+      function buildBioCardMarkup(theme) {
+        return `
+          <div class="bio-card__profile">
+            <div class="bio-card__avatar">
+              <img src="${BIO_PROFILE_DATA.avatar}" alt="Avatar" class="bio-card__avatar-image">
             </div>
-            <h2 class="text-2xl ${theme.textMainClass} mb-1">${BIO_PROFILE_DATA.name}</h2>
-            <p class="text-sm ${theme.textSubClass} font-medium mb-1">${BIO_PROFILE_DATA.role}</p>
-            <p class="text-xs ${theme.textSubClass} opacity-80 flex items-center gap-1">
+            <h2 class="bio-card__name">${BIO_PROFILE_DATA.name}</h2>
+            <p class="bio-card__role">${BIO_PROFILE_DATA.role}</p>
+            <p class="bio-card__location">
               <i class="fa-solid fa-location-dot"></i> ${BIO_PROFILE_DATA.location}
             </p>
           </div>
-          <div class="w-full flex flex-col gap-3 mt-6">
+          <div class="bio-card__links">
             ${BIO_PROFILE_DATA.links
               .map(
                 (link) => `
-              <a href="${link.url}" class="w-full py-3 px-4 rounded-xl flex items-center justify-center gap-3 transition-colors ${theme.btnClass}">
+              <a href="${link.url}" class="bio-card__link">
                 <i class="${link.icon}"></i>
-                <span class="font-medium text-sm">${link.title}</span>
+                <span>${link.title}</span>
               </a>
             `,
               )
               .join("")}
           </div>
-          <div class="absolute top-4 right-4 text-[10px] uppercase tracking-wider opacity-30 font-bold ${theme.textMainClass}">
+          <div class="bio-card__label">
             ${theme.name}
           </div>
         `;
+      }
 
-          // Click lateral para cambiar de tarjeta (Solo si estamos en Edit Mode)
+      function buildMoreCardMarkup() {
+        return `
+          <div class="more-card__icon">
+            <i class="fa-solid fa-plus"></i>
+          </div>
+          <h2 class="more-card__title">Más temas</h2>
+          <p class="more-card__copy">Busca tus temas y descubre nuevos estilos para comprar.</p>
+        `;
+      }
+
+      // Renderizar las tarjetas
+      function renderCards() {
+        stage.innerHTML = "";
+        dotsContainer.innerHTML = "";
+        cards = [];
+        dots = [];
+
+        const visibleItems = [
+          { type: "more" },
+          ...getVisibleThemes().map((theme) => ({ type: "theme", theme })),
+          { type: "more" },
+        ];
+
+        currentIndex = Math.max(
+          0,
+          Math.min(currentIndex, visibleItems.length - 1),
+        );
+
+        visibleItems.forEach((item, index) => {
+          // Crear Tarjeta
+          const cardEl = document.createElement("div");
+          cardEl.dataset.cardType = item.type;
+
+          if (item.type === "theme") {
+            cardEl.className = `card bio-card bio-card--${item.theme.id}`;
+            cardEl.dataset.themeId = item.theme.id;
+            applyThemeVariables(cardEl, item.theme.variables);
+            cardEl.innerHTML = buildBioCardMarkup(item.theme);
+          } else {
+            cardEl.className = "card more-card";
+            cardEl.innerHTML = buildMoreCardMarkup();
+          }
+
           cardEl.addEventListener("click", () => {
+            if (item.type === "more") {
+              openThemeSheet();
+              return;
+            }
+
             if (!isEditMode || isTransitioning) return;
-            if (cardEl.classList.contains("prev")) goToIndex(currentIndex - 1);
-            if (cardEl.classList.contains("next")) goToIndex(currentIndex + 1);
+
+            if (index === currentIndex) {
+              return;
+            }
+
+            selectTheme(item.theme.id, { keepSheetOpen: true });
           });
 
           stage.appendChild(cardEl);
           cards.push(cardEl);
 
           // Crear Dot (Punto indicador)
-          const dot = document.createElement("div");
-          dot.className = `w-2 h-2 rounded-full bg-white/30 transition-all duration-300 cursor-pointer`;
+          const dot = document.createElement("button");
+          dot.className = "carousel-dots__dot";
+          dot.type = "button";
+          dot.setAttribute(
+            "aria-label",
+            item.type === "theme"
+              ? `Seleccionar tema ${item.theme.name}`
+              : "Abrir más temas",
+          );
           dot.addEventListener("click", () => {
+            if (item.type === "more") {
+              openThemeSheet();
+              return;
+            }
+
             if (isEditMode && !isTransitioning) goToIndex(index);
           });
           dotsContainer.appendChild(dot);
@@ -330,29 +1371,24 @@
 
       // Actualizar clases de posiciones (prev, active, next, hidden)
       function updateClasses() {
-        const length = cards.length;
-
         cards.forEach((card, index) => {
-          card.className = card.className
-            .replace(/\b(active|prev|next|hidden-card)\b/g, "")
-            .trim();
-          dots[index].className = dots[index].className.replace(
-            "w-6 bg-white",
-            "w-2 bg-white/30",
+          card.classList.remove(
+            "card--active",
+            "card--prev",
+            "card--next",
+            "card--hidden",
           );
+          dots[index].classList.remove("carousel-dots__dot--active");
 
           if (index === currentIndex) {
-            card.classList.add("active");
-            dots[index].className = dots[index].className.replace(
-              "w-2 bg-white/30",
-              "w-6 bg-white",
-            );
-          } else if (index === (currentIndex - 1 + length) % length) {
-            card.classList.add("prev");
-          } else if (index === (currentIndex + 1) % length) {
-            card.classList.add("next");
+            card.classList.add("card--active");
+            dots[index].classList.add("carousel-dots__dot--active");
+          } else if (index === currentIndex - 1) {
+            card.classList.add("card--prev");
+          } else if (index === currentIndex + 1) {
+            card.classList.add("card--next");
           } else {
-            card.classList.add("hidden-card");
+            card.classList.add("card--hidden");
           }
         });
       }
@@ -360,22 +1396,145 @@
       // Navegar a un índice específico
       function goToIndex(newIndex) {
         if (isTransitioning) return;
+        const boundedIndex = Math.max(0, Math.min(newIndex, cards.length - 1));
+        if (boundedIndex === currentIndex) return;
+
         isTransitioning = true;
-        const length = cards.length;
-        currentIndex = (newIndex + length) % length;
+        currentIndex = boundedIndex;
         updateClasses();
+        syncActionButtonState();
         setTimeout(() => {
           isTransitioning = false;
         }, 600); // Coincide con la transición CSS
       }
 
+      function selectTheme(themeId, options = {}) {
+        const selectedTheme = getSelectableThemeById(themeId);
+        if (!selectedTheme) return;
+
+        selectedThemeId = themeId;
+
+        if (getThemeById(themeId)) {
+          recentThemeIds = [
+            themeId,
+            ...recentThemeIds.filter(
+              (recentThemeId) => recentThemeId !== themeId,
+            ),
+          ].slice(0, 3);
+
+          persistRecentThemeIds();
+        }
+
+        currentIndex = 1;
+        renderCards();
+        renderThemeSheet();
+        syncActionButtonState();
+        if (!options.keepSheetOpen) closeThemeSheet();
+      }
+
+      function getThemePreview(theme) {
+        return {
+          "--option-bg": theme.variables["--card-bg"],
+          "--option-color": theme.variables["--card-text-main"],
+        };
+      }
+
+      function createThemeOption(theme, type) {
+        const option = document.createElement("button");
+        option.className = `theme-option theme-option--${type}`;
+        option.type = "button";
+        option.dataset.themeId = theme.id;
+        option.setAttribute("aria-label", `Seleccionar ${theme.name}`);
+
+        if (theme.id === selectedThemeId) {
+          option.classList.add("theme-option--selected");
+        }
+
+        applyThemeVariables(
+          option,
+          type === "owned" ? getThemePreview(theme) : theme.preview,
+        );
+
+        option.innerHTML = `
+          <span class="theme-option__radio">
+            <span class="theme-option__dot"></span>
+          </span>
+          <span class="theme-option__spacer"></span>
+          <span class="theme-option__name">${theme.name}</span>
+          ${
+            type === "market"
+              ? `<span class="theme-option__price">${theme.price}</span>`
+              : ""
+          }
+        `;
+
+        option.addEventListener("click", () => {
+          selectTheme(theme.id, { keepSheetOpen: true });
+        });
+
+        return option;
+      }
+
+      function renderThemeSheet() {
+        const query = searchInput.value.trim().toLowerCase();
+        const ownedThemes = themesData.filter((theme) =>
+          theme.name.toLowerCase().includes(query),
+        );
+        const marketplaceThemes = marketplaceThemesData.filter((theme) =>
+          theme.name.toLowerCase().includes(query),
+        );
+
+        acquiredThemesList.innerHTML = "";
+        presetList.innerHTML = "";
+
+        ownedThemes.forEach((theme) => {
+          acquiredThemesList.appendChild(createThemeOption(theme, "owned"));
+        });
+
+        marketplaceThemes.forEach((theme) => {
+          presetList.appendChild(createThemeOption(theme, "market"));
+        });
+
+        themeEmptyState.classList.toggle(
+          "theme-sheet__empty--visible",
+          ownedThemes.length === 0 && marketplaceThemes.length === 0,
+        );
+      }
+
+      function openThemeSheet() {
+        currentIndex = 1;
+        updateClasses();
+        syncActionButtonState();
+        renderThemeSheet();
+        sheetOverlay.hidden = false;
+        themeSheet.hidden = false;
+
+        requestAnimationFrame(() => {
+          sheetOverlay.classList.add("sheet-overlay--open");
+          themeSheet.classList.add("theme-sheet--open");
+          searchInput.focus();
+        });
+      }
+
+      function closeThemeSheet() {
+        sheetOverlay.classList.remove("sheet-overlay--open");
+        themeSheet.classList.remove("theme-sheet--open");
+
+        setTimeout(() => {
+          sheetOverlay.hidden = true;
+          themeSheet.hidden = true;
+        }, 340);
+      }
+
       // Inicializar Render
       renderCards();
+      renderThemeSheet();
 
       // ==========================================
       // LÓGICA DE BOTÓN MODO VISTA/EDICIÓN
       // ==========================================
       const actionBtn = document.getElementById("action-btn");
+      const actionBar = document.querySelector(".action-bar");
       const actionIcon = document.getElementById("action-icon");
       const actionText = document.getElementById("action-text");
 
@@ -385,25 +1544,23 @@
 
         if (isEditMode) {
           // Pasar a MODO EDICIÓN: Mostramos el carrusel y los dots
-          bodyCls.remove("view-mode");
-          bodyCls.add("edit-mode");
-
-          // Cambiar estilo del botón a "Guardar"
-          actionBtn.className =
-            "group relative px-8 py-3.5 rounded-full bg-emerald-500 text-emerald-950 font-bold hover:bg-emerald-400 transition-all duration-300 shadow-[0_0_30px_rgba(16,185,129,0.3)] active:scale-95 flex items-center gap-3";
-          actionIcon.innerHTML = '<i class="fa-solid fa-check text-sm"></i>';
-          actionText.innerText = "Guardar Selección";
+          bodyCls.remove("app--view-mode");
+          bodyCls.add("app--edit-mode");
         } else {
           // Pasar a MODO VISTA: Ocultamos el resto de tarjetas
-          bodyCls.remove("edit-mode");
-          bodyCls.add("view-mode");
-
-          // Volver estilo del botón a "Editar"
-          actionBtn.className =
-            "group relative px-8 py-3.5 rounded-full bg-white/10 text-white font-medium hover:bg-white/20 transition-all duration-300 border border-white/10 backdrop-blur-xl shadow-lg active:scale-95 flex items-center gap-3 overflow-hidden";
-          actionIcon.innerHTML = '<i class="fa-solid fa-pen text-sm"></i>';
-          actionText.innerText = "Editar Diseño";
+          bodyCls.remove("app--edit-mode");
+          bodyCls.add("app--view-mode");
         }
+
+        syncActionButtonState();
+      });
+
+      closeSheetBtn.addEventListener("click", closeThemeSheet);
+      sheetOverlay.addEventListener("click", closeThemeSheet);
+      searchInput.addEventListener("input", renderThemeSheet);
+
+      document.addEventListener("keydown", (e) => {
+        if (e.key === "Escape" && !themeSheet.hidden) closeThemeSheet();
       });
 
       // ==========================================

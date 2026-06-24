@@ -1,0 +1,477 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+    />
+    <title>Bio Profile Card Editor</title>
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <style>
+      /* Patrón de fondo personalizado para uno de los temas */
+      .bg-pattern {
+        background-color: #f8fafc;
+        background-image: radial-gradient(#cbd5e1 1.5px, transparent 1.5px);
+        background-size: 24px 24px;
+      }
+
+      /* Ocultar scrollbar en las listas */
+      .no-scrollbar::-webkit-scrollbar {
+        display: none;
+      }
+      .no-scrollbar {
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+      }
+
+      /* Transiciones suaves para la hoja inferior */
+      #bottom-sheet {
+        transition: transform 0.4s cubic-bezier(0.32, 0.72, 0, 1);
+        max-height: 40%;
+      }
+    </style>
+  </head>
+  <body
+    id="main-body"
+    class="min-h-screen flex items-center justify-center p-4 transition-colors duration-700 font-sans relative overflow-hidden bg-gray-950"
+  >
+    <!-- Tarjeta Principal de Biografía -->
+    <div
+      id="bio-card"
+      class="relative w-full max-w-sm rounded-[2.5rem] p-8 pb-10 transition-all duration-700 flex flex-col items-center z-10 mb-16 sm:mb-0"
+    >
+      <!-- Etiqueta del Tema Actual -->
+      <div
+        id="theme-label"
+        class="absolute top-6 right-6 text-[0.65rem] font-bold tracking-[0.2em] uppercase opacity-40 transition-opacity"
+      >
+        GLASSMORPHISM
+      </div>
+
+      <!-- Avatar -->
+      <div
+        class="w-24 h-24 rounded-full overflow-hidden mb-5 shrink-0 transition-all duration-500 flex items-center justify-center"
+        id="avatar-container"
+      >
+        <img
+          src="https://api.dicebear.com/7.x/notionists/svg?seed=Alex&backgroundColor=transparent"
+          alt="Alex Rivera"
+          class="w-[120%] h-[120%] object-cover mt-2"
+        />
+      </div>
+
+      <!-- Información del Usuario -->
+      <h1 class="text-3xl font-bold mb-1 tracking-tight">Alex Rivera</h1>
+      <p class="text-sm opacity-80 mb-2 font-medium">
+        Creative Developer & UI/UX
+      </p>
+      <div
+        class="flex items-center gap-1.5 text-xs opacity-60 mb-8 font-medium"
+      >
+        <i data-lucide="map-pin" class="w-3.5 h-3.5"></i> Madrid, ES
+      </div>
+
+      <!-- Botones de Enlaces -->
+      <div class="w-full flex flex-col gap-3.5">
+        <button
+          class="link-btn w-full py-4 rounded-2xl flex items-center justify-center gap-3 transition-all duration-300 font-medium text-sm"
+        >
+          <i data-lucide="globe" class="w-5 h-5"></i> Portfolio
+        </button>
+        <button
+          class="link-btn w-full py-4 rounded-2xl flex items-center justify-center gap-3 transition-all duration-300 font-medium text-sm"
+        >
+          <i data-lucide="github" class="w-5 h-5"></i> GitHub
+        </button>
+        <button
+          class="link-btn w-full py-4 rounded-2xl flex items-center justify-center gap-3 transition-all duration-300 font-medium text-sm"
+        >
+          <i data-lucide="linkedin" class="w-5 h-5"></i> LinkedIn
+        </button>
+      </div>
+    </div>
+
+    <!-- Botón Flotante (FAB) para Editar -->
+    <button
+      id="fab-btn"
+      class="fixed bottom-8 left-1/2 -translate-x-1/2 bg-[#2a2a2a] text-white border border-white/10 rounded-full px-6 py-3.5 flex items-center gap-2.5 shadow-2xl hover:bg-[#333] hover:scale-105 active:scale-95 transition-all z-30 font-medium text-sm"
+    >
+      <i data-lucide="sliders" class="w-4 h-4"></i> Personalizar Estilo
+    </button>
+
+    <!-- Overlay oscuro para el Bottom Sheet -->
+    <div
+      id="sheet-overlay"
+      class="fixed inset-0 bg-black/60 z-40 opacity-0 pointer-events-none transition-opacity duration-300"
+    ></div>
+
+    <!-- Bottom Sheet (Editor de Apariencia) -->
+    <div
+      id="bottom-sheet"
+      class="fixed bottom-0 left-0 right-0 bg-white dark:bg-gray-900 rounded-t-[2.5rem] z-50 transform translate-y-full p-6 pb-8 w-full max-w-md mx-auto h-[85vh] flex flex-col shadow-[0_-10px_40px_rgba(0,0,0,0.25)]"
+    >
+      <!-- Indicador visual de arrastre -->
+      <div
+        class="w-12 h-1.5 bg-gray-300 dark:bg-gray-700 rounded-full mx-auto mb-5 shrink-0"
+      ></div>
+
+      <!-- Encabezado Principal -->
+      <div class="flex justify-between items-center mb-6 shrink-0">
+        <h2 class="text-3xl font-bold text-gray-900 dark:text-white">
+          Appearance
+        </h2>
+        <button
+          id="close-sheet-btn"
+          class="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 text-gray-500 dark:text-gray-400 transition-colors"
+        >
+          <i data-lucide="x" class="w-6 h-6"></i>
+        </button>
+      </div>
+
+      <!-- Contenedor con scroll -->
+      <div class="flex-1 overflow-y-auto no-scrollbar space-y-8 pr-1 pb-4">
+        <!-- SECCIÓN: Mis temas (Formato Móvil Vertical 9:16) -->
+        <div>
+          <h3 class="text-lg font-medium text-gray-800 dark:text-gray-200 mb-4">
+            My themes
+          </h3>
+          <!-- Carrusel Horizontal -->
+          <div
+            id="acquired-themes-list"
+            class="flex gap-4 overflow-x-auto no-scrollbar py-2 -mx-2 px-2"
+          >
+            <!-- Los items se inyectan por JS -->
+          </div>
+        </div>
+
+        <!-- Buscador de Temas -->
+        <div class="relative shrink-0">
+          <i
+            data-lucide="search"
+            class="absolute left-4 top-[calc(50%+1px)] -translate-y-1/2 w-5 h-5 text-gray-600 dark:text-gray-400"
+          ></i>
+          <input
+            type="text"
+            id="search-input"
+            placeholder="Theme search"
+            class="w-full bg-gray-200/80 dark:bg-gray-800 dark:text-white rounded-full py-3.5 pl-12 pr-4 border-2 border-transparent focus:border-gray-400 dark:focus:border-gray-600 focus:outline-none transition-all placeholder-gray-500 text-base font-medium"
+          />
+        </div>
+
+        <!-- SECCIÓN: Grid de Estilos Adicionales -->
+        <div>
+          <div
+            id="preset-list"
+            class="grid grid-cols-3 gap-4 pb-4 content-start"
+          >
+            <!-- Los items se inyectan por JS -->
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      // Configuración de los temas divididos por categoría (Adquiridos vs Normales)
+      const themes = [
+        // MIS TEMAS (Premium/Comprados) - Se renderizarán arriba en 9:16
+        {
+          id: "cyberpunk",
+          name: "Theme 1",
+          acquired: true,
+          bodyClass:
+            "bg-[#03001e] bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-purple-900 via-violet-950 to-black",
+          cardClass:
+            "bg-black/80 border-2 border-cyan-400 text-white shadow-[0_0_20px_rgba(34,211,238,0.4)]",
+          btnClass: "bg-transparent border border-pink-500 text-cyan-400",
+          avatarBorder: "border-cyan-400 border-2 bg-slate-900",
+        },
+        {
+          id: "sunset",
+          name: "Theme 2",
+          acquired: true,
+          bodyClass:
+            "bg-gradient-to-tr from-orange-400 via-pink-500 to-indigo-500",
+          cardClass:
+            "bg-white/10 backdrop-blur-xl border border-white/20 text-white shadow-2xl",
+          btnClass:
+            "bg-white/25 backdrop-blur-md border border-white/20 text-white shadow-sm",
+          avatarBorder: "border-white/40 border-2 bg-white/25",
+        },
+        {
+          id: "oled",
+          name: "Theme 3",
+          acquired: true,
+          bodyClass: "bg-black",
+          cardClass:
+            "bg-zinc-950 border border-zinc-800 text-zinc-100 shadow-none",
+          btnClass: "bg-zinc-900 border border-zinc-800 text-zinc-200",
+          avatarBorder: "border-zinc-800 border bg-zinc-950",
+        },
+
+        // EXPLORAR TEMAS (Cuadrícula estándar de abajo)
+        {
+          id: "glass",
+          name: "Theme Z",
+          acquired: false,
+          bodyClass: "bg-[#111111]",
+          cardClass:
+            "bg-white/5 backdrop-blur-2xl border border-white/10 text-white shadow-2xl",
+          btnClass:
+            "bg-white/10 border border-transparent text-white shadow-sm",
+          avatarBorder: "border-white/20 border-2 bg-[#2a2a2a]",
+        },
+        {
+          id: "flat",
+          name: "Theme X",
+          acquired: false,
+          bodyClass: "bg-gray-900",
+          cardClass: "bg-gray-800 text-white shadow-xl border-transparent",
+          btnClass: "bg-gray-700 border-transparent text-white",
+          avatarBorder: "border-transparent border-0 bg-gray-700",
+        },
+        {
+          id: "brutal",
+          name: "Theme Y",
+          acquired: false,
+          bodyClass: "bg-[#ffde59]",
+          cardClass:
+            "bg-white border-4 border-black text-black shadow-[8px_8px_0px_0px_rgba(0,0,0,1)]",
+          btnClass: "bg-white border-[3px] border-black text-black",
+          avatarBorder: "border-black border-4 bg-[#ffde59]",
+        },
+        {
+          id: "gradient",
+          name: "Theme A",
+          acquired: false,
+          bodyClass: "bg-slate-100",
+          cardClass:
+            "bg-gradient-to-br from-violet-600 to-indigo-600 text-white shadow-2xl border-transparent",
+          btnClass:
+            "bg-white/20 backdrop-blur-md border border-white/20 text-white",
+          avatarBorder: "border-white/30 border-2 bg-black/20",
+        },
+        {
+          id: "pattern",
+          name: "Theme B",
+          acquired: false,
+          bodyClass: "bg-pattern",
+          cardClass: "bg-white border border-gray-200 text-gray-800 shadow-xl",
+          btnClass: "bg-gray-50 border border-gray-200 text-gray-700 shadow-sm",
+          avatarBorder: "border-gray-200 border-2 bg-gray-100",
+        },
+        {
+          id: "soft",
+          name: "Theme C",
+          acquired: false,
+          bodyClass: "bg-gray-100",
+          cardClass:
+            "bg-white rounded-[3rem] text-gray-800 shadow-[0_20px_50px_-12px_rgba(0,0,0,0.1)] border-transparent",
+          btnClass: "bg-blue-50 text-blue-700 border-transparent",
+          avatarBorder:
+            "border-transparent border-0 ring-4 ring-gray-50 bg-white",
+        },
+      ];
+
+      const els = {
+        body: document.getElementById("main-body"),
+        card: document.getElementById("bio-card"),
+        btns: document.querySelectorAll(".link-btn"),
+        themeLabel: document.getElementById("theme-label"),
+        avatar: document.getElementById("avatar-container"),
+        fab: document.getElementById("fab-btn"),
+        sheet: document.getElementById("bottom-sheet"),
+        overlay: document.getElementById("sheet-overlay"),
+        closeBtn: document.getElementById("close-sheet-btn"),
+        acquiredList: document.getElementById("acquired-themes-list"),
+        presetList: document.getElementById("preset-list"),
+        searchInput: document.getElementById("search-input"),
+      };
+
+      let currentThemeId = "cyberpunk"; // Tema por defecto
+
+      // Aplicar el tema seleccionado a la tarjeta principal
+      function applyTheme(themeId) {
+        const theme = themes.find((t) => t.id === themeId);
+        if (!theme) return;
+
+        els.body.className = `min-h-screen flex items-center justify-center p-4 transition-colors duration-700 font-sans relative overflow-hidden ${theme.bodyClass}`;
+        els.card.className = `relative w-full max-w-sm rounded-[2.5rem] p-8 pb-10 transition-all duration-700 flex flex-col items-center z-10 mb-16 sm:mb-0 ${theme.cardClass}`;
+        els.themeLabel.textContent = theme.name.toUpperCase();
+        els.avatar.className = `w-24 h-24 rounded-full overflow-hidden mb-5 shrink-0 transition-all duration-500 flex items-center justify-center ${theme.avatarBorder}`;
+
+        els.btns.forEach((btn) => {
+          btn.className = `link-btn w-full py-4 rounded-2xl flex items-center justify-center gap-3 transition-all duration-300 font-medium text-sm ${theme.btnClass}`;
+        });
+
+        currentThemeId = themeId;
+        updateSelectionState();
+      }
+
+      // Renderizar los temas adquiridos en formato 9:16 (Carrusel superior)
+      function renderAcquiredThemes() {
+        els.acquiredList.innerHTML = "";
+        const acquiredThemes = themes.filter((t) => t.acquired);
+
+        acquiredThemes.forEach((theme) => {
+          const isSelected = theme.id === currentThemeId;
+          const item = document.createElement("div");
+
+          // Contenedor principal: Ancho 95px, proporción 9:16
+          item.className = `acquired-item shrink-0 w-[95px] aspect-[9/16] rounded-2xl transition-all duration-300 relative cursor-pointer overflow-hidden flex flex-col justify-between pt-3 pb-4 px-2 ${
+            isSelected
+              ? "border-[3px] border-black dark:border-white scale-[1.02]"
+              : "bg-gray-300/60 dark:bg-gray-800 hover:bg-gray-300 dark:hover:bg-gray-700 border-[3px] border-transparent"
+          }`;
+          // Si está seleccionado pero queremos ver su fondo real:
+          if (isSelected) item.classList.add(theme.bodyClass.split(" ")[0]);
+
+          item.dataset.id = theme.id;
+
+          // Estructura interna: Indicador estilo Radio Button + Texto inferior
+          item.innerHTML = `
+                    <!-- Radio Button en la esquina superior derecha -->
+                    <div class="absolute top-2.5 right-2.5 z-10">
+                        <div class="radio-indicator w-6 h-6 rounded-full border-[2.5px] border-black dark:border-white flex items-center justify-center ${isSelected ? "bg-transparent" : "bg-transparent"}">
+                            <div class="dot w-3 h-3 rounded-full bg-black dark:bg-white ${isSelected ? "block" : "hidden"}"></div>
+                        </div>
+                    </div>
+                    
+                    <!-- Espacio central vacío para imitar tu mockup -->
+                    <div class="flex-1"></div>
+
+                    <!-- Nombre del tema abajo -->
+                    <div class="text-[0.8rem] font-medium text-center text-black dark:text-white w-full">
+                        ${theme.name}
+                    </div>
+                `;
+
+          item.addEventListener("click", () => applyTheme(theme.id));
+          els.acquiredList.appendChild(item);
+        });
+      }
+
+      // Renderizar el resto de temas (Cuadrícula inferior)
+      function renderPresets(filter = "") {
+        els.presetList.innerHTML = "";
+
+        const filteredThemes = themes.filter(
+          (t) =>
+            !t.acquired && t.name.toLowerCase().includes(filter.toLowerCase()),
+        );
+
+        if (filteredThemes.length === 0) {
+          els.presetList.innerHTML = `
+                    <div class="col-span-full text-center py-8 text-gray-500 font-medium">
+                        No themes found.
+                    </div>
+                `;
+          return;
+        }
+
+        filteredThemes.forEach((theme) => {
+          const isSelected = theme.id === currentThemeId;
+          const item = document.createElement("div");
+
+          // Formato similar a los de arriba pero más cuadrados o en grid
+          item.className = `preset-item relative cursor-pointer rounded-2xl transition-all flex flex-col items-center justify-between pt-3 pb-4 px-2 aspect-[4/5] ${
+            isSelected
+              ? "border-[3px] border-black dark:border-white scale-[1.02]"
+              : "bg-gray-300/60 dark:bg-gray-800 hover:bg-gray-300 dark:hover:bg-gray-700 border-[3px] border-transparent"
+          }`;
+          if (isSelected) item.classList.add(theme.bodyClass.split(" ")[0]);
+
+          item.dataset.id = theme.id;
+
+          item.innerHTML = `
+                    <!-- Radio Button -->
+                    <div class="absolute top-2 right-2 z-10">
+                        <div class="radio-indicator w-6 h-6 rounded-full border-[2.5px] border-black dark:border-white flex items-center justify-center">
+                            <div class="dot w-3 h-3 rounded-full bg-black dark:bg-white ${isSelected ? "block" : "hidden"}"></div>
+                        </div>
+                    </div>
+                    
+                    <div class="flex-1"></div>
+
+                    <div class="text-[0.8rem] font-medium text-center text-black dark:text-white w-full">
+                        ${theme.name}
+                    </div>
+                `;
+
+          item.addEventListener("click", () => applyTheme(theme.id));
+          els.presetList.appendChild(item);
+        });
+      }
+
+      // Actualizar UI al seleccionar un tema
+      function updateSelectionState() {
+        // Actualizar fila superior (Mis Temas)
+        document.querySelectorAll(".acquired-item").forEach((item) => {
+          const isSelected = item.dataset.id === currentThemeId;
+          const dot = item.querySelector(".dot");
+          const themeData = themes.find((t) => t.id === item.dataset.id);
+
+          if (isSelected) {
+            item.className = `acquired-item shrink-0 w-[95px] aspect-[9/16] rounded-2xl transition-all duration-300 relative cursor-pointer overflow-hidden flex flex-col justify-between pt-3 pb-4 px-2 border-[3px] border-black dark:border-white scale-[1.02] ${themeData.bodyClass.split(" ")[0]}`;
+            if (dot) dot.classList.replace("hidden", "block");
+          } else {
+            item.className = `acquired-item shrink-0 w-[95px] aspect-[9/16] rounded-2xl transition-all duration-300 relative cursor-pointer overflow-hidden flex flex-col justify-between pt-3 pb-4 px-2 bg-gray-300/60 dark:bg-gray-800 hover:bg-gray-300 dark:hover:bg-gray-700 border-[3px] border-transparent`;
+            if (dot) dot.classList.replace("block", "hidden");
+          }
+        });
+
+        // Actualizar grid inferior
+        document.querySelectorAll(".preset-item").forEach((item) => {
+          const isSelected = item.dataset.id === currentThemeId;
+          const dot = item.querySelector(".dot");
+          const themeData = themes.find((t) => t.id === item.dataset.id);
+
+          if (isSelected) {
+            item.className = `preset-item relative cursor-pointer rounded-2xl transition-all flex flex-col items-center justify-between pt-3 pb-4 px-2 aspect-[4/5] border-[3px] border-black dark:border-white scale-[1.02] ${themeData.bodyClass.split(" ")[0]}`;
+            if (dot) dot.classList.replace("hidden", "block");
+          } else {
+            item.className = `preset-item relative cursor-pointer rounded-2xl transition-all flex flex-col items-center justify-between pt-3 pb-4 px-2 aspect-[4/5] bg-gray-300/60 dark:bg-gray-800 hover:bg-gray-300 dark:hover:bg-gray-700 border-[3px] border-transparent`;
+            if (dot) dot.classList.replace("block", "hidden");
+          }
+        });
+      }
+
+      // Manejo del Bottom Sheet
+      function openSheet() {
+        els.overlay.classList.remove("opacity-0", "pointer-events-none");
+        els.sheet.classList.remove("translate-y-full");
+        els.fab.style.transform = "translate(-50%, 150%)";
+      }
+
+      function closeSheet() {
+        els.overlay.classList.add("opacity-0", "pointer-events-none");
+        els.sheet.classList.add("translate-y-full");
+        els.searchInput.value = "";
+        renderPresets(); // reset filter
+        els.fab.style.transform = "translate(-50%, 0)";
+        els.searchInput.blur();
+      }
+
+      // Event Listeners
+      els.fab.addEventListener("click", openSheet);
+      els.closeBtn.addEventListener("click", closeSheet);
+      els.overlay.addEventListener("click", closeSheet);
+
+      els.searchInput.addEventListener("input", (e) => {
+        renderPresets(e.target.value);
+      });
+
+      // Inicialización
+      lucide.createIcons();
+      renderAcquiredThemes();
+      renderPresets();
+      applyTheme(currentThemeId); // Iniciar con un tema activo
+    </script>
+  </body>
+</html>
