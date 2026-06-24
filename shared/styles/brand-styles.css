@@ -1,0 +1,388 @@
+/*
+================================================================================
+NEWFACE DESIGN SYSTEM
+Brand Color Philosophy & Visual Identity
+================================================================================
+
+Newface is built around a balance between trust, technology, creativity and
+clarity. The color palette intentionally combines a strong emerald accent with
+a family of vibrant indigos and a carefully tuned grayscale system.
+
+The identity aims to communicate:
+
+• Professionalism without feeling corporate.
+• Creativity without becoming playful.
+• Modern software aesthetics with high readability.
+• Strong contrast and accessibility.
+• A calm and premium visual experience.
+
+------------------------------------------------------------------------------
+PRIMARY BRAND COLOR
+------------------------------------------------------------------------------
+
+--color-primary: #06896C
+
+Deep emerald green.
+
+This is the signature color of Newface and represents:
+
+• Growth
+• Trust
+• Success
+• Stability
+• Human connection
+
+It should be used for:
+
+✓ Primary actions
+✓ Success states
+✓ Important highlights
+✓ Logos and brand recognition
+✓ Positive interactions
+
+Psychologically, green communicates confidence and progress while maintaining
+a friendly and approachable appearance.
+
+Its grayscale equivalent:
+
+--gray-primary: #5F5F5F
+
+This grayscale version preserves visual weight for monochrome applications,
+print media, dark mode assets, and low-saturation environments.
+
+------------------------------------------------------------------------------
+SECONDARY BRAND COLOR
+------------------------------------------------------------------------------
+
+--color-secondary: #8581FF
+
+Soft periwinkle.
+
+This color introduces a modern and technological character without becoming
+aggressive or overly saturated.
+
+It represents:
+
+• Innovation
+• Creativity
+• Intelligence
+• Digital experiences
+• Friendliness
+
+Recommended usage:
+
+✓ Secondary buttons
+✓ Hover states
+✓ Subtle accents
+✓ Decorative components
+✓ Focus indicators
+
+Grayscale equivalent:
+
+--gray-secondary: #919191
+
+Used in monochromatic layouts and neutral themes.
+
+------------------------------------------------------------------------------
+INDIGO 500
+------------------------------------------------------------------------------
+
+--color-indigo-500: #6A64FF
+
+Balanced medium indigo.
+
+This color serves as the bridge between the softer periwinkle and the more
+powerful deep indigo colors.
+
+Represents:
+
+• Technology
+• Precision
+• Sophistication
+
+Recommended for:
+
+✓ Links
+✓ Active elements
+✓ Tabs
+✓ Cards
+✓ Navigation states
+
+Grayscale equivalent:
+
+--gray-indigo-500: #777777
+
+------------------------------------------------------------------------------
+INDIGO 600
+------------------------------------------------------------------------------
+
+--color-indigo-600: #4E47FF
+
+Strong royal blue-violet.
+
+This is one of the core colors of the Newface interface and is designed to
+attract attention while maintaining elegance.
+
+Represents:
+
+• Confidence
+• Leadership
+• Innovation
+• Digital power
+
+Recommended usage:
+
+✓ Primary links
+✓ Hover states
+✓ Important icons
+✓ Navigation highlights
+✓ Selected elements
+
+Grayscale equivalent:
+
+--gray-indigo-600: #5E5E5E
+
+------------------------------------------------------------------------------
+INDIGO 700
+------------------------------------------------------------------------------
+
+--color-indigo-700: #3832FF
+
+Deep electric indigo.
+
+The strongest color in the palette.
+
+Represents:
+
+• Authority
+• Focus
+• Premium quality
+• Advanced technology
+
+Should be used sparingly for:
+
+✓ High emphasis
+✓ Active navigation
+✓ Premium features
+✓ Key interactions
+
+Grayscale equivalent:
+
+--gray-indigo-700: #4B4B4B
+
+------------------------------------------------------------------------------
+GRAYSCALE PHILOSOPHY
+------------------------------------------------------------------------------
+
+Unlike generic grays, Newface grayscale colors are derived from the luminance
+of the original brand colors.
+
+This creates monochromatic versions that preserve hierarchy and emotional
+weight.
+
+The grayscale palette exists to support:
+
+• Print media
+• Accessibility modes
+• Reduced-color environments
+• Dark themes
+• Low-contrast interfaces
+• PDF exports
+
+------------------------------------------------------------------------------
+COLOR RELATIONSHIPS
+------------------------------------------------------------------------------
+
+Green (#06896C)
+↓
+Human / Trust / Success
+
+Soft Indigo (#8581FF)
+↓
+Creativity / Friendliness
+
+Indigo 500 (#6A64FF)
+↓
+Technology / Precision
+
+Indigo 600 (#4E47FF)
+↓
+Innovation / Confidence
+
+Indigo 700 (#3832FF)
+↓
+Authority / Premium
+
+------------------------------------------------------------------------------
+VISUAL CHARACTER
+------------------------------------------------------------------------------
+
+The Newface palette intentionally avoids:
+
+× Harsh reds
+× Pure blacks
+× Excessively saturated colors
+× Corporate blues
+× Neon aesthetics
+
+Instead, it focuses on:
+
+✓ Soft modern gradients
+✓ Elegant indigos
+✓ Human-centered greens
+✓ Premium software experiences
+✓ High readability
+✓ Calm but energetic interfaces
+
+------------------------------------------------------------------------------
+DESIGN PRINCIPLES
+------------------------------------------------------------------------------
+
+1. Trust first.
+2. Technology second.
+3. Simplicity always.
+4. Contrast without aggression.
+5. Premium without luxury.
+6. Creative without childishness.
+7. Modern without trends.
+
+The overall identity seeks to feel like a blend between:
+
+• Stripe
+• Linear
+• Notion
+• Vercel
+• Framer
+
+while maintaining a unique Newface personality centered around clarity,
+confidence and elegant simplicity.
+
+================================================================================
+*/
+
+:root {
+  /* Brand Colors */
+  --color-primary: #06896c;
+  --color-secondary: #8581ff;
+  --color-indigo-500: #6a64ff;
+  --color-indigo-600: #4e47ff;
+  --color-indigo-700: #3832ff;
+
+  /* Grayscale Pairings */
+  --gray-primary: #5f5f5f;
+  --gray-secondary: #919191;
+  --gray-indigo-500: #777777;
+  --gray-indigo-600: #5e5e5e;
+  --gray-indigo-700: #4b4b4b;
+
+  /* Semantic Colors */
+  --color-accent: var(--color-primary);
+  --color-link: var(--color-indigo-600);
+  --color-link-hover: var(--color-indigo-700);
+
+  /* Text */
+  --text-primary: #383838;
+  --text-secondary: var(--gray-primary);
+  --text-muted: var(--gray-secondary);
+  --text-inverse: #ffffff;
+
+  /* Backgrounds */
+  --bg-primary: #ffffff;
+  --bg-secondary: #f7f7f7;
+  --bg-muted: #eeeeee;
+  --bg-accent: var(--color-primary);
+  --bg-brand-soft: #f1f1ff;
+
+  /* Borders */
+  --border-light: #e5e5e5;
+  --border-medium: #d1d1d1;
+  --border-strong: var(--gray-indigo-600);
+
+  /* Buttons */
+  --button-primary-bg: var(--color-primary);
+  --button-primary-text: #ffffff;
+  --button-primary-hover: #05775e;
+
+  --button-secondary-bg: var(--color-indigo-600);
+  --button-secondary-text: #ffffff;
+  --button-secondary-hover: var(--color-indigo-700);
+
+  /* Focus */
+  --focus-ring: var(--color-secondary);
+
+  --icon-color: #9f9f9f;
+  --label-color: #4a5568;
+  --add-bg: var(--color-primary);
+  --add-bg-pressed: var(--button-primary-hover);
+
+  /* App Surfaces */
+  --app-background: #efefef;
+  --app-shell-background: #e6e6e6;
+  --surface-raised: var(--bg-primary);
+  --surface-muted: #f4f4f5;
+  --surface-muted-strong: #e4e4e7;
+  --surface-soft: #f7f7f8;
+  --surface-skeleton: #e5e7eb;
+  --surface-preview: #f3f4f6;
+
+  /* App Text */
+  --app-text: #09090b;
+  --app-text-strong: #111111;
+  --app-text-emphasis: #18181b;
+  --app-text-emphasis-hover: #27272a;
+  --app-text-muted: #71717a;
+  --app-text-subtle: #a1a1aa;
+  --app-text-slate: #374151;
+  --app-text-slate-strong: #1f2937;
+  --app-text-slate-muted: #64748b;
+
+  /* App Borders */
+  --app-border: var(--surface-muted-strong);
+  --app-border-light: var(--border-light);
+  --app-border-medium: var(--border-medium);
+  --app-border-control: #bbb;
+  --app-border-control-hover: #d1d5db;
+  --app-border-soft: #d4d4d8;
+  --app-handle: #d5d5d7;
+  --app-handle-active: #bdbdc2;
+
+  /* Status */
+  --status-success: #10b981;
+  --status-success-bg: rgba(16, 185, 129, 0.12);
+  --status-success-bg-soft: rgba(16, 185, 129, 0.1);
+  --status-success-ring: rgba(16, 185, 129, 0.18);
+  --status-success-ring-strong: rgba(16, 185, 129, 0.22);
+  --status-warning: #d97706;
+  --status-warning-bright: #f59e0b;
+  --status-warning-bg: rgba(245, 158, 11, 0.14);
+  --status-warning-bg-soft: rgba(245, 158, 11, 0.1);
+  --status-warning-ring: rgba(245, 158, 11, 0.24);
+  --status-danger: #dc2626;
+  --status-danger-bright: #ef4444;
+  --status-danger-bg: rgba(239, 68, 68, 0.13);
+  --status-danger-bg-soft: rgba(239, 68, 68, 0.1);
+  --status-danger-ring: rgba(239, 68, 68, 0.22);
+  --status-neutral: #4b5563;
+  --status-neutral-bright: #6b7280;
+  --status-neutral-bg: rgba(107, 114, 128, 0.14);
+  --status-neutral-bg-soft: rgba(107, 114, 128, 0.1);
+  --status-neutral-ring: rgba(107, 114, 128, 0.22);
+
+  /* Effects */
+  --shadow-color-soft: rgba(0, 0, 0, 0.04);
+  --shadow-color-medium: rgba(0, 0, 0, 0.08);
+  --shadow-color-strong: rgba(0, 0, 0, 0.15);
+  --shadow-color-sheet: rgba(0, 0, 0, 0.18);
+  --overlay-light: rgba(255, 255, 255, 0.94);
+  --overlay-light-strong: rgba(255, 255, 255, 0.98);
+  --overlay-dark-soft: rgba(17, 18, 20, 0.14);
+  --overlay-dark-medium: rgba(0, 0, 0, 0.33);
+  --overlay-dark: rgba(0, 0, 0, 0.27);
+  --overlay-dark-strong: rgba(0, 0, 0, 0.44);
+  --brand-primary-soft: rgba(6, 137, 108, 0.07);
+  --brand-primary-soft-hover: rgba(6, 137, 108, 0.08);
+  --brand-primary-ring-soft: rgba(6, 137, 108, 0.14);
+  --brand-primary-ring: rgba(6, 137, 108, 0.18);
+  --brand-primary-underline: rgba(6, 137, 108, 0.34);
+  --brand-secondary-shadow: rgba(133, 129, 255, 0.24);
+}

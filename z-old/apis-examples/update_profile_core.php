@@ -19,7 +19,7 @@ $external_config = require '/home/rccgaowg/9z3k7v/v2/env_newface/etc.php';
 
 $config = [
     'wp_load_path'    => '/home/rccgaowg/my.newfacecards.com/wp-load.php',
-    'auth_token'      => $external_config['API_KEY_FRONTEND'] ?? '',
+    'auth_token'      => '',
     'allowed_methods' => ['POST', 'OPTIONS'], // Se permite OPTIONS para preflight
     'cors_origin'     => '*' // Puede restringirse al dominio del frontend
 ];
