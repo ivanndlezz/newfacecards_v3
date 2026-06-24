@@ -5382,7 +5382,7 @@
       };
 
       window.appConfig = window.appConfig || {
-        popover_on_mobile: "popover", // 'bottom_sheet' or 'popover'
+        popover_on_mobile: "popover", // 'bottom_sheet' or 'popover' // no mover
       };
 
       class BipartiteStorage {
@@ -5729,11 +5729,18 @@
           const editableFields = document.querySelectorAll("[data-edit-field]");
           const identityEl = document.querySelector(".lin__identity");
           let activePopover = null;
+          let originalValues = null;
 
-          const closePopover = () => {
+          const closePopover = (shouldRevert = true) => {
             identityEl?.removeAttribute("data-editing-popover");
             activePopover?.remove();
             activePopover = null;
+            if (shouldRevert && originalValues) {
+              ["name", "role", "bio"].forEach((field) => {
+                setFieldValue(field, originalValues[field]);
+              });
+            }
+            originalValues = null;
           };
 
           const setFieldValue = (field, value) => {
@@ -5769,6 +5776,12 @@
           const openPopover = () => {
             if (identityEl?.dataset.editable !== "true") return;
             closePopover();
+
+            originalValues = {
+              name: this.state.name,
+              role: this.state.role,
+              bio: this.state.bio,
+            };
 
             const popover = document.createElement("div");
             popover.className = "lin-edit-popover";
@@ -5816,7 +5829,12 @@
                 `[data-popover-field="${field}"]`,
               );
               const source = getField(field);
-              if (input && source) input.value = source.textContent.trim();
+              if (input && source) {
+                input.value = source.textContent.trim();
+                input.addEventListener("input", () => {
+                  setFieldValue(field, input.value);
+                });
+              }
             });
 
             const saveAndClose = () => {
@@ -5827,7 +5845,7 @@
                 if (input) setFieldValue(field, input.value);
               });
               this.saveLocal();
-              closePopover();
+              closePopover(false);
             };
 
             popover
