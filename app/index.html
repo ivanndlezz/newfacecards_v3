@@ -2198,6 +2198,76 @@
         background: var(--add-bg);
       }
 
+      .lin-edit-popover__handler {
+        display: none;
+      }
+
+      @keyframes fade-in {
+        from {
+          opacity: 0;
+        }
+        to {
+          opacity: 1;
+        }
+      }
+
+      @keyframes slide-up {
+        from {
+          transform: translateY(100%);
+        }
+        to {
+          transform: translateY(0);
+        }
+      }
+
+      @media (max-width: 640px) {
+        body:has(.lin-edit-popover)::before {
+          content: "";
+          position: fixed;
+          inset: 0;
+          background: var(--overlay-dark);
+          z-index: 4999;
+          animation: fade-in 0.28s cubic-bezier(0.32, 0.94, 0.6, 1) forwards;
+        }
+
+        .lin-edit-popover {
+          position: fixed !important;
+          left: 0 !important;
+          right: 0 !important;
+          bottom: 0 !important;
+          top: auto !important;
+          width: 100% !important;
+          max-width: 100vw !important;
+          border-radius: 20px 20px 0 0 !important;
+          border: none !important;
+          border-top: 1px solid color-mix(in srgb, var(--app-text) 8%, transparent) !important;
+          background: var(--overlay-light) !important;
+          backdrop-filter: blur(20px);
+          -webkit-backdrop-filter: blur(20px);
+          box-shadow: 0 -8px 30px var(--shadow-color-sheet) !important;
+          padding: 8px 16px calc(16px + env(safe-area-inset-bottom, 12px)) 16px !important;
+          box-sizing: border-box !important;
+          animation: slide-up 0.28s cubic-bezier(0.32, 0.94, 0.6, 1) forwards;
+          z-index: 5000 !important;
+        }
+
+        .lin-edit-popover__handler {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          padding: 6px 0 14px;
+          width: 100%;
+          cursor: grab;
+        }
+
+        .lin-edit-popover__drag {
+          width: 38px;
+          height: 5px;
+          background-color: color-mix(in srgb, var(--app-text) 16%, transparent);
+          border-radius: 10px;
+        }
+      }
+
       .avt__edit {
         transform: translate(-50%, -50%);
       }
@@ -5693,6 +5763,9 @@
             popover.className = "lin-edit-popover";
             popover.dataset.editPopover = "lin__identity";
             popover.innerHTML = `
+              <div class="lin-edit-popover__handler" aria-hidden="true">
+                <div class="lin-edit-popover__drag"></div>
+              </div>
               <div class="lin-edit-popover__stack">
                 <label class="lin-edit-popover__field">
                   <span class="lin-edit-popover__addon" aria-hidden="true">
