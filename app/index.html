@@ -5904,8 +5904,12 @@
             closePopover();
           });
 
-          window.addEventListener("resize", closePopover);
-          window.addEventListener("scroll", closePopover, true);
+          window.addEventListener("resize", () => {
+            if (window.innerWidth > 640) closePopover();
+          });
+          window.addEventListener("scroll", (e) => {
+            if (window.innerWidth > 640) closePopover();
+          }, true);
 
           syncEditableState();
           if (this.statusStorageEl) {
