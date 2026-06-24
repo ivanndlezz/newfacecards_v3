@@ -5916,20 +5916,13 @@
             closePopover();
           });
 
-          const isMobileBottomSheet = () => {
-            return (
-              window.innerWidth <= 640 &&
-              window.appConfig.popover_on_mobile === "popover"
-            ); // 'bottom_sheet' or 'popover'
-          };
-
           window.addEventListener("resize", () => {
-            if (!isMobileBottomSheet()) closePopover();
+            if (window.innerWidth > 640) closePopover();
           });
           window.addEventListener(
             "scroll",
             (e) => {
-              if (!isMobileBottomSheet()) closePopover();
+              if (window.innerWidth > 640) closePopover();
             },
             true,
           );
