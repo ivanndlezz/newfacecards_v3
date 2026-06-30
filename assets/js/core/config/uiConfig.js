@@ -21,4 +21,11 @@ export const SELECTORS = Object.freeze({
 });
 export const UI_DEFAULTS = Object.freeze({
   IMAGE_STYLE: "classic",
+  COVER_CONTROLS: Object.freeze({
+    WIDTH: 100,
+    HEIGHT: 150,
+    RADIUS: 12,
+    FIT: "cover",
+    SHADOW: false,
+  }),
 });

@@ -23,7 +23,12 @@ export function init(container) {
     const button = event.target.closest("[data-cover-preset]");
     if (!button || !container.contains(button)) return;
 
-    window.setPreset?.(button.dataset.coverPreset, { editorTab: "cover" });
+    // NO MODIFICAR: anti-patron UX critico.
+    // Este selector vive dentro del tab Portada y JAMAS debe cambiar el tab
+    // activo por efecto secundario. No pases editorTab, no llames updateTab y
+    // no fuerces Avatar/Portada aqui; solo la navegacion explicita de tabs
+    // puede cambiar el contexto que eligio el usuario.
+    window.setPreset?.(button.dataset.coverPreset);
     window.setTimeout(() => syncCoverPresetPicker(container), 0);
   });
 }

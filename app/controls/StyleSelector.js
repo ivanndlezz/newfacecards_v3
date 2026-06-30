@@ -1,3 +1,5 @@
+import { UI_DEFAULTS } from "../../assets/js/core/config/uiConfig.js";
+
 export class StyleSelector {
   static styleId = "style-selector-component-styles";
   static stylesheetHref = "controls/style-selector/controls.css";
@@ -25,6 +27,16 @@ export class StyleSelector {
       avatarBorder: this.normalizeAvatarBorderScale(options.avatarBorder),
       coverPreset: options.coverPreset || "preset-cover",
       coverStyle: options.coverStyle || "full",
+      coverWidth: String(options.coverWidth ?? UI_DEFAULTS.COVER_CONTROLS.WIDTH),
+      coverHeight: String(
+        options.coverHeight ?? UI_DEFAULTS.COVER_CONTROLS.HEIGHT,
+      ),
+      coverRadius: String(
+        options.coverRadius ?? UI_DEFAULTS.COVER_CONTROLS.RADIUS,
+      ),
+      coverShadow: String(
+        options.coverShadow ?? UI_DEFAULTS.COVER_CONTROLS.SHADOW,
+      ),
       fineControl: null,
     };
 
@@ -81,6 +93,10 @@ export class StyleSelector {
       ),
       coverPreset: nextState.coverPreset || this.state.coverPreset,
       coverStyle: nextState.coverStyle || this.state.coverStyle,
+      coverWidth: String(nextState.coverWidth ?? this.state.coverWidth),
+      coverHeight: String(nextState.coverHeight ?? this.state.coverHeight),
+      coverRadius: String(nextState.coverRadius ?? this.state.coverRadius),
+      coverShadow: String(nextState.coverShadow ?? this.state.coverShadow),
     };
     this.render();
   }
@@ -219,6 +235,8 @@ export class StyleSelector {
     }
     if (key === "avatarRadius") return `${value}px`;
     if (key === "avatarBorder") return this.formatAvatarBorderScale(value);
+    if (key === "coverWidth") return `${value}%`;
+    if (key === "coverHeight" || key === "coverRadius") return `${value}px`;
     return value;
   }
 
@@ -502,6 +520,26 @@ export class StyleSelector {
             ${this.radioChip("coverStyle", "framed", "cs-framed", this.coverStyleIcon("framed"), "Encuadrada")}
           </div>
         </div>
+
+        ${this.coverRangeGroup("coverWidth", "Ancho", 50, 100, 1)}
+        ${this.coverRangeGroup("coverHeight", "Alto", 60, 250, 1)}
+        ${this.coverRangeGroup("coverRadius", "Radio", 0, 40, 1)}
+
+        <div class="ctrl-group">
+          <div class="ctrl-group__header">
+            <span class="ctrl-group__label">
+              <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <path d="M5 7h10a4 4 0 0 1 0 8H7" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                <path d="M7 17h7" stroke="currentColor" stroke-width="2" stroke-linecap="round" opacity=".45"/>
+              </svg>
+              Sombra
+            </span>
+          </div>
+          <div class="option-chips option-chips--cover">
+            ${this.radioChip("coverShadow", "false", "cover-shadow-off", this.coverShadowIcon(false), "Sin sombra")}
+            ${this.radioChip("coverShadow", "true", "cover-shadow-on", this.coverShadowIcon(true), "Con sombra")}
+          </div>
+        </div>
       </section>
     `;
   }
@@ -604,6 +642,57 @@ export class StyleSelector {
     `;
   }
 
+  coverRangeGroup(key, label, min, max, step) {
+    const options = this.coverQuickOptions(key);
+    return `
+      <div class="ctrl-group">
+        <div class="ctrl-group__header">
+          <span class="ctrl-group__label">
+            ${this.coverMeasureIcon(key)}
+            ${label}
+          </span>
+          <span class="ctrl-group__value" data-ss-value="${key}"></span>
+        </div>
+        <div class="option-chips">
+          ${options
+            .map(({ value, label: optionLabel }) =>
+              this.chipButton(
+                key,
+                String(value),
+                this.coverMetricIcon(key, value),
+                optionLabel,
+              ),
+            )
+            .join("")}
+          ${this.sliderButton(key, `Personalizar ${label.toLowerCase()}`)}
+        </div>
+        ${this.fineRange(key, min, max, step)}
+      </div>
+    `;
+  }
+
+  coverQuickOptions(key) {
+    if (key === "coverWidth") {
+      return [
+        { value: 80, label: "80%" },
+        { value: 90, label: "90%" },
+        { value: 100, label: "100%" },
+      ];
+    }
+    if (key === "coverHeight") {
+      return [
+        { value: 120, label: "120" },
+        { value: 150, label: "150" },
+        { value: 180, label: "180" },
+      ];
+    }
+    return [
+      { value: 0, label: "Recto" },
+      { value: 12, label: "Suave" },
+      { value: 26, label: "Redondo" },
+    ];
+  }
+
   sizeIcon(size) {
     const circle = { sm: 2.7, md: 5.2, lg: 8.2 }[size];
     const path =
@@ -677,6 +766,57 @@ export class StyleSelector {
         <rect x="7" y="4" width="32" height="${height}" rx="4" fill="currentColor" fill-opacity=".08" stroke="currentColor" stroke-width="1.7"/>
         <circle cx="${avatarX}" cy="21" r="4.5" fill="currentColor" fill-opacity=".14" stroke="currentColor" stroke-width="1.7"/>
         ${lines}
+      </svg>
+    `;
+  }
+
+  coverMeasureIcon(key) {
+    const path =
+      key === "coverWidth"
+        ? '<path d="M5 12h14M8 9l-3 3 3 3M16 9l3 3-3 3" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>'
+        : key === "coverHeight"
+          ? '<path d="M12 5v14M9 8l3-3 3 3M9 16l3 3 3-3" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>'
+          : '<rect x="5" y="6" width="14" height="12" rx="4" stroke="currentColor" stroke-width="2"/>';
+    return `<svg viewBox="0 0 24 24" fill="none" aria-hidden="true">${path}</svg>`;
+  }
+
+  coverMetricIcon(key, value) {
+    const numericValue = Number(value);
+    if (key === "coverRadius") {
+      const rx = numericValue === 0 ? 0 : numericValue >= 24 ? 7 : 4;
+      return `
+        <svg class="option-chip__icon" viewBox="0 0 40 28" fill="none" aria-hidden="true">
+          <rect x="7" y="6" width="26" height="16" rx="${rx}" fill="currentColor" fill-opacity=".08" stroke="currentColor" stroke-width="1.6"></rect>
+        </svg>
+      `;
+    }
+
+    if (key === "coverHeight") {
+      const height = numericValue <= 120 ? 10 : numericValue >= 180 ? 18 : 14;
+      return `
+        <svg class="option-chip__icon" viewBox="0 0 40 28" fill="none" aria-hidden="true">
+          <rect x="8" y="${14 - height / 2}" width="24" height="${height}" rx="4" fill="currentColor" fill-opacity=".08" stroke="currentColor" stroke-width="1.6"></rect>
+        </svg>
+      `;
+    }
+
+    const width = numericValue <= 80 ? 22 : numericValue >= 100 ? 32 : 27;
+    return `
+      <svg class="option-chip__icon" viewBox="0 0 40 28" fill="none" aria-hidden="true">
+        <rect x="${20 - width / 2}" y="7" width="${width}" height="14" rx="4" fill="currentColor" fill-opacity=".08" stroke="currentColor" stroke-width="1.6"></rect>
+      </svg>
+    `;
+  }
+
+  coverShadowIcon(isEnabled) {
+    return `
+      <svg class="option-chip__icon" width="40" height="28" viewBox="0 0 44 30" fill="none" aria-hidden="true">
+        <rect x="8" y="6" width="28" height="15" rx="4" fill="currentColor" fill-opacity=".08" stroke="currentColor" stroke-width="1.5"></rect>
+        ${
+          isEnabled
+            ? '<path d="M13 24h18" stroke="currentColor" stroke-width="3" stroke-linecap="round" opacity=".25"></path>'
+            : '<path d="M11 24h22" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" opacity=".12"></path>'
+        }
       </svg>
     `;
   }

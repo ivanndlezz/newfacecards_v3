@@ -1445,6 +1445,7 @@
       .cover-photo {
         width: 100%;
         height: 100%;
+        border-radius: inherit;
         object-fit: var(--cover-fit, cover);
         opacity: 0;
         transition: opacity 260ms ease;
@@ -1626,7 +1627,10 @@
         overflow: visible;
       }
 
-      .preset-cover .cover-wrap {
+      .profile-card.preset-cover .cover-wrap {
+        /* Cuando el preset usa portada superior, el radio del usuario solo
+           se percibe si la imagen queda recortada por el contenedor. */
+        border-radius: var(--cover-radius, 12px);
         overflow: hidden;
       }
 
@@ -1752,8 +1756,10 @@
 
       .editor-scroll {
         flex: 1;
+        min-width: 0;
         min-height: 0;
         overflow-y: auto;
+        overflow-x: hidden;
         padding-bottom: calc(32px + env(safe-area-inset-bottom));
         overscroll-behavior: contain;
         -webkit-overflow-scrolling: touch;
@@ -4900,6 +4906,14 @@
             this.#setSheetState("closed");
           };
 
+          #onModuleItemClick = (event) => {
+            const item = event.target.closest(".module-item");
+            if (!item || !this.#moduleContent?.contains(item)) return;
+            if (item === this.#btnMenu) return;
+
+            this.#setSheetState("closed");
+          };
+
           #onScopeAction = (event) => {
             const action = event.target.closest(_PC_SELECTORS.SCOPE_ACTION);
             if (!action || !this.#pill.contains(action)) return;
@@ -4979,6 +4993,10 @@
             });
             this.#btnHandler?.addEventListener("mousedown", this.#onMouseDown);
             this.#scrim?.addEventListener("click", this.#onScrimClick);
+            this.#moduleContent?.addEventListener(
+              "click",
+              this.#onModuleItemClick,
+            );
             this.#pill.addEventListener("click", this.#onScopeAction);
             window.addEventListener(
               _PC_STYLE_STATE_EVENT,
@@ -5012,6 +5030,10 @@
               this.#onMouseDown,
             );
             this.#scrim?.removeEventListener("click", this.#onScrimClick);
+            this.#moduleContent?.removeEventListener(
+              "click",
+              this.#onModuleItemClick,
+            );
             this.#pill.removeEventListener("click", this.#onScopeAction);
             window.removeEventListener(
               _PC_STYLE_STATE_EVENT,
@@ -6028,10 +6050,8 @@
         const insetControls = document.getElementById("insetControlsContainer");
         const coverWrap = document.getElementById("coverWrap");
         if (coverWrap) {
-          coverWrap.style.removeProperty("--cover-width");
-          coverWrap.style.removeProperty("--cover-height");
-          coverWrap.style.removeProperty("--cover-radius");
-          coverWrap.style.removeProperty("--cover-shadow");
+          // NO BORRAR: estas variables pertenecen al estado editable del usuario.
+          // El estilo de portada puede cambiar, pero no debe resetear ancho/alto/radio/sombra.
           coverWrap.style.removeProperty("margin");
         }
 
@@ -6046,6 +6066,75 @@
         if (window.appBipartiteStorage) {
           window.appBipartiteStorage.updateCoverStyle(styleName);
         }
+      }
+
+      function applyCoverControlVars(controls = {}) {
+        const coverWrap = document.getElementById("coverWrap");
+        if (!coverWrap) return;
+
+        const width =
+          controls["ctrl-cover-width"] ?? UI_DEFAULTS.COVER_CONTROLS.WIDTH;
+        const height =
+          controls["ctrl-cover-height"] ?? UI_DEFAULTS.COVER_CONTROLS.HEIGHT;
+        const radius =
+          controls["ctrl-cover-radius"] ?? UI_DEFAULTS.COVER_CONTROLS.RADIUS;
+        const shadow =
+          controls["ctrl-cover-shadow"] ?? UI_DEFAULTS.COVER_CONTROLS.SHADOW;
+        const shadowEnabled = shadow === true || shadow === "true";
+
+        coverWrap.style.setProperty("--cover-width", `${width}%`);
+        coverWrap.style.setProperty("--cover-height", `${height}px`);
+        coverWrap.style.setProperty("--cover-radius", `${radius}px`);
+        coverWrap.style.setProperty(
+          "--cover-shadow",
+          shadowEnabled ? "0 8px 24px rgba(0,0,0,0.15)" : "none",
+        );
+      }
+
+      const STYLE_SELECTOR_COVER_CONTROL_IDS = Object.freeze({
+        coverWidth: "ctrl-cover-width",
+        coverHeight: "ctrl-cover-height",
+        coverRadius: "ctrl-cover-radius",
+        coverShadow: "ctrl-cover-shadow",
+      });
+
+      function normalizeCoverControlValue(controlId, value) {
+        if (controlId === "ctrl-cover-shadow") {
+          return value === true || value === "true";
+        }
+        return Number(value);
+      }
+
+      function writeCoverControl(styleKey, rawValue) {
+        const controlId = STYLE_SELECTOR_COVER_CONTROL_IDS[styleKey];
+        if (!controlId) return false;
+
+        const value = normalizeCoverControlValue(controlId, rawValue);
+        const storage = window.appBipartiteStorage;
+        const storeState = window.syncEngine?.store?.state;
+        const controls =
+          storage?.state?.controls ||
+          storeState?.controls ||
+          (storage
+            ? (storage.state.controls = {})
+            : storeState
+              ? (storeState.controls = {})
+              : null);
+        if (!controls) return false;
+
+        // SoC/SSOT boundary:
+        // StyleSelector emits user intent; appBipartiteStorage.state.controls is
+        // the persistent source of truth; applyCoverControlVars is the only
+        // translation layer from semantic state to CSS variables.
+        controls[controlId] = value;
+        window.syncEngine?.store.set(`controls.${controlId}`, value);
+        applyCoverControlVars(controls);
+
+        if (storage && !storage.isApplyingState) {
+          storage.saveLocal?.();
+        }
+
+        return true;
       }
 
       function writeStyleSelectorControl(
@@ -6112,6 +6201,14 @@
           coverPreset:
             storageState?.preset || preset?.className || "preset-cover",
           coverStyle: coverStyle || "full",
+          coverWidth:
+            controls["ctrl-cover-width"] ?? UI_DEFAULTS.COVER_CONTROLS.WIDTH,
+          coverHeight:
+            controls["ctrl-cover-height"] ?? UI_DEFAULTS.COVER_CONTROLS.HEIGHT,
+          coverRadius:
+            controls["ctrl-cover-radius"] ?? UI_DEFAULTS.COVER_CONTROLS.RADIUS,
+          coverShadow:
+            controls["ctrl-cover-shadow"] ?? UI_DEFAULTS.COVER_CONTROLS.SHADOW,
         };
       }
 
@@ -6136,15 +6233,40 @@
         if (change.type !== "control") return;
 
         if (change.control === "coverPreset") {
+          // NO MODIFICAR: anti-patron UX critico.
+          // Un control dentro de un tab JAMAS debe navegar a otro tab.
+          // En particular, cambiar la posicion de avatar desde Portada no puede
+          // mandar al usuario a Avatar. No agregues editorTab aqui ni fuerces
+          // updateTab/updateAspect desde este flujo; solo un click explicito en
+          // la navegacion de tabs puede cambiar el tab activo.
           setPreset(change.value, {
             fromStyleSelector: true,
-            editorTab: "cover",
           });
           return;
         }
 
         if (change.control === "coverStyle") {
           setCoverStyle(change.value === "framed" ? "inset" : change.value);
+          return;
+        }
+
+        if (change.control === "coverWidth") {
+          writeCoverControl(change.control, change.value);
+          return;
+        }
+
+        if (change.control === "coverHeight") {
+          writeCoverControl(change.control, change.value);
+          return;
+        }
+
+        if (change.control === "coverRadius") {
+          writeCoverControl(change.control, change.value);
+          return;
+        }
+
+        if (change.control === "coverShadow") {
+          writeCoverControl(change.control, change.value);
           return;
         }
 
@@ -6196,7 +6318,26 @@
       }
 
       function syncStyleSelectorFromStorage() {
-        window.styleSelector?.updateState?.(getStyleSelectorInitialState());
+        if (!window.styleSelector?.updateState) return;
+
+        const nextState = getStyleSelectorInitialState();
+        const currentState = window.styleSelector.getState?.();
+        const currentTabIsStillAvailable = window.styleSelector
+          .tabsForAspect?.(nextState.aspect)
+          ?.some((tab) => tab.id === currentState?.tab);
+
+        // NO MODIFICAR: anti-patron UX critico.
+        // Rehidratar controles desde storage NO es navegacion del usuario.
+        // Esta proteccion existe para impedir una regresion especifica:
+        // editar "posicion de avatar" dentro del tab Portada no debe saltar
+        // automaticamente al tab Avatar. No reemplaces esto por el tab default,
+        // no fuerces "avatar", y no borres esta preservacion salvo que el tab
+        // actual ya no exista para el aspecto activo.
+        if (currentTabIsStillAvailable) {
+          nextState.tab = currentState.tab;
+        }
+
+        window.styleSelector.updateState(nextState);
       }
 
       // Expose globally for module access
@@ -6390,11 +6531,11 @@
               "ctrl-size": "",
               "ctrl-padding": 0,
               "ctrl-mock-border-scale": "",
-              "ctrl-cover-width": 100,
-              "ctrl-cover-height": "150",
-              "ctrl-cover-radius": 12,
-              "ctrl-cover-fit": "cover",
-              "ctrl-cover-shadow": false,
+              "ctrl-cover-width": UI_DEFAULTS.COVER_CONTROLS.WIDTH,
+              "ctrl-cover-height": UI_DEFAULTS.COVER_CONTROLS.HEIGHT,
+              "ctrl-cover-radius": UI_DEFAULTS.COVER_CONTROLS.RADIUS,
+              "ctrl-cover-fit": UI_DEFAULTS.COVER_CONTROLS.FIT,
+              "ctrl-cover-shadow": UI_DEFAULTS.COVER_CONTROLS.SHADOW,
               "ctrl-radius": "",
               preset: {
                 layout: "preset-centered",
@@ -6946,6 +7087,10 @@
             if (window.ControlSyncRegistry) {
               window.ControlSyncRegistry.applyAll(this.state);
             }
+
+            // Apply cover variables last so legacy registered controls cannot
+            // override the StyleSelector cover state during hydration.
+            applyCoverControlVars(this.state.controls);
 
             window.syncStyleSelectorFromStorage?.();
           } catch (e) {
