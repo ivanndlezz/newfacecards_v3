@@ -4,13 +4,14 @@
     <meta charset="UTF-8" />
     <meta
       name="viewport"
-      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover"
     />
     <title>Digital Business Card - Dynamic Themes</title>
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
     />
+    <link rel="stylesheet" href="../../shared/styles/purchase.css" />
     <style>
       @import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@500;700&family=JetBrains+Mono:wght@400;700&display=swap");
 
@@ -31,6 +32,17 @@
         --action-color: #ffffff;
         --action-font-weight: 500;
         --action-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.25);
+        --sheet-surface: #ffffff;
+        --sheet-muted: #f4f4f5;
+        --sheet-soft: #fafafa;
+        --sheet-border: #e4e4e7;
+        --sheet-border-strong: #d4d4d8;
+        --sheet-text: #18181b;
+        --sheet-text-muted: #71717a;
+        --sheet-text-subtle: #a1a1aa;
+        --sheet-accent: #10b981;
+        --sheet-accent-ring: rgba(16, 185, 129, 0.16);
+        --sheet-shadow: 0 -12px 34px rgba(24, 24, 27, 0.13);
       }
 
       * {
@@ -40,6 +52,7 @@
       body {
         margin: 0;
         min-height: 100vh;
+        min-height: 100dvh;
         width: 100%;
         background-color: var(--app-bg-color);
         color: var(--app-text-color);
@@ -61,6 +74,7 @@
         position: relative;
         display: flex;
         min-height: 100vh;
+        min-height: 100dvh;
         width: 100%;
         flex-direction: column;
         align-items: center;
@@ -398,13 +412,16 @@
       }
 
       .action-bar {
-        position: absolute;
-        bottom: 2.5rem;
+        position: fixed;
+        right: 0;
+        bottom: calc(1.25rem + env(safe-area-inset-bottom, 0px));
+        left: 0;
         z-index: 20;
         display: flex;
         width: 100%;
         justify-content: center;
         padding: 0 1.5rem;
+        transform: translateZ(0);
         transition:
           opacity 0.24s ease,
           transform 0.24s ease;
@@ -459,6 +476,12 @@
         transform: translateY(1rem) scale(0.96);
       }
 
+      @media (hover: none) and (pointer: coarse) {
+        .action-bar {
+          bottom: calc(4.75rem + env(safe-area-inset-bottom, 0px));
+        }
+      }
+
       .sheet-overlay {
         position: fixed;
         inset: 0;
@@ -487,15 +510,18 @@
         z-index: 50;
         display: flex;
         width: 100%;
-        max-width: 28rem;
-        max-height: 40vh;
+        max-width: 31.25rem;
+        height: min(45dvh, 720px);
+        max-height: 45dvh;
         margin: 0 auto;
-        padding: 1.5rem 1.5rem 2rem;
+        padding: 0.625rem 1rem 0;
         flex-direction: column;
-        border-radius: 2.5rem 2.5rem 0 0;
-        background: #ffffff;
-        color: #111827;
-        box-shadow: 0 -10px 40px rgba(0, 0, 0, 0.25);
+        border: 1px solid var(--sheet-border);
+        border-bottom: 0;
+        border-radius: 22px 22px 0 0;
+        background: var(--sheet-surface);
+        color: var(--sheet-text);
+        box-shadow: var(--sheet-shadow);
         transform: translateY(110%);
         transition: transform 0.34s cubic-bezier(0.34, 1, 0.64, 1);
       }
@@ -505,40 +531,58 @@
       }
 
       .theme-sheet__handle {
-        width: 3rem;
-        height: 0.375rem;
-        margin: 0 auto 1.25rem;
+        width: 2.625rem;
+        height: 0.25rem;
+        margin: 0.125rem auto 0.75rem;
         flex-shrink: 0;
         border-radius: 999px;
-        background: #d1d5db;
+        background: var(--sheet-border-strong);
       }
 
       .theme-sheet__header {
         display: flex;
-        margin-bottom: 1.5rem;
+        min-height: 2.25rem;
+        margin-bottom: 0.625rem;
         align-items: center;
         justify-content: space-between;
-        gap: 1rem;
+        gap: 0.75rem;
         flex-shrink: 0;
       }
 
       .theme-sheet__title {
         margin: 0;
-        color: #111827;
-        font-size: 2rem;
-        font-weight: 800;
+        color: var(--sheet-text);
+        font-size: 0.95rem;
+        font-weight: 750;
         line-height: 1;
+        transition:
+          opacity 0.18s ease,
+          transform 0.18s ease;
+      }
+
+      .theme-sheet__header-search {
+        position: relative;
+        display: none;
+        flex: 1;
+      }
+
+      .theme-sheet--searching .theme-sheet__title {
+        display: none;
+      }
+
+      .theme-sheet--searching .theme-sheet__header-search {
+        display: block;
       }
 
       .theme-sheet__close {
         display: grid;
-        width: 2.5rem;
-        height: 2.5rem;
+        width: 2rem;
+        height: 2rem;
         place-items: center;
         border: 0;
         border-radius: 999px;
         background: transparent;
-        color: #6b7280;
+        color: var(--sheet-text-subtle);
         cursor: pointer;
         transition:
           background-color 0.2s ease,
@@ -546,69 +590,109 @@
       }
 
       .theme-sheet__close:hover {
-        background: #f3f4f6;
-        color: #111827;
+        background: var(--sheet-muted);
+        color: var(--sheet-text);
       }
 
       .theme-sheet__content {
         flex: 1;
+        min-height: 0;
         overflow-y: auto;
-        padding-right: 0.25rem;
-        padding-bottom: 1rem;
-        scrollbar-width: none;
+        padding: 0 0.125rem calc(1.5rem + env(safe-area-inset-bottom));
+        overscroll-behavior: contain;
+        scrollbar-width: thin;
+        scrollbar-color: var(--sheet-border-strong) transparent;
       }
 
-      .theme-sheet__content::-webkit-scrollbar,
+      .theme-sheet__content::-webkit-scrollbar {
+        width: 5px;
+      }
+
+      .theme-sheet__content::-webkit-scrollbar-thumb {
+        border-radius: 10px;
+        background: var(--sheet-border-strong);
+      }
+
       .theme-strip::-webkit-scrollbar {
         display: none;
       }
 
       .theme-sheet__section {
-        margin-bottom: 2rem;
+        margin-bottom: 1rem;
       }
 
       .theme-sheet__section-title {
-        margin: 0 0 1rem;
-        color: #1f2937;
-        font-size: 1.125rem;
-        font-weight: 600;
+        margin: 0 0 0.625rem;
+        color: var(--sheet-text);
+        font-size: 0.75rem;
+        font-weight: 700;
+        letter-spacing: 0;
       }
 
       .theme-sheet__search {
         position: relative;
-        margin-bottom: 2rem;
+        margin-bottom: 1rem;
+      }
+
+      .theme-sheet__search--hidden {
+        display: none;
+      }
+
+      .theme-sheet__search-trigger {
+        width: 100%;
+        padding: 0.625rem 0.75rem 0.625rem 2.35rem;
+        border: 1px solid var(--sheet-border);
+        border-radius: 8px;
+        outline: 0;
+        background: var(--sheet-surface);
+        color: var(--sheet-text-subtle);
+        font-size: 0.8125rem;
+        font-weight: 600;
+        text-align: left;
+        cursor: pointer;
+        transition:
+          border-color 0.2s ease,
+          box-shadow 0.2s ease;
+      }
+
+      .theme-sheet__search-trigger:hover {
+        border-color: var(--sheet-border-strong);
       }
 
       .theme-sheet__search-icon {
         position: absolute;
         top: 50%;
-        left: 1rem;
-        color: #4b5563;
+        left: 0.875rem;
+        color: var(--sheet-text-subtle);
+        font-size: 0.875rem;
         transform: translateY(-50%);
       }
 
       .theme-sheet__input {
         width: 100%;
-        padding: 0.875rem 1rem 0.875rem 3rem;
-        border: 2px solid transparent;
-        border-radius: 999px;
+        padding: 0.625rem 0.75rem 0.625rem 2.35rem;
+        border: 1px solid var(--sheet-border);
+        border-radius: 8px;
         outline: 0;
-        background: rgba(229, 231, 235, 0.8);
-        color: #111827;
-        font-size: 1rem;
-        font-weight: 500;
-        transition: border-color 0.2s ease;
+        background: var(--sheet-surface);
+        color: var(--sheet-text);
+        font-size: 0.8125rem;
+        font-weight: 600;
+        transition:
+          border-color 0.2s ease,
+          box-shadow 0.2s ease;
       }
 
       .theme-sheet__input:focus {
-        border-color: #9ca3af;
+        border-color: var(--sheet-accent);
+        box-shadow: 0 0 0 4px var(--sheet-accent-ring);
       }
 
       .theme-strip {
         display: flex;
-        gap: 1rem;
-        margin: 0 -0.5rem;
-        padding: 0.5rem;
+        gap: 0.75rem;
+        margin: 0 -0.25rem;
+        padding: 0.25rem;
         overflow-x: auto;
         scrollbar-width: none;
       }
@@ -616,35 +700,39 @@
       .theme-grid {
         display: grid;
         grid-template-columns: repeat(3, minmax(0, 1fr));
-        gap: 1rem;
+        gap: 0.75rem;
       }
 
       .theme-option {
         position: relative;
         display: flex;
-        min-width: 95px;
+        min-width: 88px;
         overflow: hidden;
         flex-direction: column;
         justify-content: space-between;
-        padding: 0.75rem 0.5rem 1rem;
-        border: 3px solid transparent;
-        border-radius: 1rem;
-        background: var(--option-bg);
-        color: var(--option-color);
+        padding: 0.5rem;
+        border: 2px solid var(--sheet-border);
+        border-radius: 14px;
+        background: var(--sheet-surface);
+        color: var(--sheet-text);
         cursor: pointer;
         transition:
           border-color 0.2s ease,
-          background-color 0.2s ease,
-          transform 0.2s ease;
+          box-shadow 0.2s ease,
+          transform 0.05s ease;
       }
 
       .theme-option:hover {
-        transform: translateY(-2px);
+        border-color: var(--sheet-border-strong);
+      }
+
+      .theme-option:active {
+        transform: scale(0.995);
       }
 
       .theme-option--owned {
-        width: 95px;
-        aspect-ratio: 9 / 16;
+        width: 90px;
+        aspect-ratio: 4 / 5;
         flex-shrink: 0;
       }
 
@@ -653,25 +741,28 @@
       }
 
       .theme-option--selected {
-        border-color: #111827;
-        transform: scale(1.02);
+        border-color: var(--sheet-accent);
+        box-shadow: 0 0 0 4px var(--sheet-accent-ring);
       }
 
       .theme-option__radio {
         position: absolute;
-        top: 0.625rem;
-        right: 0.625rem;
+        top: 0.5rem;
+        right: 0.5rem;
         display: grid;
-        width: 1.5rem;
-        height: 1.5rem;
+        width: 1.375rem;
+        height: 1.375rem;
         place-items: center;
-        border: 2.5px solid currentColor;
+        border: 2px solid rgba(255, 255, 255, 0.72);
         border-radius: 999px;
+        background: rgba(255, 255, 255, 0.86);
+        color: var(--sheet-accent);
+        box-shadow: 0 1px 3px rgba(24, 24, 27, 0.16);
       }
 
       .theme-option__dot {
-        width: 0.75rem;
-        height: 0.75rem;
+        width: 0.625rem;
+        height: 0.625rem;
         border-radius: 999px;
         background: currentColor;
         opacity: 0;
@@ -683,33 +774,41 @@
 
       .theme-option__spacer {
         flex: 1;
+        width: 100%;
+        min-height: 3.25rem;
+        margin-bottom: 0.5rem;
+        border-radius: 10px;
+        background: var(--option-bg);
+        box-shadow:
+          inset 0 10px 20px rgba(255, 255, 255, 0.12),
+          0 2px 4px rgba(24, 24, 27, 0.04);
       }
 
       .theme-option__name {
         width: 100%;
-        font-size: 0.8rem;
+        color: var(--sheet-text);
+        font-size: 0.75rem;
         font-weight: 600;
         line-height: 1.2;
         text-align: center;
       }
 
       .theme-option__price {
-        margin-top: 0.35rem;
-        color: currentColor;
-        font-size: 0.7rem;
+        margin-top: 0.25rem;
+        color: var(--sheet-text-muted);
+        font-size: 0.6875rem;
         font-weight: 700;
-        opacity: 0.6;
         text-align: center;
       }
 
       .theme-sheet__empty {
         display: none;
         margin: 0;
-        padding: 1rem;
-        border-radius: 1rem;
-        background: #f3f4f6;
-        color: #6b7280;
-        font-size: 0.9rem;
+        padding: 0.875rem;
+        border-radius: 14px;
+        background: var(--sheet-muted);
+        color: var(--sheet-text-muted);
+        font-size: 0.8125rem;
         text-align: center;
       }
 
@@ -717,49 +816,64 @@
         display: block;
       }
 
+      .purchase-overlay {
+        position: fixed;
+        inset: 0;
+        z-index: 90;
+        background: rgba(0, 0, 0, 0.4);
+        opacity: 0;
+        pointer-events: none;
+        backdrop-filter: blur(4px);
+        transition: opacity var(--transition-base);
+      }
+
+      .purchase-overlay.open {
+        opacity: 1;
+        pointer-events: auto;
+      }
+
+      .purchase-sheet {
+        position: fixed;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        z-index: 100;
+        display: flex;
+        width: 100%;
+        max-width: var(--sheet-w);
+        flex-direction: column;
+        background: var(--color-bg-primary);
+        box-shadow: -10px 0 40px rgba(0, 0, 0, 0.1);
+        transform: translateX(100%);
+        transition: transform var(--transition-base);
+      }
+
+      .purchase-sheet.open {
+        transform: translateX(0);
+      }
+
+      .purchase-item-preview {
+        width: 54px;
+        height: 68px;
+        flex: 0 0 auto;
+        border-radius: 14px;
+        background: var(--purchase-preview-bg);
+        box-shadow:
+          inset 0 10px 20px rgba(255, 255, 255, 0.14),
+          0 4px 12px rgba(0, 0, 0, 0.08);
+      }
+
       @media (prefers-color-scheme: dark) {
         .theme-sheet {
-          background: #111827;
-          color: #ffffff;
-        }
-
-        .theme-sheet__handle {
-          background: #374151;
-        }
-
-        .theme-sheet__title {
-          color: #ffffff;
-        }
-
-        .theme-sheet__close {
-          color: #9ca3af;
-        }
-
-        .theme-sheet__close:hover {
-          background: #1f2937;
-          color: #ffffff;
-        }
-
-        .theme-sheet__section-title {
-          color: #e5e7eb;
-        }
-
-        .theme-sheet__input {
-          background: #1f2937;
-          color: #ffffff;
-        }
-
-        .theme-sheet__input:focus {
-          border-color: #4b5563;
-        }
-
-        .theme-option--selected {
-          border-color: #ffffff;
-        }
-
-        .theme-sheet__empty {
-          background: #1f2937;
-          color: #9ca3af;
+          --sheet-surface: #18181b;
+          --sheet-muted: #27272a;
+          --sheet-soft: #1f1f23;
+          --sheet-border: #3f3f46;
+          --sheet-border-strong: #52525b;
+          --sheet-text: #f4f4f5;
+          --sheet-text-muted: #a1a1aa;
+          --sheet-text-subtle: #71717a;
+          --sheet-shadow: 0 -12px 34px rgba(0, 0, 0, 0.34);
         }
       }
     </style>
@@ -809,6 +923,15 @@
       <div class="theme-sheet__handle"></div>
       <header class="theme-sheet__header">
         <h2 class="theme-sheet__title" id="theme-sheet-title">Appearance</h2>
+        <div class="theme-sheet__header-search">
+          <i class="fa-solid fa-magnifying-glass theme-sheet__search-icon"></i>
+          <input
+            class="theme-sheet__input"
+            id="search-input"
+            placeholder="Theme search"
+            type="text"
+          />
+        </div>
         <button
           class="theme-sheet__close"
           id="close-sheet-btn"
@@ -827,12 +950,13 @@
 
         <div class="theme-sheet__search">
           <i class="fa-solid fa-magnifying-glass theme-sheet__search-icon"></i>
-          <input
-            class="theme-sheet__input"
-            id="search-input"
-            placeholder="Theme search"
-            type="text"
-          />
+          <button
+            class="theme-sheet__search-trigger"
+            id="theme-search-trigger"
+            type="button"
+          >
+            Theme search
+          </button>
         </div>
 
         <section class="theme-sheet__section">
@@ -844,6 +968,60 @@
         </section>
       </div>
     </section>
+
+    <div class="purchase-overlay" id="purchase-overlay" hidden></div>
+    <aside
+      class="purchase-sheet"
+      id="purchase-sheet"
+      aria-labelledby="purchase-sheet-title"
+      aria-modal="true"
+      hidden
+      role="dialog"
+    >
+      <header class="ss-header">
+        <h2 class="ss-header-title" id="purchase-sheet-title">Tu carrito</h2>
+        <button class="ss-close" id="purchase-close-btn" type="button" aria-label="Cerrar carrito">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </header>
+
+      <div class="ss-canvas">
+        <div class="ss-canvas-label">Compra actual</div>
+        <div class="ss-canvas-chips">
+          <span class="ss-chip">
+            <span class="ss-chip-dot" id="purchase-chip-dot"></span>
+            Theme
+            <span class="ss-chip-val" id="purchase-chip-value">Preview</span>
+          </span>
+        </div>
+      </div>
+
+      <div class="ss-body">
+        <article class="ss-option-card active">
+          <div class="ss-card-left">
+            <div class="purchase-item-preview" id="purchase-item-preview"></div>
+            <div>
+              <div class="ss-card-label">
+                <span class="ss-card-name" id="purchase-item-name">Theme</span>
+              </div>
+              <p class="text-sm text-secondary">Digital card theme</p>
+            </div>
+          </div>
+          <strong class="text-lg" id="purchase-item-price">$0.00</strong>
+        </article>
+      </div>
+
+      <footer class="ss-summary">
+        <div class="ss-total-row">
+          <span class="ss-total-label">Total</span>
+          <span class="ss-total-val" id="purchase-total">$0.00</span>
+        </div>
+        <button class="btn-primary justify-center" id="purchase-checkout-btn" type="button">
+          <i class="fa-solid fa-credit-card"></i>
+          Checkout
+        </button>
+      </footer>
+    </aside>
 
     <script>
       // 1. DATA: Origen de la verdad
@@ -1148,7 +1326,22 @@
       );
       const presetList = document.getElementById("preset-list");
       const searchInput = document.getElementById("search-input");
+      const themeSearchTrigger = document.getElementById(
+        "theme-search-trigger",
+      );
+      const themeSearchMockup = document.querySelector(".theme-sheet__search");
       const themeEmptyState = document.getElementById("theme-empty-state");
+      const purchaseOverlay = document.getElementById("purchase-overlay");
+      const purchaseSheet = document.getElementById("purchase-sheet");
+      const purchaseCloseBtn = document.getElementById("purchase-close-btn");
+      const purchaseChipDot = document.getElementById("purchase-chip-dot");
+      const purchaseChipValue = document.getElementById("purchase-chip-value");
+      const purchaseItemPreview = document.getElementById(
+        "purchase-item-preview",
+      );
+      const purchaseItemName = document.getElementById("purchase-item-name");
+      const purchaseItemPrice = document.getElementById("purchase-item-price");
+      const purchaseTotal = document.getElementById("purchase-total");
       let cards = [];
       let dots = [];
       let currentIndex = 1;
@@ -1159,12 +1352,20 @@
       // Estado Global (Falso = Modo Vista, Verdadero = Modo Edición)
       let isEditMode = false;
 
-      function isSelectedThemeOwned() {
-        return Boolean(getThemeById(selectedThemeId));
-      }
-
       function isCurrentCardMore() {
         return cards[currentIndex]?.dataset.cardType === "more";
+      }
+
+      function getCurrentCardThemeId() {
+        return cards[currentIndex]?.dataset.themeId || selectedThemeId;
+      }
+
+      function isCurrentCardThemeOwned() {
+        return Boolean(getThemeById(getCurrentCardThemeId()));
+      }
+
+      function getCurrentMarketplaceTheme() {
+        return getMarketplaceThemeById(getCurrentCardThemeId());
       }
 
       function syncActionButtonState() {
@@ -1173,7 +1374,7 @@
         if (isEditMode) {
           actionBtn.classList.add("action-button--save");
 
-          if (isSelectedThemeOwned()) {
+          if (isCurrentCardThemeOwned()) {
             actionIcon.innerHTML = '<i class="fa-solid fa-check"></i>';
             actionText.innerText = "Guardar Selección";
           } else {
@@ -1512,18 +1713,63 @@
         requestAnimationFrame(() => {
           sheetOverlay.classList.add("sheet-overlay--open");
           themeSheet.classList.add("theme-sheet--open");
-          searchInput.focus();
         });
       }
 
       function closeThemeSheet() {
         sheetOverlay.classList.remove("sheet-overlay--open");
         themeSheet.classList.remove("theme-sheet--open");
+        themeSheet.classList.remove("theme-sheet--searching");
+        themeSearchMockup.classList.remove("theme-sheet__search--hidden");
+        searchInput.value = "";
+        renderThemeSheet();
 
         setTimeout(() => {
           sheetOverlay.hidden = true;
           themeSheet.hidden = true;
         }, 340);
+      }
+
+      function activateThemeSearch() {
+        themeSearchMockup.classList.add("theme-sheet__search--hidden");
+        themeSheet.classList.add("theme-sheet--searching");
+
+        requestAnimationFrame(() => {
+          searchInput.focus();
+        });
+      }
+
+      function openPurchaseSheet() {
+        const theme = getCurrentMarketplaceTheme();
+        if (!theme) return;
+
+        purchaseChipValue.innerText = theme.name;
+        purchaseItemName.innerText = theme.name;
+        purchaseItemPrice.innerText = theme.price;
+        purchaseTotal.innerText = theme.price;
+        purchaseChipDot.style.background = theme.preview["--option-bg"];
+        purchaseItemPreview.style.setProperty(
+          "--purchase-preview-bg",
+          theme.preview["--option-bg"],
+        );
+
+        purchaseOverlay.hidden = false;
+        purchaseSheet.hidden = false;
+
+        requestAnimationFrame(() => {
+          purchaseOverlay.classList.add("open");
+          purchaseSheet.classList.add("open");
+        });
+      }
+
+      function closePurchaseSheet() {
+        purchaseOverlay.classList.remove("open");
+        purchaseSheet.classList.remove("open");
+
+        setTimeout(() => {
+          purchaseOverlay.hidden = true;
+          purchaseSheet.hidden = true;
+        }, 320);
       }
 
       // Inicializar Render
@@ -1539,6 +1785,11 @@
       const actionText = document.getElementById("action-text");
 
       actionBtn.addEventListener("click", () => {
+        if (isEditMode && !isCurrentCardThemeOwned() && !isCurrentCardMore()) {
+          openPurchaseSheet();
+          return;
+        }
+
         isEditMode = !isEditMode;
         const bodyCls = document.body.classList;
 
@@ -1557,10 +1808,14 @@
 
       closeSheetBtn.addEventListener("click", closeThemeSheet);
       sheetOverlay.addEventListener("click", closeThemeSheet);
+      themeSearchTrigger.addEventListener("click", activateThemeSearch);
       searchInput.addEventListener("input", renderThemeSheet);
+      purchaseCloseBtn.addEventListener("click", closePurchaseSheet);
+      purchaseOverlay.addEventListener("click", closePurchaseSheet);
 
       document.addEventListener("keydown", (e) => {
         if (e.key === "Escape" && !themeSheet.hidden) closeThemeSheet();
+        if (e.key === "Escape" && !purchaseSheet.hidden) closePurchaseSheet();
       });
 
       // ==========================================

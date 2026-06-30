@@ -1,0 +1,7 @@
+.DS_Store
+
+# Legacy PHP middleware archive. Keep the audit note, but do not commit
+# old uploads, logs, backups, or scripts with embedded production details.
+old_middlewares/*
+old_middlewares/frontend/*
+!old_middlewares/LEGACY_MIDDLEWARES.md

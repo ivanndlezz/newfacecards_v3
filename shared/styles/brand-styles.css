@@ -379,6 +379,7 @@ confidence and elegant simplicity.
   --overlay-dark-medium: rgba(0, 0, 0, 0.33);
   --overlay-dark: rgba(0, 0, 0, 0.27);
   --overlay-dark-strong: rgba(0, 0, 0, 0.44);
+  --brand-primary-soft-flat: rgb(217 224 222);
   --brand-primary-soft: rgba(6, 137, 108, 0.07);
   --brand-primary-soft-hover: rgba(6, 137, 108, 0.08);
   --brand-primary-ring-soft: rgba(6, 137, 108, 0.14);

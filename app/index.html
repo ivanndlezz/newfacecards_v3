@@ -10,6 +10,14 @@
     />
     <link
       rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.12/cropper.min.css"
+    />
+    <script
+      defer
+      src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.12/cropper.min.js"
+    ></script>
+    <link
+      rel="stylesheet"
       href="../shared/components/island-menu/island-menu.css"
     />
     <title>NewFace App</title>
@@ -719,6 +727,7 @@
         display: flex;
         width: var(--w100);
         justify-content: space-between;
+        align-items: center;
         margin-bottom: 5px;
         transition: all 0.5s ease;
         position: absolute;
@@ -728,6 +737,435 @@
         z-index: 10;
         pointer-events: none;
         top: 0px;
+      }
+
+      .layout-toolbar {
+        pointer-events: auto;
+        border: 0;
+        min-height: 44px;
+        padding: 0 16px;
+        border-radius: 999px;
+        color: var(--color-primary);
+        background: var(--brand-primary-soft-flat);
+        backdrop-filter: blur(18px);
+        -webkit-backdrop-filter: blur(18px);
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        cursor: pointer;
+        opacity: 0;
+        transform: translateY(-6px) scale(0.96);
+        pointer-events: none;
+        transition:
+          opacity 220ms ease,
+          transform 260ms var(--smooth);
+      }
+
+      .layout-toolbar[data-status="active"] {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+        pointer-events: auto;
+      }
+
+      .layout-toolbar__icon {
+        width: 18px;
+        height: 18px;
+      }
+
+      .layout-toolbar__label {
+        font-size: 13px;
+        font-weight: 700;
+      }
+
+      .media-edit-sheet {
+        --media-menu-accent: #279c5b;
+        --media-menu-accent-bg: #d0e8d1;
+        display: flex;
+        flex-direction: column;
+        position: relative;
+        text-align: center;
+        width: 100%;
+        max-width: 460px;
+        margin: 28px auto 0;
+        border-radius: 16px;
+        background: #ffffff;
+        box-shadow: 0 0 20px #00000022;
+        overflow: visible;
+      }
+
+      .media-edit-sheet[data-media-kind="cover"] {
+        --media-menu-accent: #044a98;
+        --media-menu-accent-bg: #d8e7f7;
+      }
+
+      .media-edit-sheet__icon-wrap {
+        display: flex;
+        width: 100%;
+        align-items: center;
+        justify-content: center;
+        pointer-events: none;
+      }
+
+      .media-edit-sheet__icon {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 64px;
+        height: 64px;
+        border-radius: 16px;
+        margin-top: -32px;
+        background: var(--media-menu-accent-bg);
+        color: var(--media-menu-accent);
+      }
+
+      .media-edit-sheet__icon i {
+        font-size: 32px;
+      }
+
+      .media-edit-sheet__action {
+        border: 0;
+        border-bottom: 1px solid #ececec;
+        min-height: 52px;
+        padding: 0;
+        background: transparent;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        color: var(--app-text-slate-strong);
+        font: inherit;
+        font-weight: 700;
+        font-size: 16px;
+        cursor: pointer;
+      }
+
+      .media-edit-sheet__action--primary {
+        color: #1b6b1b;
+      }
+
+      .media-edit-sheet__action--danger {
+        color: #b91c1c;
+      }
+
+      .media-edit-sheet__action--cancel {
+        min-height: 58px;
+        border-bottom: 0;
+        border-radius: 0 0 16px 16px;
+        background: #ffd834;
+        color: #511905;
+      }
+
+      .media-cropper-overlay {
+        --media-cropper-accent: #279c5b;
+        --media-cropper-accent-soft: #d0e8d1;
+        --media-cropper-max-width: 460px;
+        --media-cropper-gap: 20px;
+        position: fixed;
+        inset: 0;
+        z-index: 7000;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: var(--media-cropper-gap);
+        overflow: auto;
+        padding: max(40px, env(safe-area-inset-top)) 18px
+          max(24px, env(safe-area-inset-bottom));
+        background: #ffffff;
+        color: var(--app-text-slate-strong);
+        opacity: 0;
+        transform: translateY(10px) scale(0.985);
+        transition:
+          opacity 240ms ease,
+          transform 320ms var(--smooth);
+      }
+
+      .media-cropper-overlay[data-media-kind="cover"] {
+        --media-cropper-accent: #044a98;
+        --media-cropper-accent-soft: #d8e7f7;
+      }
+
+      .media-cropper-overlay[data-state="opening"],
+      .media-cropper-overlay[data-state="ready"] {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+
+      .media-cropper-overlay[data-state="closing"] {
+        opacity: 0;
+        pointer-events: none;
+        transform: translateY(14px) scale(0.985);
+      }
+
+      .media-cropper-overlay__header,
+      .media-cropper-overlay__actions {
+        width: min(100%, var(--media-cropper-max-width));
+        margin: 0 auto;
+      }
+
+      .media-cropper-overlay__header {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        opacity: 0;
+        transform: translateY(-8px);
+        transition:
+          opacity 260ms ease 80ms,
+          transform 320ms var(--smooth) 80ms;
+      }
+
+      .media-cropper-overlay__icon-button {
+        min-width: 0;
+        min-height: 0;
+        padding: 12px 28px;
+        border: 0;
+        border-radius: 999px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        background: #ffffff;
+        color: #333333;
+        box-shadow: 0 0 10px #00000022;
+        font: inherit;
+        font-size: 16px;
+        font-weight: 500;
+        cursor: pointer;
+      }
+
+      .media-cropper-overlay__body {
+        min-height: 0;
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .media-cropper-overlay__stage {
+        width: min(100%, var(--media-cropper-max-width));
+        display: grid;
+        gap: var(--media-cropper-gap);
+        opacity: 0;
+        transform: translateY(14px);
+        transition:
+          opacity 300ms ease 120ms,
+          transform 360ms var(--smooth) 120ms;
+      }
+
+      .media-cropper-overlay__banner {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 6px;
+        width: 100%;
+        min-height: 0;
+        padding: 20px;
+        border-radius: 14px;
+        background: var(--media-cropper-accent-soft);
+        color: var(--media-cropper-accent);
+        font-size: 16px;
+        font-weight: 500;
+        text-align: center;
+      }
+
+      .media-cropper-overlay__banner i {
+        font-size: 32px;
+      }
+
+      .media-cropper-overlay__cropper {
+        position: relative;
+        width: 100%;
+        max-height: min(52vh, 500px);
+        aspect-ratio: var(--media-cropper-ratio, 1 / 1);
+        overflow: hidden;
+        border: 2px dashed #c9c9c9;
+        border-radius: 10px;
+        background: #ffffff;
+      }
+
+      .media-cropper-overlay__skeleton {
+        position: absolute;
+        inset: 0;
+        z-index: 2;
+        display: grid;
+        place-items: center;
+        background:
+          linear-gradient(
+            90deg,
+            rgba(255, 255, 255, 0.08) 0%,
+            rgba(255, 255, 255, 0.18) 50%,
+            rgba(255, 255, 255, 0.08) 100%
+          ),
+          #f5f5f5;
+        background-size: 260% 100%;
+        color: #333333;
+        font-size: 13px;
+        font-weight: 800;
+        letter-spacing: 0;
+        animation: media-cropper-shimmer 1.35s linear infinite;
+        transition: opacity 220ms ease;
+      }
+
+      .media-cropper-overlay[data-stage="ready"]
+        .media-cropper-overlay__skeleton {
+        opacity: 0;
+        pointer-events: none;
+      }
+
+      .media-cropper-overlay[data-media-kind="avatar"]
+        .media-cropper-overlay__cropper {
+        --media-cropper-ratio: 1 / 1;
+        width: min(100%, 460px, 52vh);
+        max-height: none;
+        justify-self: center;
+      }
+
+      .media-cropper-overlay[data-media-kind="cover"]
+        .media-cropper-overlay__cropper {
+        --media-cropper-ratio: 16 / 9;
+      }
+
+      .media-cropper-overlay__image {
+        display: block;
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+        opacity: 0;
+        transform: scale(1.015);
+        transition:
+          opacity 220ms ease,
+          transform 360ms var(--smooth);
+      }
+
+      .media-cropper-overlay[data-stage="ready"] .media-cropper-overlay__image {
+        opacity: 1;
+        transform: scale(1);
+      }
+
+      .media-cropper-overlay:not([data-cropper-mode="native"])
+        .media-cropper-overlay__cropper::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        border: 2px solid #ffffff;
+        box-shadow: 0 0 0 999px rgba(0, 0, 0, 0.26);
+        pointer-events: none;
+      }
+
+      .media-cropper-overlay[data-media-kind="avatar"]:not(
+          [data-cropper-mode="native"]
+        )
+        .media-cropper-overlay__cropper::after {
+        border-radius: 999px;
+      }
+
+      .media-cropper-overlay[data-media-kind="avatar"] .cropper-crop-box,
+      .media-cropper-overlay[data-media-kind="avatar"] .cropper-view-box,
+      .media-cropper-overlay[data-media-kind="avatar"] .cropper-face {
+        border-radius: 999px;
+      }
+
+      .media-cropper-overlay[data-media-kind="avatar"] .cropper-view-box {
+        outline-color: #ffffff;
+      }
+
+      .media-cropper-overlay__actions {
+        display: grid;
+        gap: 10px;
+        align-items: center;
+
+        opacity: 0;
+        transform: translateY(12px);
+        transition:
+          opacity 280ms ease 180ms,
+          transform 340ms var(--smooth) 180ms;
+      }
+
+      .media-cropper-overlay__button {
+        min-height: 52px;
+        border: 0;
+        border-radius: 10px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        font: inherit;
+        font-size: 16px;
+        font-weight: 700;
+        cursor: pointer;
+        transition:
+          opacity 180ms ease,
+          transform 180ms ease,
+          box-shadow 180ms ease;
+      }
+
+      .media-cropper-overlay__button:active {
+        transform: scale(0.985);
+      }
+
+      .media-cropper-overlay__button:disabled {
+        opacity: 0.55;
+        cursor: wait;
+      }
+
+      .media-cropper-overlay__button--secondary {
+        background: #ffffff;
+        color: #333333;
+        box-shadow: 0 1px 8px #00000014;
+      }
+
+      .media-cropper-overlay__button--link {
+        border: 0;
+        min-height: 36px;
+        padding: 0;
+        background: transparent;
+        color: #b91c1c;
+        box-shadow: none;
+        font-size: 15px;
+        font-weight: 700;
+      }
+
+      .media-cropper-overlay__button--primary {
+        width: 100%;
+        min-height: 0;
+        padding: 14px;
+        background: var(--media-cropper-accent);
+        color: #ffffff;
+      }
+
+      .media-cropper-overlay[data-state="opening"]
+        .media-cropper-overlay__header,
+      .media-cropper-overlay[data-state="ready"] .media-cropper-overlay__header,
+      .media-cropper-overlay[data-state="opening"]
+        .media-cropper-overlay__stage,
+      .media-cropper-overlay[data-state="ready"] .media-cropper-overlay__stage,
+      .media-cropper-overlay[data-state="opening"]
+        .media-cropper-overlay__actions,
+      .media-cropper-overlay[data-state="ready"]
+        .media-cropper-overlay__actions {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      @keyframes media-cropper-shimmer {
+        0% {
+          background-position: 130% 0;
+        }
+        100% {
+          background-position: -130% 0;
+        }
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        .media-cropper-overlay,
+        .media-cropper-overlay__header,
+        .media-cropper-overlay__stage,
+        .media-cropper-overlay__actions,
+        .media-cropper-overlay__image,
+        .media-cropper-overlay__skeleton,
+        .media-cropper-overlay__button {
+          animation: none;
+          transition: none;
+        }
       }
 
       .logo-chip {
@@ -1008,7 +1446,8 @@
         width: 100%;
         height: 100%;
         object-fit: var(--cover-fit, cover);
-        display: none;
+        opacity: 0;
+        transition: opacity 260ms ease;
       }
 
       /* --- Contenido Principal --- */
@@ -1071,13 +1510,24 @@
         position: absolute;
         top: 0;
         left: 0;
+        z-index: 2;
+        opacity: 1;
+        pointer-events: none;
+        transition:
+          opacity 260ms ease,
+          visibility 0s linear 260ms;
       }
       .avt__skel {
         width: var(--avatar-size, 100px);
         height: var(--avatar-size, 100px);
         border-radius: var(--avatar-radius);
         grid-area: 1 / 1;
-        transition: all 0.3s ease;
+        z-index: 2;
+        opacity: 1;
+        pointer-events: none;
+        transition:
+          opacity 260ms ease,
+          visibility 0s linear 260ms;
       }
       .lin__skel {
         margin-bottom: 8px;
@@ -1094,19 +1544,35 @@
       }
 
       /* --- Control de visibilidad --- */
-      .avt__img,
-      .cover-photo,
+      .avt__img {
+        opacity: 0;
+        visibility: hidden;
+        transition:
+          opacity 260ms ease,
+          visibility 0s linear 260ms;
+      }
+
       .lin__identity {
         display: none;
       }
 
       .status-storage[data-general-status="loaded"] .avt__skel,
-      .status-storage[data-general-status="loaded"] .cover-skel,
+      .status-storage[data-general-status="loaded"] .cover-skel {
+        opacity: 0;
+        visibility: hidden;
+      }
+
       .status-storage[data-general-status="loaded"] .lin__identity-skel {
         display: none;
       }
+
       .status-storage[data-general-status="loaded"] .avt__img,
-      .status-storage[data-general-status="loaded"] .cover-photo,
+      .status-storage[data-general-status="loaded"] .cover-photo {
+        opacity: 1;
+        visibility: visible;
+        transition-delay: 90ms, 0s;
+      }
+
       .status-storage[data-general-status="loaded"] .lin__identity {
         display: block;
       }
@@ -1983,9 +2449,7 @@
         .pill-wrapper-container
           .bottom-nav[data-scope="appearance"]
           #appearance,
-        .pill-wrapper-container
-          .bottom-nav[data-scope="theme"]
-          #style {
+        .pill-wrapper-container .bottom-nav[data-scope="theme"] #style {
           flex-basis: 76px;
         }
       }
@@ -2760,7 +3224,9 @@
       #data-status-storage:not([data-card-status="editing"])
         + #app
         .cover-wrap
-        * {
+        *,
+      #data-status-storage:not([data-card-status="editing"]) + #app .avt,
+      #data-status-storage:not([data-card-status="editing"]) + #app .avt * {
         pointer-events: none !important;
       }
 
@@ -3013,6 +3479,35 @@
               <use href="#logo"></use>
             </svg>
           </div>
+          <button
+            class="layout-toolbar"
+            id="layoutToolbarButton"
+            type="button"
+            data-status="hidden"
+            aria-hidden="true"
+            aria-label="Editar layout"
+            tabindex="-1"
+          >
+            <svg
+              class="layout-toolbar__icon"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              aria-hidden="true"
+            >
+              <rect x="4" y="5" width="16" height="5" rx="2" stroke-width="2" />
+              <rect x="4" y="14" width="7" height="5" rx="2" stroke-width="2" />
+              <rect
+                x="13"
+                y="14"
+                width="7"
+                height="5"
+                rx="2"
+                stroke-width="2"
+              />
+            </svg>
+            <span class="layout-toolbar__label">Layout</span>
+          </button>
         </div>
         <div
           id="card"
@@ -3058,7 +3553,7 @@
               <div
                 class="avt edit-element"
                 id="avatarContainer"
-                data-scope="avt__edit"
+                data-scope="mobile_avatar_input"
               >
                 <span id="mobile_avatar_input" class="avt__edit">
                   <span class="avt__ico"> </span>
@@ -3918,13 +4413,15 @@
          * @type {Readonly<Record<string, {templates: string[], title: string}>>}
          */
         const SCOPE_TEMPLATE_MAP = Object.freeze({
-          avt__edit: {
-            templates: ["controls/avatar.html"],
-            title: "Personalizar Avatar",
+          mobile_avatar_input: {
+            type: "media",
+            mediaKind: "avatar",
+            title: "Foto de perfil",
           },
           mobile_cover_input: {
-            templates: ["controls/cover.html"],
-            title: "Personalizar Portada",
+            type: "media",
+            mediaKind: "cover",
+            title: "Foto de portada",
           },
         });
 
@@ -4084,6 +4581,7 @@
           BTN_STYLE: "#style",
           BTN_MENU: "#Menu",
           BTN_HANDLER: "#handlerArea",
+          BTN_LAYOUT_TOOLBAR: "#layoutToolbarButton",
           MODULE_CONTENT: ".module-content",
           SCOPE_ACTION: "[data-scope-action]",
           STYLE_SELECTOR_TAB: "[data-ss-action='select-tab']",
@@ -4106,6 +4604,7 @@
           #btnStyle;
           #btnMenu;
           #btnHandler;
+          #btnLayoutToolbar;
           #moduleContent;
           #scrim;
           #startY = 0;
@@ -4127,6 +4626,9 @@
             this.#btnStyle = pillEl.querySelector(_PC_SELECTORS.BTN_STYLE);
             this.#btnMenu = pillEl.querySelector(_PC_SELECTORS.BTN_MENU);
             this.#btnHandler = pillEl.querySelector(_PC_SELECTORS.BTN_HANDLER);
+            this.#btnLayoutToolbar = document.querySelector(
+              _PC_SELECTORS.BTN_LAYOUT_TOOLBAR,
+            );
             this.#moduleContent = pillEl.querySelector(
               _PC_SELECTORS.MODULE_CONTENT,
             );
@@ -4147,12 +4649,26 @@
             );
           }
 
+          #setLayoutToolbarState(isActive) {
+            if (!this.#btnLayoutToolbar) return;
+            this.#btnLayoutToolbar.setAttribute(
+              "data-status",
+              isActive ? "active" : "hidden",
+            );
+            this.#btnLayoutToolbar.setAttribute(
+              "aria-hidden",
+              String(!isActive),
+            );
+            this.#btnLayoutToolbar.tabIndex = isActive ? 0 : -1;
+          }
+
           #setAppearanceState(isActive) {
             this.#btnAppearance?.setAttribute("aria-pressed", String(isActive));
 
             if (isActive) {
               this.#btnStyle?.setAttribute("aria-pressed", "false");
               this.#pill.dataset.scope = "appearance";
+              this.#setLayoutToolbarState(true);
               this.#hydrateScopeActions();
               return;
             }
@@ -4160,6 +4676,7 @@
             if (this.#pill.dataset.scope === "appearance") {
               delete this.#pill.dataset.scope;
             }
+            this.#setLayoutToolbarState(false);
             this.#clearScopeActions();
           }
 
@@ -4168,6 +4685,7 @@
 
             if (isActive) {
               this.#btnAppearance?.setAttribute("aria-pressed", "false");
+              this.#setLayoutToolbarState(false);
               this.#pill.dataset.scope = "theme";
               this.#hydrateScopeActions();
               return;
@@ -4236,7 +4754,8 @@
                 button.className = "module-item scope-action";
                 button.type = "button";
                 button.dataset.scopeAction = id;
-                button.dataset.status = id === activeAspect ? "active" : "unset";
+                button.dataset.status =
+                  id === activeAspect ? "active" : "unset";
                 button.innerHTML = `<span class="scope-action-dot"></span><span class="module-label">${label}</span>`;
                 this.#moduleContent?.append(button);
               });
@@ -4268,10 +4787,15 @@
           #showLayoutPicker() {
             this.#openEditorSheet();
             document
-              .querySelector(
-                `#styleSelectorHost ${_PC_SELECTORS.STYLE_DROPDOWN}`,
-              )
-              ?.click();
+              .getElementById("main-settings")
+              ?.setAttribute("data-status", "active");
+            document
+              .getElementById("custom-settings")
+              ?.setAttribute("data-status", "hidden");
+            document
+              .getElementById("sheet-header-left")
+              ?.setAttribute("data-status", "ready");
+            window.styleSelector?.showEditor?.();
           }
 
           // ── Private handlers (arrow fields = auto-bound, safe for add/removeEventListener) ──
@@ -4340,6 +4864,10 @@
                 Math.min(currentIndex + 1, _PC_SHEET_STATES.length - 1)
               ];
             this.#setSheetState(nextState === "closed" ? "small" : nextState);
+          };
+
+          #onLayoutToolbar = () => {
+            this.#showLayoutPicker();
           };
 
           #handleSwipe = (endY) => {
@@ -4437,6 +4965,10 @@
             this.#btnStyle?.addEventListener("click", this.#onStyle);
             this.#btnMenu?.addEventListener("click", this.#onMenu);
             this.#btnHandler?.addEventListener("click", this.#onHandler);
+            this.#btnLayoutToolbar?.addEventListener(
+              "click",
+              this.#onLayoutToolbar,
+            );
             this.#btnHandler?.addEventListener(
               "touchstart",
               this.#onTouchStart,
@@ -4466,6 +4998,10 @@
             this.#btnStyle?.removeEventListener("click", this.#onStyle);
             this.#btnMenu?.removeEventListener("click", this.#onMenu);
             this.#btnHandler?.removeEventListener("click", this.#onHandler);
+            this.#btnLayoutToolbar?.removeEventListener(
+              "click",
+              this.#onLayoutToolbar,
+            );
             this.#btnHandler?.removeEventListener(
               "touchstart",
               this.#onTouchStart,
@@ -4797,11 +5333,251 @@
         const _EE_EDIT_ELEM_SELECTOR = ".edit-element";
         const _EE_DATA_SCOPE_ATTR = "data-scope";
 
+        function _eePreviewMediaBlob(mediaKind, blob) {
+          const target =
+            mediaKind === "cover"
+              ? document.getElementById("profileCover")
+              : document.getElementById("profileImg");
+          if (!target || !blob) return "";
+          const previewUrl = URL.createObjectURL(blob);
+          target.src = previewUrl;
+          return previewUrl;
+        }
+
+        function _eeOpenMediaCropperOverlay({ mediaKind, file }) {
+          if (!file) return;
+
+          const isCover = mediaKind === "cover";
+          const objectUrl = URL.createObjectURL(file);
+          const overlay = document.createElement("div");
+          const banner = isCover
+            ? "Ajusta tu nueva portada"
+            : "Ajusta tu nueva foto de perfil";
+          const iconClass = isCover ? "ti ti-photo" : "ti ti-user-circle";
+          let cropper = null;
+          const previousBodyOverflow = document.body.style.overflow;
+          const loadingStartedAt = performance.now();
+
+          overlay.className = "media-cropper-overlay";
+          overlay.dataset.mediaKind = mediaKind;
+          overlay.dataset.cropperMode = "preview";
+          overlay.dataset.stage = "loading";
+          overlay.dataset.state = "idle";
+          overlay.innerHTML = `
+            <div class="media-cropper-overlay__header">
+              <button class="media-cropper-overlay__icon-button" type="button" data-media-cropper-close aria-label="Cerrar">
+                Cerrar
+              </button>
+            </div>
+            <div class="media-cropper-overlay__body">
+              <div class="media-cropper-overlay__stage">
+                <div class="media-cropper-overlay__banner">
+                  <i class="${iconClass}" aria-hidden="true"></i>
+                  <span data-media-cropper-status>Preparando imagen...</span>
+                </div>
+                <div class="media-cropper-overlay__cropper">
+                  <div class="media-cropper-overlay__skeleton" aria-hidden="true">
+                    Cargando editor
+                  </div>
+                  <img class="media-cropper-overlay__image" src="${objectUrl}" alt="Imagen a recortar" decoding="async" />
+                </div>
+              </div>
+            </div>
+            <div class="media-cropper-overlay__actions">
+              <label class="media-cropper-overlay__button media-cropper-overlay__button--link">
+                <input data-media-cropper-file type="file" accept="image/*" hidden />
+                Elegir otra imagen
+              </label>
+              <button class="media-cropper-overlay__button media-cropper-overlay__button--primary" type="button" data-media-cropper-apply disabled>
+                Establecer imagen
+              </button>
+            </div>
+          `;
+
+          const cleanup = ({ animate = true } = {}) => {
+            cropper?.destroy?.();
+            cropper = null;
+            const removeOverlay = () => {
+              URL.revokeObjectURL(objectUrl);
+              overlay.remove();
+              document.body.style.overflow = previousBodyOverflow;
+            };
+            if (!animate) {
+              removeOverlay();
+              return;
+            }
+            overlay.dataset.state = "closing";
+            window.setTimeout(removeOverlay, 260);
+          };
+
+          const emitCrop = (blob) => {
+            const previewUrl = _eePreviewMediaBlob(mediaKind, blob);
+            const detail = { mediaKind, file, blob, previewUrl };
+            overlay.dispatchEvent(
+              new CustomEvent("profile-media:crop", {
+                bubbles: true,
+                detail,
+              }),
+            );
+            window.dispatchEvent(
+              new CustomEvent("profile-media:crop", { detail }),
+            );
+            cleanup();
+          };
+
+          const markReady = () => {
+            const elapsed = performance.now() - loadingStartedAt;
+            const delay = Math.max(0, 280 - elapsed);
+            window.setTimeout(() => {
+              if (!overlay.isConnected) return;
+              overlay.dataset.stage = "ready";
+              overlay.dataset.state = "ready";
+              const status = overlay.querySelector(
+                "[data-media-cropper-status]",
+              );
+              const applyButton = overlay.querySelector(
+                "[data-media-cropper-apply]",
+              );
+              if (status) status.textContent = banner;
+              if (applyButton) applyButton.disabled = false;
+            }, delay);
+          };
+
+          overlay
+            .querySelectorAll("[data-media-cropper-close]")
+            .forEach((button) => button.addEventListener("click", cleanup));
+
+          overlay
+            .querySelector("[data-media-cropper-file]")
+            ?.addEventListener("change", (event) => {
+              const nextFile = event.target.files?.[0];
+              cleanup({ animate: false });
+              if (nextFile) {
+                _eeOpenMediaCropperOverlay({ mediaKind, file: nextFile });
+              }
+            });
+
+          overlay
+            .querySelector("[data-media-cropper-apply]")
+            ?.addEventListener("click", () => {
+              const canvas = cropper?.getCroppedCanvas?.();
+              if (!canvas) {
+                emitCrop(file);
+                return;
+              }
+              canvas.toBlob(
+                (blob) => emitCrop(blob || file),
+                file.type || "image/jpeg",
+              );
+            });
+
+          overlay
+            .querySelector(".media-cropper-overlay__image")
+            ?.addEventListener("load", (event) => {
+              if (typeof window.Cropper === "function") {
+                cropper = new window.Cropper(event.currentTarget, {
+                  aspectRatio: isCover ? 16 / 9 : 1,
+                  viewMode: 1,
+                  autoCropArea: 1,
+                  background: false,
+                  ready() {
+                    overlay.dataset.cropperMode = "native";
+                    markReady();
+                  },
+                });
+                return;
+              }
+              markReady();
+            });
+
+          document.body.append(overlay);
+          document.body.style.overflow = "hidden";
+          requestAnimationFrame(() => {
+            overlay.dataset.state = "opening";
+          });
+        }
+
+        function _eeBuildMediaSheetContent(routeInfo) {
+          const mediaKind = routeInfo.mediaKind;
+          const isCover = mediaKind === "cover";
+          const label = isCover ? "Nueva portada" : "Nueva foto";
+          const deleteLabel = isCover ? "Eliminar portada" : "Eliminar foto";
+          const iconClass = isCover ? "ti ti-photo" : "ti ti-user-circle";
+
+          return `
+            <div class="media-edit-sheet" data-media-kind="${mediaKind}">
+              <div class="media-edit-sheet__icon-wrap">
+                <span class="media-edit-sheet__icon">
+                  <i class="${iconClass}" aria-hidden="true"></i>
+                </span>
+              </div>
+              <label class="media-edit-sheet__action media-edit-sheet__action--primary">
+                <input data-media-file type="file" accept="image/*" hidden />
+                <i class="ti ti-upload" aria-hidden="true"></i>
+                <span>${label}</span>
+              </label>
+              <button class="media-edit-sheet__action media-edit-sheet__action--danger" type="button" data-media-delete>
+                <i class="ti ti-trash" aria-hidden="true"></i>
+                <span>${deleteLabel}</span>
+              </button>
+              <button class="media-edit-sheet__action media-edit-sheet__action--cancel" type="button" data-media-cancel>
+                <span>Cancelar</span>
+              </button>
+            </div>
+          `;
+        }
+
+        function _eeOpenMediaSheet(routeInfo) {
+          const overlay = window.constructBottomSheet?.({
+            title: routeInfo.title,
+            scope: `media-${routeInfo.mediaKind}`,
+            content: _eeBuildMediaSheetContent(routeInfo),
+          });
+          if (!overlay) return;
+
+          const fileInput = overlay.querySelector("[data-media-file]");
+          fileInput?.addEventListener("change", () => {
+            const file = fileInput.files?.[0];
+            if (!file) return;
+            overlay.dispatchEvent(
+              new CustomEvent("profile-media:select", {
+                bubbles: true,
+                detail: { mediaKind: routeInfo.mediaKind, file },
+              }),
+            );
+            window.appBottomSheetClose?.();
+            _eeOpenMediaCropperOverlay({
+              mediaKind: routeInfo.mediaKind,
+              file,
+            });
+          });
+
+          overlay
+            .querySelector("[data-media-delete]")
+            ?.addEventListener("click", () => {
+              overlay.dispatchEvent(
+                new CustomEvent("profile-media:delete", {
+                  bubbles: true,
+                  detail: { mediaKind: routeInfo.mediaKind },
+                }),
+              );
+            });
+
+          overlay
+            .querySelector("[data-media-cancel]")
+            ?.addEventListener("click", () => {
+              window.appBottomSheetClose?.();
+            });
+        }
+
         async function _eeHandleClick(e) {
           console.log("[_eeHandleClick] Click target:", e.target);
           const editBtn = e.target.closest(_EE_EDIT_ELEM_SELECTOR);
           console.log("[_eeHandleClick] Closest edit-element:", editBtn);
           if (!editBtn) return;
+
+          const storageEl = document.getElementById("data-status-storage");
+          if (storageEl?.dataset.cardStatus !== "editing") return;
 
           e.preventDefault();
           e.stopPropagation();
@@ -4811,6 +5587,11 @@
           const routeInfo = SCOPE_TEMPLATE_MAP[scope];
           console.log("[_eeHandleClick] RouteInfo:", routeInfo);
           if (!routeInfo) return;
+
+          if (routeInfo.type === "media") {
+            _eeOpenMediaSheet(routeInfo);
+            return;
+          }
 
           // 1. Render template dynamically
           await renderOnSheet(routeInfo.templates);
@@ -5285,6 +6066,17 @@
         }
       }
 
+      function normalizeAvatarBorderScale(value) {
+        const legacyScaleMap = { 0: 1, 2: 1.05, 4: 1.14 };
+        const raw =
+          value === undefined || value === null || value === ""
+            ? 1
+            : Number(value);
+        const scale = legacyScaleMap[raw] || raw || 1;
+        const clamped = Math.min(1.5, Math.max(1, scale));
+        return Number(clamped.toFixed(2)).toString();
+      }
+
       function getStyleSelectorInitialState() {
         const storageState = window.appBipartiteStorage?.state;
         const preset = getPresetConfig(
@@ -5316,14 +6108,7 @@
                   : "md",
           avatarRadius:
             radius !== undefined && radius !== "" ? String(radius) : "8",
-          avatarBorder:
-            border === 1.05
-              ? "2"
-              : border === 1.14
-                ? "4"
-                : border
-                  ? String(border)
-                  : "0",
+          avatarBorder: normalizeAvatarBorderScale(border),
           coverPreset:
             storageState?.preset || preset?.className || "preset-cover",
           coverStyle: coverStyle || "full",
@@ -5388,8 +6173,7 @@
         }
 
         if (change.control === "avatarBorder") {
-          const scale =
-            { 0: 1, 2: 1.05, 4: 1.14 }[change.value] || Number(change.value);
+          const scale = normalizeAvatarBorderScale(change.value);
           writeStyleSelectorControl(
             "ctrl-mock-border-scale",
             "#avatarContainer",
@@ -5411,6 +6195,10 @@
         return selector;
       }
 
+      function syncStyleSelectorFromStorage() {
+        window.styleSelector?.updateState?.(getStyleSelectorInitialState());
+      }
+
       // Expose globally for module access
       syncPresetGliderConfig();
       mountEditorTabs();
@@ -5418,6 +6206,7 @@
       window.setPos = setPos;
       window.setCoverStyle = setCoverStyle;
       window.updateCustomPanelControls = updateCustomPanelControls;
+      window.syncStyleSelectorFromStorage = syncStyleSelectorFromStorage;
       mountStyleSelectorComponent();
 
       // ==========================================
@@ -5716,10 +6505,6 @@
                 <div class="sync-detail-item">
                   <span class="sync-detail-label">Cambios pendientes:</span>
                   <span class="sync-detail-val">${hasPending}</span>
-                </div>
-                <div class="sync-detail-item">
-                  <span class="sync-detail-label">Endpoint de guardado:</span>
-                  <span class="sync-detail-val">/nfc/gateway-profile.php</span>
                 </div>
               </div>
             </div>
@@ -6161,6 +6946,8 @@
             if (window.ControlSyncRegistry) {
               window.ControlSyncRegistry.applyAll(this.state);
             }
+
+            window.syncStyleSelectorFromStorage?.();
           } catch (e) {
             console.error("Error applying state to UI:", e);
           } finally {
@@ -6499,6 +7286,30 @@
           }
         }
 
+        waitForMediaReady() {
+          const media = [
+            document.getElementById("profileImg"),
+            document.getElementById("profileCover"),
+          ].filter((el) => el?.src);
+
+          return Promise.all(
+            media.map((el) => {
+              if (el.complete) {
+                if (el.naturalWidth <= 0) return Promise.resolve();
+                if (typeof el.decode === "function") {
+                  return el.decode().catch(() => {});
+                }
+                return Promise.resolve();
+              }
+              return new Promise((resolve) => {
+                const done = () => resolve();
+                el.addEventListener("load", done, { once: true });
+                el.addEventListener("error", done, { once: true });
+              });
+            }),
+          );
+        }
+
         async init() {
           // 1. Inicializar los controles del panel condicional inmediatamente
           ConditionalPanelManager.init();
@@ -6521,6 +7332,7 @@
 
           // 4. Hidratar los datos de usuario en el DOM y remover el skeleton
           this.hydrator.hydrate(document, data);
+          await this.waitForMediaReady();
           this.setLoadingState(false);
 
           // 5. Actualizar identidad base desde server antes de aplicar corpus.

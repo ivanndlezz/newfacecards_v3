@@ -22,7 +22,7 @@ export class StyleSelector {
       tab: options.tab || "avatar",
       avatarSize: options.avatarSize || "md",
       avatarRadius: String(options.avatarRadius ?? "8"),
-      avatarBorder: String(options.avatarBorder ?? "0"),
+      avatarBorder: this.normalizeAvatarBorderScale(options.avatarBorder),
       coverPreset: options.coverPreset || "preset-cover",
       coverStyle: options.coverStyle || "full",
       fineControl: null,
@@ -67,6 +67,34 @@ export class StyleSelector {
     if (options.emit !== false) {
       this.emit("tab", { tab: newTab });
     }
+  }
+
+  updateState(nextState = {}) {
+    this.state = {
+      ...this.state,
+      aspect: nextState.aspect || this.state.aspect,
+      tab: nextState.tab || this.state.tab,
+      avatarSize: nextState.avatarSize || this.state.avatarSize,
+      avatarRadius: String(nextState.avatarRadius ?? this.state.avatarRadius),
+      avatarBorder: this.normalizeAvatarBorderScale(
+        nextState.avatarBorder ?? this.state.avatarBorder,
+      ),
+      coverPreset: nextState.coverPreset || this.state.coverPreset,
+      coverStyle: nextState.coverStyle || this.state.coverStyle,
+    };
+    this.render();
+  }
+
+  showEditor() {
+    this.target
+      .querySelector("[data-ss-view='dropdown']")
+      ?.removeAttribute("hidden");
+    this.target
+      .querySelector("[data-ss-view='cards']")
+      ?.setAttribute("hidden", "");
+    this.target
+      .querySelector(".style-selector")
+      ?.removeAttribute("data-browsing");
   }
 
   getState() {
@@ -137,7 +165,10 @@ export class StyleSelector {
 
   setControl(key, value) {
     if (!key) return;
-    this.state[key] = String(value);
+    this.state[key] =
+      key === "avatarBorder"
+        ? this.normalizeAvatarBorderScale(value)
+        : String(value);
     this.syncDom();
     this.emit("control", { control: key, value: this.state[key] });
   }
@@ -170,6 +201,15 @@ export class StyleSelector {
       const key = el.dataset.ssValue;
       el.textContent = this.displayValue(key);
     });
+
+    this.target.querySelectorAll("[data-ss-range]").forEach((input) => {
+      const key = input.dataset.ssRange;
+      const value =
+        key === "avatarSize"
+          ? this.avatarSizeMap()[this.state.avatarSize]
+          : this.state[key];
+      input.value = String(value);
+    });
   }
 
   displayValue(key) {
@@ -178,7 +218,7 @@ export class StyleSelector {
       return `${this.avatarSizeMap()[value] || value}px`;
     }
     if (key === "avatarRadius") return `${value}px`;
-    if (key === "avatarBorder") return value === "0" ? "0" : value;
+    if (key === "avatarBorder") return this.formatAvatarBorderScale(value);
     return value;
   }
 
@@ -224,8 +264,25 @@ export class StyleSelector {
     return { sm: 80, md: 109, lg: 140 };
   }
 
-  borderScaleMap() {
-    return { 0: 1, 2: 1.05, 4: 1.14 };
+  normalizeAvatarBorderScale(value) {
+    const legacyScaleMap = { 0: 1, 2: 1.05, 4: 1.14 };
+    const raw =
+      value === undefined || value === null || value === ""
+        ? 1
+        : Number(value);
+    const scale = legacyScaleMap[raw] || raw || 1;
+    const clamped = Math.min(1.5, Math.max(1, scale));
+    return this.formatNumber(clamped);
+  }
+
+  formatAvatarBorderScale(value) {
+    return this.formatNumber(value);
+  }
+
+  formatNumber(value) {
+    const number = Number(value);
+    if (!Number.isFinite(number)) return "1";
+    return Number(number.toFixed(2)).toString();
   }
 
   coverStyleMap() {
@@ -400,12 +457,12 @@ export class StyleSelector {
         </div>
 
         <div class="option-chips">
-          ${this.radioChip("avatarBorder", "0", "bd-none", this.borderNoneIcon())}
-          ${this.radioChip("avatarBorder", "2", "bd-sm", this.borderIcon(1.6, "x1"))}
-          ${this.radioChip("avatarBorder", "4", "bd-lg", this.borderIcon(3, "x2"))}
+          ${this.radioChip("avatarBorder", "1", "bd-none", this.borderNoneIcon())}
+          ${this.radioChip("avatarBorder", "1.05", "bd-sm", this.borderIcon(1.6, "x1"))}
+          ${this.radioChip("avatarBorder", "1.14", "bd-lg", this.borderIcon(3, "x2"))}
           ${this.sliderButton("avatarBorder", "Personalizar borde")}
         </div>
-        ${this.fineRange("avatarBorder", 0, 4, 1)}
+        ${this.fineRange("avatarBorder", 1, 1.5, 0.01)}
       </div>
     `;
   }
