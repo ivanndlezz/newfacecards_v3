@@ -32,6 +32,10 @@
         --action-color: #ffffff;
         --action-font-weight: 500;
         --action-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.25);
+        --action-bar-bottom: calc(
+          20px + env(safe-area-inset-bottom, 0px) + var(--browser-ui-offset, 0px)
+        );
+        --action-bar-hidden-bottom: -100px;
         --sheet-surface: #ffffff;
         --sheet-muted: #f4f4f5;
         --sheet-soft: #fafafa;
@@ -413,16 +417,17 @@
 
       .action-bar {
         position: fixed;
-        right: 0;
-        bottom: calc(1.25rem + env(safe-area-inset-bottom, 0px));
-        left: 0;
-        z-index: 20;
+        bottom: var(--action-bar-bottom);
+        left: 50%;
+        z-index: 9999;
         display: flex;
-        width: 100%;
+        width: max-content;
+        max-width: calc(100vw - 2rem);
         justify-content: center;
-        padding: 0 1.5rem;
-        transform: translateZ(0);
+        padding: 0;
+        transform: translateX(-50%) translateZ(0);
         transition:
+          bottom 0.6s cubic-bezier(0.25, 0.1, 0, 1.02),
           opacity 0.24s ease,
           transform 0.24s ease;
       }
@@ -471,15 +476,10 @@
       }
 
       .action-bar--hidden {
+        bottom: var(--action-bar-hidden-bottom);
         opacity: 0;
         pointer-events: none;
-        transform: translateY(1rem) scale(0.96);
-      }
-
-      @media (hover: none) and (pointer: coarse) {
-        .action-bar {
-          bottom: calc(4.75rem + env(safe-area-inset-bottom, 0px));
-        }
+        transform: translateX(-50%) translateY(1rem) scale(0.96);
       }
 
       .sheet-overlay {
@@ -1783,6 +1783,37 @@
       const actionBar = document.querySelector(".action-bar");
       const actionIcon = document.getElementById("action-icon");
       const actionText = document.getElementById("action-text");
+
+      function syncActionBarViewportOffset() {
+        const viewport = window.visualViewport;
+        const browserUiOffset = viewport
+          ? Math.min(
+              120,
+              Math.max(
+                0,
+                Math.round(
+                  window.innerHeight - viewport.height - viewport.offsetTop,
+                ),
+              ),
+            )
+          : 0;
+
+        document.documentElement.style.setProperty(
+          "--browser-ui-offset",
+          `${browserUiOffset}px`,
+        );
+      }
+
+      syncActionBarViewportOffset();
+      window.visualViewport?.addEventListener(
+        "resize",
+        syncActionBarViewportOffset,
+      );
+      window.visualViewport?.addEventListener(
+        "scroll",
+        syncActionBarViewportOffset,
+      );
+      window.addEventListener("orientationchange", syncActionBarViewportOffset);
 
       actionBtn.addEventListener("click", () => {
         if (isEditMode && !isCurrentCardThemeOwned() && !isCurrentCardMore()) {
